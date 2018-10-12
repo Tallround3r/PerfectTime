@@ -2,13 +2,18 @@
 
 # dependencies
 /node_modules
-/.idea
 
 # testing
 /coverage
 
 # production
 /build
+
+# IDE
+/.idea
+
+# firebase
+firebase-config.js
 
 # misc
 .DS_Store
