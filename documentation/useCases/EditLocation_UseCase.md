@@ -39,6 +39,7 @@ In this use-case the user edits one of his trips locations. One trip has several
 
 ## 6 Function Points
 Tool from http://groups.umd.umich.edu.
+
 The score is 28.48 function Points.
 
 ![function points file missing][fp]
