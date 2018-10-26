@@ -43,6 +43,6 @@ The score is 28.48 function Points.
 
 ![function points file missing][fp]
 
-[fp]: ./EditLocation_FunctionPoints.png "Function Points"
+[fp]: ./EditLocation_FunctionPoints.PNG "Function Points"
 
 
