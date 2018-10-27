@@ -7,14 +7,14 @@ In this use-case the user adds one of his trips activities. One trip has several
 
 ## 1.2 Mockup
 
-### 1.2.1 Activities View
+#### Activities View
 Shows an overview of all Activities in chronological order.
 
 ![mockup file missing][mu1]
 
 [mu1]: ./ActivitiesView.png "Mockup"
 
-### 1.2.2 Activity Add View
+#### Activity Add View
 
 ![mockup file missing][mu2]
 
@@ -48,12 +48,18 @@ Shows an overview of all Activities in chronological order.
 
 
 # 5 Function Points
-Tool from http://groups.umd.umich.edu
+Tool from [http://groups.umd.umich.edu](http://groups.umd.umich.edu/cis/course.des/cis375/projects/fp99/main.html)
 
-The score is ... function Points.
+The score is 23.8 function Points.
 
-![function points file missing][fp]
+#### Domain Characterictic Table
 
-[fp]: ./addActivity_FunctionPoints.png "Function Points"
+![function points file missing][fp1]
 
+[fp1]: ./addActivity_fpDomain.png "Domain Characterictics"
 
+#### Complexity Adjustment Table
+
+![function points file missing][fp2]
+
+[fp2]: ./addActivity_fpComplexity.png "Complexity Adjustments"
