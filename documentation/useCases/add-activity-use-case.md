@@ -1,4 +1,5 @@
 # Use-Case Specification: Perfect Time
+
 # 1. Add Activity
 ## 1.1 Brief Description
 
@@ -34,14 +35,17 @@ Shows an overview of all Activities in chronological order.
 
 [TODO] Feature Datei einfügen
 
+
 # 3 Preconditions
 1. The user has to be logged in at the site.
 2. The user has to be owner or member of a trip.
 3. The user has navigated to the trip view and clicked on the add activity button.
 
+
 # 4 Postconditions
 1. Synchronize client with database.
 2. Update activities view in client.
+
 
 # 5 Function Points
 Tool from http://groups.umd.umich.edu
