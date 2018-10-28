@@ -4,17 +4,24 @@
 
 In this use-case the user edits one of his trips locations. One trip has several locations and one location consists of an picture, some metadata, notes and links to useful webistes and also contains a map where the locations adress or place is shown.
 
-### 1.2 Mockup
+### 1.2 Mockup of Location View
+![location view file missing][lv]
+[lv]: ./LocationsView.png "Location View"
 
-[TODO] Hier Bild von Mockup einfügen
+### 1.3 Example location View
+View on all locations of one trip.
+![example location view file missing][lvf]
+[lvf]: ./LocationsViewFilled.png "Location View"
 
-### 1.3 Example location
+### 1.4 Location detail view
+Detailled view on one location.
+![location detail view file missing][ldv]
+[ldv]: ./detailLocationFilled.png "Location View"
 
-[TODO] Hier Bild von ausgefüllter location einfügen
-
-### 1.4 Location edit mode
-
-[TODO] Hier Bild von edit modus einfügen
+### 1.5 Location edit view
+View where the User is able to edit the location.
+![location edit view file missing][lev]
+[lev]: ./editLocationFilled.png "Location View"
 
 # 2 Flow of Events
 
@@ -27,7 +34,7 @@ In this use-case the user edits one of his trips locations. One trip has several
 
 #### feature file
 
-[TODO] Feature Datei einfügen
+[TODO] .feature file is due soon and will be added then !
 
 ## 3 Preconditions
 1. The user has to be logged in at the site.
@@ -35,7 +42,7 @@ In this use-case the user edits one of his trips locations. One trip has several
 3. The user has navigated to location detail view and clicked on the edit button.
 
 ## 4 Postconditions
-1. Synchronize database and updated data.
+1. Synchronize database with updated data.
 
 ## 6 Function Points
 Tool from http://groups.umd.umich.edu.
