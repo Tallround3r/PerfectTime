@@ -6,22 +6,22 @@ In this use-case the user edits one of his trips locations. One trip has several
 
 ### 1.2 Mockup of Location View
 ![location view file missing][lv]
-[lv]: ./LocationsView.png "Location View"
+[lv]: LocationsView.png "Location View"
 
 ### 1.3 Example location View
 View on all locations of one trip.
 ![example location view file missing][lvf]
-[lvf]: ./LocationsViewFilled.png "Location View"
+[lvf]: LocationsViewFilled.png "Location View"
 
 ### 1.4 Location detail view
 Detailled view on one location.
 ![location detail view file missing][ldv]
-[ldv]: ./detailLocationFilled.png "Location View"
+[ldv]: detailLocationFilled.png "Location View"
 
 ### 1.5 Location edit view
 View where the User is able to edit the location.
 ![location edit view file missing][lev]
-[lev]: ./editLocationFilled.png "Location View"
+[lev]: editLocationFilled.png "Location View"
 
 # 2 Flow of Events
 
@@ -30,7 +30,7 @@ View where the User is able to edit the location.
 
 ![activity diagram file missing][ad]
 
-[ad]: ./EditLocation_ActivityDiagramm.png "Activity Diagram"
+[ad]: EditLocation_ActivityDiagramm.png "Activity Diagram"
 
 #### feature file
 
