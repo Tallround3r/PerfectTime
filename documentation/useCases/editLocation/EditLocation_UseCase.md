@@ -49,7 +49,7 @@ View where the User is able to edit the location.
 1. Synchronize database with updated data.
 
 ## 6 Function Points
-Tool from http://groups.umd.umich.edu.
+Tool from http://groups.umd.umich.edu/cis/course.des/cis375/projects/fp99/main.html.
 
 The score is 28.48 function Points.
 
