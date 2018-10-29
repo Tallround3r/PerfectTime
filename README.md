@@ -5,7 +5,8 @@ With this tool it will be very easy to plan your weekendtrip, roadtrip or even y
 
 Blog: https://perfecttime608150251.wordpress.com/
 
-###############################
+##### ____________________________
+# React Application
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
