@@ -2,7 +2,7 @@
 # 1. Edit Location
 ### 1.1 Brief Description
 
-In this use-case the user edits one of his trips locations. One trip has several locations and one location consists of an picture, some metadata, notes and links to useful webistes and also contains a map where the locations adress or place is shown.
+In this use-case the user edits one of his trips locations. One trip has several locations and one location consists of a picture, some metadata, notes and links to useful websites and also contains a map where the locations' address or place is shown.
 
 ### 1.2 Mockup of Location View
 ![location view file missing][lv]
