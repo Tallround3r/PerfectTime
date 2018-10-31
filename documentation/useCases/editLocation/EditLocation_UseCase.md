@@ -36,9 +36,11 @@ View where the User is able to edit the location.
 
 [ad]: EditLocation_ActivityDiagramm.png "Activity Diagram"
 
-#### feature file
+#### Feature file
 
-[TODO] .feature file is due soon and will be added then !
+Link to [feature file](
+        ../../../cucumberTests/features/editActivity.feature
+      ).
 
 ## 3 Preconditions
 1. The user has to be logged in at the site.
