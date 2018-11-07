@@ -1,10 +1,11 @@
 Feature: Edit data of existing location
 
-  Scenario: User is not logged in and cannot find the editLocation button
-    Given I have opened a location
+  Scenario: The editLocation button is not visible for the user
+    Given I am not logged in
+    And I have opened a location
     Then There is no edit button
 
-  Scenario: User is logged in and is able to access editlocation
+  Scenario: The editLocation button is visible for the user
     Given I am logged in
     And I have opened a location
     When I click on the edit button
