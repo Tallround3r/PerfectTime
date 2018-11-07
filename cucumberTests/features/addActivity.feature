@@ -1,10 +1,11 @@
 Feature: Create new activity for a location
 
-  Scenario: User is not logged in and cannot find the addActivity button
-    Given I have opened a location
+  Scenario: The addLocation button is not visible for the user
+    Given I am not logged in 
+    And I have opened a location
     Then There is no add button
 
-  Scenario: User is logged in and is able to access addActivity
+  Scenario: The addLocation button is visible for the user
     Given I am logged in
     And I have opened a location
     When I click on the add button
