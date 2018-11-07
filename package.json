@@ -8,13 +8,16 @@
     "npm": "^6.4.1",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
-    "react-scripts": "2.0.4"
+    "react-scripts": "2.0.4",
+    "base64-img": "^1.0.4",
+    "testcafe": "^0.22.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cucumber": "./node_modules/.bin/cucumber-js.cmd --tags @only"
   },
   "eslintConfig": {
     "extends": "react-app"
