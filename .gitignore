@@ -14,14 +14,12 @@
 
 # firebase
 /.firebase
-firebase-config.js
 
 # environment variables
-*.env
-!example.env
 
 # misc
 .DS_Store
+.env
 .env.local
 .env.development.local
 .env.test.local
