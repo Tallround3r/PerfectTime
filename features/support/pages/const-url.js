@@ -1,8 +1,9 @@
-const home = 'https://www.karlsruhe.dhbw.de/startseite.html';
+const perfectTimelocal = 'http://localhost:3000/';
+const perfectTime = 'https://perfecttime-planyourtrip.firebaseapp.com/';
 
 exports.url = (url) => {
     switch(url){
-        case 'Startseite':
-            return home;
+        case 'PerfectTime':
+            return perfectTimelocal;
     }
-}
+};
