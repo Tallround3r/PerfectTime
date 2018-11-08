@@ -16,6 +16,9 @@
 /.firebase
 firebase-config.js
 
+# environment variables
+*.env
+
 # misc
 .DS_Store
 .env.local
