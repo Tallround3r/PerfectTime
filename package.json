@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "base64-img": "^1.0.4",
     "cucumber": "^5.0.2",
     "firebase": "^5.5.4",
     "npm": "^6.4.1",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-scripts": "2.0.4",
-    "base64-img": "^1.0.4",
     "testcafe": "^0.22.0"
   },
   "scripts": {
