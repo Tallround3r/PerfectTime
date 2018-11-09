@@ -14,7 +14,8 @@
 
 # firebase
 /.firebase
-firebase-config.js
+
+# environment variables
 
 # misc
 .DS_Store
