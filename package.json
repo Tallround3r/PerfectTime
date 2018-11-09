@@ -5,6 +5,7 @@
   "dependencies": {
     "base64-img": "^1.0.4",
     "cucumber": "^5.0.2",
+    "dotenv": "^6.1.0",
     "firebase": "^5.5.4",
     "npm": "^6.4.1",
     "react": "^16.5.2",
