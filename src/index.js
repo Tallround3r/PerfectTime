@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/index.css';
-import App from './components/App';
+import App from './container/App';
 import * as serviceWorker from './serviceWorker';
 
 dotenv.config();
