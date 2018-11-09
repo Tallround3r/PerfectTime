@@ -17,6 +17,8 @@ import Hidden from '@material-ui/core/Hidden';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import {menuItems} from './MenuItems';
 import logo from '../images/logo_perfecttime.svg';
+import * as routes from '../constants/routes';
+import {NavLink} from 'react-router-dom';
 
 
 const withWrapper = (Component) => {
@@ -128,7 +130,9 @@ const withWrapper = (Component) => {
 
 				{this.state.open &&
 				<div>
-					<img src={logo} className={classes.logo} alt="logo"/>
+					<NavLink exact to={routes.LANDING}>
+						<img src={logo} className={classes.logo} alt="logo"/>
+					</NavLink>
 
 					<Typography
 						variant="h5"
