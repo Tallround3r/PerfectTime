@@ -7,4 +7,4 @@ export const doCreateUser = (id, username, email) =>
 	});
 
 export const onceGetUsers = () =>
-	db.collection('users').get();
+	db.collection('USER').get();
