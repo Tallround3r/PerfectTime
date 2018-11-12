@@ -10,6 +10,35 @@ import Typography from '@material-ui/core/Typography';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import {withStyles} from '@material-ui/core/styles';
+import Avatar from '@material-ui/core/Avatar';
+import StarIcon from '@material-ui/icons/Star';
+import AddIcon from '@material-ui/icons/Add';
+import ArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+
+const styles = theme => ({
+    defaultCol: {
+        backgroundColor: theme.palette.background.default,
+    },
+    expandPanel: {
+        border: "thin solid #000000"
+    },
+    bigColumn: {
+        flexBasis: '50%',
+        textAlign: 'center',
+    },
+    smallColumn: {
+        flexBasis: '1%',
+        textAlign: 'right',
+    },
+    table: {
+        width: '50%',
+    },
+    verticalLine: {
+        borderLeft: "thick solid #000000",
+        height: '100px',
+    }
+});
 
 class LocationsPage extends React.Component {
 
@@ -51,14 +80,15 @@ class LocationsPage extends React.Component {
     }
 
     render() {
+        const {classes} = this.props;
         return (
-            <div>
+            <div className={classes.defaultCol}>
                 <h1>Locations</h1>
-                <Stepper orientation="vertical">
+                <Stepper className={classes.defaultCol} orientation="vertical">
                     {this.state.arrayLocations.map((label, index) => {
-                        return(
+                        return (
                             <Step key={label}>
-                                <StepLabel>{label}</StepLabel>
+                                <StepLabel icon={'L'}>{label}</StepLabel>
                                 <StepContent>
                                     <Typography>description</Typography>
 
@@ -68,31 +98,47 @@ class LocationsPage extends React.Component {
                     })}
                 </Stepper>
                 <hr/>
-                <div>
+                <div className={classes.defaultCol}>
                     {this.state.arrayLocations.map((label, index) => {
                         return (
-                            <ExpansionPanel key={label}>
-                                <ExpansionPanelSummary key={label}>
-                                    <Stepper>
-                                        <Step key={label}>
-                                            <StepLabel>{label}</StepLabel>
-                                        </Step>
-                                    </Stepper>
-                                </ExpansionPanelSummary>
-                                <ExpansionPanelDetails>
-                                    <Typography>description</Typography>
-                                </ExpansionPanelDetails>
-                            </ExpansionPanel>
-                        );
+                            <div>
+                                <ExpansionPanel className={classes.expandPanel} key={label}>
+                                    <ExpansionPanelSummary>
+                                        <div className={classes.smallColumn}>
+                                            <Avatar><StarIcon/></Avatar>
+                                        </div>
+                                        <div className={classes.bigColumn}>
+                                            <Typography>{label}</Typography>
+                                        </div>
+                                        <div className={classes.bigColumn}>
+                                            <Typography>{label}</Typography>
+                                        </div>
+                                        <div className={classes.bigColumn}>
+                                            <Typography>{label}</Typography>
+                                        </div>
+                                        <div className={classes.smallColumn}>
+                                            <NavLink exact to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
+                                        </div>
+                                    </ExpansionPanelSummary>
+                                    <ExpansionPanelDetails>
+                                        <Typography>details</Typography>
+                                    </ExpansionPanelDetails>
+                                </ExpansionPanel>
+                                <br/>
+                                <table className={classes.table}>
+                                    <tr>
+                                        <td></td>
+                                        <td className={classes.verticalLine}><NavLink exact to={routes.LOCATIONS_ADD}><Avatar><AddIcon/></Avatar></NavLink></td>
+                                    </tr>
+                                </table>
+                                <br/>
+                            </div>
+                        )
                     })}
                 </div>
-                <br/>
-                <NavLink exact to={routes.LOCATIONS_ADD}>Add Location</NavLink>
-                <br/>
-                <NavLink exact to={routes.LOCATIONS_EDIT}>Edit Location</NavLink>
             </div>
         );
     }
 }
 
-export default LocationsPage;
+export default withStyles(styles)(LocationsPage);
