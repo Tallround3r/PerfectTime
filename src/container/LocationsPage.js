@@ -7,6 +7,9 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
 import Typography from '@material-ui/core/Typography';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
 class LocationsPage extends React.Component {
 
@@ -64,6 +67,26 @@ class LocationsPage extends React.Component {
                         );
                     })}
                 </Stepper>
+                <hr/>
+                <div>
+                    {this.state.arrayLocations.map((label, index) => {
+                        return (
+                            <ExpansionPanel key={label}>
+                                <ExpansionPanelSummary key={label}>
+                                    <Stepper>
+                                        <Step key={label}>
+                                            <StepLabel>{label}</StepLabel>
+                                        </Step>
+                                    </Stepper>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails>
+                                    <Typography>description</Typography>
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
+                        );
+                    })}
+                </div>
+                <br/>
                 <NavLink exact to={routes.LOCATIONS_ADD}>Add Location</NavLink>
                 <br/>
                 <NavLink exact to={routes.LOCATIONS_EDIT}>Edit Location</NavLink>
