@@ -2,10 +2,6 @@ import React from 'react';
 import * as routes from '../constants/routes';
 import {NavLink} from 'react-router-dom';
 import {getLocations} from "../firebase/db";
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
 import Typography from '@material-ui/core/Typography';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -15,12 +11,11 @@ import Avatar from '@material-ui/core/Avatar';
 import StarIcon from '@material-ui/icons/Star';
 import AddIcon from '@material-ui/icons/Add';
 import ArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
 
 const styles = theme => ({
-    defaultCol: {
-        backgroundColor: theme.palette.background.default,
-    },
-    expandPanel: {
+    borderAround: {
         border: "thin solid #000000"
     },
     bigColumn: {
@@ -31,13 +26,14 @@ const styles = theme => ({
         flexBasis: '1%',
         textAlign: 'right',
     },
-    table: {
-        width: '50%',
-    },
     verticalLine: {
-        borderLeft: "thick solid #000000",
+        borderLeft: "thin solid #000000",
         height: '100px',
-    }
+    },
+    hrLine: {
+        width: '1px',
+        height: '67px',
+    },
 });
 
 class LocationsPage extends React.Component {
@@ -66,7 +62,7 @@ class LocationsPage extends React.Component {
         });
     }
 
-    tick(parameter){
+    tick(parameter) {
         this.setState({
             arrayLocations: parameter,
         });
@@ -82,27 +78,13 @@ class LocationsPage extends React.Component {
     render() {
         const {classes} = this.props;
         return (
-            <div className={classes.defaultCol}>
+            <div>
                 <h1>Locations</h1>
-                <Stepper className={classes.defaultCol} orientation="vertical">
+                <div>
                     {this.state.arrayLocations.map((label, index) => {
                         return (
-                            <Step key={label}>
-                                <StepLabel icon={'L'}>{label}</StepLabel>
-                                <StepContent>
-                                    <Typography>description</Typography>
-
-                                </StepContent>
-                            </Step>
-                        );
-                    })}
-                </Stepper>
-                <hr/>
-                <div className={classes.defaultCol}>
-                    {this.state.arrayLocations.map((label, index) => {
-                        return (
-                            <div>
-                                <ExpansionPanel className={classes.expandPanel} key={label}>
+                            <div key={label}>
+                                <ExpansionPanel className={classes.borderAround} key={label}>
                                     <ExpansionPanelSummary>
                                         <div className={classes.smallColumn}>
                                             <Avatar><StarIcon/></Avatar>
@@ -121,16 +103,65 @@ class LocationsPage extends React.Component {
                                         </div>
                                     </ExpansionPanelSummary>
                                     <ExpansionPanelDetails>
-                                        <Typography>details</Typography>
+                                        <GridList cols={37} cellHeight={"auto"} className={classes.verticalLine}>
+                                            <GridListTile></GridListTile>
+                                            <GridListTile>
+                                                <hr className={classes.hrLine}/>
+                                            </GridListTile>
+                                            <GridListTile style={{width: 'auto'}}>
+                                                <br/>
+                                                <NavLink exact to={routes.LOCATIONS_ADD}>
+                                                    <Avatar><AddIcon/></Avatar>
+                                                </NavLink>
+                                            </GridListTile>
+                                        </GridList>
                                     </ExpansionPanelDetails>
                                 </ExpansionPanel>
                                 <br/>
-                                <table className={classes.table}>
-                                    <tr>
-                                        <td></td>
-                                        <td className={classes.verticalLine}><NavLink exact to={routes.LOCATIONS_ADD}><Avatar><AddIcon/></Avatar></NavLink></td>
-                                    </tr>
-                                </table>
+                            </div>
+                        )
+                    })}
+                </div>
+                <hr/>
+                <br/>
+                <div>
+                    {this.state.arrayLocations.map((label, index) => {
+                        return (
+                            <div key={label}>
+                                <ExpansionPanel className={classes.borderAround} key={label}>
+                                    <ExpansionPanelSummary>
+                                        <div className={classes.smallColumn}>
+                                            <Avatar><StarIcon/></Avatar>
+                                        </div>
+                                        <div className={classes.bigColumn}>
+                                            <Typography>{label}</Typography>
+                                        </div>
+                                        <div className={classes.bigColumn}>
+                                            <Typography>{label}</Typography>
+                                        </div>
+                                        <div className={classes.bigColumn}>
+                                            <Typography>{label}</Typography>
+                                        </div>
+                                        <div className={classes.smallColumn}>
+                                            <NavLink exact to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
+                                        </div>
+                                    </ExpansionPanelSummary>
+                                    <ExpansionPanelDetails>
+                                        <Typography>description</Typography>
+                                    </ExpansionPanelDetails>
+                                </ExpansionPanel>
+                                <GridList cols={37} cellHeight={"auto"}>
+                                    <GridListTile></GridListTile>
+                                    <GridListTile>
+                                        <hr className={classes.hrLine}/>
+                                    </GridListTile>
+                                    <GridListTile style={{width: 'auto'}}>
+                                        <br/>
+                                        <NavLink exact to={routes.LOCATIONS_ADD}>
+                                            <Avatar><AddIcon/></Avatar>
+                                        </NavLink>
+                                    </GridListTile>
+                                </GridList>
                                 <br/>
                             </div>
                         )
@@ -142,3 +173,23 @@ class LocationsPage extends React.Component {
 }
 
 export default withStyles(styles)(LocationsPage);
+
+/*
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+import StepContent from '@material-ui/core/StepContent';
+<Stepper className={classes.defaultCol} orientation="vertical">
+    {this.state.arrayLocations.map((label, index) => {
+        return (
+            <Step key={label}>
+                <StepLabel icon={'L'}>{label}</StepLabel>
+                <StepContent>
+                    <Typography>description</Typography>
+                </StepContent>
+            </Step>
+        );
+    })}
+</Stepper>
+<hr/>
+*/
