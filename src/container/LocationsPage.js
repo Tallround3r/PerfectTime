@@ -48,8 +48,9 @@ class LocationsPage extends React.Component {
 						: isEmpty(locations)
 							? 'No Locations created yet.'
 							: Object.keys(locations).map((key, index) => {
+								let date = new Date(locations[key].startdate.seconds * 1000);
 								return (
-									<ExpansionPanel key={key}>
+									<ExpansionPanel key={key} defaultExpanded>
 										<ExpansionPanelSummary className={classes.locationPanel}>
 											<Avatar className={classes.avatar}>{index + 1}</Avatar>
 											<Typography variant='h6'>
@@ -59,6 +60,7 @@ class LocationsPage extends React.Component {
 										<ExpansionPanelDetails>
 											<Typography>
 												{locations[key].description}
+												{' - ' + date.getDate() + '.' + date.getMonth() + '.' + date.getFullYear()}
 											</Typography>
 										</ExpansionPanelDetails>
 									</ExpansionPanel>
