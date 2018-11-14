@@ -1,8 +1,12 @@
 import React from 'react';
+import {compose} from 'redux';
+import {connect} from 'react-redux';
+import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
+import {withStyles} from '@material-ui/core';
 import * as routes from '../constants/routes';
 import {NavLink} from 'react-router-dom';
-import {getLocations} from "../firebase/db";
 import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -38,52 +42,28 @@ const styles = theme => ({
 
 class LocationsPage extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            arrayLocations: [],
-        };
-    }
+	showAllLocations() {
+	}
 
-    componentDidMount() {
-        let aCities = []; // String-Array with all cities from locations
-        // get all locations from the database and save them into the Array for the cities (aCities)
-        getLocations().then(snapshot => snapshot.forEach(contentDatabaseLocations => {
-            let oLocation = contentDatabaseLocations.data(); // Object with the current location in the current loop
-            let sCity = oLocation.address.city; // String with the current city from the current location
-            aCities.push(sCity); // put sCity in String-Array aCities
-            this.tick(aCities);
+	searchLocations() {
 
-        })).then(() => { // what to do after getting the data from database
-            aCities.forEach(function (contentArrayLocations) {
-                //console.log(contentArrayLocations);
-                //console.log(contentArrayLocations.description);
-            });
-        });
-    }
+	}
 
-    tick(parameter) {
-        this.setState({
-            arrayLocations: parameter,
-        });
-    }
+	render() {
+		const {classes, locations} = this.props;
 
-    showAllLocations() {
-    }
+		return (
+			<div>
+				<h1>Locations</h1>
 
-    searchLocations() {
-
-    }
-
-    render() {
-        const {classes} = this.props;
-        return (
-            <div>
-                <h1>Locations</h1>
-                <div>
-                    {this.state.arrayLocations.map((label, index) => {
-                        return (
-                            <div key={label}>
+				<div>
+					{!isLoaded(locations)
+						? 'Loading...'
+						: isEmpty(locations)
+							? 'No Locations created yet.'
+							: Object.keys(locations).map((key, index) => {
+								let date = new Date(locations[key].startdate.seconds * 1000)
+                return(
                                 <ExpansionPanel className={classes.borderAround} key={label}>
                                     <ExpansionPanelSummary>
                                         <div className={classes.smallColumn}>
@@ -117,15 +97,20 @@ class LocationsPage extends React.Component {
                                         </GridList>
                                     </ExpansionPanelDetails>
                                 </ExpansionPanel>
-                                <br/>
-                            </div>
-                        )
-                    })}
+                    );
+							})}
                 </div>
+
                 <hr/>
                 <br/>
+                  
                 <div>
-                    {this.state.arrayLocations.map((label, index) => {
+                    {!isLoaded(locations)
+						? 'Loading...'
+						: isEmpty(locations)
+							? 'No Locations created yet.'
+							: Object.keys(locations).map((key, index) => {
+								let date = new Date(locations[key].startdate.seconds * 1000)
                         return (
                             <div key={label}>
                                 <ExpansionPanel className={classes.borderAround} key={label}>
@@ -172,24 +157,15 @@ class LocationsPage extends React.Component {
     }
 }
 
-export default withStyles(styles)(LocationsPage);
+export default compose(
+	firestoreConnect([
+		'TRIPS/TXjQVQjjfXRfBnCJ1q0L/locations',
+	]),
+	connect(
+		({firestore: {data}}, props) => ({
+			locations: data.TRIPS && data.TRIPS['TXjQVQjjfXRfBnCJ1q0L'] && data.TRIPS['TXjQVQjjfXRfBnCJ1q0L'].locations,
+		}),
+	),
+	withStyles(styles),
+)(LocationsPage);
 
-/*
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
-<Stepper className={classes.defaultCol} orientation="vertical">
-    {this.state.arrayLocations.map((label, index) => {
-        return (
-            <Step key={label}>
-                <StepLabel icon={'L'}>{label}</StepLabel>
-                <StepContent>
-                    <Typography>description</Typography>
-                </StepContent>
-            </Step>
-        );
-    })}
-</Stepper>
-<hr/>
-*/
