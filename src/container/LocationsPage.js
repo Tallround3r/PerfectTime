@@ -1,12 +1,14 @@
 import React from 'react';
+import {compose} from 'redux';
+import {connect} from 'react-redux';
+import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
+import {withStyles} from '@material-ui/core';
 import * as routes from '../constants/routes';
 import {NavLink} from 'react-router-dom';
-import {getLocations} from "../firebase/db";
 import Typography from '@material-ui/core/Typography';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import {withStyles} from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import StarIcon from '@material-ui/icons/Star';
 import AddIcon from '@material-ui/icons/Add';
@@ -16,7 +18,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 
 const styles = theme => ({
     borderAround: {
-        border: "thin solid #000000"
+        border: 'thin solid #000000',
     },
     bigColumn: {
         flexBasis: '50%',
@@ -27,7 +29,7 @@ const styles = theme => ({
         textAlign: 'right',
     },
     verticalLine: {
-        borderLeft: "thin solid #000000",
+        borderLeft: 'thin solid #000000',
         height: '100px',
     },
     hrLine: {
@@ -38,36 +40,6 @@ const styles = theme => ({
 
 class LocationsPage extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            arrayLocations: [],
-        };
-    }
-
-    componentDidMount() {
-        let aCities = []; // String-Array with all cities from locations
-        // get all locations from the database and save them into the Array for the cities (aCities)
-        getLocations().then(snapshot => snapshot.forEach(contentDatabaseLocations => {
-            let oLocation = contentDatabaseLocations.data(); // Object with the current location in the current loop
-            let sCity = oLocation.address.city; // String with the current city from the current location
-            aCities.push(sCity); // put sCity in String-Array aCities
-            this.tick(aCities);
-
-        })).then(() => { // what to do after getting the data from database
-            aCities.forEach(function (contentArrayLocations) {
-                //console.log(contentArrayLocations);
-                //console.log(contentArrayLocations.description);
-            });
-        });
-    }
-
-    tick(parameter) {
-        this.setState({
-            arrayLocations: parameter,
-        });
-    }
-
     showAllLocations() {
     }
 
@@ -76,34 +48,99 @@ class LocationsPage extends React.Component {
     }
 
     render() {
-        const {classes} = this.props;
+        const {classes, locations} = this.props;
         return (
             <div>
                 <h1>Locations</h1>
                 <div>
-                    {this.state.arrayLocations.map((label, index) => {
-                        return (
-                            <div key={label}>
-                                <ExpansionPanel className={classes.borderAround} key={label}>
-                                    <ExpansionPanelSummary>
-                                        <div className={classes.smallColumn}>
-                                            <Avatar><StarIcon/></Avatar>
-                                        </div>
-                                        <div className={classes.bigColumn}>
-                                            <Typography>{label}</Typography>
-                                        </div>
-                                        <div className={classes.bigColumn}>
-                                            <Typography>{label}</Typography>
-                                        </div>
-                                        <div className={classes.bigColumn}>
-                                            <Typography>{label}</Typography>
-                                        </div>
-                                        <div className={classes.smallColumn}>
-                                            <NavLink exact to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
-                                        </div>
-                                    </ExpansionPanelSummary>
-                                    <ExpansionPanelDetails>
-                                        <GridList cols={37} cellHeight={"auto"} className={classes.verticalLine}>
+                    {!isLoaded(locations)
+                        ? 'Loading...'
+                        : isEmpty(locations)
+                            ? 'No Locations created yet.'
+                            : Object.keys(locations).map((key, index) => {
+                                let label = locations[key].title;
+                                let startdate = new Date(locations[key].startdate.seconds * 1000);
+                                let enddate = new Date(locations[key].enddate.seconds * 1000);
+                                return (
+                                    <div key={key}>
+                                        <ExpansionPanel className={classes.borderAround} key={label}>
+                                            <ExpansionPanelSummary>
+                                                <div className={classes.smallColumn}>
+                                                    <Avatar><StarIcon/></Avatar>
+                                                </div>
+                                                <div className={classes.bigColumn}>
+                                                    <Typography>{label}</Typography>
+                                                </div>
+                                                <div className={classes.bigColumn}>
+                                                    <Typography>Startdate: {startdate.getDate()}.{startdate.getMonth()}.{startdate.getFullYear()}</Typography>
+                                                    <Typography>Enddate: {enddate.getDate()}.{enddate.getMonth()}.{enddate.getFullYear()}</Typography>
+                                                </div>
+                                                <div className={classes.bigColumn}>
+                                                    <Typography>{locations[key].description}</Typography>
+                                                </div>
+                                                <div className={classes.smallColumn}>
+                                                    <NavLink exact
+                                                             to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
+                                                </div>
+                                            </ExpansionPanelSummary>
+                                            <ExpansionPanelDetails>
+                                                <GridList cols={37} cellHeight={'auto'}
+                                                          className={classes.verticalLine}>
+                                                    <GridListTile></GridListTile>
+                                                    <GridListTile>
+                                                        <hr className={classes.hrLine}/>
+                                                    </GridListTile>
+                                                    <GridListTile style={{width: 'auto'}}>
+                                                        <br/>
+                                                        <NavLink exact to={routes.LOCATIONS_ADD}>
+                                                            <Avatar><AddIcon/></Avatar>
+                                                        </NavLink>
+                                                    </GridListTile>
+                                                </GridList>
+                                            </ExpansionPanelDetails>
+                                        </ExpansionPanel>
+                                        <br/>
+                                    </div>
+                                );
+                            })}
+                </div>
+                <hr/>
+                <br/>
+                <div>
+                    {!isLoaded(locations)
+                        ? 'Loading...'
+                        : isEmpty(locations)
+                            ? 'No Locations created yet.'
+                            : Object.keys(locations).map((key, index) => {
+                                let label = locations[key].title;
+                                let startdate = new Date(locations[key].startdate.seconds * 1000);
+                                let enddate = new Date(locations[key].enddate.seconds * 1000);
+                                return (
+                                    <div key={key}>
+                                        <ExpansionPanel className={classes.borderAround} key={key}>
+                                            <ExpansionPanelSummary>
+                                                <div className={classes.smallColumn}>
+                                                    <Avatar><StarIcon/></Avatar>
+                                                </div>
+                                                <div className={classes.bigColumn}>
+                                                    <Typography>{label}</Typography>
+                                                </div>
+                                                <div className={classes.bigColumn}>
+                                                    <Typography>Startdate: {startdate.getDate()}.{startdate.getMonth()}.{startdate.getFullYear()}</Typography>
+                                                    <Typography>Enddate: {enddate.getDate()}.{enddate.getMonth()}.{enddate.getFullYear()}</Typography>
+                                                </div>
+                                                <div className={classes.bigColumn}>
+                                                    <Typography>Owner</Typography>
+                                                </div>
+                                                <div className={classes.smallColumn}>
+                                                    <NavLink exact to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
+                                                </div>
+                                            </ExpansionPanelSummary>
+                                            <ExpansionPanelDetails>
+                                                <Typography>{locations[key].description}</Typography>
+                                            </ExpansionPanelDetails>
+                                        </ExpansionPanel>
+                                        <GridList cols={37} cellHeight={'auto'}>
                                             <GridListTile></GridListTile>
                                             <GridListTile>
                                                 <hr className={classes.hrLine}/>
@@ -115,81 +152,25 @@ class LocationsPage extends React.Component {
                                                 </NavLink>
                                             </GridListTile>
                                         </GridList>
-                                    </ExpansionPanelDetails>
-                                </ExpansionPanel>
-                                <br/>
-                            </div>
-                        )
-                    })}
-                </div>
-                <hr/>
-                <br/>
-                <div>
-                    {this.state.arrayLocations.map((label, index) => {
-                        return (
-                            <div key={label}>
-                                <ExpansionPanel className={classes.borderAround} key={label}>
-                                    <ExpansionPanelSummary>
-                                        <div className={classes.smallColumn}>
-                                            <Avatar><StarIcon/></Avatar>
-                                        </div>
-                                        <div className={classes.bigColumn}>
-                                            <Typography>{label}</Typography>
-                                        </div>
-                                        <div className={classes.bigColumn}>
-                                            <Typography>{label}</Typography>
-                                        </div>
-                                        <div className={classes.bigColumn}>
-                                            <Typography>{label}</Typography>
-                                        </div>
-                                        <div className={classes.smallColumn}>
-                                            <NavLink exact to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
-                                        </div>
-                                    </ExpansionPanelSummary>
-                                    <ExpansionPanelDetails>
-                                        <Typography>description</Typography>
-                                    </ExpansionPanelDetails>
-                                </ExpansionPanel>
-                                <GridList cols={37} cellHeight={"auto"}>
-                                    <GridListTile></GridListTile>
-                                    <GridListTile>
-                                        <hr className={classes.hrLine}/>
-                                    </GridListTile>
-                                    <GridListTile style={{width: 'auto'}}>
                                         <br/>
-                                        <NavLink exact to={routes.LOCATIONS_ADD}>
-                                            <Avatar><AddIcon/></Avatar>
-                                        </NavLink>
-                                    </GridListTile>
-                                </GridList>
-                                <br/>
-                            </div>
-                        )
-                    })}
+                                    </div>
+                                );
+                            })}
                 </div>
             </div>
         );
     }
 }
 
-export default withStyles(styles)(LocationsPage);
+export default compose(
+    firestoreConnect([
+        'TRIPS/TXjQVQjjfXRfBnCJ1q0L/locations',
+    ]),
+    connect(
+        ({firestore: {data}}, props) => ({
+            locations: data.TRIPS && data.TRIPS['TXjQVQjjfXRfBnCJ1q0L'] && data.TRIPS['TXjQVQjjfXRfBnCJ1q0L'].locations,
+        }),
+    ),
+    withStyles(styles),
+)(LocationsPage);
 
-/*
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
-<Stepper className={classes.defaultCol} orientation="vertical">
-    {this.state.arrayLocations.map((label, index) => {
-        return (
-            <Step key={label}>
-                <StepLabel icon={'L'}>{label}</StepLabel>
-                <StepContent>
-                    <Typography>description</Typography>
-                </StepContent>
-            </Step>
-        );
-    })}
-</Stepper>
-<hr/>
-*/
