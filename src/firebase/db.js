@@ -8,3 +8,6 @@ export const doCreateUser = (id, username, email) =>
 
 export const onceGetUsers = () =>
 	db.collection('USER').get();
+
+export const getLocations = () =>
+    db.collection('TRIPS').doc('TXjQVQjjfXRfBnCJ1q0L').collection('locations').get();
