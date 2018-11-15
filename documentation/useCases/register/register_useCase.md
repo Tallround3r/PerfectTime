@@ -1,15 +1,15 @@
 # Use-Case Specification: Perfect Time
-# 1. Add Location
+# 1. Register at PerfectTime
 ### 1.1 Brief Description
 
-In this use-case the user adds a location to of his trips. One trip has several locations and one location consists of a picture, some metadata, notes and links to useful websites and also contains a map where the locations' address or place is shown.
+In this use-case the user fills out the registration form to register hinself at PerfectTime. After that he is able to access the Website and can manage his trips.
 
-### 1.2 Mockup of Location View
+### 1.2 Mockup of landing Page
 ![location view file missing][lv]
 
 [lv]: LocationsView.png "Location View"
 
-### 1.3 Location add view
+### 1.3 Registration view
 View where the User is able to add the location.
 ![location edit view file missing][lev]
 
@@ -22,7 +22,7 @@ View where the User is able to add the location.
 
 ![activity diagram file missing][ad]
 
-[ad]: AddLocation_ActivityDiagramm.png "Activity Diagram"
+[ad]: register_ActivityDiagramm.png "Activity Diagram"
 
 #### Feature file
 
@@ -31,12 +31,13 @@ View where the User is able to add the location.
       ).>
 
 ## 3 Preconditions
-1. The user has to be logged in at the site.
-2. The user has to be owner or member of a trip.
-3. The user has navigated to location detail view and clicked on the edit button.
+1. The user has navigated to PerfectTime.
+2. The user is not logged in.
+3. The user has clicked on register button.
 
 ## 4 Postconditions
-1. Synchronize database with added data.
+1. Synchronize database with added user.
+2. Log in the user to PerfectTime
 
 ## 6 Function Points
 N/A
