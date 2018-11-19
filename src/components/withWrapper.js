@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import classNames from 'classnames';
 import {withStyles} from '@material-ui/core/styles';
-
+import {compose} from 'redux';
+import {connect} from 'react-redux';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -19,6 +21,8 @@ import {menuItems} from './MenuItems';
 import logo from '../images/logo_perfecttime.svg';
 import * as routes from '../constants/routes';
 import {NavLink} from 'react-router-dom';
+import SignInButton from './SignInButton';
+import SignOutButton from './SignOutButton';
 
 
 const withWrapper = (Component) => {
@@ -118,7 +122,7 @@ const withWrapper = (Component) => {
 		};
 
 		render() {
-			const {classes} = this.props;
+			const {classes, auth} = this.props;
 			const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
 			const drawerContent = <div>
@@ -180,6 +184,7 @@ const withWrapper = (Component) => {
 									Perfect Time - Plan Your Trip
 								</Typography>
 
+								{isLoaded(auth) && !isEmpty(auth) ? <SignOutButton/> : <SignInButton/>}
 							</Toolbar>
 						</AppBar>
 
@@ -221,10 +226,18 @@ const withWrapper = (Component) => {
 
 	AppWrapper.propTypes = {
 		classes: PropTypes.object.isRequired,
-		authUser: PropTypes.object,
+		auth: PropTypes.object,
 	};
 
-	return withStyles(styles)(AppWrapper);
+	return compose(
+		firestoreConnect(),
+		connect(
+			(firebase, props) => ({
+				auth: firebase.auth,
+			}),
+		),
+		withStyles(styles),
+	)(AppWrapper);
 };
 
 

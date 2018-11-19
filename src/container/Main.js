@@ -10,6 +10,8 @@ import LocationEditPage from './LocationEditPage';
 import MembersPage from './MembersPage';
 import ActivityAddPage from './ActivityAddPage';
 import ActivityEditPage from './ActivityEditPage';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
 
 
 function Main() {
@@ -23,6 +25,8 @@ function Main() {
 				<Route exact path={routes.ACTIVITY_ADD} component={withWrapper(ActivityAddPage)}/>
 				<Route exact path={routes.ACTIVITY_EDIT} component={withWrapper(ActivityEditPage)}/>
 				<Route exact path={routes.MEMBERS} component={withWrapper(MembersPage)}/>
+				<Route exact path={routes.SIGN_IN} component={SignIn}/>
+				<Route exact path={routes.SIGN_UP} component={SignUp}/>
 				<Route path={routes.LANDING} component={DemoPage}/>
 			</Switch>
 		</main>
