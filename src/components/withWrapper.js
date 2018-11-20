@@ -23,7 +23,9 @@ import * as routes from '../constants/routes';
 import {NavLink} from 'react-router-dom';
 import SignInButton from './SignInButton';
 import SignOutButton from './SignOutButton';
+import withAuthorization from './withAuthorization';
 
+const authCondition = auth => !!auth;
 
 const withWrapper = (Component) => {
 
@@ -230,6 +232,7 @@ const withWrapper = (Component) => {
 	};
 
 	return compose(
+		withAuthorization(authCondition),
 		firestoreConnect(),
 		connect(
 			({firebase: {auth}}) => ({

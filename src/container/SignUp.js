@@ -1,9 +1,9 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import {compose} from 'redux';
-import {firestoreConnect, withFirebase} from 'react-redux-firebase';
+import {withFirebase} from 'react-redux-firebase';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -176,6 +176,13 @@ class SignUp extends React.Component {
 							>
 								Anmelden
 							</Button>
+
+							<p>
+								Already have an account?
+								{' '}
+								<Link to={routes.SIGN_IN}>Sign In</Link>
+							</p>
+
 						</form>
 					</Paper>
 				</main>
