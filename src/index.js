@@ -6,6 +6,7 @@ import './styles/index.css';
 import App from './container/App';
 import * as serviceWorker from './serviceWorker';
 import configureStore from './store/store';
+import './firebase';
 
 dotenv.config();
 const store = configureStore();

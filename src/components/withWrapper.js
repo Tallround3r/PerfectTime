@@ -232,13 +232,12 @@ const withWrapper = (Component) => {
 	return compose(
 		firestoreConnect(),
 		connect(
-			(firebase, props) => ({
-				auth: firebase.auth,
+			({firebase: {auth}}) => ({
+				auth,
 			}),
 		),
 		withStyles(styles),
 	)(AppWrapper);
 };
-
 
 export default withWrapper;
