@@ -137,7 +137,7 @@ const withWrapper = (Component) => {
 				{this.state.open &&
 				<div>
 					<NavLink exact to={routes.LANDING}>
-						<img src={logo} className={classes.logo} alt="logo"/>
+						<img src={logo} className={classes.logo} alt="Logo"/>
 					</NavLink>
 
 					<Typography

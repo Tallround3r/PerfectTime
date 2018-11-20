@@ -4,17 +4,16 @@ import {compose} from 'redux';
 import {withFirebase} from 'react-redux-firebase';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import LockIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import * as routes from '../constants/routes';
 import isValid from '../utils/validation/validateSignIn';
+import logo from '../images/logo_perfecttime.svg';
 
 
 const styles = theme => ({
@@ -36,9 +35,10 @@ const styles = theme => ({
 		alignItems: 'center',
 		padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
 	},
-	avatar: {
-		margin: theme.spacing.unit,
-		backgroundColor: theme.palette.secondary.main,
+	logo: {
+		display: 'block',
+		width: '25%',
+		marginBottom: theme.spacing.unit * 2,
 	},
 	form: {
 		width: '100%', // Fix IE11 issue.
@@ -108,9 +108,7 @@ class SignIn extends React.Component {
 				<CssBaseline/>
 				<main className={classes.layout}>
 					<Paper className={classes.paper}>
-						<Avatar className={classes.avatar}>
-							<LockIcon/>
-						</Avatar>
+						<img src={logo} className={classes.logo} alt="Logo"/>
 
 						<Typography variant="h5">Sign in</Typography>
 
