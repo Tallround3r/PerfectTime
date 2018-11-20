@@ -26,6 +26,7 @@ import SignOutButton from './SignOutButton';
 import withAuthorization from './withAuthorization';
 import {AUTH_CONDITION_WITH_DRAWER} from '../constants/auth-conditions';
 
+
 const withDrawer = (Component) => {
 
 	const drawerWidth = 240;
@@ -182,7 +183,7 @@ const withDrawer = (Component) => {
 									noWrap
 									className={classes.title}
 								>
-									Perfect Time - Plan Your Trip
+									Perfect Time — Plan Your Trip
 								</Typography>
 
 								{isLoaded(auth) && !isEmpty(auth) ? <SignOutButton/> : <SignInButton/>}
