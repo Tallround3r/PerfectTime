@@ -186,7 +186,7 @@ const withDrawer = (Component) => {
 									Perfect Time — Plan Your Trip
 								</Typography>
 
-								{isLoaded(auth) && !isEmpty(auth) ? <SignOutButton/> : <SignInButton/>}
+								{isEmpty(auth) ? <SignInButton/> : <SignOutButton/>}
 							</Toolbar>
 						</AppBar>
 

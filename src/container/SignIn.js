@@ -44,6 +44,7 @@ const styles = theme => ({
 	form: {
 		width: '100%', // Fix IE11 issue.
 		marginTop: theme.spacing.unit,
+		marginBottom: theme.spacing.unit * 2,
 	},
 	submit: {
 		marginTop: theme.spacing.unit * 3,
@@ -54,6 +55,7 @@ const INITIAL_STATE = {
 	email: '',
 	password: '',
 	error: null,
+	submitted: false,
 };
 
 class SignIn extends React.Component {
@@ -102,6 +104,7 @@ class SignIn extends React.Component {
 			email,
 			password,
 			error,
+			submitted,
 		} = this.state;
 
 		return (
@@ -113,7 +116,7 @@ class SignIn extends React.Component {
 							<img src={logo} className={classes.logo} alt="Logo"/>
 						</Link>
 
-						<Typography variant="h5">Sign in</Typography>
+						<Typography variant="h5">Sign In</Typography>
 
 						<form className={classes.form} onSubmit={this.handleSubmit}>
 							<FormControl margin="normal" required fullWidth>
@@ -145,18 +148,17 @@ class SignIn extends React.Component {
 								variant="contained"
 								color="primary"
 								className={classes.submit}
-								disabled={!isValid(email, password)}
+								disabled={submitted || !isValid(email, password)}
 							>
-								Einloggen
+								Login
 							</Button>
-
-							<p>
-								Don't have an account?
-								{' '}
-								<Link to={routes.SIGN_UP}>Sign Up</Link>
-							</p>
-
 						</form>
+
+						<p>
+							Don't have an account?
+							{' '}
+							<Link to={routes.SIGN_UP}>Sign Up</Link>
+						</p>
 					</Paper>
 				</main>
 			</React.Fragment>

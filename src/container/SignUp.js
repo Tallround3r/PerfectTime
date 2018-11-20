@@ -21,8 +21,8 @@ const styles = theme => ({
 		display: 'block', // Fix IE11 issue.
 		marginLeft: theme.spacing.unit * 3,
 		marginRight: theme.spacing.unit * 3,
-		[theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-			width: 400,
+		[theme.breakpoints.up(450 + theme.spacing.unit * 3 * 2)]: {
+			width: 450,
 			marginLeft: 'auto',
 			marginRight: 'auto',
 		},
@@ -43,6 +43,7 @@ const styles = theme => ({
 	form: {
 		width: '100%', // Fix IE11 issue.
 		marginTop: theme.spacing.unit,
+		marginBottom: theme.spacing.unit * 2,
 	},
 	submit: {
 		marginTop: theme.spacing.unit * 3,
@@ -50,14 +51,25 @@ const styles = theme => ({
 	errorMessage: {
 		color: 'red',
 	},
+	realNameForms: {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+	},
+	firstNameForm: {
+		marginRight: theme.spacing.unit * 2,
+	},
 });
 
 const INITIAL_STATE = {
 	username: '',
+	firstName: '',
+	lastName: '',
 	email: '',
 	password: '',
 	passwordConfirm: '',
 	error: null,
+	submitted: false,
 };
 
 class SignUp extends React.Component {
@@ -72,6 +84,8 @@ class SignUp extends React.Component {
 			username,
 			email,
 			password,
+			firstName,
+			lastName,
 		} = this.state;
 		const {history, firebase} = this.props;
 
@@ -81,8 +95,10 @@ class SignUp extends React.Component {
 			signIn: 'false',
 		};
 		const profile = {
-			username: username,
-			email: email,
+			username,
+			email,
+			firstName,
+			lastName,
 			memberSince: new Date(),
 		};
 
@@ -111,10 +127,13 @@ class SignUp extends React.Component {
 		const {classes} = this.props;
 		const {
 			username,
+			firstName,
+			lastName,
 			email,
 			password,
 			passwordConfirm,
 			error,
+			submitted,
 		} = this.state;
 
 		return (
@@ -126,12 +145,30 @@ class SignUp extends React.Component {
 							<img src={logo} className={classes.logo} alt="Logo"/>
 						</Link>
 
-						<Typography variant="h5">Account erstellen</Typography>
+						<Typography variant="h5">Create Account</Typography>
 
 						<form className={classes.form} onSubmit={this.handleSubmit}>
+							<div className={classes.realNameForms}>
+								<FormControl className={classes.firstNameForm} margin="normal" required fullWidth>
+									<InputLabel htmlFor="firstName">First Name</InputLabel>
+									<Input id="firstName" autoFocus
+										   name="firstName"
+										   value={firstName}
+										   onChange={this.handleChangeInput}
+									/>
+								</FormControl>
+								<FormControl margin="normal" required fullWidth>
+									<InputLabel htmlFor="lastName">Last Name</InputLabel>
+									<Input id="lastName"
+										   name="lastName"
+										   value={lastName}
+										   onChange={this.handleChangeInput}
+									/>
+								</FormControl>
+							</div>
 							<FormControl margin="normal" required fullWidth>
 								<InputLabel htmlFor="username">Username</InputLabel>
-								<Input id="username" autoFocus
+								<Input id="username"
 									   name="username"
 									   autoComplete="username"
 									   value={username}
@@ -173,18 +210,17 @@ class SignUp extends React.Component {
 									variant="contained"
 									color="primary"
 									className={classes.submit}
-									disabled={!isValid(username, email, password, passwordConfirm)}
+									disabled={submitted || !isValid(username, email, password, passwordConfirm, firstName, lastName)}
 							>
-								Anmelden
+								Sign Up
 							</Button>
-
-							<p>
-								Already have an account?
-								{' '}
-								<Link to={routes.SIGN_IN}>Sign In</Link>
-							</p>
-
 						</form>
+
+						<p>
+							Already have an account?
+							{' '}
+							<Link to={routes.SIGN_IN}>Sign In</Link>
+						</p>
 					</Paper>
 				</main>
 			</React.Fragment>

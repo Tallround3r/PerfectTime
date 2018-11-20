@@ -1,7 +1,10 @@
-export default function isValid(username, email, pass1, pass2) {
+export default function isValid(username, email, pass1, pass2, firstName, lastName) {
 	return username !== ''
-		&& email !== ''
+		&& firstName !== ''
+		&& lastName !== ''
 		&& pass1 !== ''
 		&& pass1 === pass2
-		&& email.includes('@');
+		&& !username.includes(' ')
+		&& email.includes('@')
+		&& email.includes('.');
 }
