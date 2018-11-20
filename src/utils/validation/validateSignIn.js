@@ -1,5 +1,5 @@
 export default function isValid(email, password) {
-	return email !== ''
+	return password !== ''
 		&& email.includes('@')
-		&& password !== '';
+		&& email.includes('.');
 }
