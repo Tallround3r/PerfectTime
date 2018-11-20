@@ -37,6 +37,7 @@ const styles = theme => ({
 	logo: {
 		display: 'block',
 		width: '25%',
+		margin: 'auto',
 		marginBottom: theme.spacing.unit * 2,
 	},
 	form: {
@@ -121,7 +122,9 @@ class SignUp extends React.Component {
 				<CssBaseline/>
 				<main className={classes.layout}>
 					<Paper className={classes.paper}>
-						<img src={logo} className={classes.logo} alt="Logo"/>
+						<Link to={routes.LANDING}>
+							<img src={logo} className={classes.logo} alt="Logo"/>
+						</Link>
 
 						<Typography variant="h5">Account erstellen</Typography>
 
@@ -129,48 +132,48 @@ class SignUp extends React.Component {
 							<FormControl margin="normal" required fullWidth>
 								<InputLabel htmlFor="username">Username</InputLabel>
 								<Input id="username" autoFocus
-								       name="username"
-								       autoComplete="username"
-								       value={username}
-								       onChange={this.handleChangeInput}
+									   name="username"
+									   autoComplete="username"
+									   value={username}
+									   onChange={this.handleChangeInput}
 								/>
 							</FormControl>
 							<FormControl margin="normal" required fullWidth>
 								<InputLabel htmlFor="email">E-Mail</InputLabel>
 								<Input id="email"
-								       name="email"
-								       autoComplete="email"
-								       value={email}
-								       onChange={this.handleChangeInput}
+									   name="email"
+									   autoComplete="email"
+									   value={email}
+									   onChange={this.handleChangeInput}
 								/>
 							</FormControl>
 							<FormControl margin="normal" required fullWidth>
 								<InputLabel htmlFor="password">Passwort</InputLabel>
 								<Input id="password"
-								       name="password"
-								       type="password"
-								       autoComplete="current-password"
-								       value={password}
-								       onChange={this.handleChangeInput}
+									   name="password"
+									   type="password"
+									   autoComplete="current-password"
+									   value={password}
+									   onChange={this.handleChangeInput}
 								/>
 							</FormControl>
 							<FormControl margin="normal" required fullWidth>
 								<InputLabel htmlFor="passwordConfirm">Passwort wiederholen</InputLabel>
 								<Input id="passwordConfirm"
-								       name="passwordConfirm"
-								       type="password"
-								       value={passwordConfirm}
-								       onChange={this.handleChangeInput}
+									   name="passwordConfirm"
+									   type="password"
+									   value={passwordConfirm}
+									   onChange={this.handleChangeInput}
 								/>
 							</FormControl>
 
 							{error && <p className={classes.errorMessage}>{error.message}</p>}
 
 							<Button type="submit" fullWidth
-							        variant="contained"
-							        color="primary"
-							        className={classes.submit}
-							        disabled={!isValid(username, email, password, passwordConfirm)}
+									variant="contained"
+									color="primary"
+									className={classes.submit}
+									disabled={!isValid(username, email, password, passwordConfirm)}
 							>
 								Anmelden
 							</Button>

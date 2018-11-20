@@ -24,10 +24,9 @@ import {NavLink} from 'react-router-dom';
 import SignInButton from './SignInButton';
 import SignOutButton from './SignOutButton';
 import withAuthorization from './withAuthorization';
+import {AUTH_CONDITION_WITH_DRAWER} from '../constants/auth-conditions';
 
-const authCondition = auth => !!auth;
-
-const withWrapper = (Component) => {
+const withDrawer = (Component) => {
 
 	const drawerWidth = 240;
 	const swipeDrawerWidth = 200;
@@ -232,7 +231,7 @@ const withWrapper = (Component) => {
 	};
 
 	return compose(
-		withAuthorization(authCondition),
+		withAuthorization(AUTH_CONDITION_WITH_DRAWER),
 		firestoreConnect(),
 		connect(
 			({firebase: {auth}}) => ({
@@ -243,4 +242,4 @@ const withWrapper = (Component) => {
 	)(AppWrapper);
 };
 
-export default withWrapper;
+export default withDrawer;

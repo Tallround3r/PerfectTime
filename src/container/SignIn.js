@@ -38,6 +38,7 @@ const styles = theme => ({
 	logo: {
 		display: 'block',
 		width: '25%',
+		margin: 'auto',
 		marginBottom: theme.spacing.unit * 2,
 	},
 	form: {
@@ -108,7 +109,9 @@ class SignIn extends React.Component {
 				<CssBaseline/>
 				<main className={classes.layout}>
 					<Paper className={classes.paper}>
-						<img src={logo} className={classes.logo} alt="Logo"/>
+						<Link to={routes.LANDING}>
+							<img src={logo} className={classes.logo} alt="Logo"/>
+						</Link>
 
 						<Typography variant="h5">Sign in</Typography>
 
@@ -116,10 +119,10 @@ class SignIn extends React.Component {
 							<FormControl margin="normal" required fullWidth>
 								<InputLabel htmlFor="email">E-Mail</InputLabel>
 								<Input id="email" autoFocus
-								       name="email"
-								       autoComplete="email"
-								       value={email}
-								       onChange={this.handleChangeInput}
+									   name="email"
+									   autoComplete="email"
+									   value={email}
+									   onChange={this.handleChangeInput}
 								/>
 							</FormControl>
 							<FormControl margin="normal" required fullWidth>
