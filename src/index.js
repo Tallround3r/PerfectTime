@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
+import {MuiThemeProvider} from '@material-ui/core/styles';
+import theme from './theme/theme';
 import './styles/index.css';
 import App from './container/App';
 import * as serviceWorker from './serviceWorker';
@@ -13,7 +15,9 @@ const store = configureStore();
 
 ReactDOM.render(
 	<Provider store={store}>
-		<App/>
+		<MuiThemeProvider theme={theme}>
+			<App/>
+		</MuiThemeProvider>
 	</Provider>,
 	document.getElementById('root'),
 );

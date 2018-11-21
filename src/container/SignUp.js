@@ -92,7 +92,7 @@ class SignUp extends React.Component {
 		const credentials = {
 			email: email,
 			password: password,
-			signIn: 'false',
+			signIn: 'true',
 		};
 		const profile = {
 			username,
