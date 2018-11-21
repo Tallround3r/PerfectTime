@@ -4,6 +4,7 @@
 
 One user can have different trips where he visits several locations. At every location he can do activities. In this use-case the user edits one activity. One activity consists of a picture, some metadata, notes and links to useful websites and also contains a map where the activities' address or place is shown.
 
+<dsf
 ### 1.2 Mockup of Activity View
 ![location view file missing][lv]
 
@@ -13,19 +14,20 @@ One user can have different trips where he visits several locations. At every lo
 View on all activities at one locations.
 ![example activity view file missing][lvf]
 
-[lvf]: LocationsViewFilled.png "Location View"
+[lvf]: LocationsViewFilled.png "Location View" 
+>
 
-### 1.4 Activity detail view
+### 1.2 Activity detail view
 Detailled view on one activity.
-![location detail view file missing][ldv]
+![activity detail view file missing][ldv]
 
-[ldv]: detailLocationFilled.png "Location View"
+[ldv]: detailActivityFilled.png "Activity View"
 
-### 1.5 Activity edit view
+### 1.3 Activity edit view
 View where the User is able to edit the activity.
-![location edit view file missing][lev]
+![activity edit view file missing][lev]
 
-[lev]: editLocationFilled.png "Location View"
+[lev]: editActivityFilled.png "Activity View"
 
 # 2 Flow of Events
 
