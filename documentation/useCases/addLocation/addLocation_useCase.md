@@ -7,13 +7,13 @@ In this use-case the user adds a location to of his trips. One trip has several 
 ### 1.2 Mockup of Location View
 ![location view file missing][lv]
 
-[lv]: LocationsView.png "Location View"
+[lv]: LocationsViewFilled.png "Location View"
 
 ### 1.3 Location add view
 View where the User is able to add the location.
-![location edit view file missing][lev]
+![location add view file missing][lav]
 
-[lev]: editLocationFilled.png "Location View"
+[lav]: addLocationFilled.png "Location View"
 
 # 2 Flow of Events
 
