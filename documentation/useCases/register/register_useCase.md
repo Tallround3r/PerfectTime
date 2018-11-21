@@ -2,18 +2,19 @@
 # 1. Register at PerfectTime
 ### 1.1 Brief Description
 
-In this use-case the user fills out the registration form to register hinself at PerfectTime. After that he is able to access the Website and can manage his trips.
+In this use-case the user fills out the registration form to register himself at PerfectTime. After that he is able to access the Website and can manage his trips.
 
 ### 1.2 Mockup of landing Page
+View where the user is navigated to when not logged in.
 ![location view file missing][lv]
 
-[lv]: LocationsView.png "Location View"
+[lv]: login.png "Login View"
 
 ### 1.3 Registration view
-View where the User is able to add the location.
-![location edit view file missing][lev]
+View where the User is able to register.
+![location edit view file missing][rv]
 
-[lev]: editLocationFilled.png "Location View"
+[rv]: register.png "Register View"
 
 # 2 Flow of Events
 
