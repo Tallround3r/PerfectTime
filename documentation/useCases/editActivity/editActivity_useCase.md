@@ -1,0 +1,64 @@
+# Use-Case Specification: Perfect Time
+# 1. Edit Activity
+### 1.1 Brief Description
+
+One user can have different trips where he visits several locations. At every location he can do activities. In this use-case the user edits one activity. One activity consists of a picture, some metadata, notes and links to useful websites and also contains a map where the activities' address or place is shown.
+
+### 1.2 Mockup of Activity View
+![location view file missing][lv]
+
+[lv]: LocationsView.png "Location View"
+
+### 1.3 Example Activity View
+View on all activities at one locations.
+![example activity view file missing][lvf]
+
+[lvf]: LocationsViewFilled.png "Location View"
+
+### 1.4 Activity detail view
+Detailled view on one activity.
+![location detail view file missing][ldv]
+
+[ldv]: detailLocationFilled.png "Location View"
+
+### 1.5 Activity edit view
+View where the User is able to edit the activity.
+![location edit view file missing][lev]
+
+[lev]: editLocationFilled.png "Location View"
+
+# 2 Flow of Events
+
+### 2.1 Basic Flow
+#### Activity Diagram
+
+![activity diagram file missing][ad]
+
+[ad]: editActivity_ActivityDiagramm.png "Activity Diagram"
+
+#### Feature file
+
+<Link to [feature file](
+        ../../../cucumberTests/features/editActivity.feature
+      ).>
+
+## 3 Preconditions
+1. The user has to be logged in at the site.
+2. The user has to be owner or member of a trip with at least one location.
+3. This location needs to have one action.
+4. The user has navigated to activities detail view and clicked on the edit button.
+
+## 4 Postconditions
+1. Synchronize database with updated data.
+
+## 6 Function Points
+not needed yet
+<Tool from http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html
+
+The score is 28.48 function Points.
+
+![function points file missing][fp]
+
+[fp]: ./EditLocation_FunctionPoints.PNG "Function Points">
+
+
