@@ -1,29 +1,36 @@
 import React from 'react';
+import {TextField} from '@material-ui/core';
 
 class LocationEditPage extends React.Component {
 
-    constructor() {
-        super();
-    }
+	constructor(props) {
+		super(props);
+	}
 
-    componentDidMount() {
+	componentDidMount() {
 
-    }
+	}
 
-    //loads custom fields, defined by the user which are not included in standard
-    loadCustomFields() {
+	//loads custom fields, defined by the user which are not included in standard
+	loadCustomFields() {
 
-    }
+	}
 
-    saveLocation() {
+	saveLocation() {
 
-    }
+	}
 
-    render() {
-        return (
-            <h1>Edit Location</h1>
-        );
-    }
+	render() {
+		return (
+			<div>
+				<h1>Edit Location</h1>
+
+				<TextField
+					label="Title"
+				/>
+			</div>
+		);
+	}
 
 }
 
