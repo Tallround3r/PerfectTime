@@ -1,5 +1,6 @@
 import React from 'react';
 import {TextField} from '@material-ui/core';
+import Textarea from '@material-ui/core/es/InputBase/Textarea';
 
 const INITIAL_STATE = {
 	title: '',
@@ -45,12 +46,17 @@ class LocationEditPage extends React.Component {
 					value={title}
 					onChange={this.handleChangeInput}
 				/>
-				<TextField
+				<Textarea
 					label="Description"
 					name="description"
 					value={description}
 					onChange={this.handleChangeInput}
+					multiline
+					rows="4"
 				/>
+
+				{/* TODO: install and implement DatePicker */}
+
 			</div>
 		);
 	}
