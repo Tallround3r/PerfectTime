@@ -1,10 +1,11 @@
 import React from 'react';
 import {TextField} from '@material-ui/core';
-import Textarea from '@material-ui/core/es/InputBase/Textarea';
+import DatePicker from 'material-ui-pickers/DatePicker';
 
 const INITIAL_STATE = {
 	title: '',
 	description: '',
+	date: new Date(),
 };
 
 class LocationEditPage extends React.Component {
@@ -33,30 +34,47 @@ class LocationEditPage extends React.Component {
 		});
 	};
 
+	handleChangeDate = date => {
+		this.setState({
+			date,
+		});
+	};
+
 	render() {
-		const {title, description} = this.state;
+		const {title, description, date} = this.state;
 
 		return (
 			<div>
 				<h1>Edit Location</h1>
 
-				<TextField
-					label="Title"
-					name="title"
-					value={title}
-					onChange={this.handleChangeInput}
-				/>
-				<Textarea
-					label="Description"
-					name="description"
-					value={description}
-					onChange={this.handleChangeInput}
-					multiline
-					rows="4"
-				/>
-
-				{/* TODO: install and implement DatePicker */}
-
+				<div>
+					<TextField
+						label="Title"
+						name="title"
+						value={title}
+						onChange={this.handleChangeInput}
+					/>
+					<TextField
+						label="Description"
+						name="description"
+						value={description}
+						onChange={this.handleChangeInput}
+						multiline
+						rows="4"
+					/>
+					<DatePicker
+						keyboard
+						required
+						value={date}
+						onChange={this.handleChangeDate}
+						label="Datum"
+						format="MM/dd/yyyy"
+						placeholder="MM/dd/yyyy"
+						mask={value => (value ? [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] : [])}
+						disableOpenOnEnter
+						animateYearScrolling={false}
+					/>
+				</div>
 			</div>
 		);
 	}
