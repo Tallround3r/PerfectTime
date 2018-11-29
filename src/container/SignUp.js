@@ -208,6 +208,7 @@ class SignUp extends React.Component {
 
 							<Button type="submit" fullWidth
 									variant="contained"
+									id="signUpButton"
 									color="primary"
 									className={classes.submit}
 									disabled={submitted || !isValid(username, email, password, passwordConfirm, firstName, lastName)}

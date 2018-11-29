@@ -1,31 +1,35 @@
 Feature: Register to PerfectTime is working
 
   Background:
-    Given I have navigated to "PerfectTime"
+    Given I have navigated to "PerfectTimeTest"
 
+  @only
   Scenario: The user should be able to see the Register Button
     And I am not logged in
-    Then There is a Register Button
+    Then There is a "Register Button" called "Sign Up"
 
+  @only
   Scenario: The user should be navigated to login Page
     And I am not logged in
-    Then I can see the login form
+    Then I can see the "login form" called "Sign In"
 
+  @only
   Scenario: The user is able to see the registration form
     And I am not logged in
-    When I click on register
-    Then The registration form shows up
+    When I click on the "Register Button"
+    Then The "registration form" called "Create Account" shows up
 
+  @only
   Scenario: The user is able to register with valid data
     And I am not logged in
-    When I click on register
+    When I click on the "Register Button"
     And I insert valid Data
-    And I click on register button
-    Then I am navigated to the home site
+    And I click on "Sign Up"
+    Then I can see the "login form" called "Sign In"
 
+  @only
   Scenario: The user tries to register an account with invalid data
     And I am not logged in
-    When I click on register
+    When I click on the "Register Button"
     And I insert invalid Data
-    And I click on register button
-    Then I stay on the registration view
+    Then I cant click on "Sign Up"

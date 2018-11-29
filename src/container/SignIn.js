@@ -157,7 +157,7 @@ class SignIn extends React.Component {
 						<p>
 							Don't have an account?
 							{' '}
-							<Link to={routes.SIGN_UP}>Sign Up</Link>
+							<Link to={routes.SIGN_UP} id={'signIn'}>Sign Up</Link>
 						</p>
 					</Paper>
 				</main>
