@@ -4,27 +4,37 @@ import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import PropTypes from 'prop-types';
 import connect from 'react-redux/es/connect/connect';
 import {withStyles} from '@material-ui/core';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import Typography from "@material-ui/core/Typography/Typography";
 
-const styles = themes => {
-
-};
+const styles = theme => ({
+	gridList: {
+		flexWrap: 'nowrap',
+		textAlign: 'center',
+		backgroundColor: theme.palette.background.paper,
+	}
+});
 
 class ActivitiesList extends React.Component {
 
 	render() {
+		const {classes} = this.props;
 		const {activities} = this.props;
 
 		return (
-			<ul>
+			<GridList className={classes.gridList} cols={2.5}>
 				{!isLoaded(activities)
 					? 'Loading activities...'
 					: isEmpty(activities)
 						? 'No Activities created yet.'
 						: Object.keys(activities).map(key =>
-							<li key={key}>{activities[key].title}</li>,
+							<GridListTile key={key}>
+								<Typography>{activities[key].title}</Typography>
+							</GridListTile>
 						)
 				}
-			</ul>
+			</GridList>
 		);
 	}
 
