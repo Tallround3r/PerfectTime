@@ -25,9 +25,9 @@ class ActivitiesList extends React.Component {
 		return (
 			<GridList className={classes.gridList} cols={2.5}>
 				{!isLoaded(activities)
-					? 'Loading activities...'
+					? <Typography>Loading activities...</Typography>
 					: isEmpty(activities)
-						? 'No Activities created yet.'
+						? <Typography>No Activities created yet.</Typography>
 						: Object.keys(activities).map(key =>
 							<GridListTile key={key}>
 								<Typography>{activities[key].title}</Typography>
