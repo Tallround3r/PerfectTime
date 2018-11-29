@@ -28,7 +28,7 @@ const styles = theme => ({
 		border: 'thin solid #000000',
 		marginTop: theme.spacing.unit * 2,
 		marginBottom: theme.spacing.unit * 2,
-		background: theme.palette.background.paper
+		background: '#aff4ff'
 	},
 	bigColumn: {
 		flexBasis: '50%',
@@ -72,6 +72,81 @@ class LocationsPage extends React.Component {
 				<h1>Locations</h1>
 				{/*
 -----------------------------------------------------------------------------------------------------------------------
+							Overview with carousel in ExpansionPanel
+-----------------------------------------------------------------------------------------------------------------------
+*/}
+				<p><b>Overview with carousel in ExpansionPanel</b></p>
+				<div>
+					{!isLoaded(locations)
+						? 'Loading...'
+						: isEmpty(locations)
+							? 'No Locations created yet.'
+							: Object.keys(locations).map((key) => {
+								let location = locations[key];
+								let startdate = new Date(locations[key].startdate.seconds * 1000);
+								let enddate = new Date(locations[key].enddate.seconds * 1000);
+								return (
+									<div key={key}>
+										{/*
+***********************************************************************************************************************
+											ExpansionPanel
+***********************************************************************************************************************
+*/}
+										<ExpansionPanel className={classes.locationPanel}>
+											<ExpansionPanelSummary>
+												<div className={classes.smallColumn}>
+													<Avatar src="/images/star.jpg"/>
+												</div>
+												<div className={classes.bigColumn}>
+													<Typography>{location.title}</Typography>
+												</div>
+												<div className={classes.bigColumn}>
+													<Typography>Startdate: {startdate.getDate()}.{startdate.getMonth()}.{startdate.getFullYear()}</Typography>
+													<Typography>Enddate: {enddate.getDate()}.{enddate.getMonth()}.{enddate.getFullYear()}</Typography>
+												</div>
+												<div className={classes.bigColumn}>
+													<Typography>{locations[key].description}</Typography>
+												</div>
+												<div className={classes.smallColumn}>
+													<NavLink exact
+															 to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
+												</div>
+											</ExpansionPanelSummary>
+
+											<ExpansionPanelDetails>
+												<div style={{width: '100%'}}>
+													<Slider {...settings}>
+														<div>
+															<h3>1</h3>
+														</div>
+														<div>
+															<h3>2</h3>
+														</div>
+														<div>
+															<h3>3</h3>
+														</div>
+														<div>
+															<h3>4</h3>
+														</div>
+														<div>
+															<h3>5</h3>
+														</div>
+														<div>
+															<h3>6</h3>
+														</div>
+													</Slider>
+												</div>
+											</ExpansionPanelDetails>
+										</ExpansionPanel>
+									</div>
+								);
+							})}
+				</div>
+				<br/>
+				<hr/>
+				<br/>
+				{/*
+-----------------------------------------------------------------------------------------------------------------------
 									Overview with scrollbar
 -----------------------------------------------------------------------------------------------------------------------
 */}
@@ -95,7 +170,7 @@ class LocationsPage extends React.Component {
 										<ExpansionPanel className={classes.locationPanel}>
 											<ExpansionPanelSummary>
 												<div className={classes.smallColumn}>
-													<Avatar><StarIcon/></Avatar>
+													<Avatar src="/images/star.jpg"/>
 												</div>
 												<div className={classes.bigColumn}>
 													<Typography>{location.title}</Typography>
@@ -174,7 +249,7 @@ class LocationsPage extends React.Component {
 										<ExpansionPanel className={classes.locationPanel}>
 											<ExpansionPanelSummary>
 												<div className={classes.smallColumn}>
-													<Avatar><StarIcon/></Avatar>
+													<Avatar src="/images/star.jpg"/>
 												</div>
 												<div className={classes.bigColumn}>
 													<Typography>{locations[key].title}</Typography>
@@ -255,7 +330,7 @@ class LocationsPage extends React.Component {
 										<ExpansionPanel className={classes.locationPanel} key={key}>
 											<ExpansionPanelSummary>
 												<div className={classes.smallColumn}>
-													<Avatar><StarIcon/></Avatar>
+													<Avatar src="/images/star.jpg"/>
 												</div>
 												<div className={classes.bigColumn}>
 													<Typography>{label}</Typography>
