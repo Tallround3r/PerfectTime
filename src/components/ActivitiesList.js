@@ -1,9 +1,9 @@
-import React from 'react';
-import {compose} from 'redux';
-import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
-import PropTypes from 'prop-types';
-import connect from 'react-redux/es/connect/connect';
 import {withStyles} from '@material-ui/core';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
+import connect from 'react-redux/es/connect/connect';
+import {compose} from 'redux';
 
 const styles = themes => {
 

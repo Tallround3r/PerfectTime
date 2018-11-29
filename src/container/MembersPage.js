@@ -2,37 +2,37 @@ import React from 'react';
 
 class MembersPage extends React.Component {
 
-    constructor() {
-        super();
-    }
+	constructor() {
+		super();
+	}
 
-    componentDidMount() {
+	componentDidMount() {
 
-    }
+	}
 
-    getAllMembers() {
+	getAllMembers() {
 
-    }
+	}
 
-    addMember() {
+	addMember() {
 
-    }
+	}
 
-    removeMember() {
+	removeMember() {
 
-    }
+	}
 
-    sendMessage() {
+	sendMessage() {
 
-    }
+	}
 
-    render() {
-        return (
-            <div>
-                <h1>Members</h1>
-            </div>
-        );
-    }
+	render() {
+		return (
+			<div>
+				<h1>Members</h1>
+			</div>
+		);
+	}
 }
 
 export default MembersPage;

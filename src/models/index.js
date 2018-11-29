@@ -1,5 +1,7 @@
-import Location from './Location.js';
+import Activity from './Activity';
+import Location from './Location';
 
 export {
 	Location,
+	Activity,
 };

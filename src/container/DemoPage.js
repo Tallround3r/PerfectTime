@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
+import {NavLink} from 'react-router-dom';
+import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
 import '../styles/App.css';
-import * as routes from '../constants/routes';
-import {NavLink} from 'react-router-dom';
 
 class App extends Component {
 

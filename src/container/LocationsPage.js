@@ -1,22 +1,22 @@
-import React from 'react';
-import {compose} from 'redux';
-import {connect} from 'react-redux';
-import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import {withStyles} from '@material-ui/core';
-import * as routes from '../constants/routes';
-import {NavLink} from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Avatar from '@material-ui/core/Avatar';
-import StarIcon from '@material-ui/icons/Star';
-import AddIcon from '@material-ui/icons/Add';
-import ArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+import Chip from '@material-ui/core/Chip';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import Chip from '@material-ui/core/Chip';
+import Typography from '@material-ui/core/Typography';
+import AddIcon from '@material-ui/icons/Add';
+import ArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+import StarIcon from '@material-ui/icons/Star';
+import React from 'react';
+import {connect} from 'react-redux';
+import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
+import {NavLink} from 'react-router-dom';
+import {compose} from 'redux';
 import ActivitiesList from '../components/ActivitiesList';
+import * as routes from '../constants/routes';
 
 const TRIP_ID = 'TXjQVQjjfXRfBnCJ1q0L';
 
@@ -93,7 +93,7 @@ class LocationsPage extends React.Component {
 												</div>
 												<div className={classes.smallColumn}>
 													<NavLink exact
-													         to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
+															 to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
 												</div>
 											</ExpansionPanelSummary>
 											<ExpansionPanelDetails>
@@ -138,12 +138,12 @@ class LocationsPage extends React.Component {
 												</div>
 												<div className={classes.smallColumn}>
 													<NavLink exact
-													         to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
+															 to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
 												</div>
 											</ExpansionPanelSummary>
 											<ExpansionPanelDetails>
 												<div className={classes.smallColumn}
-												     style={{borderLeft: 'thin solid #000000'}}>
+													 style={{borderLeft: 'thin solid #000000'}}>
 													<Chip
 														label="Activity 1"
 														component="a"

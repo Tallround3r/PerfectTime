@@ -1,22 +1,29 @@
-import React from 'react';
-import {compose} from 'redux';
-import {NavLink} from 'react-router-dom';
 import {Button, Paper, TextField, withStyles} from '@material-ui/core';
+import Typography from '@material-ui/core/es/Typography/Typography';
 import {AddPhotoAlternateOutlined} from '@material-ui/icons';
 import DatePicker from 'material-ui-pickers/DatePicker';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {NavLink} from 'react-router-dom';
 import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
+import {compose} from 'redux';
 import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+import {SliderNextArrow, SliderPrevArrow} from '../components/SliderArrows';
 import * as routes from '../constants/routes';
-import {Location} from '../models'
+import {Location} from '../models';
 
 
 const styles = theme => ({
+	locationEditPage: {
+		paddingTop: theme.spacing.unit * 3,
+	},
 	inputContainer: {
 		display: 'flex',
 		flexDirection: 'column',
 		margin: theme.spacing.unit,
 		paddingRight: theme.spacing.unit * 10,
+		minWidth: '23em',
 	},
 	inputField: {
 		margin: theme.spacing.unit,
@@ -42,66 +49,73 @@ const styles = theme => ({
 		marginLeft: theme.spacing.unit,
 		marginRight: theme.spacing.unit,
 	},
+	activitiesContainer: {
+		marginTop: theme.spacing.unit * 8,
+	},
+	activitiesSlider: {
+		marginLeft: theme.spacing.unit * 4,
+		marginRight: theme.spacing.unit * 4,
+	},
 });
 
-
-const INITIAL_STATE = {
-	title: '',
-	description: '',
-	date: new Date(),
-	address: '',
-};
 
 class LocationEditPage extends React.Component {
 
 	state = {
-		...INITIAL_STATE,
+		location: new Location(),
 	};
 
-	componentDidMount() {
+	handleSubmit = (e) => {
 
-	}
 
-	//loads custom fields, defined by the user which are not included in standard
-	loadCustomFields() {
+		e.preventDefault();
+	};
 
-	}
-
-	saveLocation() {
-
-	}
-
-	handleChangeInput = e => {
+	handleChangeInput = (e) => {
 		const {name, value} = e.target;
-		this.setState({
-			[name]: value,
+
+		this.setState((prevState) => {
+			return {
+				location: {
+					...prevState.location,
+					[name]: value,
+				},
+			};
 		});
 	};
 
-	handleChangeDate = date => {
-		this.setState({
-			date,
+	handleChangeDate = (date) => {
+		this.setState((prevState) => {
+			return {
+				location: {
+					...prevState.location,
+					date,
+				},
+			};
 		});
 	};
 
 	render() {
 		const {classes} = this.props;
-		const {title, description, date, address} = this.state;
+		const {title, description, date, address} = this.state.location;
 
 		const sliderSettings = {
+			className: classes.activitiesSlider,
 			dots: true,
 			infinite: true,
 			speed: 500,
 			slidesToShow: 3,
 			slidesToScroll: 3,
+			prevArrow: <SliderPrevArrow/>,
+			nextArrow: <SliderNextArrow/>,
 			responsive: [{
-				breakpoint: 600,
+				breakpoint: 1024,
 				settings: {
 					slidesToShow: 2,
 					slidesToScroll: 2,
 				},
 			}, {
-				breakpoint: 480,
+				breakpoint: 600,
 				settings: {
 					slidesToShow: 1,
 					slidesToScroll: 1,
@@ -111,8 +125,13 @@ class LocationEditPage extends React.Component {
 		};
 
 		return (
-			<div>
-				<h1>Edit Location</h1>
+			<div className={classes.locationEditPage}>
+				<Typography
+					variant="h3"
+					gutterBottom={true}
+				>
+					Edit Location
+				</Typography>
 
 				<div>
 					<NavLink exact to={routes.LOCATIONS_EDIT}>
@@ -125,7 +144,7 @@ class LocationEditPage extends React.Component {
 						</Paper>
 					</NavLink>
 
-					<form className={classes.inputContainer}>
+					<form className={classes.inputContainer} onSubmit={this.handleSubmit}>
 						<TextField
 							className={classes.inputField}
 							label="Title"
@@ -185,7 +204,14 @@ class LocationEditPage extends React.Component {
 					</form>
 				</div>
 
-				<div>
+				<div className={classes.activitiesContainer}>
+					<Typography
+						variant="h5"
+						gutterBottom={true}
+					>
+						Activities
+					</Typography>
+
 					<Slider {...sliderSettings}>
 						<div>
 							<h3>1</h3>
@@ -212,6 +238,10 @@ class LocationEditPage extends React.Component {
 	}
 
 }
+
+LocationEditPage.propTypes = {
+	classes: PropTypes.object.isRequired,
+};
 
 export default compose(
 	withStyles(styles),
