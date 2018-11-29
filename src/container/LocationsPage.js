@@ -28,6 +28,7 @@ const styles = theme => ({
 		border: 'thin solid #000000',
 		marginTop: theme.spacing.unit * 2,
 		marginBottom: theme.spacing.unit * 2,
+		background: theme.palette.background.paper
 	},
 	bigColumn: {
 		flexBasis: '50%',
@@ -44,11 +45,6 @@ const styles = theme => ({
 	hrLine: {
 		width: '1px',
 		height: '67px',
-	},
-	activitiesContainer: {
-		display: 'flex',
-		flexWrap: 'wrap',
-		flexDirection: 'column',
 	}
 });
 
@@ -74,7 +70,12 @@ class LocationsPage extends React.Component {
 		return (
 			<div>
 				<h1>Locations</h1>
-				<p><b>Overview with carousel</b></p>
+				{/*
+-----------------------------------------------------------------------------------------------------------------------
+									Overview with scrollbar
+-----------------------------------------------------------------------------------------------------------------------
+*/}
+				<p><b>Overview with scrollbar</b></p>
 				<div>
 					{!isLoaded(locations)
 						? 'Loading...'
@@ -86,27 +87,11 @@ class LocationsPage extends React.Component {
 								let enddate = new Date(locations[key].enddate.seconds * 1000);
 								return (
 									<div key={key}>
-										<Slider {...settings}>
-											<div>
-												<h3>1</h3>
-											</div>
-											<div>
-												<h3>2</h3>
-											</div>
-											<div>
-												<h3>3</h3>
-											</div>
-											<div>
-												<h3>4</h3>
-											</div>
-											<div>
-												<h3>5</h3>
-											</div>
-											<div>
-												<h3>6</h3>
-											</div>
-										</Slider>
-										<br/>
+										{/*
+***********************************************************************************************************************
+									ExpansionPanel with GridList from ActivitiesList.js
+***********************************************************************************************************************
+*/}
 										<ExpansionPanel className={classes.locationPanel}>
 											<ExpansionPanelSummary>
 												<div className={classes.smallColumn}>
@@ -127,10 +112,11 @@ class LocationsPage extends React.Component {
 															 to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
 												</div>
 											</ExpansionPanelSummary>
+
 											<ExpansionPanelDetails>
-												<div className={classes.activitiesContainer}>
-                                                    <ActivitiesList tripId={TRIP_ID} locationId={key}/>
-                                                </div>
+												<div style={{width: '100%'}}>
+													<ActivitiesList tripId={TRIP_ID} locationId={key}/>
+												</div>
 											</ExpansionPanelDetails>
 										</ExpansionPanel>
 									</div>
@@ -140,8 +126,41 @@ class LocationsPage extends React.Component {
 				<br/>
 				<hr/>
 				<br/>
+				{/*
+-----------------------------------------------------------------------------------------------------------------------
+									Carousel
+-----------------------------------------------------------------------------------------------------------------------
+*/}
+				<p><b>Carousel</b></p>
+				<Slider {...settings}>
+					<div>
+						<h3>1</h3>
+					</div>
+					<div>
+						<h3>2</h3>
+					</div>
+					<div>
+						<h3>3</h3>
+					</div>
+					<div>
+						<h3>4</h3>
+					</div>
+					<div>
+						<h3>5</h3>
+					</div>
+					<div>
+						<h3>6</h3>
+					</div>
+				</Slider>
+				<br/>
+				<hr/>
+				<br/>
+				{/*
+-----------------------------------------------------------------------------------------------------------------------
+						Overview with vertical line next to activities
+-----------------------------------------------------------------------------------------------------------------------
+*/}
 				<p><b>Overview with vertical line next to activities</b></p>
-				{/* Overview with vertical line next to activities */}
 				<div>
 					{!isLoaded(locations)
 						? 'Loading...'
@@ -215,6 +234,11 @@ class LocationsPage extends React.Component {
 				</div>
 				<hr/>
 				<br/>
+				{/*
+-----------------------------------------------------------------------------------------------------------------------
+						Old version
+-----------------------------------------------------------------------------------------------------------------------
+*/}
 				<p><b>old version</b></p>
 				{/* old version with hrLine */}
 				<div>
