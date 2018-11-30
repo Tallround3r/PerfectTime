@@ -11,6 +11,7 @@ const emailRegister = Selector('#email');
 const passwordRegister = Selector('#password');
 const passwordConfirmRegister = Selector('#passwordConfirm');
 const signUp = Selector('#signUpButton');
+const signIn = Selector('#signInButton');
 
 
 exports.select = (selection) => {
@@ -37,6 +38,8 @@ exports.select = (selection) => {
             return passwordConfirmRegister;
         case 'Sign Up':
             return signUp;
+        case 'Login Button':
+            return signIn;
 
     }
 };

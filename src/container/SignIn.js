@@ -145,6 +145,7 @@ class SignIn extends React.Component {
 							<Button
 								type="submit"
 								fullWidth
+								id="signInButton"
 								variant="contained"
 								color="primary"
 								className={classes.submit}

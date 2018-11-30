@@ -1,6 +1,7 @@
 const {Given, When, Then} = require('cucumber');
 const url = require('../support/pages/const-url').url;
 const select = require('../support/pages/const-selection').select;
+const { ClientFunction } = require('testcafe');
 
 Given('I have opened to {string}', async function (string) {
     await testController.navigateTo(url(string));
@@ -60,3 +61,14 @@ Then('I insert valid Data', async function () {
 Then('I click on {string}', async function (element) {
     await testController.click(select(element).with({boundTestRun: testController}));
 });
+
+Then('I insert invalid login Data', async function () {
+    await testController.typeText(select('email').with({boundTestRun: testController}), "test@user.de");
+    await testController.typeText(select('password').with({boundTestRun: testController}), "netTest");
+});
+
+Then('I stay at {string}', async function (expected) {
+    const getLocation = ClientFunction(() => document.location.href);
+    await testController.expect(getLocation()).contains(expected);
+});
+
