@@ -1,7 +1,7 @@
 Feature: Register to PerfectTime is working
 
   Background:
-    Given I have navigated to "PerfectTimeTest"
+    Given I have navigated to "PerfectTimeLogin"
 
   @only
   Scenario: The user should be navigated to login Page

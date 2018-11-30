@@ -1,13 +1,6 @@
 const {Given, When, Then} = require('cucumber');
 const url = require('../support/pages/const-url').url;
 const select = require('../support/pages/const-selection').select;
-const { ClientFunction } = require('testcafe');
-
-
-Given('I am not logged in', function () {
-    // Write code here that turns the phrase above into concrete actions
-    //return 'pending';
-});
 
 Then('There is a {string} called {string}', async function (element, expected) {
     const button = select(element).with({boundTestRun: testController});

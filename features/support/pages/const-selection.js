@@ -12,7 +12,7 @@ const passwordRegister = Selector('#password');
 const passwordConfirmRegister = Selector('#passwordConfirm');
 const signUp = Selector('#signUpButton');
 const signIn = Selector('#signInButton');
-
+const addActivityButton = Selector('#addActivityButton');
 
 exports.select = (selection) => {
     switch(selection){
@@ -40,6 +40,7 @@ exports.select = (selection) => {
             return signUp;
         case 'Login Button':
             return signIn;
-
+        case 'add activity button':
+            return addActivityButton;
     }
 };
