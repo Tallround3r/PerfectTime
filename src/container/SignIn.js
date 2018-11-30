@@ -12,6 +12,7 @@ import {withFirebase} from 'react-redux-firebase';
 import {Link, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
+import {TRIP_ID} from '../constants/staticIds';
 import logo from '../images/logo_perfecttime.svg';
 import isValid from '../utils/validation/validateSignIn';
 
@@ -80,7 +81,7 @@ class SignIn extends React.Component {
 		firebase.login(credentials)
 			.then(() => {
 				this.setState({...INITIAL_STATE});
-				history.push(routes.LOCATIONS);
+				history.push(routes.LOCATIONS(TRIP_ID));
 			})
 			.catch(error => {
 				this.setState({

@@ -1,22 +1,17 @@
-import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
-import Chip from '@material-ui/core/Chip';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
 import Typography from '@material-ui/core/Typography';
-import AddIcon from '@material-ui/icons/Add';
 import ArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import StarIcon from '@material-ui/icons/Star';
+import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import {NavLink, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
-import ActivitiesList from '../components/ActivitiesList';
 import * as routes from '../constants/routes';
 import {URL_PARAM_TRIP} from '../constants/routes';
 
@@ -47,6 +42,7 @@ const styles = theme => ({
 		display: 'flex',
 		flexWrap: 'wrap',
 		flexDirection: 'column',
+		width: '100%',
 	},
 });
 
@@ -74,8 +70,8 @@ class LocationsPage extends React.Component {
 							? 'No Locations created yet.'
 							: Object.keys(locations).map((key, index) => {
 								let location = locations[key];
-								let startdate = new Date(locations[key].startdate.seconds * 1000);
-								let enddate = new Date(locations[key].enddate.seconds * 1000);
+								let startdate = new Date(locations[key].startDate.seconds * 1000);
+								let enddate = new Date(locations[key].endDate.seconds * 1000);
 								return (
 									<div key={key}>
 										<ExpansionPanel className={classes.locationPanel}>
@@ -87,23 +83,19 @@ class LocationsPage extends React.Component {
 													<Typography>{location.title}</Typography>
 												</div>
 												<div className={classes.bigColumn}>
-													<Typography>Startdate: {startdate.getDate()}.{startdate.getMonth()}.{startdate.getFullYear()}</Typography>
-													<Typography>Enddate: {enddate.getDate()}.{enddate.getMonth()}.{enddate.getFullYear()}</Typography>
+													<Typography>StartDate: {startdate.getDate()}.{startdate.getMonth()}.{startdate.getFullYear()}</Typography>
+													<Typography>EndDate: {enddate.getDate()}.{enddate.getMonth()}.{enddate.getFullYear()}</Typography>
 												</div>
 												<div className={classes.bigColumn}>
 													<Typography>{locations[key].description}</Typography>
 												</div>
 												<div className={classes.smallColumn}>
 													<NavLink exact
-													         to={routes.LOCATIONS_EDIT(tripId, key)}><Avatar><ArrowRightIcon/></Avatar></NavLink>
+															 to={routes.LOCATIONS_EDIT(tripId, key)}><Avatar><ArrowRightIcon/></Avatar></NavLink>
 												</div>
 											</ExpansionPanelSummary>
 											<ExpansionPanelDetails>
 												<div className={classes.activitiesContainer}>
-													<ActivitiesList
-														tripId={tripId}
-														locationId={key}
-													/>
 												</div>
 											</ExpansionPanelDetails>
 										</ExpansionPanel>

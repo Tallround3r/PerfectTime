@@ -1,11 +1,12 @@
 import {ObjectModel} from 'objectmodel';
 import Address from './Address';
 
+
 const Location = ObjectModel({
 	title: String,
 	description: String,
-	startDate: Date,
-	endDate: Date,
+	startDate: Object,
+	endDate: Object,
 	address: Address,
 }).defaults({
 	title: '',

@@ -1,19 +1,16 @@
 import {Button, Paper, TextField, Typography, withStyles} from '@material-ui/core';
 import {AddPhotoAlternateOutlined} from '@material-ui/icons';
+import classNames from 'classnames';
 import DatePicker from 'material-ui-pickers/DatePicker';
 import PropTypes from 'prop-types';
 import React from 'react';
+import {connect} from 'react-redux';
+import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import {withRouter} from 'react-router-dom';
-import Slider from 'react-slick';
 import {compose} from 'redux';
-import 'slick-carousel/slick/slick-theme.css';
-import 'slick-carousel/slick/slick.css';
-import {SliderNextArrow, SliderPrevArrow} from '../components/SliderArrows';
+import ActivitiesSlider from '../components/ActivitiesSlider';
 import {URL_PARAM_LOCATION, URL_PARAM_TRIP} from '../constants/routes';
 import {Location} from '../models';
-import {firestoreConnect} from 'react-redux-firebase';
-import {connect} from 'react-redux';
-import {addressToString} from '../utils/ModelUtils';
 
 
 const styles = theme => ({
@@ -31,10 +28,16 @@ const styles = theme => ({
 	inputField: {
 		marginTop: theme.spacing.unit,
 	},
-	dateContainer: {
+	inputHorizontalContainer: {
 		display: 'flex',
 		justifyContent: 'space-between',
 		flexWrap: 'nowrap',
+	},
+	inputHorizontalSpacing: {
+		marginRight: theme.spacing.unit * 2,
+	},
+	addressLabel: {
+		marginTop: theme.spacing.unit * 2,
 	},
 	imagePaper: {
 		display: 'flex',
@@ -51,22 +54,15 @@ const styles = theme => ({
 	actionButtonsContainer: {
 		display: 'flex',
 		justifyContent: 'space-between',
-		marginTop: theme.spacing.unit * 3,
+		marginTop: theme.spacing.unit * 4,
 	},
 	actionButton: {
 		marginLeft: theme.spacing.unit,
 		marginRight: theme.spacing.unit,
 	},
 	activitiesContainer: {
-		marginTop: theme.spacing.unit * 8,
+		marginTop: theme.spacing.unit * 6,
 	},
-	activitiesSlider: {
-		marginLeft: theme.spacing.unit * 4,
-		marginRight: theme.spacing.unit * 4,
-	},
-	addressLabel: {
-		marginTop: theme.spacing.unit * 2,
-	}
 });
 
 
@@ -77,14 +73,33 @@ class LocationEditPage extends React.Component {
 	};
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		if (this.props.location !== prevProps.location) {
+		const {location} = this.props;
+		if (location !== prevProps.location) {
 			this.setState({
-				location: this.props.location,
+				location: {
+					...location,
+					startDate: location.startDate.toDate(),
+					endDate: location.endDate.toDate(),
+				},
 			});
 		}
 	}
 
 	handleSubmit = (e) => {
+		e.preventDefault();
+	};
+
+	handleCancel = (e) => {
+		const {location} = this.props;
+
+		this.setState({
+			location: {
+				...location,
+				startDate: location.startDate.toDate(),
+				endDate: location.endDate.toDate(),
+			},
+		});
+
 		e.preventDefault();
 	};
 
@@ -131,31 +146,6 @@ class LocationEditPage extends React.Component {
 		const {location} = this.state;
 		const {title, description, startDate, endDate, address} = location;
 
-		const sliderSettings = {
-			className: classes.activitiesSlider,
-			dots: true,
-			infinite: true,
-			speed: 500,
-			slidesToShow: 3,
-			slidesToScroll: 3,
-			prevArrow: <SliderPrevArrow/>,
-			nextArrow: <SliderNextArrow/>,
-			responsive: [{
-				breakpoint: 1024,
-				settings: {
-					slidesToShow: 2,
-					slidesToScroll: 2,
-				},
-			}, {
-				breakpoint: 600,
-				settings: {
-					slidesToShow: 1,
-					slidesToScroll: 1,
-					initialSlide: 1,
-				},
-			}],
-		};
-
 		return (
 			<div className={classes.locationEditPage}>
 				<Typography
@@ -192,9 +182,9 @@ class LocationEditPage extends React.Component {
 							multiline
 							required
 						/>
-						<div className={classes.dateContainer}>
+						<div className={classes.inputHorizontalContainer}>
 							<DatePicker
-								className={classes.inputField}
+								className={classNames(classes.inputField, classes.inputHorizontalSpacing)}
 								keyboard
 								required
 								value={startDate}
@@ -205,6 +195,7 @@ class LocationEditPage extends React.Component {
 								mask={value => (value ? [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] : [])}
 								disableOpenOnEnter
 								animateYearScrolling={false}
+								fullWidth
 							/>
 							<DatePicker
 								className={classes.inputField}
@@ -218,22 +209,35 @@ class LocationEditPage extends React.Component {
 								mask={value => (value ? [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] : [])}
 								disableOpenOnEnter
 								animateYearScrolling={false}
+								fullWidth
 							/>
 						</div>
+
 						<Typography
 							className={classes.addressLabel}
-							variant='subtitle2'
+							variant="subtitle2"
 						>
 							Address
 						</Typography>
-						<TextField
-							className={classes.inputField}
-							label="City"
-							name="city"
-							value={address.city || ''}
-							onChange={this.handleChangeAddress}
-							required
-						/>
+						<div className={classes.inputHorizontalContainer}>
+							<TextField
+								className={classNames(classes.inputField, classes.inputHorizontalSpacing)}
+								label="City"
+								name="city"
+								value={address.city || ''}
+								onChange={this.handleChangeAddress}
+								required
+								fullWidth
+							/>
+							<TextField
+								className={classes.inputField}
+								label="ZIP Code"
+								name="zipCode"
+								value={address.zipCode || ''}
+								onChange={this.handleChangeAddress}
+								fullWidth
+							/>
+						</div>
 						<TextField
 							className={classes.inputField}
 							label="Country"
@@ -255,6 +259,7 @@ class LocationEditPage extends React.Component {
 							</Button>
 							<Button
 								className={classes.actionButton}
+								onClick={this.handleCancel}
 								variant="contained"
 								color="secondary"
 								fullWidth
@@ -273,26 +278,14 @@ class LocationEditPage extends React.Component {
 						Activities
 					</Typography>
 
-					<Slider {...sliderSettings}>
-						<div>
-							<h3>1</h3>
-						</div>
-						<div>
-							<h3>2</h3>
-						</div>
-						<div>
-							<h3>3</h3>
-						</div>
-						<div>
-							<h3>4</h3>
-						</div>
-						<div>
-							<h3>5</h3>
-						</div>
-						<div>
-							<h3>6</h3>
-						</div>
-					</Slider>
+					{!isLoaded(activities)
+						? 'Loading activities...'
+						: isEmpty(activities)
+							? 'No Activities created yet.'
+							: <ActivitiesSlider
+								activities={activities}
+							/>
+					}
 				</div>
 			</div>
 		);
