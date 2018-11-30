@@ -26,7 +26,7 @@ Given('I am not logged in', async function () {
 });
 
 Given('I am logged in', async function () {
-    await testController.navigateTo(url("perfectTimeLogin"));
+    await testController.navigateTo(url("PerfectTimeLogin"));
     await testController.typeText(select('email').with({boundTestRun: testController}), "test@user.de");
     await testController.typeText(select('password').with({boundTestRun: testController}), "netTest");
 });
