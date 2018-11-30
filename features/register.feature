@@ -3,47 +3,28 @@ Feature: Register to PerfectTime is working
   Background:
     Given I have navigated to "PerfectTimeTest"
 
-#  @only
+  @only
   Scenario: The user should be able to see the Register Button
     And I am not logged in
     Then There is a "Register Button" called "Sign Up"
 
-#  @only
-  Scenario: The user should be navigated to login Page
-    And I am not logged in
-    Then I can see the "login form" called "Sign In"
-
-#  @only
+  @only
   Scenario: The user is able to see the registration form
     And I am not logged in
     When I click on the "Register Button"
-    Then The "registration form" called "Create Account" shows up
+    Then There is a "registration form" called "Create Account"
 
-
+  @only
   Scenario: The user is able to register with valid data
     And I am not logged in
     When I click on the "Register Button"
     And I insert valid Data
-    And I click on "Sign Up"
-    Then I can see the "login form" called "Sign In"
+    And I click on the "Sign Up Button"
+    Then There is a "login form" called "Sign In"
 
-#  @only
+  @only
   Scenario: The user tries to register an account with invalid data
     And I am not logged in
     When I click on the "Register Button"
     And I insert invalid Data
-    Then I cant click on "Sign Up"
-
-  @only
-  Scenario: The user tries to login with invalid data
-    And I am not logged in
-    And I insert invalid login Data
-    When I click on the "Login Button"
-    Then I stay at "http://localhost:3000/login"
-
-#  @only
-  Scenario: The user tries to login with valid data
-    And I am not logged in
-    And I insert valid login Data
-    When I click on the "Login Button"
-    Then I am navigated to the "Home Page"
+    Then I cant click on "Sign Up Button"

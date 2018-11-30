@@ -1,7 +1,7 @@
 Feature: Website shows up correct Metadata
 
   Background:
-    Given I have opened to "PerfectTime"
+    Given I have navigated to "PerfectTime"
 
   @only
   Scenario: Website Title is correct

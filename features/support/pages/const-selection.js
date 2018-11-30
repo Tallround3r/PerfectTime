@@ -36,7 +36,7 @@ exports.select = (selection) => {
             return passwordRegister;
         case 'passwordConfirm':
             return passwordConfirmRegister;
-        case 'Sign Up':
+        case 'Sign Up Button':
             return signUp;
         case 'Login Button':
             return signIn;
