@@ -1,0 +1,1 @@
+export const TRIP_ID = 'TXjQVQjjfXRfBnCJ1q0L';

@@ -12,6 +12,11 @@ import 'slick-carousel/slick/slick.css';
 import {SliderNextArrow, SliderPrevArrow} from '../components/SliderArrows';
 import * as routes from '../constants/routes';
 import {Location} from '../models';
+import {firestoreConnect} from 'react-redux-firebase';
+import connect from 'react-redux/es/connect/connect';
+import {withRouter} from 'react-router-dom';
+import {URL_PARAM_TRIP} from '../constants/routes';
+import {URL_PARAM_LOCATION} from '../constants/routes';
 
 
 const styles = theme => ({
@@ -23,10 +28,15 @@ const styles = theme => ({
 		flexDirection: 'column',
 		margin: theme.spacing.unit,
 		paddingRight: theme.spacing.unit * 10,
-		minWidth: '23em',
+		minWidth: '25em',
 	},
 	inputField: {
 		margin: theme.spacing.unit,
+	},
+	dateContainer: {
+		display: 'flex',
+		justifyContent: 'space-between',
+		flexWrap: 'nowrap',
 	},
 	imagePaper: {
 		display: 'flex',
@@ -65,9 +75,15 @@ class LocationEditPage extends React.Component {
 		location: new Location(),
 	};
 
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (this.props.location !== prevProps.location) {
+			this.setState({
+				location: this.props.location,
+			});
+		}
+	}
+
 	handleSubmit = (e) => {
-
-
 		e.preventDefault();
 	};
 
@@ -84,12 +100,12 @@ class LocationEditPage extends React.Component {
 		});
 	};
 
-	handleChangeDate = (date) => {
+	handleChangeDate = (name) => (date) => {
 		this.setState((prevState) => {
 			return {
 				location: {
 					...prevState.location,
-					date,
+					[name]: date,
 				},
 			};
 		});
@@ -97,7 +113,7 @@ class LocationEditPage extends React.Component {
 
 	render() {
 		const {classes} = this.props;
-		const {title, description, date, address} = this.state.location;
+		const {title, description, startDate, endDate, address} = this.state.location;
 
 		const sliderSettings = {
 			className: classes.activitiesSlider,
@@ -127,22 +143,20 @@ class LocationEditPage extends React.Component {
 		return (
 			<div className={classes.locationEditPage}>
 				<Typography
-					variant="h3"
+					variant="h4"
 					gutterBottom={true}
 				>
 					Edit Location
 				</Typography>
 
 				<div>
-					<NavLink exact to={routes.LOCATIONS_EDIT}>
-						<Paper
-							className={classes.imagePaper}
-						>
-							<AddPhotoAlternateOutlined
-								className={classes.imageIcon}
-							/>
-						</Paper>
-					</NavLink>
+					<Paper
+						className={classes.imagePaper}
+					>
+						<AddPhotoAlternateOutlined
+							className={classes.imageIcon}
+						/>
+					</Paper>
 
 					<form className={classes.inputContainer} onSubmit={this.handleSubmit}>
 						<TextField
@@ -160,19 +174,34 @@ class LocationEditPage extends React.Component {
 							onChange={this.handleChangeInput}
 							multiline
 						/>
-						<DatePicker
-							className={classes.inputField}
-							keyboard
-							required
-							value={date}
-							onChange={this.handleChangeDate}
-							label="Date"
-							format="MM/dd/yyyy"
-							placeholder="MM/DD/YYYY"
-							mask={value => (value ? [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] : [])}
-							disableOpenOnEnter
-							animateYearScrolling={false}
-						/>
+						<div className={classes.dateContainer}>
+							<DatePicker
+								className={classes.inputField}
+								keyboard
+								required
+								value={startDate}
+								onChange={this.handleChangeDate('startDate')}
+								label="Start Date"
+								format="MM/dd/yyyy"
+								placeholder="MM/DD/YYYY"
+								mask={value => (value ? [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] : [])}
+								disableOpenOnEnter
+								animateYearScrolling={false}
+							/>
+							<DatePicker
+								className={classes.inputField}
+								keyboard
+								required
+								value={endDate}
+								onChange={this.handleChangeDate('endDate')}
+								label="End Date"
+								format="MM/dd/yyyy"
+								placeholder="MM/DD/YYYY"
+								mask={value => (value ? [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] : [])}
+								disableOpenOnEnter
+								animateYearScrolling={false}
+							/>
+						</div>
 						<TextField
 							className={classes.inputField}
 							label="Address"
@@ -241,8 +270,29 @@ class LocationEditPage extends React.Component {
 
 LocationEditPage.propTypes = {
 	classes: PropTypes.object.isRequired,
+	location: PropTypes.object,
 };
 
 export default compose(
+	withRouter,
+	firestoreConnect((props) => {
+		const tripId = props.match.params[URL_PARAM_TRIP];
+		const locationId = props.match.params[URL_PARAM_LOCATION];
+		return [
+			`TRIPS/${tripId}/locations/${locationId}`,
+		];
+	}),
+	connect(
+		({firestore: {data}}, props) => {
+			const tripId = props.match.params[URL_PARAM_TRIP];
+			const locationId = props.match.params[URL_PARAM_LOCATION];
+			return {
+				location: data.TRIPS
+					&& data.TRIPS[tripId]
+					&& data.TRIPS[tripId].locations
+					&& data.TRIPS[tripId].locations[locationId],
+			};
+		},
+	),
 	withStyles(styles),
 )(LocationEditPage);

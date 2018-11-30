@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
@@ -13,12 +14,12 @@ import StarIcon from '@material-ui/icons/Star';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
-import {NavLink} from 'react-router-dom';
+import {NavLink, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import ActivitiesList from '../components/ActivitiesList';
 import * as routes from '../constants/routes';
+import {URL_PARAM_TRIP} from '../constants/routes';
 
-const TRIP_ID = 'TXjQVQjjfXRfBnCJ1q0L';
 
 const styles = theme => ({
 	locationPanel: {
@@ -59,7 +60,8 @@ class LocationsPage extends React.Component {
 	}
 
 	render() {
-		const {classes, locations} = this.props;
+		const {classes, locations, match} = this.props;
+		const tripId = match.params[URL_PARAM_TRIP];
 
 		return (
 			<div>
@@ -93,149 +95,18 @@ class LocationsPage extends React.Component {
 												</div>
 												<div className={classes.smallColumn}>
 													<NavLink exact
-															 to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
+													         to={routes.LOCATIONS_EDIT(tripId, key)}><Avatar><ArrowRightIcon/></Avatar></NavLink>
 												</div>
 											</ExpansionPanelSummary>
 											<ExpansionPanelDetails>
 												<div className={classes.activitiesContainer}>
-													<ActivitiesList tripId={TRIP_ID} locationId={key}/>
-												</div>
-											</ExpansionPanelDetails>
-										</ExpansionPanel>
-									</div>
-								);
-							})}
-				</div>
-				<br/>
-				<hr/>
-				<p><b>Overview with vertical line next to activities</b></p>
-				{/* Overview with vertical line next to activities */}
-				<br/>
-				<div>
-					{!isLoaded(locations)
-						? 'Loading...'
-						: isEmpty(locations)
-							? 'No Locations created yet.'
-							: Object.keys(locations).map((key, index) => {
-								let startdate = new Date(locations[key].startdate.seconds * 1000);
-								let enddate = new Date(locations[key].enddate.seconds * 1000);
-								return (
-									<div key={key}>
-										<ExpansionPanel className={classes.locationPanel}>
-											<ExpansionPanelSummary>
-												<div className={classes.smallColumn}>
-													<Avatar><StarIcon/></Avatar>
-												</div>
-												<div className={classes.bigColumn}>
-													<Typography>{locations[key].title}</Typography>
-												</div>
-												<div className={classes.bigColumn}>
-													<Typography>Startdate: {startdate.getDate()}.{startdate.getMonth()}.{startdate.getFullYear()}</Typography>
-													<Typography>Enddate: {enddate.getDate()}.{enddate.getMonth()}.{enddate.getFullYear()}</Typography>
-												</div>
-												<div className={classes.bigColumn}>
-													<Typography>{locations[key].description}</Typography>
-												</div>
-												<div className={classes.smallColumn}>
-													<NavLink exact
-															 to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
-												</div>
-											</ExpansionPanelSummary>
-											<ExpansionPanelDetails>
-												<div className={classes.smallColumn}
-													 style={{borderLeft: 'thin solid #000000'}}>
-													<Chip
-														label="Activity 1"
-														component="a"
-														href={routes.ACTIVITY_EDIT}
-														clickable
-														variant="outlined"
+													<ActivitiesList
+														tripId={tripId}
+														locationId={key}
 													/>
-													<Typography><br/></Typography>
-													<Chip label="Activity 2" variant="outlined"/>
-													<Typography><br/></Typography>
-													<Chip label="Activity 3" variant="outlined"/>
-													<Typography><br/></Typography>
-													<Chip label="Activity 4" variant="outlined"/>
-													<Typography><br/></Typography>
-													<Chip label="Activity 5" variant="outlined"/>
-													<Typography><br/></Typography>
-													<Chip label="Activity 5" variant="outlined"/>
-													<Typography><br/></Typography>
-													<Chip label="Activity 6" variant="outlined"/>
-													<Typography><br/></Typography>
-												</div>
-												<div className={classes.bigColumn}>
-													<Typography>Startdate Activity 1</Typography>
-													<Typography>Startdate Activity 2</Typography>
-													<Typography>Startdate Activity 3</Typography>
-													<Typography>Startdate Activity 4</Typography>
-													<Typography>Startdate Activity 5</Typography>
-													<Typography>Startdate Activity 6</Typography>
-												</div>
-												<div className={classes.bigColumn}>
-													<Typography>Hallo</Typography>
 												</div>
 											</ExpansionPanelDetails>
 										</ExpansionPanel>
-									</div>
-								);
-							})}
-				</div>
-				<hr/>
-				<p><b>old version</b></p>
-				{/* old version with hrLine */}
-				<br/>
-				<div>
-					{!isLoaded(locations)
-						? 'Loading...'
-						: isEmpty(locations)
-							? 'No Locations created yet.'
-							: Object.keys(locations).map((key, index) => {
-								let label = locations[key].title;
-								let startdate = new Date(locations[key].startdate.seconds * 1000);
-								let enddate = new Date(locations[key].enddate.seconds * 1000);
-								return (
-									<div key={key}>
-										<ExpansionPanel className={classes.locationPanel} key={key}>
-											<ExpansionPanelSummary>
-												<div className={classes.smallColumn}>
-													<Avatar><StarIcon/></Avatar>
-												</div>
-												<div className={classes.bigColumn}>
-													<Typography>{label}</Typography>
-												</div>
-												<div className={classes.bigColumn}>
-													<Typography>Startdate: {startdate.getDate()}.{startdate.getMonth()}.{startdate.getFullYear()}</Typography>
-													<Typography>Enddate: {enddate.getDate()}.{enddate.getMonth()}.{enddate.getFullYear()}</Typography>
-												</div>
-												<div className={classes.bigColumn}>
-													<Typography>Owner</Typography>
-												</div>
-												<div className={classes.smallColumn}>
-													<NavLink exact to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
-												</div>
-											</ExpansionPanelSummary>
-											<ExpansionPanelDetails>
-												<Typography>
-													description
-													<br/>
-													description
-												</Typography>
-											</ExpansionPanelDetails>
-										</ExpansionPanel>
-										<GridList cols={37} cellHeight={'auto'}>
-											<GridListTile></GridListTile>
-											<GridListTile>
-												<hr className={classes.hrLine}/>
-											</GridListTile>
-											<GridListTile style={{width: 'auto'}}>
-												<br/>
-												<NavLink exact to={routes.LOCATIONS_ADD}>
-													<Avatar><AddIcon/></Avatar>
-												</NavLink>
-											</GridListTile>
-										</GridList>
 									</div>
 								);
 							})}
@@ -245,14 +116,24 @@ class LocationsPage extends React.Component {
 	}
 }
 
+LocationsPage.propTypes = {
+	match: PropTypes.object.isRequired,
+};
+
 export default compose(
+	withRouter,
 	firestoreConnect((props) => [
-		`TRIPS/${TRIP_ID}/locations`,
+		`TRIPS/${props.match.params[URL_PARAM_TRIP]}/locations`,
 	]),
 	connect(
-		({firestore: {data}}, props) => ({
-			locations: data.TRIPS && data.TRIPS[TRIP_ID] && data.TRIPS[TRIP_ID].locations,
-		}),
+		({firestore: {data}}, props) => {
+			const tripId = props.match.params[URL_PARAM_TRIP];
+			return {
+				locations: data.TRIPS
+					&& data.TRIPS[tripId]
+					&& data.TRIPS[tripId].locations,
+			};
+		},
 	),
 	withStyles(styles),
 )(LocationsPage);
