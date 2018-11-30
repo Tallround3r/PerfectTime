@@ -1,22 +1,19 @@
-import {Button, Paper, TextField, withStyles} from '@material-ui/core';
-import Typography from '@material-ui/core/es/Typography/Typography';
+import {Button, Paper, TextField, Typography, withStyles} from '@material-ui/core';
 import {AddPhotoAlternateOutlined} from '@material-ui/icons';
 import DatePicker from 'material-ui-pickers/DatePicker';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {NavLink} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import Slider from 'react-slick';
 import {compose} from 'redux';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import {SliderNextArrow, SliderPrevArrow} from '../components/SliderArrows';
-import * as routes from '../constants/routes';
+import {URL_PARAM_LOCATION, URL_PARAM_TRIP} from '../constants/routes';
 import {Location} from '../models';
 import {firestoreConnect} from 'react-redux-firebase';
-import connect from 'react-redux/es/connect/connect';
-import {withRouter} from 'react-router-dom';
-import {URL_PARAM_TRIP} from '../constants/routes';
-import {URL_PARAM_LOCATION} from '../constants/routes';
+import {connect} from 'react-redux';
+import {addressToString} from '../utils/ModelUtils';
 
 
 const styles = theme => ({
@@ -27,11 +24,12 @@ const styles = theme => ({
 		display: 'flex',
 		flexDirection: 'column',
 		margin: theme.spacing.unit,
+		padding: theme.spacing.unit,
 		paddingRight: theme.spacing.unit * 10,
 		minWidth: '25em',
 	},
 	inputField: {
-		margin: theme.spacing.unit,
+		marginTop: theme.spacing.unit,
 	},
 	dateContainer: {
 		display: 'flex',
@@ -66,6 +64,9 @@ const styles = theme => ({
 		marginLeft: theme.spacing.unit * 4,
 		marginRight: theme.spacing.unit * 4,
 	},
+	addressLabel: {
+		marginTop: theme.spacing.unit * 2,
+	}
 });
 
 
@@ -100,6 +101,20 @@ class LocationEditPage extends React.Component {
 		});
 	};
 
+	handleChangeAddress = (e) => {
+		const {name, value} = e.target;
+
+		this.setState((prevState) => ({
+			location: {
+				...prevState.location,
+				address: {
+					...prevState.location.address,
+					[name]: value,
+				},
+			},
+		}));
+	};
+
 	handleChangeDate = (name) => (date) => {
 		this.setState((prevState) => {
 			return {
@@ -112,8 +127,9 @@ class LocationEditPage extends React.Component {
 	};
 
 	render() {
-		const {classes} = this.props;
-		const {title, description, startDate, endDate, address} = this.state.location;
+		const {classes, activities} = this.props;
+		const {location} = this.state;
+		const {title, description, startDate, endDate, address} = location;
 
 		const sliderSettings = {
 			className: classes.activitiesSlider,
@@ -165,6 +181,7 @@ class LocationEditPage extends React.Component {
 							name="title"
 							value={title}
 							onChange={this.handleChangeInput}
+							required
 						/>
 						<TextField
 							className={classes.inputField}
@@ -173,6 +190,7 @@ class LocationEditPage extends React.Component {
 							value={description}
 							onChange={this.handleChangeInput}
 							multiline
+							required
 						/>
 						<div className={classes.dateContainer}>
 							<DatePicker
@@ -202,13 +220,27 @@ class LocationEditPage extends React.Component {
 								animateYearScrolling={false}
 							/>
 						</div>
+						<Typography
+							className={classes.addressLabel}
+							variant='subtitle2'
+						>
+							Address
+						</Typography>
 						<TextField
 							className={classes.inputField}
-							label="Address"
-							name="address"
-							value={address}
-							onChange={this.handleChangeInput}
-							multiline
+							label="City"
+							name="city"
+							value={address.city || ''}
+							onChange={this.handleChangeAddress}
+							required
+						/>
+						<TextField
+							className={classes.inputField}
+							label="Country"
+							name="country"
+							value={address.country || ''}
+							onChange={this.handleChangeAddress}
+							required
 						/>
 
 						<div className={classes.actionButtonsContainer}>
@@ -270,7 +302,7 @@ class LocationEditPage extends React.Component {
 
 LocationEditPage.propTypes = {
 	classes: PropTypes.object.isRequired,
-	location: PropTypes.object,
+	location: PropTypes.objectOf(Location),
 };
 
 export default compose(
@@ -280,6 +312,7 @@ export default compose(
 		const locationId = props.match.params[URL_PARAM_LOCATION];
 		return [
 			`TRIPS/${tripId}/locations/${locationId}`,
+			`TRIPS/${tripId}/locations/${locationId}/activities`,
 		];
 	}),
 	connect(
@@ -291,6 +324,11 @@ export default compose(
 					&& data.TRIPS[tripId]
 					&& data.TRIPS[tripId].locations
 					&& data.TRIPS[tripId].locations[locationId],
+				activities: data.TRIPS
+					&& data.TRIPS[tripId]
+					&& data.TRIPS[tripId].locations
+					&& data.TRIPS[tripId].locations[locationId]
+					&& data.TRIPS[tripId].locations[locationId].activities,
 			};
 		},
 	),
