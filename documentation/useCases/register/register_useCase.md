@@ -27,9 +27,9 @@ View where the User is able to register.
 
 #### Feature file
 
-<Link to [feature file](
-        ../../../cucumberTests/features/editActivity.feature
-      ).>
+Link to [feature file](
+        ../../../cucumberTests/features/register.feature
+      ).
 
 ## 3 Preconditions
 1. The user has navigated to PerfectTime.
