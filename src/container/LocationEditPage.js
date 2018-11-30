@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import {withRouter} from 'react-router-dom';
 import {compose} from 'redux';
+import {omit} from 'underscore';
 import ActivitiesSlider from '../components/ActivitiesSlider';
 import {URL_PARAM_LOCATION, URL_PARAM_TRIP} from '../constants/routes';
 import {Location} from '../models';
@@ -73,7 +74,7 @@ class LocationEditPage extends React.Component {
 	};
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		const {location} = this.props;
+		const {location, activities} = this.props;
 		if (location !== prevProps.location) {
 			this.setState({
 				location: {
@@ -83,9 +84,30 @@ class LocationEditPage extends React.Component {
 				},
 			});
 		}
+		if (activities !== prevProps.activities) {
+			this.setState({
+				activities,
+			});
+		}
 	}
 
 	handleSubmit = (e) => {
+		const {firestore, match} = this.props;
+		const {location} = this.state;
+
+		const firestoreRef = {
+			collection: 'TRIPS',
+			doc: match.params[URL_PARAM_TRIP],
+			subcollections: [{
+				collection: 'locations',
+				doc: match.params[URL_PARAM_LOCATION],
+			}],
+		};
+		const locationWithoutActivities = omit(location, 'activities');
+		// TODO: [bug] activities werden beim speichern aus state geloescht
+
+		firestore.set(firestoreRef, locationWithoutActivities);
+
 		e.preventDefault();
 	};
 
@@ -145,6 +167,7 @@ class LocationEditPage extends React.Component {
 		const {classes, activities} = this.props;
 		const {location} = this.state;
 		const {title, description, startDate, endDate, address} = location;
+		console.log(activities);
 
 		return (
 			<div className={classes.locationEditPage}>
@@ -231,7 +254,7 @@ class LocationEditPage extends React.Component {
 							/>
 							<TextField
 								className={classes.inputField}
-								label="ZIP Code"
+								label="ZIP-Code"
 								name="zipCode"
 								value={address.zipCode || ''}
 								onChange={this.handleChangeAddress}
@@ -294,8 +317,15 @@ class LocationEditPage extends React.Component {
 }
 
 LocationEditPage.propTypes = {
+	match: PropTypes.shape({
+		params: PropTypes.shape({
+			[URL_PARAM_TRIP]: PropTypes.string.isRequired,
+			[URL_PARAM_LOCATION]: PropTypes.string.isRequired,
+		}),
+	}).isRequired,
 	classes: PropTypes.object.isRequired,
 	location: PropTypes.objectOf(Location),
+	activities: PropTypes.object,
 };
 
 export default compose(

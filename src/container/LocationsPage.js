@@ -83,8 +83,8 @@ class LocationsPage extends React.Component {
 													<Typography>{location.title}</Typography>
 												</div>
 												<div className={classes.bigColumn}>
-													<Typography>StartDate: {startdate.getDate()}.{startdate.getMonth()}.{startdate.getFullYear()}</Typography>
-													<Typography>EndDate: {enddate.getDate()}.{enddate.getMonth()}.{enddate.getFullYear()}</Typography>
+													<Typography>Start Date: {startdate.getDate()}.{startdate.getMonth()}.{startdate.getFullYear()}</Typography>
+													<Typography>End Date: {enddate.getDate()}.{enddate.getMonth()}.{enddate.getFullYear()}</Typography>
 												</div>
 												<div className={classes.bigColumn}>
 													<Typography>{locations[key].description}</Typography>

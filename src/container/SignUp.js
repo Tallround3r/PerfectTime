@@ -15,6 +15,7 @@ import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
 import isValid from '../utils/validation/validateSignUp';
 
+
 const styles = theme => ({
 	layout: {
 		width: 'auto',

@@ -4,7 +4,6 @@ import React from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
-import {Activity} from '../models';
 import ActivityCard from './ActivityCard';
 import {SliderNextArrow, SliderPrevArrow} from './SliderArrows';
 
@@ -66,7 +65,7 @@ class ActivitiesSlider extends React.Component {
 
 ActivitiesSlider.propTypes = {
 	classes: PropTypes.object.isRequired,
-	activities: PropTypes.objectOf(Activity).isRequired,
+	activities: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(ActivitiesSlider);

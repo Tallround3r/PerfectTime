@@ -26,7 +26,8 @@
     "redux": "^4.0.1",
     "redux-firestore": "^0.5.8",
     "slick-carousel": "^1.8.1",
-    "testcafe": "^0.22.0"
+    "testcafe": "^0.22.0",
+    "underscore": "^1.9.1"
   },
   "scripts": {
     "start": "react-scripts start",
