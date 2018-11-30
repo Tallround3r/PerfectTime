@@ -32,7 +32,7 @@ Shows an overview of all Activities in chronological order.
 [ad]: ./addActivity_activityDiagramm.png "Activity Diagram"
 
 #### Feature file
-Link to [feature file](../../../cucumberTests/features/addActivity.feature).
+Link to [feature file](../../../features/addActivity.feature).
 
 
 ## 3 Preconditions
