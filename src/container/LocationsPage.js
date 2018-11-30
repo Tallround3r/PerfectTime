@@ -20,8 +20,9 @@ import ActivitiesList from '../components/ActivitiesList';
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import PictureStar from '../images/star.jpg';
 
-const TRIP_ID = 'TXjQVQjjfXRfBnCJ1q0L';
+const TRIP_ID = 'OlY1rr0TgFnQoa2yn6p6';
 
 const styles = theme => ({
 	locationPanel: {
@@ -89,88 +90,13 @@ class LocationsPage extends React.Component {
 									<div key={key}>
 										{/*
 ***********************************************************************************************************************
-											ExpansionPanel
-***********************************************************************************************************************
-*/}
-										<ExpansionPanel className={classes.locationPanel}>
-											<ExpansionPanelSummary>
-												<div className={classes.smallColumn}>
-													<Avatar src="/images/star.jpg"/>
-												</div>
-												<div className={classes.bigColumn}>
-													<Typography>{location.title}</Typography>
-												</div>
-												<div className={classes.bigColumn}>
-													<Typography>Startdate: {startdate.getDate()}.{startdate.getMonth()}.{startdate.getFullYear()}</Typography>
-													<Typography>Enddate: {enddate.getDate()}.{enddate.getMonth()}.{enddate.getFullYear()}</Typography>
-												</div>
-												<div className={classes.bigColumn}>
-													<Typography>{locations[key].description}</Typography>
-												</div>
-												<div className={classes.smallColumn}>
-													<NavLink exact
-															 to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
-												</div>
-											</ExpansionPanelSummary>
-
-											<ExpansionPanelDetails>
-												<div style={{width: '100%'}}>
-													<Slider {...settings}>
-														<div>
-															<h3>1</h3>
-														</div>
-														<div>
-															<h3>2</h3>
-														</div>
-														<div>
-															<h3>3</h3>
-														</div>
-														<div>
-															<h3>4</h3>
-														</div>
-														<div>
-															<h3>5</h3>
-														</div>
-														<div>
-															<h3>6</h3>
-														</div>
-													</Slider>
-												</div>
-											</ExpansionPanelDetails>
-										</ExpansionPanel>
-									</div>
-								);
-							})}
-				</div>
-				<br/>
-				<hr/>
-				<br/>
-				{/*
------------------------------------------------------------------------------------------------------------------------
-									Overview with scrollbar
------------------------------------------------------------------------------------------------------------------------
-*/}
-				<p><b>Overview with scrollbar</b></p>
-				<div>
-					{!isLoaded(locations)
-						? 'Loading...'
-						: isEmpty(locations)
-							? 'No Locations created yet.'
-							: Object.keys(locations).map((key) => {
-								let location = locations[key];
-								let startdate = new Date(locations[key].startdate.seconds * 1000);
-								let enddate = new Date(locations[key].enddate.seconds * 1000);
-								return (
-									<div key={key}>
-										{/*
-***********************************************************************************************************************
 									ExpansionPanel with GridList from ActivitiesList.js
 ***********************************************************************************************************************
 */}
 										<ExpansionPanel className={classes.locationPanel}>
 											<ExpansionPanelSummary>
 												<div className={classes.smallColumn}>
-													<Avatar src="/images/star.jpg"/>
+													<Avatar src={PictureStar}/>
 												</div>
 												<div className={classes.bigColumn}>
 													<Typography>{location.title}</Typography>
