@@ -6,6 +6,11 @@ Given('I have navigated to {string}', async function (string) {
     await testController.navigateTo(url(string));
 });
 
+Then('I am navigated to {string}', async function (expected) {
+    const getLocation = ClientFunction(() => document.location.href).with({boundTestRun: testController});
+    await testController.expect(getLocation()).contains(expected);
+});
+
 When('I click on the {string}', async function (element) {
     await testController.click(select(element).with({boundTestRun: testController}));
 });
@@ -15,9 +20,10 @@ Then('I cant click on {string}', async function (element) {
     await testController.expect(signUpButton.hasAttribute('disabled')).ok();
 });
 
-Then('I am navigated to {string}', async function (expected) {
-    const getLocation = ClientFunction(() => document.location.href).with({boundTestRun: testController});
-    await testController.expect(getLocation()).contains(expected);
+Given('I am logged in', async function () {
+    await testController.navigateTo(url("PerfectTimeLogin"));
+    await testController.typeText(select('email').with({boundTestRun: testController}), "test@user.de");
+    await testController.typeText(select('password').with({boundTestRun: testController}), "netTest");
 });
 
 Given('I am not logged in', async function () {
@@ -25,8 +31,16 @@ Given('I am not logged in', async function () {
     //return 'pending';
 });
 
-Given('I am logged in', async function () {
-    await testController.navigateTo(url("PerfectTimeLogin"));
-    await testController.typeText(select('email').with({boundTestRun: testController}), "test@user.de");
-    await testController.typeText(select('password').with({boundTestRun: testController}), "netTest");
+Then('There is no {string}', async function (element) {
+    addActivityButton = select(element).with({boundTestRun: testController});
+    await testController.expect(addActivityButton === null).ok();               //check if element is null not working
+});
+
+Then('I have opened a {string}', async function (site) {
+    await testController.navigateTo(url(site));
+});
+
+Then('Wrong input is marked', async function () {
+    showWrongInput = select("...").with({boundTestRun: testController});
+    await testController.expect(showWrongInput === "Title needs to be defined");
 });

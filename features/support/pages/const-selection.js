@@ -13,7 +13,11 @@ const passwordConfirmRegister = Selector('#passwordConfirm');
 const signUp = Selector('#signUpButton');
 const signIn = Selector('#signInButton');
 const addActivityButton = Selector('#addActivityButton');
+const editActivityButton = Selector('#editActivityButton');
 const saveActivityButton = Selector('#saveActivityButton');
+const addLocationButton = Selector('#addLocationButton');
+const editLocationButton = Selector('#editLocationButton');
+const saveLocationButton = Selector('#saveLocationButton');
 
 exports.select = (selection) => {
     switch(selection){
@@ -43,7 +47,15 @@ exports.select = (selection) => {
             return signIn;
         case 'add activity button':
             return addActivityButton;
+        case 'edit activity button':
+            return editActivityButton;
         case 'save activity button':
             return saveActivityButton;
+        case 'add location button':
+            return addLocationButton;
+        case 'edit location button':
+            return editLocationButton;
+        case 'save location button':
+            return saveLocationButton;
     }
 };
