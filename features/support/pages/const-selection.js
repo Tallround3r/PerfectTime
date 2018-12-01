@@ -18,6 +18,14 @@ const saveActivityButton = Selector('#saveActivityButton');
 const addLocationButton = Selector('#addLocationButton');
 const editLocationButton = Selector('#editLocationButton');
 const saveLocationButton = Selector('#saveLocationButton');
+const locationTitle = Selector('#locationTitle');
+const locationDescription = Selector('#locationDescription');
+const locationDate = Selector('#locationDate');
+const locationAddress = Selector('#locationAddress');
+const activityTitle = Selector('#activityTitle');
+const activityDescription = Selector('#activityDescription');
+const activityDate = Selector('#activityDate');
+const activityAddress = Selector('#activityAddress');
 
 exports.select = (selection) => {
     switch(selection){
@@ -57,5 +65,21 @@ exports.select = (selection) => {
             return editLocationButton;
         case 'save location button':
             return saveLocationButton;
+        case 'locationTitle':
+            return locationTitle;
+        case 'locationDescription':
+            return locationDescription;
+        case 'locationDate':
+            return locationDate;
+        case 'locationAddress':
+            return locationAddress;
+        case 'activityTitle':
+            return activityTitle;
+        case 'activityDescription':
+            return activityDescription;
+        case 'activityDate':
+            return activityDate;
+        case 'activityAddress':
+            return activityAddress;
     }
 };
