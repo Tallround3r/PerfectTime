@@ -3,7 +3,7 @@
 ## 1. Create Activity
 ### 1.1 Brief Description
 
-In this use-case the user adds one of his trips activities. One trip has several activities and one activity consists of a description, a picture, some metadata, notes and links to useful websites and also contains a map where the activity takes place.
+In this use-case the user adds one of his trips activities. One trip has several activities and one activity consists of a description, a picture, some metadata, notes and links to useful websites and also contains a map where the activity takes place. The fields the User has to fill in, when adding an Activity are just some Basic ideas. When editing the activity later on it will be possible to add custom fields to the Activity.
 
 ### 1.2 Mockup
 

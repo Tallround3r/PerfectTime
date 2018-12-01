@@ -3,7 +3,7 @@
 ### 1.1 Brief Description
 
 One user can have different trips where he visits several locations. At every location he can do activities. In this use-case the user edits one activity. One activity consists of a picture, some metadata, notes and links to useful websites and also contains a map where the activities' address or place is shown.
-Also a User can add custom field into the Activity, which gives him more adjustment to his personal needs.
+Also a User can add custom fields into the Activity, which gives him more adjustment to his personal needs.
 
 ### 1.2 Activity detail view
 Detailled view on one activity.
