@@ -15,11 +15,13 @@ This document was designed to give the stakeholders and especially the customers
 The document can be used to understand the code structure and to adapt or extend the code and the functionality of the software.  
 
 ### 1.2	Scope
-This document is closely related to the Software Requirement Specifications and the defined Use Cases. Both can be found in the GitHub repository of the Application. This document will influence the further coding and testing efforts and thereby the whole documentation of the Perfect Time Application.
+This document is closely related to the <a href="./SRS.md">Software Requirement Specifications </a> and the defined <a href="./useCases">Use Cases</a>. Both can be found in the <a href = "../">GitHub</a> repository of the Application. This document will influence the further coding and testing efforts and thereby the whole documentation of the Perfect Time Application.
 
 ### 1.3	Definitions, Acronyms, and Abbreviations
 -	MVC = Model View Controller
 - 	SRS = Software Requirements Specification
+- 	SAD = Software Architecture Document
+- 	Flux = Flux architecture that is used by React
 -	Travel = one specific trip / vacation. For each travel the user will create an individual plan.
 -	Trip = Travel
 -	Location = one location visited during the travel. A location might be a city or a region. A travel contains multiple locations.
