@@ -49,7 +49,14 @@ Flux works slightly different from MVC. The main differences are the naming (dis
 
 [mu2]: ./flux-mvc-300x168.png "FluxVsMVC"
 
-Another difference from MVC is the fact, that the different entities (controller, etc.) are not represented by own classes or files. They are represented by methods in each individual component.
+Another difference from MVC is the fact, that the different entities (controller, etc.) are not (necessarily) represented by own classes or files. In React they are represented by methods in each individual component. The React Flux architecture is slightly different from the normal Flux architecture.
+
+![mockup file missing][mu21]
+
+[mu21]: ./ReactFluxArchitecture.png "FluxVsMVC"
+
+React provides predefined functions and interfaces to smoothen the communication between the Flux elements and to simplify the development process.
+
 The Perfect Time Application uses Redux on top of React. Redux allows a global state, which can be used by all components of the web application. In plain React each component has its on state. Therefor communication and data consistency between components can be difficult to achieve. Using Redux solves this problem.
 
 ## 3.	Architectural Goals and Constraints 
