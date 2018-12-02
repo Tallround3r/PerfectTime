@@ -90,6 +90,7 @@ Components:
 The following example illustrates how the Flux architecture of the React framework is designed in the Perfect Time application. It can be translated to any other component / container. 
 
 ![mockup file missing][mu6]
+
 [mu6]: ./Flux4PerfectTimeExample.png "FluxExample"
 
 ## 6.	Process View 
@@ -105,6 +106,7 @@ The Perfect Time Application is running on Google Firebase. Firebase provides th
 The Perfect Time application uses Google Firebase to store data. Thereby it uses a NoSQL-database. The application is design to allow the user to define custom fields for his/her trip/location/activity (e.g. ticket number for a concert). Therefor the following diagram shows only the predefined data fields.
 
 ![mockup file missing][mu7]
+
 [mu7]: ./databaseLayout.png "DB layout"
 
 The media data (pictures, videos, etc.) are stored in a special storage in Firebase. It will be identified through the primary keys of each data tuple.
