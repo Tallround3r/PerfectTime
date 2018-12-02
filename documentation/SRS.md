@@ -3,6 +3,7 @@
 [mu0]: ../src/images/logo_perfecttime.svg "PT Logo"
 
 # Software Requirements Specification 
+Last updated: 2nd December 2018
 
 ## 1.	Introduction
 For our course Software Engineering we are creating a web application. Our application is called Perfect Time – plan your trip. 
@@ -57,7 +58,7 @@ The product has different functions. They are displayed in the use case diagram.
 
 ![mockup file missing][mu1]
 
-[mu3]: ./useCases/UseCaseDiagram_redesigned.png "Mockup"
+[mu1]: ./useCases/UseCaseDiagram_redesigned.png "Mockup"
 
 ###	user characteristics
 The users of Perfect Time get divided into three categories. The first category are trip owners. They use the applications to plan one or multiple trips. They decide what the (privacy) settings are and who becomes a trip member. The second category are trip members. They got invited by the trip owner and can contribute to planning the trip. They can add and edit locations. The third group are observers. They can view public travels and use their information as a base layout for creating their own trip and becoming an owner.
@@ -77,63 +78,63 @@ The requirements will be divided into the following categories: core (core funct
 This section describes the specific requirements of the application.
 
 ### 3.1	Functionality
-#### 3.1.1	<Core>
+#### 3.1.1	Core
 The core functionality provides the basic web application that can be accessed by the user through a web browser. It is an html page that contains several components created with React. It provides a navigation to and an overview over the other functions.
 It also includes the possibility to view trips, that you are a member or the owner of. Any user can also see public trips. It provides a search function to identify travels.
 The core functions include the possibility to export data from existing (public) trips. The data can be exported to a local drive as a backup. The data can be exported as calendar information (ical), so that the user can see all the locations in his/her calendar. Data from an existing (public) trip can be used to create another trip, which will use the layout of the old trip. 
 The basic functions will also provide a series of statistics. The user can see the budget, the expenses calculated, the km driven (per day) and the duration of the trip.
 The last core function is to turn a trip into a travel blog. Using the planning layout, the user can insert pictures, text and videos into each location / activity page.
 
-#### 3.1.2	<Account>
+#### 3.1.2	Account
 The application provides a user management. Any user can become a registered user by filling out the registry form and responding to the confirmation email. A registered user can log into the application. The user can manage his/her account (change password, change email, change user name). He or she can use the CRUD functions. 
 The registered users can also chat with each other within a travel community (all contributors to a trip). The owner of a trip can invite other registered users to become members of the trip.
 
-#### 3.1.3	<CRUD>
+#### 3.1.3	CRUD
 Any registered users can create a trip / travel for him-/herself. The owner of a trip can also delete the trip. The owner of a trip can also edit a trip. He or she can make a trip public or private and enable the blog function. For a future version of Perfect Time, it is planned to allow custom fields for each individual trip / location / activity. The user will be able to define these fields in the edit menu of the item. The add menu will only contain the standardized fields.
 Any trip members can edit the information contained in a trip. They can add meta data (i.e. budget, time frame, country, etc.). They can add locations to the trip and edit the information of the location (place, date, costs, etc.). They can also add activities to the locations.
 
 ### 3.2	Usability 
-#### 3.2.1	<User training>
+#### 3.2.1	User training
 The application is designed to allow an intuitive usage. Any user should be able to use every aspect of the application within three hours. The application provides enough documentation. A video tutorial will be provided by the Perfect Time team, as soon as the application is complete.
 
-#### 3.2.2	<Common features to other applications>
+#### 3.2.2	Common features to other applications
 The application is designed to mimic common features of other applications. The design used (see section 4) is closely related to designs used by Google and Facebook.
 
 ### 3.3	Reliability 
-#### 3.3.1	<Availability >
+#### 3.3.1	Availability 
 Since the application does not require a long deployment time, there should be only short maintenance times. The application will be available 99.00% of the time.
 
-#### 3.3.2	<Mean Time To Repair >
+#### 3.3.2	Mean Time To Repair 
 Any serious bug will be fixed within a week. The application will not require any updates by the user.
 
-#### 3.3.3	<Accuracy >
+#### 3.3.3	Accuracy 
 The application is designed to fulfill all the features described in this document to the full extend.
 
-#### 3.3.4	<Maximum Bugs >
+#### 3.3.4	Maximum Bugs 
 The application should at no time have more than one bug per 500 lines of code. The finished application should contain way less bugs
 
 ### 3.4	Performance
-#### 3.4.1	<Response time>
+#### 3.4.1	Response time
 The application should not have a long response time. The response time should only depend on the speed of the internet connection. It should not take longer than two seconds for any transaction.
 
-#### 3.4.2	<Capacity>
+#### 3.4.2	Capacity
 The application is limited by the free Firebase subscription to 1 GB of storage space and 10 GB download volume per month.
 
-#### 3.4.3	<Degradation mode>
+#### 3.4.3	Degradation mode
 If the application should not be operational for any reason the last running version should be deployed as soon as the matter has been recognized.
 
 ### 3.5	Supportability
-#### 3.5.1	<Testing>
+#### 3.5.1	Testing
 The software uses Unit Tests to ensure it is working correctly. Perfect Time uses JEST to write the tests. Additionally, Cucumber and TestCafe are used for framework tests.
 
-#### 3.5.2	<Coding>
+#### 3.5.2	Coding
 The software uses the clean code standards to ensure maintainability. 
 
 ### 3.6	Design Constraints
-#### 3.6.1	<React>
+#### 3.6.1	React
 The application uses the React Framework. Future updates and API changes must be implemented into the Perfect Time Application.
 
-#### 3.6.2	<Redux>
+#### 3.6.2	Redux
 The application uses Redux to save the component states. Changes in Redux or the React compatibility will have to be adapted to in the application.
 
 ### 3.7	On-line User Documentation and Help System Requirements
@@ -165,7 +166,7 @@ N/A
 N/A
 
 ## 4.	Supporting Information
-The following design will be used for the user interface.
+The following design shows the first draw for the user interface.
 
 ![mockup file missing][mu2]
 
