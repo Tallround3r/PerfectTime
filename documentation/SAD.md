@@ -107,7 +107,7 @@ The Perfect Time application uses Google Firebase to store data. Thereby it uses
 
 ![mockup file missing][mu7]
 
-[mu7]: ./databaseLayout.png "DB layout"
+[mu7]: ./DatabaseLayout.png "DB layout"
 
 The media data (pictures, videos, etc.) are stored in a special storage in Firebase. It will be identified through the primary keys of each data tuple.
 
