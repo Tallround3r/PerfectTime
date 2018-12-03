@@ -1,6 +1,6 @@
 import firebase from 'firebase';
-import {createStore, combineReducers, compose} from 'redux';
 import {firebaseReducer, reactReduxFirebase} from 'react-redux-firebase';
+import {combineReducers, compose, createStore} from 'redux';
 import {firestoreReducer, reduxFirestore} from 'redux-firestore';
 
 export default function configureStore() {
@@ -28,7 +28,7 @@ export default function configureStore() {
 	// Create store with reducers and initial state
 	const initialState = {};
 
-	const store =  createStoreWithFirebase(rootReducer, initialState);
+	const store = createStoreWithFirebase(rootReducer, initialState);
 
 	return store;
 }

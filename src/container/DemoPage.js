@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
+import {NavLink} from 'react-router-dom';
+import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
 import '../styles/App.css';
-import * as routes from '../constants/routes';
-import {NavLink} from 'react-router-dom';
+import {TRIP_ID} from '../constants/staticIds';
+
 
 class App extends Component {
 
@@ -10,7 +12,7 @@ class App extends Component {
 		return (
 			<div className="App">
 				<header className="App-header">
-					<NavLink exact to={routes.LOCATIONS}>
+					<NavLink exact to={routes.LOCATIONS(TRIP_ID)}>
 						<img src={logo} className="App-logo" alt="logo"/>
 					</NavLink>
 

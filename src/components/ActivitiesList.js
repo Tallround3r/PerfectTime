@@ -4,25 +4,26 @@ import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import PropTypes from 'prop-types';
 import connect from 'react-redux/es/connect/connect';
 import {withStyles} from '@material-ui/core';
-import Typography from "@material-ui/core/Typography/Typography";
-import * as routes from "../constants/routes";
-import Slider from "react-slick";
+import Typography from '@material-ui/core/Typography/Typography';
+import * as routes from '../constants/routes';
+import Slider from 'react-slick';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import CardActions from "@material-ui/core/es/CardActions/CardActions";
-import Button from "@material-ui/core/es/Button/Button";
+import CardActions from '@material-ui/core/es/CardActions/CardActions';
+import Button from '@material-ui/core/es/Button/Button';
 import PictureStar from '../images/star.jpg';
+
 
 const styles = theme => ({
 	gridList: {
 		flexWrap: 'nowrap',
 		textAlign: 'center',
 		backgroundColor: theme.palette.background.paper,
-	}
+	},
 });
 
 class ActivitiesList extends React.Component {
@@ -35,7 +36,7 @@ class ActivitiesList extends React.Component {
 			infinite: true,
 			speed: 500,
 			slidesToShow: 1,
-			slidesToScroll: 1
+			slidesToScroll: 1,
 		};
 
 		return (
@@ -136,16 +137,19 @@ class ActivitiesList extends React.Component {
 													<Button
 														size="small"
 														color="blue"
-														href={routes.ACTIVITY_EDIT}>Edit Activity
+														href={routes.ACTIVITY_EDIT}
+													>
+														Edit Activity
 													</Button>
 												</CardActions>
 											</Card>
 										</GridListTile>
 									</GridList>
-									<Typography>Description: {activities[key].description}</Typography>
-								</div>
-							)
-					}
+									<Typography>
+										Description: {activities[key].description}
+									</Typography>
+								</div>,
+							)}
 				</Slider>
 			</div>
 		);
