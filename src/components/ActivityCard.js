@@ -15,6 +15,7 @@ import React from 'react';
 import {compose} from 'redux';
 import {Activity} from '../models';
 import {getRandomImage} from '../utils/RessourceUtils';
+import {parseDateToString} from '../utils/parser';
 
 
 const styles = theme => ({
@@ -45,23 +46,24 @@ class ActivityCard extends React.Component {
 
 	render() {
 		const {classes, activity} = this.props;
+		const {title, description, startdate, enddate} = activity;
 
 		return (
 			<Card className={classes.card}>
 				<CardHeader
-					title={activity.title}
-					subheader={activity.startdate + ' - ' + activity.enddate}
+					title={title}
+					subheader={parseDateToString(startdate) + ' — ' + parseDateToString(enddate)}
 				/>
 
 				<CardMedia
 					className={classes.media}
 					image={this.cardImage}
-					title={activity.title}
+					title={title}
 				/>
 
 				<CardContent>
 					<Typography component="p">
-						{activity.description}
+						{description}
 					</Typography>
 				</CardContent>
 

@@ -167,7 +167,6 @@ class LocationEditPage extends React.Component {
 		const {classes, activities} = this.props;
 		const {location} = this.state;
 		const {title, description, startdate, enddate, address} = location;
-		console.log(activities);
 
 		return (
 			<div className={classes.locationEditPage}>

@@ -70,8 +70,8 @@ class LocationsPage extends React.Component {
 							? 'No Locations created yet.'
 							: Object.keys(locations).map((key, index) => {
 								let location = locations[key];
-								let startdate = new Date(locations[key].startDate.seconds * 1000);
-								let enddate = new Date(locations[key].endDate.seconds * 1000);
+								let startdate = new Date(locations[key].startdate.seconds * 1000);
+								let enddate = new Date(locations[key].enddate.seconds * 1000);
 								return (
 									<div key={key}>
 										<ExpansionPanel className={classes.locationPanel}>
