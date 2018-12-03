@@ -3,8 +3,8 @@ import {isDate} from 'underscore';
 export function parseDateToString(timestamp) {
 	const date = isDate(timestamp) ? timestamp : timestamp.toDate();
 
-	const day = date.getDay();
-	const month = date.getMonth();
+	const day = date.getDate();
+	const month = date.getMonth() + 1;
 	const year = date.getFullYear();
 
 	return `${month}/${day}/${year}`;

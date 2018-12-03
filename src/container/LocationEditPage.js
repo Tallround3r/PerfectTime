@@ -164,9 +164,11 @@ class LocationEditPage extends React.Component {
 	};
 
 	render() {
-		const {classes, activities} = this.props;
+		const {classes, activities, match} = this.props;
 		const {location} = this.state;
 		const {title, description, startdate, enddate, address} = location;
+		const tripId = match.params[URL_PARAM_TRIP];
+		const locationId = match.params[URL_PARAM_LOCATION];
 
 		return (
 			<div className={classes.locationEditPage}>
@@ -305,7 +307,8 @@ class LocationEditPage extends React.Component {
 						: isEmpty(activities)
 							? 'No Activities created yet.'
 							: <ActivitiesSlider
-								activities={activities}
+								tripId={tripId}
+								locationId={locationId}
 							/>
 					}
 				</div>

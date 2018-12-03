@@ -6,6 +6,9 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import ActivityCard from './ActivityCard';
 import {SliderNextArrow, SliderPrevArrow} from './SliderArrows';
+import {firestoreConnect} from 'react-redux-firebase';
+import connect from 'react-redux/es/connect/connect';
+import {compose} from 'redux';
 
 
 const styles = theme => ({
@@ -22,7 +25,7 @@ const styles = theme => ({
 class ActivitiesSlider extends React.Component {
 
 	render() {
-		const {classes} = this.props;
+		const {classes, activities} = this.props;
 
 		const sliderSettings = {
 			className: classes.slider,
@@ -51,7 +54,7 @@ class ActivitiesSlider extends React.Component {
 
 		return (
 			<Slider {...sliderSettings}>
-				{this.renderActivityCards()}
+				{activities && this.renderActivityCards()}
 			</Slider>
 		);
 	}
@@ -65,7 +68,23 @@ class ActivitiesSlider extends React.Component {
 
 ActivitiesSlider.propTypes = {
 	classes: PropTypes.object.isRequired,
-	activities: PropTypes.object.isRequired,
+	tripId: PropTypes.string.isRequired,
+	locationId: PropTypes.string.isRequired,
+	activities: PropTypes.object,
 };
 
-export default withStyles(styles)(ActivitiesSlider);
+export default compose(
+	firestoreConnect((props) => [
+		`TRIPS/${props.tripId}/locations/${props.locationId}/activities`,
+	]),
+	connect(
+		({firestore: {data}}, props) => ({
+			activities: data.TRIPS
+				&& data.TRIPS[props.tripId]
+				&& data.TRIPS[props.tripId].locations
+				&& data.TRIPS[props.tripId].locations[props.locationId]
+				&& data.TRIPS[props.tripId].locations[props.locationId].activities,
+		}),
+	),
+	withStyles(styles),
+)(ActivitiesSlider);
