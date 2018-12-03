@@ -23,13 +23,11 @@ View where the User is able to register.
 
 ![activity diagram file missing][ad]
 
-[ad]: register_ActivityDiagramm.png "Activity Diagram"
+[ad]: register_activityDiagramm.png "Activity Diagram"
 
 #### Feature file
 
-<Link to [feature file](
-        ../../../cucumberTests/features/editActivity.feature
-      ).>
+Link to [feature file](../../../features/register.feature).
 
 ## 3 Preconditions
 1. The user has navigated to PerfectTime.

@@ -3,19 +3,7 @@
 ### 1.1 Brief Description
 
 One user can have different trips where he visits several locations. At every location he can do activities. In this use-case the user edits one activity. One activity consists of a picture, some metadata, notes and links to useful websites and also contains a map where the activities' address or place is shown.
-
-<dsf
-### 1.2 Mockup of Activity View
-![location view file missing][lv]
-
-[lv]: LocationsView.png "Location View"
-
-### 1.3 Example Activity View
-View on all activities at one locations.
-![example activity view file missing][lvf]
-
-[lvf]: LocationsViewFilled.png "Location View" 
->
+Also a User can add custom fields into the Activity, which gives him more adjustment to his personal needs.
 
 ### 1.2 Activity detail view
 Detailled view on one activity.
@@ -40,9 +28,7 @@ View where the User is able to edit the activity.
 
 #### Feature file
 
-<Link to [feature file](
-        ../../../cucumberTests/features/editActivity.feature
-      ).>
+Link to [feature file](../../../features/editActivity.feature).
 
 ## 3 Preconditions
 1. The user has to be logged in at the site.

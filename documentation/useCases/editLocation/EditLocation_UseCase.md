@@ -3,7 +3,8 @@
 ### 1.1 Brief Description
 
 In this use-case the user edits one of his trips locations. One trip has several locations and one location consists of a picture, some metadata, notes and links to useful websites and also contains a map where the locations' address or place is shown.
-
+Also a User can add custom field into the location, which gives him more adjustment to his personal needs.
+Moreover it is possible to view the locations actions directly in the detail view. Adding activities to the location is possible when editing location aswell.
 ### 1.2 Mockup of Location View
 ![location view file missing][lv]
 
@@ -38,9 +39,7 @@ View where the User is able to edit the location.
 
 #### Feature file
 
-Link to [feature file](
-        ../../../cucumberTests/features/editActivity.feature
-      ).
+Link to [feature file](../../../cucumberTests/features/editActivity.feature).
 
 ## 3 Preconditions
 1. The user has to be logged in at the site.
