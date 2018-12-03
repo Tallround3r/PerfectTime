@@ -556,7 +556,7 @@
 <g id="node48" class="node"><title>49</title>
 <polygon fill="lightblue" stroke="black" points="16.3015,-335.5 16.3015,-418.7 205.698,-418.7 205.698,-335.5 16.3015,-335.5"/>
 <text text-anchor="middle" x="111" y="-402.1" font-family="Times,serif" font-size="14.00">«FUNCTION»</text>
-<text text-anchor="middle" x="111" y="-385.3" font-family="Times,serif" font-size="14.00"> withWrapper(LocationsPage)</text>
+<text text-anchor="middle" x="111" y="-385.3" font-family="Times,serif" font-size="14.00"> withDrawer(LocationsPage)</text>
 <polyline fill="none" stroke="black" points="16.3015,-377.1 205.698,-377.1 "/>
 <text text-anchor="start" x="24.3015" y="-360.5" font-family="Times,serif" font-size="14.00">&#45;component : binaryexpression</text>
 <text text-anchor="start" x="24.3015" y="-343.7" font-family="Times,serif" font-size="14.00">&#45;path</text>
@@ -570,7 +570,7 @@
 <g id="node49" class="node"><title>50</title>
 <polygon fill="lightblue" stroke="black" points="213.122,-335.5 213.122,-418.7 416.878,-418.7 416.878,-335.5 213.122,-335.5"/>
 <text text-anchor="middle" x="315" y="-402.1" font-family="Times,serif" font-size="14.00">«FUNCTION»</text>
-<text text-anchor="middle" x="315" y="-385.3" font-family="Times,serif" font-size="14.00"> withWrapper(LocationAddPage)</text>
+<text text-anchor="middle" x="315" y="-385.3" font-family="Times,serif" font-size="14.00"> withDrawer(LocationAddPage)</text>
 <polyline fill="none" stroke="black" points="213.122,-377.1 416.878,-377.1 "/>
 <text text-anchor="start" x="221.122" y="-360.5" font-family="Times,serif" font-size="14.00">&#45;component : binaryexpression</text>
 <text text-anchor="start" x="221.122" y="-343.7" font-family="Times,serif" font-size="14.00">&#45;path</text>
@@ -584,7 +584,7 @@
 <g id="node50" class="node"><title>51</title>
 <polygon fill="lightblue" stroke="black" points="423.509,-335.5 423.509,-418.7 626.491,-418.7 626.491,-335.5 423.509,-335.5"/>
 <text text-anchor="middle" x="525" y="-402.1" font-family="Times,serif" font-size="14.00">«FUNCTION»</text>
-<text text-anchor="middle" x="525" y="-385.3" font-family="Times,serif" font-size="14.00"> withWrapper(LocationEditPage)</text>
+<text text-anchor="middle" x="525" y="-385.3" font-family="Times,serif" font-size="14.00"> withDrawer(LocationEditPage)</text>
 <polyline fill="none" stroke="black" points="423.509,-377.1 626.491,-377.1 "/>
 <text text-anchor="start" x="431.509" y="-360.5" font-family="Times,serif" font-size="14.00">&#45;component : binaryexpression</text>
 <text text-anchor="start" x="431.509" y="-343.7" font-family="Times,serif" font-size="14.00">&#45;path</text>
@@ -598,7 +598,7 @@
 <g id="node51" class="node"><title>52</title>
 <polygon fill="lightblue" stroke="black" points="633.302,-335.5 633.302,-418.7 822.698,-418.7 822.698,-335.5 633.302,-335.5"/>
 <text text-anchor="middle" x="728" y="-402.1" font-family="Times,serif" font-size="14.00">«FUNCTION»</text>
-<text text-anchor="middle" x="728" y="-385.3" font-family="Times,serif" font-size="14.00"> withWrapper(ActivitiesPage)</text>
+<text text-anchor="middle" x="728" y="-385.3" font-family="Times,serif" font-size="14.00"> withDrawer(ActivitiesPage)</text>
 <polyline fill="none" stroke="black" points="633.302,-377.1 822.698,-377.1 "/>
 <text text-anchor="start" x="641.302" y="-360.5" font-family="Times,serif" font-size="14.00">&#45;component : binaryexpression</text>
 <text text-anchor="start" x="641.302" y="-343.7" font-family="Times,serif" font-size="14.00">&#45;path</text>
@@ -612,7 +612,7 @@
 <g id="node52" class="node"><title>53</title>
 <polygon fill="lightblue" stroke="black" points="830.062,-335.5 830.062,-418.7 1029.94,-418.7 1029.94,-335.5 830.062,-335.5"/>
 <text text-anchor="middle" x="930" y="-402.1" font-family="Times,serif" font-size="14.00">«FUNCTION»</text>
-<text text-anchor="middle" x="930" y="-385.3" font-family="Times,serif" font-size="14.00"> withWrapper(ActivityAddPage)</text>
+<text text-anchor="middle" x="930" y="-385.3" font-family="Times,serif" font-size="14.00"> withDrawer(ActivityAddPage)</text>
 <polyline fill="none" stroke="black" points="830.062,-377.1 1029.94,-377.1 "/>
 <text text-anchor="start" x="838.062" y="-360.5" font-family="Times,serif" font-size="14.00">&#45;component : binaryexpression</text>
 <text text-anchor="start" x="838.062" y="-343.7" font-family="Times,serif" font-size="14.00">&#45;path</text>
@@ -626,7 +626,7 @@
 <g id="node53" class="node"><title>54</title>
 <polygon fill="lightblue" stroke="black" points="1036.45,-335.5 1036.45,-418.7 1235.55,-418.7 1235.55,-335.5 1036.45,-335.5"/>
 <text text-anchor="middle" x="1136" y="-402.1" font-family="Times,serif" font-size="14.00">«FUNCTION»</text>
-<text text-anchor="middle" x="1136" y="-385.3" font-family="Times,serif" font-size="14.00"> withWrapper(ActivityEditPage)</text>
+<text text-anchor="middle" x="1136" y="-385.3" font-family="Times,serif" font-size="14.00"> withDrawer(ActivityEditPage)</text>
 <polyline fill="none" stroke="black" points="1036.45,-377.1 1235.55,-377.1 "/>
 <text text-anchor="start" x="1044.45" y="-360.5" font-family="Times,serif" font-size="14.00">&#45;component : binaryexpression</text>
 <text text-anchor="start" x="1044.45" y="-343.7" font-family="Times,serif" font-size="14.00">&#45;path</text>
@@ -640,7 +640,7 @@
 <g id="node54" class="node"><title>55</title>
 <polygon fill="lightblue" stroke="black" points="1242.3,-335.5 1242.3,-418.7 1431.7,-418.7 1431.7,-335.5 1242.3,-335.5"/>
 <text text-anchor="middle" x="1337" y="-402.1" font-family="Times,serif" font-size="14.00">«FUNCTION»</text>
-<text text-anchor="middle" x="1337" y="-385.3" font-family="Times,serif" font-size="14.00"> withWrapper(MembersPage)</text>
+<text text-anchor="middle" x="1337" y="-385.3" font-family="Times,serif" font-size="14.00"> withDrawer(MembersPage)</text>
 <polyline fill="none" stroke="black" points="1242.3,-377.1 1431.7,-377.1 "/>
 <text text-anchor="start" x="1250.3" y="-360.5" font-family="Times,serif" font-size="14.00">&#45;component : binaryexpression</text>
 <text text-anchor="start" x="1250.3" y="-343.7" font-family="Times,serif" font-size="14.00">&#45;path</text>

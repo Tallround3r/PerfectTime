@@ -1,4 +1,6 @@
 export const LANDING = '/';
+export const SIGN_IN = '/login';
+export const SIGN_UP = '/register';
 export const LOCATIONS = '/locations';
 export const LOCATIONS_ADD = '/locations/add';
 export const LOCATIONS_EDIT = '/locations/edit';
