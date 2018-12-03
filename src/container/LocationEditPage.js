@@ -79,8 +79,8 @@ class LocationEditPage extends React.Component {
 			this.setState({
 				location: {
 					...location,
-					startDate: location.startDate.toDate(),
-					endDate: location.endDate.toDate(),
+					startdate: location.startdate.toDate(),
+					enddate: location.enddate.toDate(),
 				},
 			});
 		}
@@ -117,8 +117,8 @@ class LocationEditPage extends React.Component {
 		this.setState({
 			location: {
 				...location,
-				startDate: location.startDate.toDate(),
-				endDate: location.endDate.toDate(),
+				startdate: location.startdate.toDate(),
+				enddate: location.enddate.toDate(),
 			},
 		});
 
@@ -166,7 +166,7 @@ class LocationEditPage extends React.Component {
 	render() {
 		const {classes, activities} = this.props;
 		const {location} = this.state;
-		const {title, description, startDate, endDate, address} = location;
+		const {title, description, startdate, enddate, address} = location;
 		console.log(activities);
 
 		return (
@@ -210,8 +210,8 @@ class LocationEditPage extends React.Component {
 								className={classNames(classes.inputField, classes.inputHorizontalSpacing)}
 								keyboard
 								required
-								value={startDate}
-								onChange={this.handleChangeDate('startDate')}
+								value={startdate}
+								onChange={this.handleChangeDate('startdate')}
 								label="Start Date"
 								format="MM/dd/yyyy"
 								placeholder="MM/DD/YYYY"
@@ -224,8 +224,8 @@ class LocationEditPage extends React.Component {
 								className={classes.inputField}
 								keyboard
 								required
-								value={endDate}
-								onChange={this.handleChangeDate('endDate')}
+								value={enddate}
+								onChange={this.handleChangeDate('enddate')}
 								label="End Date"
 								format="MM/dd/yyyy"
 								placeholder="MM/DD/YYYY"

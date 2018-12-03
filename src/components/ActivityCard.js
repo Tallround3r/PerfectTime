@@ -50,7 +50,7 @@ class ActivityCard extends React.Component {
 			<Card className={classes.card}>
 				<CardHeader
 					title={activity.title}
-					subheader={activity.startDate + ' - ' + activity.endDate}
+					subheader={activity.startdate + ' - ' + activity.enddate}
 				/>
 
 				<CardMedia

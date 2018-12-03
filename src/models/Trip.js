@@ -4,8 +4,8 @@ import User from './User';
 const Trip = ObjectModel({
 	title: String,
 	description: String,
-	startDate: Date,
-	endDate: Date,
+	startdate: Date,
+	enddate: Date,
 	owner: User,
 	members: [ArrayModel(User)],
 }).defaults({

@@ -4,14 +4,14 @@ import Address from './Address';
 const Activity = ObjectModel({
 	title: String,
 	description: String,
-	startDate: Date,
-	endDate: Date,
+	startdate: Date,
+	enddate: Date,
 	address: Address,
 }).defaults({
 	title: '',
 	description: '',
-	startDate: new Date(),
-	endDate: new Date(),
+	startdate: new Date(),
+	enddate: new Date(),
 	address: new Address(),
 });
 
