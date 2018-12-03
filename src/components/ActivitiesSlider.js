@@ -6,7 +6,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import ActivityCard from './ActivityCard';
 import {SliderNextArrow, SliderPrevArrow} from './SliderArrows';
-import {firestoreConnect} from 'react-redux-firebase';
+import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import connect from 'react-redux/es/connect/connect';
 import {compose} from 'redux';
 
@@ -52,11 +52,13 @@ class ActivitiesSlider extends React.Component {
 			}],
 		};
 
-		return (
-			<Slider {...sliderSettings}>
-				{activities && this.renderActivityCards()}
-			</Slider>
-		);
+		return !isLoaded(activities)
+			? 'Loading activities...'
+			: isEmpty(activities)
+				? 'No Activities created yet.'
+				: <Slider {...sliderSettings}>
+					{this.renderActivityCards()}
+				</Slider>;
 	}
 
 	renderActivityCards = () => Object.keys(this.props.activities).map(key => (
