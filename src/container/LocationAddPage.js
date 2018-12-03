@@ -2,28 +2,28 @@ import React from 'react';
 
 class LocationAddPage extends React.Component {
 
-    constructor() {
-        super();
-    }
+	constructor() {
+		super();
+	}
 
-    componentDidMount() {
+	componentDidMount() {
 
-    }
+	}
 
-    //loads custom fields, defined by the user which are not included in standard
-    loadCustomFields() {
+	//loads custom fields, defined by the user which are not included in standard
+	loadCustomFields() {
 
-    }
+	}
 
-    saveLocation() {
+	saveLocation() {
 
-    }
+	}
 
-    render() {
-        return (
-            <h1>Add Location</h1>
-        );
-    }
+	render() {
+		return (
+			<h1>Add Location</h1>
+		);
+	}
 
 }
 

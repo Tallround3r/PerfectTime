@@ -2,28 +2,28 @@ import React from 'react';
 
 class ActivityAddPage extends React.Component {
 
-    constructor() {
-        super();
-    }
+	constructor() {
+		super();
+	}
 
-    componentDidMount() {
+	componentDidMount() {
 
-    }
+	}
 
-    //loads custom fields, defined by the user which are not included in standard
-    loadCustomFields() {
+	//loads custom fields, defined by the user which are not included in standard
+	loadCustomFields() {
 
-    }
+	}
 
-    saveActivity() {
+	saveActivity() {
 
-    }
+	}
 
-    render() {
-        return (
-            <h1>Add Activity</h1>
-        );
-    }
+	render() {
+		return (
+			<h1>Add Activity</h1>
+		);
+	}
 
 }
 

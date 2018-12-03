@@ -6,9 +6,17 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
-    	allow read, update, delete: if request.auth.uid == userId;
+      allow read, update, delete: if request.auth.uid == userId;
       allow create;
   	}
+
+  	match /presence/{document=**} {
+      allow read, write;
+    }
+
+  	match /sessions/{document=**} {
+      allow read, write;
+    }
 
   }
 }

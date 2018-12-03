@@ -1,8 +1,8 @@
-import React from 'react';
-import {compose} from 'redux';
-import {firebaseConnect} from 'react-redux-firebase';
-import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {firebaseConnect} from 'react-redux-firebase';
+import {compose} from 'redux';
 
 const SignOutButton = (props) => {
 	const {firebase} = props;

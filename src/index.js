@@ -1,14 +1,14 @@
+import {MuiThemeProvider} from '@material-ui/core/styles';
 import dotenv from 'dotenv';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {MuiThemeProvider} from '@material-ui/core/styles';
-import theme from './theme/theme';
-import './styles/index.css';
 import App from './container/App';
+import './firebase';
 import * as serviceWorker from './serviceWorker';
 import configureStore from './store/store';
-import './firebase';
+import './styles/index.css';
+import theme from './theme/theme';
 
 dotenv.config();
 const store = configureStore();

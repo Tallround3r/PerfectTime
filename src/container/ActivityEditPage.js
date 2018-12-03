@@ -2,22 +2,22 @@ import React from 'react';
 
 class ActivityEditPage extends React.Component {
 
-    constructor() {
-        super();
-    }
+	constructor() {
+		super();
+	}
 
-    componentDidMount() {
+	componentDidMount() {
 
-    }
+	}
 
-    //loads custom fields, defined by the user which are not included in standard
-    loadCustomFields() {
+	//loads custom fields, defined by the user which are not included in standard
+	loadCustomFields() {
 
-    }
+	}
 
-    saveActivity() {
+	saveActivity() {
 
-    }
+	}
 
 	render() {
 		return (
