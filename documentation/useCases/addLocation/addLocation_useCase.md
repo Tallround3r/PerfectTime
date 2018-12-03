@@ -2,7 +2,7 @@
 # 1. Add Location
 ### 1.1 Brief Description
 
-In this use-case the user adds a location to of his trips. One trip has several locations and one location consists of a picture, some metadata, notes and links to useful websites and also contains a map where the locations' address or place is shown.
+In this use-case the user adds a location to of his trips. One trip has several locations and one location consists of a picture, some metadata, notes and links to useful websites and also contains a map where the locations' address or place is shown. All the inserted Data when addig a new location is just the Basic Data a location needs. Later on, when the User needs some custom fields he can add them by editing the location.
 
 ### 1.2 Mockup of Location View
 ![location view file missing][lv]
@@ -26,9 +26,7 @@ View where the User is able to add the location.
 
 #### Feature file
 
-<Link to [feature file](
-        ../../../cucumberTests/features/editActivity.feature
-      ).>
+Link to [feature file](../../../features/editActivity.feature).
 
 ## 3 Preconditions
 1. The user has to be logged in at the site.

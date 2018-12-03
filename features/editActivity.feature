@@ -1,26 +1,25 @@
-Feature: Edit data of existing location
+Feature: Edit data of existing activity
 
-  Scenario: The editLocation button is not visible for the user
+  Scenario: The editActivity button is not visible for the user
     Given I am not logged in
-    And I have opened a location
-    Then There is no edit button
+    And I have opened a "activity"
+    Then There is no "edit activity button"
 
-  Scenario: The editLocation button is visible for the user
+  Scenario: The editActivity button is visible for the user
     Given I am logged in
-    And I have opened a location
+    And I have opened a "activity"
     When I click on the edit button
-    Then The editLocation view is diplayed
+    Then The editActivity view is displayed
 
-  Scenario: User edits location with valid data
-    Given I opened the editLocation view
-    When I insert valid data
-    And I click the save button
-    Then The location view is shown with the updated data
+  Scenario: User edits activity with valid data
+    Given I have navigated to "edit activity view"
+    When I insert valid activity data
+    And I click on the "save activity button"
+    Then The activity view is shown with the updated data
 
-  Scenario: User edits location with invalid data
-    Given I opened the editLocation view
-    When I insert invalid data
-    And I click the save button
-    Then The editLocation view will mark incorrect data
-    And Shows an error message
+  Scenario: User edits activity with invalid data
+    Given I have navigated to "edit activity view"
+    When I insert invalid activity data
+    Then I cant click on the "save activity button"
+    And Wrong input is marked
 

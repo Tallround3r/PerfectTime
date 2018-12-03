@@ -145,6 +145,7 @@ class SignIn extends React.Component {
 							<Button
 								type="submit"
 								fullWidth
+								id="signInButton"
 								variant="contained"
 								color="primary"
 								className={classes.submit}
@@ -157,7 +158,7 @@ class SignIn extends React.Component {
 						<p>
 							Don't have an account?
 							{' '}
-							<Link to={routes.SIGN_UP}>Sign Up</Link>
+							<Link to={routes.SIGN_UP} id={'signIn'}>Sign Up</Link>
 						</p>
 					</Paper>
 				</main>
