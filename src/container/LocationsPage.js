@@ -17,14 +17,19 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import Chip from '@material-ui/core/Chip';
 import ActivitiesList from '../components/ActivitiesList';
+import Slider from "react-slick";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import PictureStar from '../images/star.jpg';
 
-const TRIP_ID = 'TXjQVQjjfXRfBnCJ1q0L';
+const TRIP_ID = 'OlY1rr0TgFnQoa2yn6p6';
 
 const styles = theme => ({
 	locationPanel: {
 		border: 'thin solid #000000',
 		marginTop: theme.spacing.unit * 2,
 		marginBottom: theme.spacing.unit * 2,
+		background: '#aff4ff'
 	},
 	bigColumn: {
 		flexBasis: '50%',
@@ -41,12 +46,7 @@ const styles = theme => ({
 	hrLine: {
 		width: '1px',
 		height: '67px',
-	},
-	activitiesContainer: {
-		display: 'flex',
-		flexWrap: 'wrap',
-		flexDirection: 'column',
-	},
+	}
 });
 
 class LocationsPage extends React.Component {
@@ -60,26 +60,43 @@ class LocationsPage extends React.Component {
 
 	render() {
 		const {classes, locations} = this.props;
+		const settings = {
+			dots: true,
+			infinite: true,
+			speed: 500,
+			slidesToShow: 1,
+			slidesToScroll: 1
+		};
 
 		return (
 			<div>
 				<h1>Locations</h1>
-				<p><b>Overview with unordered list of activities</b></p>
+				{/*
+-----------------------------------------------------------------------------------------------------------------------
+							Overview with carousel in ExpansionPanel
+-----------------------------------------------------------------------------------------------------------------------
+*/}
+				<p><b>Overview with carousel in ExpansionPanel</b></p>
 				<div>
 					{!isLoaded(locations)
 						? 'Loading...'
 						: isEmpty(locations)
 							? 'No Locations created yet.'
-							: Object.keys(locations).map((key, index) => {
+							: Object.keys(locations).map((key) => {
 								let location = locations[key];
 								let startdate = new Date(locations[key].startdate.seconds * 1000);
 								let enddate = new Date(locations[key].enddate.seconds * 1000);
 								return (
 									<div key={key}>
+										{/*
+***********************************************************************************************************************
+									ExpansionPanel with GridList from ActivitiesList.js
+***********************************************************************************************************************
+*/}
 										<ExpansionPanel className={classes.locationPanel}>
 											<ExpansionPanelSummary>
 												<div className={classes.smallColumn}>
-													<Avatar><StarIcon/></Avatar>
+													<Avatar src={PictureStar}/>
 												</div>
 												<div className={classes.bigColumn}>
 													<Typography>{location.title}</Typography>
@@ -93,11 +110,12 @@ class LocationsPage extends React.Component {
 												</div>
 												<div className={classes.smallColumn}>
 													<NavLink exact
-													         to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
+															 to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
 												</div>
 											</ExpansionPanelSummary>
+
 											<ExpansionPanelDetails>
-												<div className={classes.activitiesContainer}>
+												<div style={{width: '100%'}}>
 													<ActivitiesList tripId={TRIP_ID} locationId={key}/>
 												</div>
 											</ExpansionPanelDetails>
@@ -108,15 +126,48 @@ class LocationsPage extends React.Component {
 				</div>
 				<br/>
 				<hr/>
-				<p><b>Overview with vertical line next to activities</b></p>
-				{/* Overview with vertical line next to activities */}
 				<br/>
+				{/*
+-----------------------------------------------------------------------------------------------------------------------
+									Carousel
+-----------------------------------------------------------------------------------------------------------------------
+*/}
+				<p><b>Carousel</b></p>
+				<Slider {...settings}>
+					<div>
+						<h3>1</h3>
+					</div>
+					<div>
+						<h3>2</h3>
+					</div>
+					<div>
+						<h3>3</h3>
+					</div>
+					<div>
+						<h3>4</h3>
+					</div>
+					<div>
+						<h3>5</h3>
+					</div>
+					<div>
+						<h3>6</h3>
+					</div>
+				</Slider>
+				<br/>
+				<hr/>
+				<br/>
+				{/*
+-----------------------------------------------------------------------------------------------------------------------
+						Overview with vertical line next to activities
+-----------------------------------------------------------------------------------------------------------------------
+*/}
+				<p><b>Overview with vertical line next to activities</b></p>
 				<div>
 					{!isLoaded(locations)
 						? 'Loading...'
 						: isEmpty(locations)
 							? 'No Locations created yet.'
-							: Object.keys(locations).map((key, index) => {
+							: Object.keys(locations).map((key) => {
 								let startdate = new Date(locations[key].startdate.seconds * 1000);
 								let enddate = new Date(locations[key].enddate.seconds * 1000);
 								return (
@@ -124,7 +175,7 @@ class LocationsPage extends React.Component {
 										<ExpansionPanel className={classes.locationPanel}>
 											<ExpansionPanelSummary>
 												<div className={classes.smallColumn}>
-													<Avatar><StarIcon/></Avatar>
+													<Avatar src="/images/star.jpg"/>
 												</div>
 												<div className={classes.bigColumn}>
 													<Typography>{locations[key].title}</Typography>
@@ -138,12 +189,12 @@ class LocationsPage extends React.Component {
 												</div>
 												<div className={classes.smallColumn}>
 													<NavLink exact
-													         to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
+															 to={routes.LOCATIONS_EDIT}><Avatar><ArrowRightIcon/></Avatar></NavLink>
 												</div>
 											</ExpansionPanelSummary>
 											<ExpansionPanelDetails>
 												<div className={classes.smallColumn}
-												     style={{borderLeft: 'thin solid #000000'}}>
+													 style={{borderLeft: 'thin solid #000000'}}>
 													<Chip
 														label="Activity 1"
 														component="a"
@@ -183,15 +234,20 @@ class LocationsPage extends React.Component {
 							})}
 				</div>
 				<hr/>
+				<br/>
+				{/*
+-----------------------------------------------------------------------------------------------------------------------
+						Old version
+-----------------------------------------------------------------------------------------------------------------------
+*/}
 				<p><b>old version</b></p>
 				{/* old version with hrLine */}
-				<br/>
 				<div>
 					{!isLoaded(locations)
 						? 'Loading...'
 						: isEmpty(locations)
 							? 'No Locations created yet.'
-							: Object.keys(locations).map((key, index) => {
+							: Object.keys(locations).map((key) => {
 								let label = locations[key].title;
 								let startdate = new Date(locations[key].startdate.seconds * 1000);
 								let enddate = new Date(locations[key].enddate.seconds * 1000);
@@ -200,7 +256,7 @@ class LocationsPage extends React.Component {
 										<ExpansionPanel className={classes.locationPanel} key={key}>
 											<ExpansionPanelSummary>
 												<div className={classes.smallColumn}>
-													<Avatar><StarIcon/></Avatar>
+													<Avatar src="/images/star.jpg"/>
 												</div>
 												<div className={classes.bigColumn}>
 													<Typography>{label}</Typography>
