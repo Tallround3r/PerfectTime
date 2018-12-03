@@ -5,7 +5,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import ActivitiesList from '../components/ActivitiesListX';
+import ActivitiesList from '../components/ActivitiesList';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import PictureStar from '../images/star.jpg';
