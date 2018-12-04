@@ -74,7 +74,7 @@ class LocationEditPage extends React.Component {
 	};
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		const {location, activities} = this.props;
+		const {location} = this.props;
 		if (location !== prevProps.location) {
 			this.setState({
 				location: {
@@ -82,11 +82,6 @@ class LocationEditPage extends React.Component {
 					startdate: location.startdate.toDate(),
 					enddate: location.enddate.toDate(),
 				},
-			});
-		}
-		if (activities !== prevProps.activities) {
-			this.setState({
-				activities,
 			});
 		}
 	}
@@ -104,7 +99,6 @@ class LocationEditPage extends React.Component {
 			}],
 		};
 		const locationWithoutActivities = omit(location, 'activities');
-		// TODO: [bug] activities werden beim speichern aus state geloescht
 
 		firestore.set(firestoreRef, locationWithoutActivities);
 
@@ -164,7 +158,7 @@ class LocationEditPage extends React.Component {
 	};
 
 	render() {
-		const {classes, activities, match} = this.props;
+		const {classes, match} = this.props;
 		const {location} = this.state;
 		const {title, description, startdate, enddate, address} = location;
 		const tripId = match.params[URL_PARAM_TRIP];
@@ -322,7 +316,6 @@ LocationEditPage.propTypes = {
 	}).isRequired,
 	classes: PropTypes.object.isRequired,
 	location: PropTypes.objectOf(Location),
-	activities: PropTypes.object,
 };
 
 export default compose(
@@ -332,7 +325,6 @@ export default compose(
 		const locationId = props.match.params[URL_PARAM_LOCATION];
 		return [
 			`TRIPS/${tripId}/locations/${locationId}`,
-			`TRIPS/${tripId}/locations/${locationId}/activities`,
 		];
 	}),
 	connect(
@@ -344,11 +336,6 @@ export default compose(
 					&& data.TRIPS[tripId]
 					&& data.TRIPS[tripId].locations
 					&& data.TRIPS[tripId].locations[locationId],
-				activities: data.TRIPS
-					&& data.TRIPS[tripId]
-					&& data.TRIPS[tripId].locations
-					&& data.TRIPS[tripId].locations[locationId]
-					&& data.TRIPS[tripId].locations[locationId].activities,
 			};
 		},
 	),
