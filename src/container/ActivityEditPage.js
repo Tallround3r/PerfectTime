@@ -3,6 +3,9 @@ import Activity from "../models/Activity";
 import {withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import PropTypes from "prop-types";
+import {firestoreConnect} from "react-redux-firebase";
+import {URL_PARAM_LOCATION, URL_PARAM_TRIP, URL_PARAM_ACTIVITY} from "../constants/routes";
+import connect from "react-redux/es/connect/connect";
 
 class ActivityEditPage extends React.Component {
 
@@ -25,7 +28,10 @@ class ActivityEditPage extends React.Component {
 
     render() {
         return (
-            <h1>Edit Activity</h1>
+            <div>
+                <h1>Edit Activity</h1>
+                <h1>{this.props.activity.title}</h1>
+            </div>
         );
     }
 
@@ -36,4 +42,31 @@ ActivityEditPage.propTypes = {
     activityId: PropTypes.string.isRequired,
 };
 
-export default compose(withRouter) (ActivityEditPage);
+export default compose(withRouter,
+    firestoreConnect((props) => {
+        const tripId = props.match.params[URL_PARAM_TRIP];
+        const locationId = props.match.params[URL_PARAM_LOCATION];
+        const activityId = props.match.params[URL_PARAM_ACTIVITY];
+        return [
+            `TRIPS/${tripId}/locations/${locationId}`,
+            `TRIPS/${tripId}/locations/${locationId}/activities`,
+            `TRIPS/${tripId}/locations/${locationId}/activities/${activityId}`,
+        ];
+    }),
+    connect(
+        ({firestore: {data}}, props) => {
+            const tripId = props.match.params[URL_PARAM_TRIP];
+            const locationId = props.match.params[URL_PARAM_LOCATION];
+            const activityId = props.match.params[URL_PARAM_ACTIVITY];
+            return {
+                activity: data.TRIPS
+                    && data.TRIPS[tripId]
+                    && data.TRIPS[tripId].locations
+                    && data.TRIPS[tripId].locations[locationId]
+                    && data.TRIPS[tripId].locations[locationId].activities
+                    && data.TRIPS[tripId].locations[locationId].activities[activityId],
+
+            };
+        },
+    ),
+)(ActivityEditPage);
