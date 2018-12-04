@@ -302,15 +302,10 @@ class LocationEditPage extends React.Component {
 						Activities
 					</Typography>
 
-					{!isLoaded(activities)
-						? 'Loading activities...'
-						: isEmpty(activities)
-							? 'No Activities created yet.'
-							: <ActivitiesSlider
-								tripId={tripId}
-								locationId={locationId}
-							/>
-					}
+					<ActivitiesSlider
+						tripId={tripId}
+						locationId={locationId}
+					/>
 				</div>
 			</div>
 		);
