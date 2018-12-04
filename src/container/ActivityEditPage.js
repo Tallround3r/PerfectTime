@@ -1,30 +1,39 @@
 import React from 'react';
+import Activity from "../models/Activity";
+import {withRouter} from 'react-router-dom';
+import {compose} from 'redux';
+import PropTypes from "prop-types";
 
 class ActivityEditPage extends React.Component {
 
-	constructor() {
-		super();
-	}
+    state = {
+        activity: new Activity(),
+    };
 
-	componentDidMount() {
+    componentDidMount() {
 
-	}
+    }
 
-	//loads custom fields, defined by the user which are not included in standard
-	loadCustomFields() {
+    //loads custom fields, defined by the user which are not included in standard
+    loadCustomFields() {
 
-	}
+    }
 
-	saveActivity() {
+    saveActivity() {
 
-	}
+    }
 
-	render() {
-		return (
-			<h1>Edit Activity</h1>
-		);
-	}
+    render() {
+        return (
+            <h1>Edit Activity</h1>
+        );
+    }
 
 }
 
-export default ActivityEditPage;
+ActivityEditPage.propTypes = {
+    activity: PropTypes.objectOf(Activity).isRequired,
+    activityId: PropTypes.string.isRequired,
+};
+
+export default compose(withRouter) (ActivityEditPage);

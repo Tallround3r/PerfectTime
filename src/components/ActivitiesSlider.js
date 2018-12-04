@@ -63,7 +63,7 @@ class ActivitiesSlider extends React.Component {
 
 	renderActivityCards = () => Object.keys(this.props.activities).map(key => (
 		<div key={key} className={this.props.classes.slideItem}>
-			<ActivityCard activity={this.props.activities[key]}/>
+			<ActivityCard activity={this.props.activities[key]} activityId = {key}/>
 		</div>
 	));
 }
