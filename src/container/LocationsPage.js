@@ -5,7 +5,6 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import ActivitiesList from '../components/ActivitiesList';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import PictureStar from '../images/star.jpg';
@@ -17,7 +16,7 @@ import {NavLink, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import {URL_PARAM_TRIP} from '../constants/routes';
-import {TRIP_ID} from '../constants/staticIds';
+import ActivitiesSlider from '../components/ActivitiesSlider';
 
 
 const styles = theme => ({
@@ -53,19 +52,24 @@ const styles = theme => ({
 
 class LocationsPage extends React.Component {
 
+	state = {
+		expanded: null,
+	};
+
+	handleExpansionPanelChange = panel => (event, expanded) => {
+		this.setState({
+			expanded: expanded ? panel : null,
+		});
+	};
+
 	render() {
 		const {classes, locations, match} = this.props;
+		const {expanded} = this.state;
 		const tripId = match.params[URL_PARAM_TRIP];
 
 		return (
 			<div>
 				<h1>Locations</h1>
-				{/*
------------------------------------------------------------------------------------------------------------------------
-							Overview with carousel in ExpansionPanel
------------------------------------------------------------------------------------------------------------------------
-*/}
-				<p><b>Overview with carousel in ExpansionPanel</b></p>
 				<div>
 					{!isLoaded(locations)
 						? 'Loading...'
@@ -77,7 +81,11 @@ class LocationsPage extends React.Component {
 								let enddate = new Date(locations[key].enddate.seconds * 1000);
 								return (
 									<div key={key}>
-										<ExpansionPanel className={classes.locationPanel}>
+										<ExpansionPanel
+											className={classes.locationPanel}
+											expanded={expanded === key}
+											onChange={this.handleExpansionPanelChange(key)}
+										>
 											<ExpansionPanelSummary>
 												<div className={classes.smallColumn}>
 													<Avatar src={PictureStar}/>
@@ -105,7 +113,10 @@ class LocationsPage extends React.Component {
 
 											<ExpansionPanelDetails>
 												<div style={{width: '100%'}}>
-													<ActivitiesList tripId={TRIP_ID} locationId={key}/>
+													<ActivitiesSlider
+														tripId={tripId}
+														locationId={key}
+													/>
 												</div>
 											</ExpansionPanelDetails>
 										</ExpansionPanel>

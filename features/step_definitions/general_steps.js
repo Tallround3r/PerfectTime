@@ -1,6 +1,7 @@
 const {Given, When, Then} = require('cucumber');
 const url = require('../support/pages/const-url').url;
 const select = require('../support/pages/const-selection').select;
+const {ClientFunction} = require('testcafe');
 
 Given('I have navigated to {string}', async function (string) {
     await testController.navigateTo(url(string));
