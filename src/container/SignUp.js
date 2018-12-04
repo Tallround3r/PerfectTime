@@ -177,7 +177,7 @@ class SignUp extends React.Component {
 								/>
 							</FormControl>
 							<FormControl margin="normal" required fullWidth>
-								<InputLabel htmlFor="email">E-Mail</InputLabel>
+								<InputLabel htmlFor="email">Email</InputLabel>
 								<Input id="email"
 									   name="email"
 									   autoComplete="email"
@@ -186,7 +186,7 @@ class SignUp extends React.Component {
 								/>
 							</FormControl>
 							<FormControl margin="normal" required fullWidth>
-								<InputLabel htmlFor="password">Passwort</InputLabel>
+								<InputLabel htmlFor="password">Password</InputLabel>
 								<Input id="password"
 									   name="password"
 									   type="password"
@@ -196,7 +196,7 @@ class SignUp extends React.Component {
 								/>
 							</FormControl>
 							<FormControl margin="normal" required fullWidth>
-								<InputLabel htmlFor="passwordConfirm">Passwort wiederholen</InputLabel>
+								<InputLabel htmlFor="passwordConfirm">Repeat Password</InputLabel>
 								<Input id="passwordConfirm"
 									   name="passwordConfirm"
 									   type="password"
