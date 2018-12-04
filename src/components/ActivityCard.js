@@ -14,11 +14,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {compose} from 'redux';
 import {Activity} from '../models';
+import {withRouter} from 'react-router-dom';
 import {getRandomImage} from '../utils/RessourceUtils';
 import {parseDateToString} from '../utils/parser';
 import * as routes from "../constants/routes";
-import {TRIP_ID} from "../constants/staticIds";
-import logo from "../images/logo_perfecttime.svg";
 import {NavLink} from "react-router-dom";
 
 
@@ -99,4 +98,5 @@ ActivityCard.propTypes = {
 
 export default compose(
     withStyles(styles),
+    withRouter,
 )(ActivityCard);
