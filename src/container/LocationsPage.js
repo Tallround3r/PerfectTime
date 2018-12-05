@@ -110,7 +110,7 @@ class LocationsPage extends React.Component {
 													<Typography>{locations[key].description}</Typography>
 												</div>
 												<div className={classes.smallColumn}>
-													<NavLink exact to={routes.LOCATIONS_EDIT(tripId, key)}>
+													<NavLink exact to={routes.LOCATIONS_VIEW(tripId, key)}>
 														<Avatar>
 															<ArrowRightIcon/>
 														</Avatar>
