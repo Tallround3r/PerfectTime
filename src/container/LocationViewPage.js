@@ -16,7 +16,7 @@ import * as routes from "../constants/routes";
 
 
 const styles = theme => ({
-	locationEditPage: {
+	locationViewPage: {
 		paddingTop: theme.spacing.unit * 3,
 	},
 	inputContainer: {
@@ -27,20 +27,10 @@ const styles = theme => ({
 		paddingRight: theme.spacing.unit * 10,
 		minWidth: '25em',
 	},
-	inputField: {
-		marginTop: theme.spacing.unit,
-		color: '#000000'
-	},
 	inputHorizontalContainer: {
 		display: 'flex',
 		justifyContent: 'space-between',
 		flexWrap: 'nowrap',
-	},
-	inputHorizontalSpacing: {
-		marginRight: theme.spacing.unit * 2,
-	},
-	addressLabel: {
-		marginTop: theme.spacing.unit * 2,
 	},
 	imagePaper: {
 		display: 'flex',
@@ -54,15 +44,6 @@ const styles = theme => ({
 	imageIcon: {
 		fontSize: '10em',
 	},
-	actionButtonsContainer: {
-		display: 'flex',
-		justifyContent: 'space-between',
-		marginTop: theme.spacing.unit * 4,
-	},
-	actionButton: {
-		marginLeft: theme.spacing.unit,
-		marginRight: theme.spacing.unit,
-	},
 	activitiesContainer: {
 		marginTop: theme.spacing.unit * 6,
 	},
@@ -73,7 +54,7 @@ const styles = theme => ({
 });
 
 
-class LocationEditPage extends React.Component {
+class LocationViewPage extends React.Component {
 
 	state = {
 		location: new Location(),
@@ -92,77 +73,6 @@ class LocationEditPage extends React.Component {
 		}
 	}
 
-	handleSubmit = (e) => {
-		const {firestore, match} = this.props;
-		const {location} = this.state;
-
-		const firestoreRef = {
-			collection: 'TRIPS',
-			doc: match.params[URL_PARAM_TRIP],
-			subcollections: [{
-				collection: 'locations',
-				doc: match.params[URL_PARAM_LOCATION],
-			}],
-		};
-		const locationWithoutActivities = omit(location, 'activities');
-
-		firestore.set(firestoreRef, locationWithoutActivities);
-
-		e.preventDefault();
-	};
-
-	handleCancel = (e) => {
-		const {location} = this.props;
-
-		this.setState({
-			location: {
-				...location,
-				startdate: location.startdate.toDate(),
-				enddate: location.enddate.toDate(),
-			},
-		});
-
-		e.preventDefault();
-	};
-
-	handleChangeInput = (e) => {
-		const {name, value} = e.target;
-
-		this.setState((prevState) => {
-			return {
-				location: {
-					...prevState.location,
-					[name]: value,
-				},
-			};
-		});
-	};
-
-	handleChangeAddress = (e) => {
-		const {name, value} = e.target;
-
-		this.setState((prevState) => ({
-			location: {
-				...prevState.location,
-				address: {
-					...prevState.location.address,
-					[name]: value,
-				},
-			},
-		}));
-	};
-
-	handleChangeDate = (name) => (date) => {
-		this.setState((prevState) => {
-			return {
-				location: {
-					...prevState.location,
-					[name]: date,
-				},
-			};
-		});
-	};
-
 	render() {
 		const {classes, match} = this.props;
 		const {location} = this.state;
@@ -171,7 +81,7 @@ class LocationEditPage extends React.Component {
 		const locationId = match.params[URL_PARAM_LOCATION];
 
 		return (
-			<div className={classes.locationEditPage}>
+			<div className={classes.locationViewPage}>
 				<Typography
 					variant="h4"
 					gutterBottom={true}
@@ -253,17 +163,6 @@ class LocationEditPage extends React.Component {
 
 }
 
-LocationEditPage.propTypes = {
-	match: PropTypes.shape({
-		params: PropTypes.shape({
-			[URL_PARAM_TRIP]: PropTypes.string.isRequired,
-			[URL_PARAM_LOCATION]: PropTypes.string.isRequired,
-		}),
-	}).isRequired,
-	classes: PropTypes.object.isRequired,
-	location: PropTypes.objectOf(Location),
-};
-
 export default compose(
 	withRouter,
 	firestoreConnect((props) => {
@@ -286,4 +185,4 @@ export default compose(
 		},
 	),
 	withStyles(styles),
-)(LocationEditPage);
+)(LocationViewPage);
