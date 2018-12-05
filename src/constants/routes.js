@@ -5,7 +5,7 @@ export const SIGN_IN = '/login';
 export const SIGN_UP = '/register';
 
 export const LOCATIONS = (tripId = `:${URL_PARAM_TRIP}`) => `/${tripId}/locations`;
-export const LOCATIONS_ADD = '/locations/add';
+export const LOCATIONS_ADD = (tripId = `:${URL_PARAM_TRIP}`) => `/${tripId}/locations/add`;
 export const LOCATIONS_EDIT = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${URL_PARAM_LOCATION}`) =>
 	`/${tripId}/locations/${locationId}/edit`;
 
