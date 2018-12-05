@@ -19,6 +19,8 @@ import {getRandomImage} from '../utils/RessourceUtils';
 import {parseDateToString} from '../utils/parser';
 import * as routes from "../constants/routes";
 import {NavLink} from "react-router-dom";
+import {URL_PARAM_TRIP} from "../constants/routes";
+import {URL_PARAM_LOCATION} from "../constants/routes";
 
 
 const styles = theme => ({
@@ -47,8 +49,10 @@ class ActivityCard extends React.Component {
     };
 
     render() {
-        const {classes, activity} = this.props;
+        const {classes, activity, match} = this.props;
         const {title, description, startdate, enddate} = activity;
+        const tripId = match.params[URL_PARAM_TRIP];
+        const locationId = match.params[URL_PARAM_LOCATION];
 
         return (
             <Card className={classes.card}>
@@ -78,7 +82,7 @@ class ActivityCard extends React.Component {
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Edit" aria-label="Edit">
-                        <NavLink exact to={routes.ACTIVITY_EDIT(this.props.activityId)}>
+                        <NavLink exact to={routes.ACTIVITY_EDIT(tripId, locationId, this.props.activityId)}>
                             <IconButton>
                                 <Edit/>
                             </IconButton>
@@ -91,12 +95,18 @@ class ActivityCard extends React.Component {
 }
 
 ActivityCard.propTypes = {
+    match: PropTypes.shape({
+        params: PropTypes.shape({
+            [URL_PARAM_TRIP]: PropTypes.string.isRequired,
+            [URL_PARAM_LOCATION]: PropTypes.string.isRequired,
+        }),
+    }).isRequired,
     classes: PropTypes.object.isRequired,
     activity: PropTypes.objectOf(Activity).isRequired,
     activityId: PropTypes.string.isRequired,
 };
 
 export default compose(
-    withStyles(styles),
     withRouter,
+    withStyles(styles),
 )(ActivityCard);

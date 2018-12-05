@@ -10,8 +10,10 @@ export const LOCATIONS_EDIT = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${U
 
 export const ACTIVITIES = '/activities';
 export const ACTIVITY_ADD = '/activities/add';
-export const ACTIVITY_EDIT = (activityId = `:${URL_PARAM_ACTIVITY}`) =>
-    `./activity/${activityId}/edit`;
+export const ACTIVITY_EDIT = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${URL_PARAM_LOCATION}`, activityId = `:${URL_PARAM_ACTIVITY}`) =>
+    `/${tripId}/locations/${locationId}/activity/${activityId}`;
+// export const ACTIVITY_EDIT = (activityId = `:${URL_PARAM_ACTIVITY}`) =>
+//     `./activity/${activityId}/edit`;
 
 export const MEMBERS = '/members';
 
