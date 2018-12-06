@@ -7,9 +7,10 @@ import {
     IconButton,
     Tooltip,
     Typography,
+    CardActionArea,
     withStyles,
 } from '@material-ui/core';
-import {Delete, Edit} from '@material-ui/icons';
+import {Delete, Edit, OpenInNew } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {compose} from 'redux';
@@ -72,7 +73,6 @@ class ActivityCard extends React.Component {
                         {description}
                     </Typography>
                 </CardContent>
-
                 <CardActions className={classes.actions}>
                     <Tooltip title="Delete" aria-label="Delete">
                         <IconButton
@@ -85,6 +85,13 @@ class ActivityCard extends React.Component {
                         <NavLink exact to={routes.ACTIVITY_EDIT(tripId, locationId, this.props.activityId)}>
                             <IconButton>
                                 <Edit/>
+                            </IconButton>
+                        </NavLink>
+                    </Tooltip>
+                    <Tooltip title="Open" aria-label="Open">
+                        <NavLink exact to={routes.ACTIVITY_VIEW(tripId, locationId, this.props.activityId)}>
+                            <IconButton>
+                                <OpenInNew/>
                             </IconButton>
                         </NavLink>
                     </Tooltip>

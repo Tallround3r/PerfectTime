@@ -5,6 +5,7 @@ import * as routes from '../constants/routes';
 import ActivitiesPage from './ActivitiesPage';
 import ActivityAddPage from './ActivityAddPage';
 import ActivityEditPage from './ActivityEditPage';
+import ActivityViewPage from './ActivityViewPage';
 import DemoPage from './DemoPage';
 import LocationAddPage from './LocationAddPage';
 import LocationEditPage from './LocationEditPage';
@@ -23,6 +24,7 @@ function Main() {
 				<Route exact path={routes.ACTIVITIES} component={withDrawer(ActivitiesPage)}/>
 				<Route exact path={routes.ACTIVITY_ADD} component={withDrawer(ActivityAddPage)}/>
 				<Route exact path={routes.ACTIVITY_EDIT()} component={withDrawer(ActivityEditPage)}/>
+                <Route exact path={routes.ACTIVITY_VIEW()} component={withDrawer(ActivityViewPage)}/>
 				<Route exact path={routes.MEMBERS} component={withDrawer(MembersPage)}/>
 				<Route exact path={routes.SIGN_IN} component={SignIn}/>
 				<Route exact path={routes.SIGN_UP} component={SignUp}/>

@@ -7,7 +7,7 @@ import {firestoreConnect} from "react-redux-firebase";
 import {URL_PARAM_LOCATION, URL_PARAM_TRIP, URL_PARAM_ACTIVITY} from "../constants/routes";
 import connect from "react-redux/es/connect/connect";
 
-class ActivityEditPage extends React.Component {
+class ActivityViewPage extends React.Component {
 
     state = {
         activity: new Activity(),
@@ -29,16 +29,14 @@ class ActivityEditPage extends React.Component {
     render() {
         return (
             <div>
-                <h1>Edit Activity</h1>
-                <p>{this.props.activity.title}</p>
-                <p>{this.props.activity.description}</p>
+                <h1>{this.props.activity.title}</h1>
             </div>
         );
     }
 
 }
 
-ActivityEditPage.propTypes = {
+ActivityViewPage.propTypes = {
     activity: PropTypes.objectOf(Activity).isRequired,
     activityId: PropTypes.string.isRequired,
 };
@@ -66,8 +64,7 @@ export default compose(withRouter,
                     && data.TRIPS[tripId].locations[locationId]
                     && data.TRIPS[tripId].locations[locationId].activities
                     && data.TRIPS[tripId].locations[locationId].activities[activityId],
-
             };
         },
     ),
-)(ActivityEditPage);
+)(ActivityViewPage);
