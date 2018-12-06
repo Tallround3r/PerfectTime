@@ -26,7 +26,7 @@ const styles = theme => ({
 		border: 'thin solid #000000',
 		marginTop: theme.spacing.unit * 2,
 		marginBottom: theme.spacing.unit * 2,
-		background: theme.palette.secondary.main
+		background: theme.palette.secondary.main,
 	},
 	bigColumn: {
 		flexBasis: '50%',
@@ -52,8 +52,8 @@ const styles = theme => ({
 	},
 	fab: {
 		position: 'absolute',
-		bottom: theme.spacing.unit * 3,
-		right: theme.spacing.unit * 3,
+		bottom: theme.spacing.unit * 5,
+		right: theme.spacing.unit * 5,
 	},
 });
 
@@ -131,9 +131,16 @@ class LocationsPage extends React.Component {
 								);
 							})}
 				</div>
-				<Fab color="primary" aria-label="Add" className={classes.fab} href={routes.LOCATIONS_ADD}>
-					<AddIcon />
-				</Fab>
+
+				<NavLink exact to={routes.LOCATIONS_ADD(tripId)}>
+					<Fab
+						className={classes.fab}
+						color="primary"
+						aria-label="Add"
+					>
+						<AddIcon/>
+					</Fab>
+				</NavLink>
 			</div>
 		);
 	}

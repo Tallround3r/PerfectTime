@@ -7,6 +7,7 @@ import React from 'react';
 import {firestoreConnect} from 'react-redux-firebase';
 import {withRouter} from 'react-router-dom';
 import {compose} from 'redux';
+import * as routes from '../constants/routes';
 import {URL_PARAM_TRIP} from '../constants/routes';
 import {Address, Location} from '../models';
 
@@ -92,9 +93,14 @@ class LocationAddPage extends React.Component {
 	};
 
 	handleCancel = (e) => {
+		const {history, match} = this.props;
+
 		this.setState({
-			location: new Location(),
+			location: INITIAL_LOCATION,
 		});
+
+		const tripId = match.params[URL_PARAM_TRIP];
+		history.push(routes.LOCATIONS(tripId));
 
 		e.preventDefault();
 	};
@@ -277,6 +283,7 @@ LocationAddPage.propTypes = {
 		}),
 	}).isRequired,
 	classes: PropTypes.object.isRequired,
+	history: PropTypes.object.isRequired,
 };
 
 export default compose(
