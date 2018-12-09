@@ -89,8 +89,12 @@ class ActivityEditPage extends React.Component {
             collection: 'TRIPS',
             doc: match.params[URL_PARAM_TRIP],
             subcollections: [{
-                collection: 'activities',
-                doc: match.params[URL_PARAM_ACTIVITY],
+                collection: 'locations',
+                doc: match.params[URL_PARAM_LOCATION],
+                subcollections: [{
+                    collection: 'activities',
+                    doc: match.params[URL_PARAM_ACTIVITY],
+                }]
             }],
         };
         firestore.set(firestoreRef, activity);

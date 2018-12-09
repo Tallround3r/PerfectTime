@@ -9,7 +9,8 @@ export const LOCATIONS_EDIT = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${U
     `/${tripId}/locations/${locationId}/edit`;
 
 export const ACTIVITIES = '/activities';
-export const ACTIVITY_ADD = '/activities/add';
+export const ACTIVITY_ADD = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${URL_PARAM_LOCATION}`) =>
+    `/${tripId}/locations/${locationId}/activity/add`;
 export const ACTIVITY_EDIT = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${URL_PARAM_LOCATION}`, activityId = `:${URL_PARAM_ACTIVITY}`) =>
     `/${tripId}/locations/${locationId}/activity/${activityId}/edit`;
 export const ACTIVITY_VIEW = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${URL_PARAM_LOCATION}`, activityId = `:${URL_PARAM_ACTIVITY}`) =>

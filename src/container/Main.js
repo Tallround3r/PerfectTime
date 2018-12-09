@@ -22,7 +22,7 @@ function Main() {
 				<Route exact path={routes.LOCATIONS_ADD} component={withDrawer(LocationAddPage)}/>
 				<Route exact path={routes.LOCATIONS_EDIT()} component={withDrawer(LocationEditPage)}/>
 				<Route exact path={routes.ACTIVITIES} component={withDrawer(ActivitiesPage)}/>
-				<Route exact path={routes.ACTIVITY_ADD} component={withDrawer(ActivityAddPage)}/>
+				<Route exact path={routes.ACTIVITY_ADD()} component={withDrawer(ActivityAddPage)}/>
 				<Route exact path={routes.ACTIVITY_EDIT()} component={withDrawer(ActivityEditPage)}/>
                 <Route exact path={routes.ACTIVITY_VIEW()} component={withDrawer(ActivityViewPage)}/>
 				<Route exact path={routes.MEMBERS} component={withDrawer(MembersPage)}/>
