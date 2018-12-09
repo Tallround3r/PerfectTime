@@ -5,7 +5,7 @@ import DatePicker from 'material-ui-pickers/DatePicker';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
-import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
+import {firestoreConnect} from 'react-redux-firebase';
 import {withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import {omit} from 'underscore';
@@ -13,7 +13,6 @@ import ActivitiesSlider from '../components/ActivitiesSlider';
 import * as routes from '../constants/routes';
 import {URL_PARAM_LOCATION, URL_PARAM_TRIP} from '../constants/routes';
 import {Location} from '../models';
-import * as routes from "../constants/routes";
 
 
 const styles = theme => ({
@@ -122,7 +121,8 @@ class LocationEditPage extends React.Component {
 		});
 
 		const tripId = match.params[URL_PARAM_TRIP];
-		history.push(routes.LOCATIONS(tripId));
+		const locationId = match.params[URL_PARAM_LOCATION];
+		history.push(routes.LOCATIONS_VIEW(tripId, locationId));
 
 		e.preventDefault();
 	};
@@ -285,12 +285,11 @@ class LocationEditPage extends React.Component {
 							</Button>
 							<Button
 								className={classes.actionButton}
-								href={routes.LOCATIONS_VIEW(tripId, locationId)}
 								variant="contained"
 								color="secondary"
 								fullWidth
+								onClick={this.handleCancel}
 							>
-								{/*onClick={this.handleCancel}*/}
 								Cancel
 							</Button>
 						</div>

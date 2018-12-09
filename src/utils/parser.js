@@ -1,6 +1,9 @@
 import {isDate} from 'underscore';
 
 export function parseDateToString(timestamp) {
+	if (!timestamp)
+		return '';
+
 	const date = isDate(timestamp) ? timestamp : timestamp.toDate();
 
 	const day = date.getDate();
