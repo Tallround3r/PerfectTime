@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import * as routes from "../constants/routes";
 import {URL_PARAM_LOCATION, URL_PARAM_TRIP} from "../constants/routes";
-import * as routes from '../constants/routes';
 import Address from "../models/Address";
 import {compose} from "redux";
 import {withRouter} from "react-router-dom";
@@ -217,15 +217,15 @@ class ActivityAddPage extends React.Component {
                         />
 
                         <div className={classes.actionButtonsContainer}>
-                                <Button
-                                    className={classes.actionButton}
-                                    type="submit"
-                                    variant="contained"
-                                    color="primary"
-                                    fullWidth
-                                >
-                                    Add Activity
-                                </Button>
+                            <Button
+                                className={classes.actionButton}
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                            >
+                                Add Activity
+                            </Button>
                         </div>
                     </form>
                 </div>

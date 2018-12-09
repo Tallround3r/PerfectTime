@@ -3,15 +3,14 @@ import Activity from "../models/Activity";
 import {withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import PropTypes from "prop-types";
-import {firestoreConnect, isEmpty, isLoaded} from "react-redux-firebase";
-import {URL_PARAM_LOCATION, URL_PARAM_TRIP, URL_PARAM_ACTIVITY} from "../constants/routes";
+import {firestoreConnect} from "react-redux-firebase";
+import * as routes from "../constants/routes";
+import {URL_PARAM_ACTIVITY, URL_PARAM_LOCATION, URL_PARAM_TRIP} from "../constants/routes";
 import connect from "react-redux/es/connect/connect";
 import {Button, Paper, TextField, Typography, withStyles} from "@material-ui/core";
-import {omit} from "underscore";
 import {AddPhotoAlternateOutlined} from "@material-ui/icons";
 import DatePicker from "material-ui-pickers/DatePicker/DatePickerModal";
 import classNames from "classnames";
-import * as routes from "../constants/routes";
 
 import styles from "../styles/ActivityEditStyles";
 

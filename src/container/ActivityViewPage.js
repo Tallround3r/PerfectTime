@@ -5,10 +5,10 @@ import {NavLink, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import PropTypes from "prop-types";
 import {firestoreConnect} from "react-redux-firebase";
-import {URL_PARAM_LOCATION, URL_PARAM_TRIP, URL_PARAM_ACTIVITY} from "../constants/routes";
+import * as routes from "../constants/routes";
+import {URL_PARAM_ACTIVITY, URL_PARAM_LOCATION, URL_PARAM_TRIP} from "../constants/routes";
 import {parseDateToString} from '../utils/parser';
 import connect from "react-redux/es/connect/connect";
-import * as routes from '../constants/routes';
 import {Button, Paper, Typography, withStyles} from "@material-ui/core";
 
 import styles from "../styles/ActivityViewStyles"
