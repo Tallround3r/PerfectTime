@@ -75,6 +75,8 @@ ActivitiesSlider.propTypes = {
 	activities: PropTypes.object,
 };
 
+// TODO: [bug] Activities werden erst beim reload der kompletten Seite geladen
+
 export default compose(
 	firestoreConnect((props) => [
 		`TRIPS/${props.tripId}/locations/${props.locationId}/activities`,

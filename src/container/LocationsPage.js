@@ -17,6 +17,8 @@ import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import {URL_PARAM_TRIP} from '../constants/routes';
 import ActivitiesSlider from '../components/ActivitiesSlider';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 
 const styles = theme => ({
@@ -24,7 +26,7 @@ const styles = theme => ({
 		border: 'thin solid #000000',
 		marginTop: theme.spacing.unit * 2,
 		marginBottom: theme.spacing.unit * 2,
-		background: '#aff4ff',
+		background: theme.palette.secondary.main,
 	},
 	bigColumn: {
 		flexBasis: '50%',
@@ -47,6 +49,11 @@ const styles = theme => ({
 		flexWrap: 'wrap',
 		flexDirection: 'column',
 		width: '100%',
+	},
+	fab: {
+		position: 'absolute',
+		bottom: theme.spacing.unit * 5,
+		right: theme.spacing.unit * 5,
 	},
 });
 
@@ -103,7 +110,7 @@ class LocationsPage extends React.Component {
 													<Typography>{locations[key].description}</Typography>
 												</div>
 												<div className={classes.smallColumn}>
-													<NavLink exact to={routes.LOCATIONS_EDIT(tripId, key)}>
+													<NavLink exact to={routes.LOCATIONS_VIEW(tripId, key)}>
 														<Avatar>
 															<ArrowRightIcon/>
 														</Avatar>
@@ -124,6 +131,16 @@ class LocationsPage extends React.Component {
 								);
 							})}
 				</div>
+
+				<NavLink exact to={routes.LOCATIONS_ADD(tripId)}>
+					<Fab
+						className={classes.fab}
+						color="primary"
+						aria-label="Add"
+					>
+						<AddIcon/>
+					</Fab>
+				</NavLink>
 			</div>
 		);
 	}

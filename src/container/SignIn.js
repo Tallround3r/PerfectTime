@@ -121,7 +121,7 @@ class SignIn extends React.Component {
 
 						<form className={classes.form} onSubmit={this.handleSubmit}>
 							<FormControl margin="normal" required fullWidth>
-								<InputLabel htmlFor="email">E-Mail</InputLabel>
+								<InputLabel htmlFor="email">Email</InputLabel>
 								<Input id="email" autoFocus
 									   name="email"
 									   autoComplete="email"
@@ -130,7 +130,7 @@ class SignIn extends React.Component {
 								/>
 							</FormControl>
 							<FormControl margin="normal" required fullWidth>
-								<InputLabel htmlFor="password">Passwort</InputLabel>
+								<InputLabel htmlFor="password">Password</InputLabel>
 								<Input
 									name="password"
 									type="password"

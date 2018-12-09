@@ -1,7 +1,9 @@
 import firebase from 'firebase';
 import {firebaseReducer, reactReduxFirebase} from 'react-redux-firebase';
-import {combineReducers, compose, createStore} from 'redux';
+import {combineReducers, compose, createStore, applyMiddleware} from 'redux';
 import {firestoreReducer, reduxFirestore} from 'redux-firestore';
+import thunk from 'redux-thunk';
+
 
 export default function configureStore() {
 
@@ -25,10 +27,19 @@ export default function configureStore() {
 		firestore: firestoreReducer,
 	});
 
+	const composeEnhancer = process.env.NODE_ENV === 'development'
+		? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose : compose;
+
 	// Create store with reducers and initial state
 	const initialState = {};
 
-	const store = createStoreWithFirebase(rootReducer, initialState);
+	const store = createStoreWithFirebase(
+		rootReducer,
+		initialState,
+		composeEnhancer(
+			applyMiddleware(thunk),
+		),
+	);
 
 	return store;
 }
