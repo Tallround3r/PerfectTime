@@ -87,10 +87,12 @@ class LocationAddPage extends React.Component {
 			}],
 		};
 
-		firestore.add(firestoreRef, location);
+		firestore.add(firestoreRef, location)
+			.then((docRef) => {
+				const tripId = match.params[URL_PARAM_TRIP];
+				history.push(routes.LOCATIONS_VIEW(tripId, docRef.id));
+			});
 
-		const tripId = match.params[URL_PARAM_TRIP];
-		history.push(routes.LOCATIONS(tripId));
 
 		e.preventDefault();
 	};

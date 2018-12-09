@@ -104,7 +104,8 @@ class LocationEditPage extends React.Component {
 		firestore.set(firestoreRef, locationWithoutActivities);
 
 		const tripId = match.params[URL_PARAM_TRIP];
-		history.push(routes.LOCATIONS(tripId));
+		const locationId = match.params[URL_PARAM_LOCATION];
+		history.push(routes.LOCATIONS_VIEW(tripId, locationId));
 
 		e.preventDefault();
 	};
