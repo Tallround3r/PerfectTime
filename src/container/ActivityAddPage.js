@@ -41,7 +41,7 @@ class ActivityAddPage extends React.Component {
                 }]
             }],
         };
-        firestore.set(firestoreRef, activity);
+        firestore.add(firestoreRef, activity);
 
         e.preventDefault();
     };
