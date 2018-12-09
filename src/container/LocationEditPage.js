@@ -88,7 +88,7 @@ class LocationEditPage extends React.Component {
 	}
 
 	handleSubmit = (e) => {
-		const {firestore, match} = this.props;
+		const {firestore, match, history} = this.props;
 		const {location} = this.state;
 
 		const firestoreRef = {
@@ -102,6 +102,9 @@ class LocationEditPage extends React.Component {
 		const locationWithoutActivities = omit(location, 'activities');
 
 		firestore.set(firestoreRef, locationWithoutActivities);
+
+		const tripId = match.params[URL_PARAM_TRIP];
+		history.push(routes.LOCATIONS(tripId));
 
 		e.preventDefault();
 	};

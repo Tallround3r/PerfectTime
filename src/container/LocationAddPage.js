@@ -76,7 +76,7 @@ class LocationAddPage extends React.Component {
 	};
 
 	handleSubmit = (e) => {
-		const {firestore, match} = this.props;
+		const {firestore, match, history} = this.props;
 		const {location} = this.state;
 
 		const firestoreRef = {
@@ -88,6 +88,9 @@ class LocationAddPage extends React.Component {
 		};
 
 		firestore.add(firestoreRef, location);
+
+		const tripId = match.params[URL_PARAM_TRIP];
+		history.push(routes.LOCATIONS(tripId));
 
 		e.preventDefault();
 	};
