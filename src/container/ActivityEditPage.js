@@ -11,6 +11,7 @@ import {omit} from "underscore";
 import {AddPhotoAlternateOutlined} from "@material-ui/icons";
 import DatePicker from "material-ui-pickers/DatePicker/DatePickerModal";
 import classNames from "classnames";
+import * as routes from "../constants/routes";
 
 import styles from "../styles/ActivityEditStyles";
 
@@ -18,6 +19,14 @@ class ActivityEditPage extends React.Component {
 
     state = {
         activity: new Activity(),
+    };
+
+    navigateBack = (history, match) => {
+        const tripId = match.params[URL_PARAM_TRIP];
+        const locationId = match.params[URL_PARAM_LOCATION];
+        const activityId = match.params[URL_PARAM_ACTIVITY];
+
+        history.push(routes.ACTIVITY_VIEW(tripId, locationId, activityId));
     };
 
     componentDidUpdate(prevProps, prevState) {
@@ -34,7 +43,7 @@ class ActivityEditPage extends React.Component {
     }
 
     handleSubmit = (e) => {
-        const {firestore, match} = this.props;
+        const {firestore, match, history} = this.props;
         const {activity} = this.state;
 
         const firestoreRef = {
@@ -51,11 +60,13 @@ class ActivityEditPage extends React.Component {
         };
         firestore.set(firestoreRef, activity);
 
+        this.navigateBack(history, match);
+
         e.preventDefault();
     };
 
     handleCancel = (e) => {
-        const {activity} = this.props;
+        const {activity, history, match} = this.props;
 
         this.setState({
             activity: {
@@ -64,6 +75,8 @@ class ActivityEditPage extends React.Component {
                 enddate: activity.enddate.toDate(),
             },
         });
+
+        this.navigateBack(history, match);
 
         e.preventDefault();
     };

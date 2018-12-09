@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import {URL_PARAM_LOCATION, URL_PARAM_TRIP} from "../constants/routes";
+import * as routes from '../constants/routes';
 import Address from "../models/Address";
 import {compose} from "redux";
 import {withRouter} from "react-router-dom";
@@ -26,9 +27,18 @@ class ActivityAddPage extends React.Component {
         activity: INITIAL_ACTIVITY,
     };
 
+    navigateBack = (history, match) => {
+        const tripId = match.params[URL_PARAM_TRIP];
+        const locationId = match.params[URL_PARAM_LOCATION];
+
+        history.push(routes.LOCATIONS_EDIT(tripId, locationId));
+    };
+
     handleSubmit = (e) => {
-        const {firestore, match} = this.props;
+        const {firestore, match, history} = this.props;
         const {activity} = this.state;
+        const tripId = match.params[URL_PARAM_TRIP];
+        const locationId = match.params[URL_PARAM_LOCATION];
 
         const firestoreRef = {
             collection: 'TRIPS',
@@ -42,6 +52,8 @@ class ActivityAddPage extends React.Component {
             }],
         };
         firestore.add(firestoreRef, activity);
+
+        this.navigateBack(history, match);
 
         e.preventDefault();
     };
@@ -103,10 +115,7 @@ class ActivityAddPage extends React.Component {
         const {classes, match} = this.props;
         const {activity} = this.state;
         let {title, description, startdate, enddate, address} = activity;
-        console.log(activity);
-        console.log(activity.title);
-        console.log('add:');
-        console.log(activity.address);
+
         return (
             <div className={classes.activityEditPage}>
                 <Typography
@@ -208,15 +217,15 @@ class ActivityAddPage extends React.Component {
                         />
 
                         <div className={classes.actionButtonsContainer}>
-                            <Button
-                                className={classes.actionButton}
-                                type="submit"
-                                variant="contained"
-                                color="primary"
-                                fullWidth
-                            >
-                                Add Activity
-                            </Button>
+                                <Button
+                                    className={classes.actionButton}
+                                    type="submit"
+                                    variant="contained"
+                                    color="primary"
+                                    fullWidth
+                                >
+                                    Add Activity
+                                </Button>
                         </div>
                     </form>
                 </div>
