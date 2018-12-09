@@ -1,11 +1,62 @@
 import React from 'react';
 import Activity from "../models/Activity";
-import {withRouter} from 'react-router-dom';
+import {PhotoOutlined} from '@material-ui/icons';
+import {NavLink, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import PropTypes from "prop-types";
 import {firestoreConnect} from "react-redux-firebase";
 import {URL_PARAM_LOCATION, URL_PARAM_TRIP, URL_PARAM_ACTIVITY} from "../constants/routes";
+import {parseDateToString} from '../utils/parser';
 import connect from "react-redux/es/connect/connect";
+import * as routes from '../constants/routes';
+import {Button, Paper, Typography, withStyles} from "@material-ui/core";
+
+const styles = theme => ({
+    activiyViewPage: {
+        paddingTop: theme.spacing.unit * 3,
+    },
+    inputContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        margin: theme.spacing.unit,
+        padding: theme.spacing.unit,
+        paddingRight: theme.spacing.unit * 10,
+        minWidth: '25em',
+    },
+    inputField: {
+        marginTop: theme.spacing.unit,
+    },
+    inputHorizontalContainer: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        flexWrap: 'nowrap',
+    },
+    inputHorizontalSpacing: {
+        marginRight: theme.spacing.unit * 2,
+    },
+    addressLabel: {
+        marginTop: theme.spacing.unit * 2,
+    },
+    imagePaper: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: theme.spacing.unit,
+        float: 'right',
+        width: '30em',
+        height: '20em',
+    },
+    imageIcon: {
+        fontSize: '10em',
+    },
+    activitiesContainer: {
+        marginTop: theme.spacing.unit * 6,
+    },
+    paperField: {
+        width: '100%',
+        height: 'auto'
+    }
+});
 
 class ActivityViewPage extends React.Component {
 
@@ -13,8 +64,17 @@ class ActivityViewPage extends React.Component {
         activity: new Activity(),
     };
 
-    componentDidMount() {
-
+    componentDidUpdate(prevProps, prevState) {
+        const {activity} = this.props;
+        if (activity !== prevProps.activity) {
+            this.setState({
+                activity: {
+                    ...activity,
+                    startdate: activity.startdate.toDate(),
+                    enddate: activity.enddate.toDate(),
+                },
+            });
+        }
     }
 
     //loads custom fields, defined by the user which are not included in standard
@@ -22,14 +82,78 @@ class ActivityViewPage extends React.Component {
 
     }
 
-    saveActivity() {
-
-    }
-
     render() {
+        const {match, classes} = this.props;
+        const {activity} = this.state;
+        const {title, description, address, startdate, enddate} = activity;
+        // let {startdate, enddate} = activity;
+        const tripId = match.params[URL_PARAM_TRIP];
+        const locationId = match.params[URL_PARAM_LOCATION];
+        const activityId = match.params[URL_PARAM_ACTIVITY];
+        // startdate = startdate.toDate();
+        // enddate = enddate.toDate();
+
+
         return (
-            <div>
-                <h1>{this.props.activity.title}</h1>
+            <div className={classes.activityViewPage}>
+                <Typography
+                    variant="h4"
+                    gutterBottom={true}
+                >
+                    {title}
+                </Typography>
+                <div>
+                    <Paper
+                        className={classes.imagePaper}
+                    >
+                        <PhotoOutlined
+                            className={classes.imageIcon}
+                        />
+                    </Paper>
+
+                    <div className={classes.inputContainer}>
+                        <Paper className={classes.paperField}>
+                            <Typography>Description:</Typography>
+                            <Typography variant="h6">{description}</Typography>
+                        </Paper>
+                        <div className={classes.inputHorizontalContainer}>
+                            <Paper className={classes.paperField}>
+                                <Typography>From:</Typography>
+                                <Typography
+                                    variant="h6">{parseDateToString(startdate)}</Typography>
+                            </Paper>
+                            <Paper className={classes.paperField}>
+                                <Typography>To:</Typography>
+                                <Typography variant="h6">{parseDateToString(enddate)}</Typography>
+                            </Paper>
+                        </div>
+                        <hr/>
+                        <Typography
+                            className={classes.addressLabel}
+                            variant="subtitle2"
+                        >
+                            Address
+                        </Typography>
+                        <Paper className={classes.paperField}>
+                            <Typography>City:</Typography>
+                            <Typography variant="h6">{address.zipCode} {address.city}</Typography>
+                        </Paper>
+                        <Paper className={classes.paperField}>
+                            <Typography>Country:</Typography>
+                            <Typography variant="h6">{address.country}</Typography>
+                        </Paper>
+                        <hr/>
+                        <NavLink exact to={routes.ACTIVITY_EDIT(tripId, locationId, activityId)}>
+                            <Button
+                                color="primary"
+                                variant="contained"
+                                fullWidth
+                            >
+                                Edit Activity
+                            </Button>
+                        </NavLink>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -37,8 +161,8 @@ class ActivityViewPage extends React.Component {
 }
 
 ActivityViewPage.propTypes = {
-    activity: PropTypes.objectOf(Activity).isRequired,
-    activityId: PropTypes.string.isRequired,
+    activity: PropTypes.objectOf(Activity),
+    activityId: PropTypes.string,
 };
 
 export default compose(withRouter,
@@ -67,4 +191,5 @@ export default compose(withRouter,
             };
         },
     ),
+    withStyles(styles),
 )(ActivityViewPage);

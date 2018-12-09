@@ -14,8 +14,6 @@ export const ACTIVITY_EDIT = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${UR
     `/${tripId}/locations/${locationId}/activity/${activityId}/edit`;
 export const ACTIVITY_VIEW = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${URL_PARAM_LOCATION}`, activityId = `:${URL_PARAM_ACTIVITY}`) =>
     `/${tripId}/locations/${locationId}/activity/${activityId}`;
-// export const ACTIVITY_EDIT = (activityId = `:${URL_PARAM_ACTIVITY}`) =>
-//     `./activity/${activityId}/edit`;
 
 export const MEMBERS = '/members';
 
