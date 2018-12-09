@@ -5,14 +5,14 @@ import Address from './Address';
 const Location = ObjectModel({
 	title: String,
 	description: String,
-	startdate: Object,
-	enddate: Object,
+	startdate: [Object, null],
+	enddate: [Object, null],
 	address: Address,
 }).defaults({
 	title: '',
 	description: '',
-	startdate: new Date(),
-	enddate: new Date(),
+	startdate: null,
+	enddate: null,
 	address: new Address(),
 });
 

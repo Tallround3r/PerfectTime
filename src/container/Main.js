@@ -19,7 +19,7 @@ function Main() {
 		<main>
 			<Switch>
 				<Route exact path={routes.LOCATIONS()} component={withDrawer(LocationsPage)}/>
-				<Route exact path={routes.LOCATIONS_ADD} component={withDrawer(LocationAddPage)}/>
+				<Route exact path={routes.LOCATIONS_ADD()} component={withDrawer(LocationAddPage)}/>
 				<Route exact path={routes.LOCATIONS_EDIT()} component={withDrawer(LocationEditPage)}/>
 				<Route exact path={routes.LOCATIONS_VIEW()} component={withDrawer(LocationViewPage)}/>
 				<Route exact path={routes.ACTIVITIES} component={withDrawer(ActivitiesPage)}/>

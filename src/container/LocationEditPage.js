@@ -10,6 +10,7 @@ import {withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import {omit} from 'underscore';
 import ActivitiesSlider from '../components/ActivitiesSlider';
+import * as routes from '../constants/routes';
 import {URL_PARAM_LOCATION, URL_PARAM_TRIP} from '../constants/routes';
 import {Location} from '../models';
 import * as routes from "../constants/routes";
@@ -88,7 +89,7 @@ class LocationEditPage extends React.Component {
 	}
 
 	handleSubmit = (e) => {
-		const {firestore, match} = this.props;
+		const {firestore, match, history} = this.props;
 		const {location} = this.state;
 
 		const firestoreRef = {
@@ -103,11 +104,14 @@ class LocationEditPage extends React.Component {
 
 		firestore.set(firestoreRef, locationWithoutActivities);
 
+		const tripId = match.params[URL_PARAM_TRIP];
+		history.push(routes.LOCATIONS(tripId));
+
 		e.preventDefault();
 	};
 
 	handleCancel = (e) => {
-		const {location} = this.props;
+		const {location, history, match} = this.props;
 
 		this.setState({
 			location: {
@@ -116,6 +120,9 @@ class LocationEditPage extends React.Component {
 				enddate: location.enddate.toDate(),
 			},
 		});
+
+		const tripId = match.params[URL_PARAM_TRIP];
+		history.push(routes.LOCATIONS(tripId));
 
 		e.preventDefault();
 	};
@@ -317,6 +324,7 @@ LocationEditPage.propTypes = {
 		}),
 	}).isRequired,
 	classes: PropTypes.object.isRequired,
+	history: PropTypes.object.isRequired,
 	location: PropTypes.objectOf(Location),
 };
 
