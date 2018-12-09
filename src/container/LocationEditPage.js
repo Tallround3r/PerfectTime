@@ -12,6 +12,7 @@ import {omit} from 'underscore';
 import ActivitiesSlider from '../components/ActivitiesSlider';
 import {URL_PARAM_LOCATION, URL_PARAM_TRIP} from '../constants/routes';
 import {Location} from '../models';
+import * as routes from "../constants/routes";
 
 
 const styles = theme => ({
@@ -277,11 +278,12 @@ class LocationEditPage extends React.Component {
 							</Button>
 							<Button
 								className={classes.actionButton}
-								onClick={this.handleCancel}
+								href={routes.LOCATIONS_VIEW(tripId, locationId)}
 								variant="contained"
 								color="secondary"
 								fullWidth
 							>
+								{/*onClick={this.handleCancel}*/}
 								Cancel
 							</Button>
 						</div>
