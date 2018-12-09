@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect} from 'react-redux-firebase';
-import {withRouter} from 'react-router-dom';
+import {NavLink, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import {omit} from 'underscore';
 import ActivitiesSlider from '../components/ActivitiesSlider';
@@ -309,6 +309,18 @@ state = {
 						tripId={tripId}
 						locationId={locationId}
 					/>
+                    <div className={classes.actionButtonsContainer}>
+                        <NavLink exact to={routes.ACTIVITY_ADD(tripId, locationId)}>
+                            <Button
+                                className={classes.actionButton}
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                            >
+                                Add Activity
+                            </Button>
+                        </NavLink>
+                    </div>
 				</div>
 			</div>
 		);
