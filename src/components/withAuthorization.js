@@ -1,9 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {compose} from 'redux';
 import {withRouter} from 'react-router-dom';
-import {firebase} from '../firebase';
+import {compose} from 'redux';
 import * as routes from '../constants/routes';
+import {firebase} from '../firebase';
 
 const withAuthorization = (authCondition) => (Component) => {
 

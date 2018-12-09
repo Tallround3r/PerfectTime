@@ -1,19 +1,20 @@
-import React from 'react';
-import {Link, withRouter} from 'react-router-dom';
-import PropTypes from 'prop-types';
-import withStyles from '@material-ui/core/styles/withStyles';
-import {compose} from 'redux';
-import {withFirebase} from 'react-redux-firebase';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Paper from '@material-ui/core/Paper';
+import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
-import isValid from '../utils/validation/validateSignUp';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {withFirebase} from 'react-redux-firebase';
+import {Link, withRouter} from 'react-router-dom';
+import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
+import isValid from '../utils/validation/validateSignUp';
+
 
 const styles = theme => ({
 	layout: {
@@ -176,7 +177,7 @@ class SignUp extends React.Component {
 								/>
 							</FormControl>
 							<FormControl margin="normal" required fullWidth>
-								<InputLabel htmlFor="email">E-Mail</InputLabel>
+								<InputLabel htmlFor="email">Email</InputLabel>
 								<Input id="email"
 									   name="email"
 									   autoComplete="email"
@@ -185,7 +186,7 @@ class SignUp extends React.Component {
 								/>
 							</FormControl>
 							<FormControl margin="normal" required fullWidth>
-								<InputLabel htmlFor="password">Passwort</InputLabel>
+								<InputLabel htmlFor="password">Password</InputLabel>
 								<Input id="password"
 									   name="password"
 									   type="password"
@@ -195,7 +196,7 @@ class SignUp extends React.Component {
 								/>
 							</FormControl>
 							<FormControl margin="normal" required fullWidth>
-								<InputLabel htmlFor="passwordConfirm">Passwort wiederholen</InputLabel>
+								<InputLabel htmlFor="passwordConfirm">Repeat Password</InputLabel>
 								<Input id="passwordConfirm"
 									   name="passwordConfirm"
 									   type="password"
@@ -208,6 +209,7 @@ class SignUp extends React.Component {
 
 							<Button type="submit" fullWidth
 									variant="contained"
+									id="signUpButton"
 									color="primary"
 									className={classes.submit}
 									disabled={submitted || !isValid(username, email, password, passwordConfirm, firstName, lastName)}

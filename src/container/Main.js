@@ -1,26 +1,25 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
-import * as routes from '../constants/routes';
-import DemoPage from './DemoPage';
-import LocationsPage from './LocationsPage';
-import ActivitiesPage from './ActivitiesPage';
 import withDrawer from '../components/withDrawer';
-import LocationAddPage from './LocationAddPage';
-import LocationEditPage from './LocationEditPage';
-import MembersPage from './MembersPage';
+import * as routes from '../constants/routes';
+import ActivitiesPage from './ActivitiesPage';
 import ActivityAddPage from './ActivityAddPage';
 import ActivityEditPage from './ActivityEditPage';
+import DemoPage from './DemoPage';
+import LocationAddPage from './LocationAddPage';
+import LocationEditPage from './LocationEditPage';
+import LocationsPage from './LocationsPage';
+import MembersPage from './MembersPage';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
-
 
 function Main() {
 	return (
 		<main>
 			<Switch>
-				<Route exact path={routes.LOCATIONS} component={withDrawer(LocationsPage)}/>
+				<Route exact path={routes.LOCATIONS()} component={withDrawer(LocationsPage)}/>
 				<Route exact path={routes.LOCATIONS_ADD} component={withDrawer(LocationAddPage)}/>
-				<Route exact path={routes.LOCATIONS_EDIT} component={withDrawer(LocationEditPage)}/>
+				<Route exact path={routes.LOCATIONS_EDIT()} component={withDrawer(LocationEditPage)}/>
 				<Route exact path={routes.ACTIVITIES} component={withDrawer(ActivitiesPage)}/>
 				<Route exact path={routes.ACTIVITY_ADD} component={withDrawer(ActivityAddPage)}/>
 				<Route exact path={routes.ACTIVITY_EDIT} component={withDrawer(ActivityEditPage)}/>

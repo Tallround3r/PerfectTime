@@ -1,19 +1,20 @@
-import React from 'react';
-import {Link, withRouter} from 'react-router-dom';
-import {compose} from 'redux';
-import {withFirebase} from 'react-redux-firebase';
-import PropTypes from 'prop-types';
-import withStyles from '@material-ui/core/styles/withStyles';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Paper from '@material-ui/core/Paper';
+import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {withFirebase} from 'react-redux-firebase';
+import {Link, withRouter} from 'react-router-dom';
+import {compose} from 'redux';
 import * as routes from '../constants/routes';
-import isValid from '../utils/validation/validateSignIn';
+import {TRIP_ID} from '../constants/staticIds';
 import logo from '../images/logo_perfecttime.svg';
+import isValid from '../utils/validation/validateSignIn';
 
 
 const styles = theme => ({
@@ -80,7 +81,7 @@ class SignIn extends React.Component {
 		firebase.login(credentials)
 			.then(() => {
 				this.setState({...INITIAL_STATE});
-				history.push(routes.LOCATIONS);
+				history.push(routes.LOCATIONS(TRIP_ID));
 			})
 			.catch(error => {
 				this.setState({
@@ -120,7 +121,7 @@ class SignIn extends React.Component {
 
 						<form className={classes.form} onSubmit={this.handleSubmit}>
 							<FormControl margin="normal" required fullWidth>
-								<InputLabel htmlFor="email">E-Mail</InputLabel>
+								<InputLabel htmlFor="email">Email</InputLabel>
 								<Input id="email" autoFocus
 									   name="email"
 									   autoComplete="email"
@@ -129,7 +130,7 @@ class SignIn extends React.Component {
 								/>
 							</FormControl>
 							<FormControl margin="normal" required fullWidth>
-								<InputLabel htmlFor="password">Passwort</InputLabel>
+								<InputLabel htmlFor="password">Password</InputLabel>
 								<Input
 									name="password"
 									type="password"
@@ -145,6 +146,7 @@ class SignIn extends React.Component {
 							<Button
 								type="submit"
 								fullWidth
+								id="signInButton"
 								variant="contained"
 								color="primary"
 								className={classes.submit}
@@ -157,7 +159,7 @@ class SignIn extends React.Component {
 						<p>
 							Don't have an account?
 							{' '}
-							<Link to={routes.SIGN_UP}>Sign Up</Link>
+							<Link to={routes.SIGN_UP} id={'signIn'}>Sign Up</Link>
 						</p>
 					</Paper>
 				</main>

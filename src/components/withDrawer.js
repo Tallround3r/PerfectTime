@@ -1,30 +1,30 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
-import classNames from 'classnames';
-import {withStyles} from '@material-ui/core/styles';
-import {compose} from 'redux';
-import {connect} from 'react-redux';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
-import MenuIcon from '@material-ui/icons/Menu';
-import Hidden from '@material-ui/core/Hidden';
+import {withStyles} from '@material-ui/core/styles';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import {menuItems} from './MenuItems';
-import logo from '../images/logo_perfecttime.svg';
-import * as routes from '../constants/routes';
+import MenuIcon from '@material-ui/icons/Menu';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {connect} from 'react-redux';
+import {firestoreConnect, isEmpty} from 'react-redux-firebase';
 import {NavLink} from 'react-router-dom';
+import {compose} from 'redux';
+import {AUTH_CONDITION_WITH_DRAWER} from '../constants/auth-conditions';
+import * as routes from '../constants/routes';
+import logo from '../images/logo_perfecttime.svg';
+import {menuItems} from './MenuItems';
 import SignInButton from './SignInButton';
 import SignOutButton from './SignOutButton';
 import withAuthorization from './withAuthorization';
-import {AUTH_CONDITION_WITH_DRAWER} from '../constants/auth-conditions';
 
 
 const withDrawer = (Component) => {
@@ -144,7 +144,7 @@ const withDrawer = (Component) => {
 						variant="h5"
 						color="inherit"
 						className={classes.title}
-						align='center'
+						align="center"
 					>
 						My Trip
 					</Typography>

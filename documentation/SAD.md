@@ -126,6 +126,7 @@ The size of the application depends mainly on the number of trips which users ha
 ## 11.	Quality 
 The application is easily extensible. Adding further React components to the application is simple. As described in chapter 10, the application can be enlarged by switching to a paid Firebase subscription. As a Google service, the creators believe Firebase to be consistently available and maintained. Thereby, the application should run reliably. The integration limits the portability of the application to other firebase accounts. In cannot simply be transferred to another backend.
 Regarding safety and privacy concerns, the creators of the application to provide proper security through the user login. However, exploits in the Firebase and the React source code cannot be ruled out completely. Privacy might also be a concern. Google is not allowed to access the user data which Perfect Time is storing in Firebase. Still the Perfect Time team cannot promise that the NSA or other US agencies won’t collect data of Firebase users. 
+The user login is saved in a protected database, which is provided by Firebase. Therefor, they are not freely accessible. The Perfect Time application will only allow the upload of certain file types (e.g. JPEG). Apart from that, no integration of a malware detection toll is planned for.
 
 
 
