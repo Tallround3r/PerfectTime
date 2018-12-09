@@ -12,55 +12,7 @@ import {AddPhotoAlternateOutlined} from "@material-ui/icons";
 import DatePicker from "material-ui-pickers/DatePicker/DatePickerModal";
 import classNames from "classnames";
 
-
-const styles = theme => ({
-    activityEditPage: {
-        paddingTop: theme.spacing.unit * 3,
-    },
-    inputContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        margin: theme.spacing.unit,
-        padding: theme.spacing.unit,
-        paddingRight: theme.spacing.unit * 10,
-        minWidth: '25em',
-    },
-    inputField: {
-        marginTop: theme.spacing.unit,
-    },
-    inputHorizontalContainer: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        flexWrap: 'nowrap',
-    },
-    inputHorizontalSpacing: {
-        marginRight: theme.spacing.unit * 2,
-    },
-    addressLabel: {
-        marginTop: theme.spacing.unit * 2,
-    },
-    imagePaper: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: theme.spacing.unit,
-        float: 'right',
-        width: '18em',
-        height: '18em',
-    },
-    imageIcon: {
-        fontSize: '10em',
-    },
-    actionButtonsContainer: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginTop: theme.spacing.unit * 4,
-    },
-    actionButton: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
-    },
-});
+import styles from "../styles/ActivityEditStyles";
 
 class ActivityEditPage extends React.Component {
 
@@ -163,10 +115,6 @@ class ActivityEditPage extends React.Component {
         const {classes, match} = this.props;
         const {activity} = this.state;
         const {title, description, startdate, enddate, address} = activity;
-        // const {title, description, address} = activity;
-        // let {startdate, enddate} = activity;
-        // startdate = startdate.toDate();
-        // enddate = enddate.toDate();
 
         return (
             <div className={classes.activityEditPage}>
