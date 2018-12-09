@@ -74,7 +74,7 @@ class LocationsPage extends React.Component {
 		const {expanded} = this.state;
 		const tripId = match.params[URL_PARAM_TRIP];
 
-		return (
+        return (
 			<div>
 				<h1>Locations</h1>
 				<div>

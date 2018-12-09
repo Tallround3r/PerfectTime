@@ -5,72 +5,75 @@ import DatePicker from 'material-ui-pickers/DatePicker';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
-import {firestoreConnect} from 'react-redux-firebase';
-import {withRouter} from 'react-router-dom';
+import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
+import {NavLink, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import {omit} from 'underscore';
 import ActivitiesSlider from '../components/ActivitiesSlider';
 import * as routes from '../constants/routes';
 import {URL_PARAM_LOCATION, URL_PARAM_TRIP} from '../constants/routes';
 import {Location} from '../models';
+import * as routes from "../constants/routes";
+import Avatar from "@material-ui/core/Avatar/Avatar";
+import ArrowRightIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
 
 const styles = theme => ({
-	locationEditPage: {
-		paddingTop: theme.spacing.unit * 3,
-	},
-	inputContainer: {
-		display: 'flex',
-		flexDirection: 'column',
-		margin: theme.spacing.unit,
-		padding: theme.spacing.unit,
-		paddingRight: theme.spacing.unit * 10,
-		minWidth: '25em',
-	},
-	inputField: {
-		marginTop: theme.spacing.unit,
-	},
-	inputHorizontalContainer: {
-		display: 'flex',
-		justifyContent: 'space-between',
-		flexWrap: 'nowrap',
-	},
-	inputHorizontalSpacing: {
-		marginRight: theme.spacing.unit * 2,
-	},
-	addressLabel: {
-		marginTop: theme.spacing.unit * 2,
-	},
-	imagePaper: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		margin: theme.spacing.unit,
-		float: 'right',
-		width: '18em',
-		height: '18em',
-	},
-	imageIcon: {
-		fontSize: '10em',
-	},
-	actionButtonsContainer: {
-		display: 'flex',
-		justifyContent: 'space-between',
-		marginTop: theme.spacing.unit * 4,
-	},
-	actionButton: {
-		marginLeft: theme.spacing.unit,
-		marginRight: theme.spacing.unit,
-	},
-	activitiesContainer: {
-		marginTop: theme.spacing.unit * 6,
-	},
+    locationEditPage: {
+        paddingTop: theme.spacing.unit * 3,
+    },
+    inputContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        margin: theme.spacing.unit,
+        padding: theme.spacing.unit,
+        paddingRight: theme.spacing.unit * 10,
+        minWidth: '25em',
+    },
+    inputField: {
+        marginTop: theme.spacing.unit,
+    },
+    inputHorizontalContainer: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        flexWrap: 'nowrap',
+    },
+    inputHorizontalSpacing: {
+        marginRight: theme.spacing.unit * 2,
+    },
+    addressLabel: {
+        marginTop: theme.spacing.unit * 2,
+    },
+    imagePaper: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: theme.spacing.unit,
+        float: 'right',
+        width: '18em',
+        height: '18em',
+    },
+    imageIcon: {
+        fontSize: '10em',
+    },
+    actionButtonsContainer: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        marginTop: theme.spacing.unit * 4,
+    },
+    actionButton: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+    },
+    activitiesContainer: {
+        marginTop: theme.spacing.unit * 6,
+    },
 });
 
 
 class LocationEditPage extends React.Component {
 
-	state = {
+state = {
 		location: new Location(),
 	};
 
