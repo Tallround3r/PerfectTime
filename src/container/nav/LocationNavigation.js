@@ -1,6 +1,5 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
-import withDrawer from '../../components/composer/withDrawer';
 import * as routes from '../../constants/routes';
 import LocationAddPage from '../LocationAddPage';
 import LocationEditPage from '../LocationEditPage';
