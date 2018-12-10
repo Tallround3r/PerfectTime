@@ -60,7 +60,6 @@ class ActivityEditPage extends React.Component {
         firestore.set(firestoreRef, activity);
 
         this.navigateBack(history, match);
-
         e.preventDefault();
     };
 
@@ -76,7 +75,6 @@ class ActivityEditPage extends React.Component {
         });
 
         this.navigateBack(history, match);
-
         e.preventDefault();
     };
 
@@ -118,13 +116,8 @@ class ActivityEditPage extends React.Component {
         });
     };
 
-    //loads custom fields, defined by the user which are not included in standard
-    loadCustomFields() {
-
-    }
-
     render() {
-        const {classes, match} = this.props;
+        const {classes} = this.props;
         const {activity} = this.state;
         const {title, description, startdate, enddate, address} = activity;
 

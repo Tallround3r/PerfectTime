@@ -18,12 +18,12 @@ import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty} from 'react-redux-firebase';
 import {NavLink} from 'react-router-dom';
 import {compose} from 'redux';
-import {AUTH_CONDITION_WITH_DRAWER} from '../constants/auth-conditions';
-import * as routes from '../constants/routes';
-import logo from '../images/logo_perfecttime.svg';
-import {menuItems} from './MenuItems';
-import SignInButton from './SignInButton';
-import SignOutButton from './SignOutButton';
+import {AUTH_CONDITION_WITH_DRAWER} from '../../constants/auth-conditions';
+import * as routes from '../../constants/routes';
+import logo from '../../images/logo_perfecttime.svg';
+import {menuItems} from '../MenuItems';
+import SignInButton from '../SignInButton';
+import SignOutButton from '../SignOutButton';
 import withAuthorization from './withAuthorization';
 
 

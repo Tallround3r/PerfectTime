@@ -9,15 +9,16 @@ export const LOCATIONS_VIEW = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${U
 	`/${tripId}/locations/${locationId}`;
 export const LOCATIONS_ADD = (tripId = `:${URL_PARAM_TRIP}`) => `/${tripId}/locations/add`;
 export const LOCATIONS_EDIT = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${URL_PARAM_LOCATION}`) =>
-    `/${tripId}/locations/${locationId}/edit`;
+	`/${tripId}/locations/${locationId}/edit`;
 
-export const ACTIVITIES = '/activities';
+export const ACTIVITIES = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${URL_PARAM_LOCATION}`) =>
+	`/${tripId}/locations/${locationId}/activity`;
 export const ACTIVITY_ADD = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${URL_PARAM_LOCATION}`) =>
-    `/${tripId}/locations/${locationId}/activity/add`;
+	`/${tripId}/locations/${locationId}/activity/add`;
 export const ACTIVITY_EDIT = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${URL_PARAM_LOCATION}`, activityId = `:${URL_PARAM_ACTIVITY}`) =>
-    `/${tripId}/locations/${locationId}/activity/${activityId}/edit`;
+	`/${tripId}/locations/${locationId}/activity/${activityId}/edit`;
 export const ACTIVITY_VIEW = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${URL_PARAM_LOCATION}`, activityId = `:${URL_PARAM_ACTIVITY}`) =>
-    `/${tripId}/locations/${locationId}/activity/${activityId}`;
+	`/${tripId}/locations/${locationId}/activity/${activityId}`;
 
 export const MEMBERS = '/members';
 

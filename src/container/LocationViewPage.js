@@ -56,6 +56,11 @@ class LocationViewPage extends React.Component {
 		location: new Location(),
 	};
 
+	componentDidMount() {
+		const { firebase } = this.props;
+		firebase.setListener('todos')
+	}
+
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		const {location} = this.props;
 		if (location !== prevProps.location) {

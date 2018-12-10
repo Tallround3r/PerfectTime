@@ -9,7 +9,7 @@ import {withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import {URL_PARAM_TRIP} from '../constants/routes';
-import {Address, Location} from '../models';
+import {Address} from '../models';
 
 
 const styles = theme => ({
