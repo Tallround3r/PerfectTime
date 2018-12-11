@@ -125,15 +125,16 @@ class LocationViewPage extends React.Component {
 							<Typography variant="h6">{address.country}</Typography>
 						</Paper>
 						<hr/>
-						<NavLink exact to={routes.LOCATIONS_EDIT(tripId, locationId)}>
-							<Button
-								color="primary"
-								variant="contained"
-								fullWidth
-							>
-								Edit Location
-							</Button>
-						</NavLink>
+						{/*<NavLink exact to={routes.LOCATIONS_EDIT(tripId, locationId)}>*/}
+						<Button
+							color="primary"
+							variant="contained"
+							fullWidth
+							href={routes.LOCATIONS_EDIT(tripId, locationId)}
+						>
+							Edit Location
+						</Button>
+						{/*</NavLink>*/}
 					</div>
 				</div>
 

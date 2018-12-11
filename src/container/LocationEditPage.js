@@ -125,7 +125,7 @@ state = {
 		const locationId = match.params[URL_PARAM_LOCATION];
 		history.push(routes.LOCATIONS_VIEW(tripId, locationId));
 
-		e.preventDefault();
+		/*e.preventDefault();*/
 	};
 
 	handleChangeInput = (e) => {
@@ -289,6 +289,7 @@ state = {
 								variant="contained"
 								color="secondary"
 								fullWidth
+								href={routes.LOCATIONS_VIEW(tripId, locationId)}
 								onClick={this.handleCancel}
 							>
 								Cancel

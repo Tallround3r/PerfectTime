@@ -110,11 +110,13 @@ class LocationsPage extends React.Component {
 													<Typography>{locations[key].description}</Typography>
 												</div>
 												<div className={classes.smallColumn}>
-													<NavLink exact to={routes.LOCATIONS_VIEW(tripId, key)}>
+													{/*<NavLink exact to={routes.LOCATIONS_VIEW(tripId, key)}>*/}
+													<a href={routes.LOCATIONS_VIEW(tripId, key)}>
 														<Avatar>
 															<ArrowRightIcon/>
 														</Avatar>
-													</NavLink>
+													</a>
+													{/*</NavLink>*/}
 												</div>
 											</ExpansionPanelSummary>
 
