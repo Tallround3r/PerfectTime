@@ -1,5 +1,6 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
+import withLocations from '../../components/composer/withLocations';
 import * as routes from '../../constants/routes';
 import LocationAddPage from '../LocationAddPage';
 import LocationEditPage from '../LocationEditPage';
@@ -8,16 +9,18 @@ import LocationViewPage from '../LocationViewPage';
 import ActivityNavigation from './ActivityNavigation';
 
 
-function LocationNavigation() {
-	return (
-		<Switch>
-			<Route exact path={routes.LOCATIONS_ADD()} component={LocationAddPage}/>
-			<Route exact path={routes.LOCATIONS_EDIT()} component={LocationEditPage}/>
-			<Route exact path={routes.LOCATIONS_VIEW()} component={LocationViewPage}/>
-			<Route path={routes.ACTIVITIES()} component={ActivityNavigation}/>
-			<Route path={routes.LOCATIONS()} component={LocationsPage}/>
-		</Switch>
-	);
+class LocationNavigation extends React.Component {
+	render() {
+		return (
+			<Switch>
+				<Route exact path={routes.LOCATIONS_ADD()} component={LocationAddPage}/>
+				<Route exact path={routes.LOCATIONS_EDIT()} component={LocationEditPage}/>
+				<Route exact path={routes.LOCATIONS_VIEW()} component={LocationViewPage}/>
+				<Route path={routes.ACTIVITIES()} component={ActivityNavigation}/>
+				<Route path={routes.LOCATIONS()} component={LocationsPage}/>
+			</Switch>
+		);
+	}
 }
 
-export default LocationNavigation;
+export default withLocations(LocationNavigation);

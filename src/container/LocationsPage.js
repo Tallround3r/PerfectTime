@@ -78,58 +78,54 @@ class LocationsPage extends React.Component {
 			<div>
 				<h1>Locations</h1>
 				<div>
-					{!isLoaded(locations)
-						? 'Loading...'
-						: isEmpty(locations)
-							? 'No Locations created yet.'
-							: Object.keys(locations).map((key) => {
-								let location = locations[key];
-								let startdate = new Date(locations[key].startdate.seconds * 1000);
-								let enddate = new Date(locations[key].enddate.seconds * 1000);
-								return (
-									<div key={key}>
-										<ExpansionPanel
-											className={classes.locationPanel}
-											expanded={expanded === key}
-											onChange={this.handleExpansionPanelChange(key)}
-										>
-											<ExpansionPanelSummary>
-												<div className={classes.smallColumn}>
-													<Avatar src={PictureStar}/>
-												</div>
-												<div className={classes.bigColumn}>
-													<Typography>{location.title}</Typography>
-												</div>
-												<div className={classes.bigColumn}>
-													<Typography>Start
-														Date: {startdate.getDate()}.{startdate.getMonth()}.{startdate.getFullYear()}</Typography>
-													<Typography>End
-														Date: {enddate.getDate()}.{enddate.getMonth()}.{enddate.getFullYear()}</Typography>
-												</div>
-												<div className={classes.bigColumn}>
-													<Typography>{locations[key].description}</Typography>
-												</div>
-												<div className={classes.smallColumn}>
-													<NavLink exact to={routes.LOCATIONS_VIEW(tripId, key)}>
-														<Avatar>
-															<ArrowRightIcon/>
-														</Avatar>
-													</NavLink>
-												</div>
-											</ExpansionPanelSummary>
+					{Object.keys(locations).map((key) => {
+						let location = locations[key];
+						let startdate = new Date(location.startdate.seconds * 1000);
+						let enddate = new Date(location.enddate.seconds * 1000);
+						return (
+							<div key={key}>
+								<ExpansionPanel
+									className={classes.locationPanel}
+									expanded={expanded === key}
+									onChange={this.handleExpansionPanelChange(key)}
+								>
+									<ExpansionPanelSummary>
+										<div className={classes.smallColumn}>
+											<Avatar src={PictureStar}/>
+										</div>
+										<div className={classes.bigColumn}>
+											<Typography>{location.title}</Typography>
+										</div>
+										<div className={classes.bigColumn}>
+											<Typography>Start
+												Date: {startdate.getDate()}.{startdate.getMonth()}.{startdate.getFullYear()}</Typography>
+											<Typography>End
+												Date: {enddate.getDate()}.{enddate.getMonth()}.{enddate.getFullYear()}</Typography>
+										</div>
+										<div className={classes.bigColumn}>
+											<Typography>{locations[key].description}</Typography>
+										</div>
+										<div className={classes.smallColumn}>
+											<NavLink exact to={routes.LOCATIONS_VIEW(tripId, key)}>
+												<Avatar>
+													<ArrowRightIcon/>
+												</Avatar>
+											</NavLink>
+										</div>
+									</ExpansionPanelSummary>
 
-											<ExpansionPanelDetails>
-												<div style={{width: '100%'}}>
-													<ActivitiesSlider
-														tripId={tripId}
-														locationId={key}
-													/>
-												</div>
-											</ExpansionPanelDetails>
-										</ExpansionPanel>
-									</div>
-								);
-							})}
+									<ExpansionPanelDetails>
+										<div style={{width: '100%'}}>
+											<ActivitiesSlider
+												tripId={tripId}
+												locationId={key}
+											/>
+										</div>
+									</ExpansionPanelDetails>
+								</ExpansionPanel>
+							</div>
+						);
+					})}
 				</div>
 
 				<NavLink exact to={routes.LOCATIONS_ADD(tripId)}>
@@ -152,9 +148,6 @@ LocationsPage.propTypes = {
 
 export default compose(
 	withRouter,
-	firestoreConnect((props) => [
-		`TRIPS/${props.match.params[URL_PARAM_TRIP]}/locations`,
-	]),
 	connect(
 		({firestore: {data}}, props) => {
 			const tripId = props.match.params[URL_PARAM_TRIP];

@@ -158,13 +158,6 @@ class LocationViewPage extends React.Component {
 
 export default compose(
 	withRouter,
-	firestoreConnect((props) => {
-		const tripId = props.match.params[routes.URL_PARAM_TRIP];
-		const locationId = props.match.params[routes.URL_PARAM_LOCATION];
-		return [
-			`TRIPS/${tripId}/locations/${locationId}`,
-		];
-	}),
 	connect(
 		({firestore: {data}}, props) => {
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];

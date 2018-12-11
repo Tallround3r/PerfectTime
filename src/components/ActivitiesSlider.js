@@ -4,6 +4,7 @@ import React from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
+import * as routes from '../constants/routes';
 import ActivityCard from './ActivityCard';
 import {SliderNextArrow, SliderPrevArrow} from './SliderArrows';
 import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
@@ -23,6 +24,18 @@ const styles = theme => ({
 });
 
 class ActivitiesSlider extends React.Component {
+
+	componentDidMount() {
+		const {tripId, locationId, firestore} = this.props;
+
+		firestore.setListener(`TRIPS/${tripId}/locations/${locationId}/activities/`);
+	}
+
+	componentWillUnmount() {
+		const {tripId, locationId, firestore} = this.props;
+
+		firestore.unsetListener(`TRIPS/${tripId}/locations/${locationId}/activities/`);
+	}
 
 	render() {
 		const {classes, activities} = this.props;
@@ -61,11 +74,14 @@ class ActivitiesSlider extends React.Component {
 				</Slider>;
 	}
 
-	renderActivityCards = () => Object.keys(this.props.activities).map(key => (
-		<div key={key} className={this.props.classes.slideItem}>
-			<ActivityCard activity={this.props.activities[key]} activityId = {key}/>
-		</div>
-	));
+	renderActivityCards = () => Object.keys(this.props.activities).map(key => {
+		const {tripId, locationId, activities, classes} = this.props;
+		return (
+			<div key={key} className={classes.slideItem}>
+				<ActivityCard activity={activities[key]} tripId={tripId} locationId={locationId} activityId={key}/>
+			</div>
+		);
+	});
 }
 
 ActivitiesSlider.propTypes = {
@@ -74,8 +90,6 @@ ActivitiesSlider.propTypes = {
 	locationId: PropTypes.string.isRequired,
 	activities: PropTypes.object,
 };
-
-// TODO: [bug] Activities werden erst beim reload der kompletten Seite geladen
 
 export default compose(
 	firestoreConnect((props) => [

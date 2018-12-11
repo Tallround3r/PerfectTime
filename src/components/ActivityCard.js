@@ -43,10 +43,8 @@ class ActivityCard extends React.Component {
 	};
 
 	render() {
-		const {classes, activity, match} = this.props;
+		const {classes, activity, activityId, tripId, locationId} = this.props;
 		const {title, description, startdate, enddate} = activity;
-		const tripId = match.params[URL_PARAM_TRIP];
-		const locationId = match.params[URL_PARAM_LOCATION];
 
 		return (
 			<Card className={classes.card}>
@@ -75,14 +73,14 @@ class ActivityCard extends React.Component {
 						</IconButton>
 					</Tooltip>
 					<Tooltip title="Edit" aria-label="Edit">
-						<NavLink exact to={routes.ACTIVITY_EDIT(tripId, locationId, this.props.activityId)}>
+						<NavLink exact to={routes.ACTIVITY_EDIT(tripId, locationId, activityId)}>
 							<IconButton>
 								<Edit/>
 							</IconButton>
 						</NavLink>
 					</Tooltip>
 					<Tooltip title="Open" aria-label="Open">
-						<NavLink exact to={routes.ACTIVITY_VIEW(tripId, locationId, this.props.activityId)}>
+						<NavLink exact to={routes.ACTIVITY_VIEW(tripId, locationId, activityId)}>
 							<IconButton>
 								<OpenInNew/>
 							</IconButton>
@@ -98,9 +96,10 @@ ActivityCard.propTypes = {
 	classes: PropTypes.object.isRequired,
 	activity: PropTypes.objectOf(Activity).isRequired,
 	activityId: PropTypes.string.isRequired,
+	locationId: PropTypes.string.isRequired,
+	tripId: PropTypes.string.isRequired,
 };
 
 export default compose(
-	withRouter,
 	withStyles(styles),
 )(ActivityCard);

@@ -120,8 +120,8 @@ export default compose(withRouter,
         const locationId = props.match.params[URL_PARAM_LOCATION];
         const activityId = props.match.params[URL_PARAM_ACTIVITY];
         return [
-            `TRIPS/${tripId}/locations/${locationId}`,
-            `TRIPS/${tripId}/locations/${locationId}/activities`,
+	        `TRIPS/${tripId}/locations/${locationId}`,
+	        `TRIPS/${tripId}/locations/${locationId}/activities`,
             `TRIPS/${tripId}/locations/${locationId}/activities/${activityId}`,
         ];
     }),

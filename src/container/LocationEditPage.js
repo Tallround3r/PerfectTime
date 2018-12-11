@@ -336,19 +336,14 @@ LocationEditPage.propTypes = {
 		}),
 	}).isRequired,
 	classes: PropTypes.object.isRequired,
+	firestore: PropTypes.object.isRequired,
 	history: PropTypes.object.isRequired,
 	location: PropTypes.objectOf(Location),
 };
 
 export default compose(
 	withRouter,
-	firestoreConnect((props) => {
-		const tripId = props.match.params[URL_PARAM_TRIP];
-		const locationId = props.match.params[URL_PARAM_LOCATION];
-		return [
-			`TRIPS/${tripId}/locations/${locationId}`,
-		];
-	}),
+	firestoreConnect(),
 	connect(
 		({firestore: {data}}, props) => {
 			const tripId = props.match.params[URL_PARAM_TRIP];
