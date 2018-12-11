@@ -137,6 +137,7 @@ class LocationsPage extends React.Component {
 						className={classes.fab}
 						color="primary"
 						aria-label="Add"
+						id="addLocationButton"
 					>
 						<AddIcon/>
 					</Fab>

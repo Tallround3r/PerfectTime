@@ -1,12 +1,12 @@
 Feature: Create new location for a trip
 
-#  @only - not working bc check if btn null
+  # @only
   Scenario: The addLocation button is not visible for the user
     Given I am not logged in
     And I have navigated to "PerfectTimeLocations"
     Then There is no "add activity button"
 
-#  @only - not working bc btn not implemented
+  @only
   Scenario: The addLocation button is visible for the user
     Given I am logged in
     And I have navigated to "PerfectTimeLocations"
