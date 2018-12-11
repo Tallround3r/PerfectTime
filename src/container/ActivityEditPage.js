@@ -11,13 +11,22 @@ import {Button, Paper, TextField, Typography, withStyles} from "@material-ui/cor
 import {AddPhotoAlternateOutlined} from "@material-ui/icons";
 import DatePicker from "material-ui-pickers/DatePicker/DatePickerModal";
 import classNames from "classnames";
-
+import Address from '../models/Address';
 import styles from "../styles/ActivityEditStyles";
+
+
+const INITIAL_ACTIVITY = {
+	title: '',
+	description: '',
+	startdate: null,
+	enddate: null,
+	address: new Address(),
+};
 
 class ActivityEditPage extends React.Component {
 
     state = {
-        activity: new Activity(),
+        activity: INITIAL_ACTIVITY,
     };
 
     navigateBack = (history, match) => {

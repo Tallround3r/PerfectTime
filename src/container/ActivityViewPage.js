@@ -7,16 +7,25 @@ import PropTypes from "prop-types";
 import {firestoreConnect} from "react-redux-firebase";
 import * as routes from "../constants/routes";
 import {URL_PARAM_ACTIVITY, URL_PARAM_LOCATION, URL_PARAM_TRIP} from "../constants/routes";
+import Address from '../models/Address';
 import {parseDateToString} from '../utils/parser';
 import connect from "react-redux/es/connect/connect";
 import {Button, Paper, Typography, withStyles} from "@material-ui/core";
-
 import styles from "../styles/ActivityViewStyles"
+
+
+const INITIAL_ACTIVITY = {
+	title: '',
+	description: '',
+	startdate: null,
+	enddate: null,
+	address: new Address(),
+};
 
 class ActivityViewPage extends React.Component {
 
     state = {
-        activity: new Activity(),
+        activity: INITIAL_ACTIVITY,
     };
 
     componentDidUpdate(prevProps, prevState) {
