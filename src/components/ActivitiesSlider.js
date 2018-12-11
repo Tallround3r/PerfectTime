@@ -61,11 +61,14 @@ class ActivitiesSlider extends React.Component {
 				</Slider>;
 	}
 
-	renderActivityCards = () => Object.keys(this.props.activities).map(key => (
-		<div key={key} className={this.props.classes.slideItem}>
-			<ActivityCard activity={this.props.activities[key]} activityId = {key}/>
-		</div>
-	));
+	renderActivityCards = () => Object.keys(this.props.activities).map(key => {
+		const {classes, activities, tripId, locationId} = this.props;
+		return (
+			<div key={key} className={classes.slideItem}>
+				<ActivityCard activity={activities[key]} activityId={key} tripId={tripId} locationId={locationId}/>
+			</div>
+		);
+	});
 }
 
 ActivitiesSlider.propTypes = {
@@ -74,8 +77,6 @@ ActivitiesSlider.propTypes = {
 	locationId: PropTypes.string.isRequired,
 	activities: PropTypes.object,
 };
-
-// TODO: [bug] Activities werden erst beim reload der kompletten Seite geladen
 
 export default compose(
 	firestoreConnect((props) => [

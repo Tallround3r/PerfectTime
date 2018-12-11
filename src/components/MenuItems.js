@@ -21,14 +21,6 @@ export const menuItems = (
 				<ListItemText primary="Locations"/>
 			</ListItem>
 		</NavLink>
-		<NavLink exact to={routes.ACTIVITIES} className="nav-link">
-			<ListItem button>
-				<ListItemIcon>
-					<LocalActivityIcon/>
-				</ListItemIcon>
-				<ListItemText primary="Activities"/>
-			</ListItem>
-		</NavLink>
 		<NavLink exact to={routes.MEMBERS} className="nav-link">
 			<ListItem button>
 				<ListItemIcon>
