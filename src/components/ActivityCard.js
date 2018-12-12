@@ -82,11 +82,13 @@ class ActivityCard extends React.Component {
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Edit" aria-label="Edit">
-                        <NavLink exact to={routes.ACTIVITY_EDIT(tripId, locationId, this.props.activityId)}>
+						{/*<NavLink exact to={routes.ACTIVITY_EDIT(tripId, locationId, this.props.activityId)}>*/}
+						<a href={routes.ACTIVITY_EDIT(tripId, locationId, this.props.activityId)}>
                             <IconButton>
                                 <Edit/>
                             </IconButton>
-                        </NavLink>
+						</a>
+						{/*</NavLink>*/}
                     </Tooltip>
                     <Tooltip title="Open" aria-label="Open">
                         <NavLink exact to={routes.ACTIVITY_VIEW(tripId, locationId, this.props.activityId)}>
