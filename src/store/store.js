@@ -9,16 +9,22 @@ export default function configureStore() {
 
 	// react-redux-firebase config
 	const rrfConfig = {
-		enableLogging: process.env.NODE_ENV === 'development', // enable logs only in development mode
+		enableLogging: process.env.NODE_ENV !== 'production', // disable logs on production mode
 		useFirestoreForProfile: true,
+		allowMultipleListeners: true,
 		userProfile: 'users', // collection where profiles are stored in database
 		// presence: 'presence', // collection where list of online users is stored in database
 		// sessions: 'sessions', // collection where list of user sessions is stored in database
 	};
 
+	const rfConfig = {
+		logListenerError: process.env.NODE_ENV !== 'production', //disable logs on production mode
+		allowMultipleListeners: true,
+	};
+
 	const createStoreWithFirebase = compose(
-		reactReduxFirebase(firebase, rrfConfig), // firebase instance as first argument
-		reduxFirestore(firebase), // firestore
+		reactReduxFirebase(firebase, rrfConfig), // firebase reducer
+		reduxFirestore(firebase, rfConfig), // firestore reducer
 	)(createStore);
 
 	// Add firebase to reducers
