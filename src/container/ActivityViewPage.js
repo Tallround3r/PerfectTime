@@ -93,7 +93,8 @@ class ActivityViewPage extends React.Component {
                             <Typography variant="h6">{address.country}</Typography>
                         </Paper>
                         <hr/>
-                        <NavLink exact to={routes.ACTIVITY_EDIT(tripId, locationId, activityId)}>
+                        {/*<NavLink exact to={routes.ACTIVITY_EDIT(tripId, locationId, activityId)}>*/}
+                        <a href={routes.ACTIVITY_EDIT(tripId, locationId, activityId)}>
                             <Button
                                 color="primary"
                                 variant="contained"
@@ -101,7 +102,8 @@ class ActivityViewPage extends React.Component {
                             >
                                 Edit Activity
                             </Button>
-                        </NavLink>
+                        </a>
+                        {/*</NavLink>*/}
                     </div>
                 </div>
             </div>
