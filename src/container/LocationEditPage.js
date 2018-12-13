@@ -8,11 +8,12 @@ import {connect} from 'react-redux';
 import {firestoreConnect} from 'react-redux-firebase';
 import {NavLink, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
-import {omit} from 'underscore';
+import {isEqual, omit} from 'underscore';
 import ActivitiesSlider from '../components/ActivitiesSlider';
 import * as routes from '../constants/routes';
 import {URL_PARAM_LOCATION, URL_PARAM_TRIP} from '../constants/routes';
 import {Location} from '../models';
+import {parseDateIfValid} from '../utils/parser';
 
 
 const styles = theme => ({
@@ -67,21 +68,35 @@ const styles = theme => ({
 	},
 });
 
+const copyLocation = (location) => {
+	return {
+		...location,
+		startdate: parseDateIfValid(location.startdate),
+		enddate: parseDateIfValid(location.enddate),
+		address: {...location.address},
+	};
+};
 
 class LocationEditPage extends React.Component {
 
 	state = {
 		location: new Location(),
+		// 	{
+		// 	...this.props.location,
+		// 	// startdate: parseDateIfValid(this.props.location.startdate),
+		// 	// enddate: parseDateIfValid(this.props.location.enddate),
+		// 	address: {...this.props.location.address},
+		// },
 	};
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		const {location} = this.props;
-		if (location !== prevProps.location) {
+		if (!isEqual(location, prevProps.location)) {
 			this.setState({
 				location: {
 					...location,
-					startdate: location.startdate.toDate(),
-					enddate: location.enddate.toDate(),
+					startdate: parseDateIfValid(location.startdate),
+					enddate: parseDateIfValid(location.enddate),
 				},
 			});
 		}
@@ -172,6 +187,9 @@ class LocationEditPage extends React.Component {
 		const {title, description, startdate, enddate, address} = location;
 		const tripId = match.params[URL_PARAM_TRIP];
 		const locationId = match.params[URL_PARAM_LOCATION];
+
+		console.log('state', location);
+		console.log('props', this.props.location);
 
 		return (
 			<div className={classes.locationEditPage}>
@@ -340,21 +358,23 @@ LocationEditPage.propTypes = {
 	location: PropTypes.objectOf(Location),
 };
 
+LocationEditPage.defaultProps = {
+	location: new Location(),
+};
+
 export default compose(
 	withRouter,
 	firestoreConnect((props) => {
 		const tripId = props.match.params[URL_PARAM_TRIP];
 		const locationId = props.match.params[URL_PARAM_LOCATION];
-		return [
-			{
-				collection: 'TRIPS',
-				doc: tripId,
-				subcollections: [{
-					collection: 'locations',
-					doc: locationId,
-				}],
-			},
-		];
+		return [{
+			collection: 'TRIPS',
+			doc: tripId,
+			subcollections: [{
+				collection: 'locations',
+				doc: locationId,
+			}],
+		}];
 	}),
 	connect(
 		({firestore: {data}}, props) => {

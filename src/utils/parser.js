@@ -1,5 +1,6 @@
 import {isDate} from 'underscore';
 
+
 export function parseDateToString(timestamp) {
 	if (!timestamp)
 		return '';
@@ -11,4 +12,10 @@ export function parseDateToString(timestamp) {
 	const year = date.getFullYear();
 
 	return `${month}/${day}/${year}`;
+}
+
+export function parseDateIfValid(obj) {
+	if (!obj) return null;
+
+	return isDate(obj) ? obj : obj.toDate();
 }
