@@ -16,61 +16,61 @@ import {Location} from '../models';
 
 
 const styles = theme => ({
-    locationEditPage: {
-        paddingTop: theme.spacing.unit * 3,
-    },
-    inputContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        margin: theme.spacing.unit,
-        padding: theme.spacing.unit,
-        paddingRight: theme.spacing.unit * 10,
-        minWidth: '25em',
-    },
-    inputField: {
-        marginTop: theme.spacing.unit,
-    },
-    inputHorizontalContainer: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        flexWrap: 'nowrap',
-    },
-    inputHorizontalSpacing: {
-        marginRight: theme.spacing.unit * 2,
-    },
-    addressLabel: {
-        marginTop: theme.spacing.unit * 2,
-    },
-    imagePaper: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: theme.spacing.unit,
-        float: 'right',
-        width: '18em',
-        height: '18em',
-    },
-    imageIcon: {
-        fontSize: '10em',
-    },
-    actionButtonsContainer: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginTop: theme.spacing.unit * 4,
-    },
-    actionButton: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
-    },
-    activitiesContainer: {
-        marginTop: theme.spacing.unit * 6,
-    },
+	locationEditPage: {
+		paddingTop: theme.spacing.unit * 3,
+	},
+	inputContainer: {
+		display: 'flex',
+		flexDirection: 'column',
+		margin: theme.spacing.unit,
+		padding: theme.spacing.unit,
+		paddingRight: theme.spacing.unit * 10,
+		minWidth: '25em',
+	},
+	inputField: {
+		marginTop: theme.spacing.unit,
+	},
+	inputHorizontalContainer: {
+		display: 'flex',
+		justifyContent: 'space-between',
+		flexWrap: 'nowrap',
+	},
+	inputHorizontalSpacing: {
+		marginRight: theme.spacing.unit * 2,
+	},
+	addressLabel: {
+		marginTop: theme.spacing.unit * 2,
+	},
+	imagePaper: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		margin: theme.spacing.unit,
+		float: 'right',
+		width: '18em',
+		height: '18em',
+	},
+	imageIcon: {
+		fontSize: '10em',
+	},
+	actionButtonsContainer: {
+		display: 'flex',
+		justifyContent: 'space-between',
+		marginTop: theme.spacing.unit * 4,
+	},
+	actionButton: {
+		marginLeft: theme.spacing.unit,
+		marginRight: theme.spacing.unit,
+	},
+	activitiesContainer: {
+		marginTop: theme.spacing.unit * 6,
+	},
 });
 
 
 class LocationEditPage extends React.Component {
 
-state = {
+	state = {
 		location: new Location(),
 	};
 
@@ -309,18 +309,18 @@ state = {
 						tripId={tripId}
 						locationId={locationId}
 					/>
-                    <div className={classes.actionButtonsContainer}>
-                        <NavLink exact to={routes.ACTIVITY_ADD(tripId, locationId)}>
-                            <Button
-                                className={classes.actionButton}
-                                variant="contained"
-                                color="primary"
-                                fullWidth
-                            >
-                                Add Activity
-                            </Button>
-                        </NavLink>
-                    </div>
+					<div className={classes.actionButtonsContainer}>
+						<NavLink exact to={routes.ACTIVITY_ADD(tripId, locationId)}>
+							<Button
+								className={classes.actionButton}
+								variant="contained"
+								color="primary"
+								fullWidth
+							>
+								Add Activity
+							</Button>
+						</NavLink>
+					</div>
 				</div>
 			</div>
 		);
@@ -346,7 +346,14 @@ export default compose(
 		const tripId = props.match.params[URL_PARAM_TRIP];
 		const locationId = props.match.params[URL_PARAM_LOCATION];
 		return [
-			`TRIPS/${tripId}/locations/${locationId}`,
+			{
+				collection: 'TRIPS',
+				doc: tripId,
+				subcollections: [{
+					collection: 'locations',
+					doc: locationId,
+				}],
+			},
 		];
 	}),
 	connect(
