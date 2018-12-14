@@ -24,6 +24,23 @@ const styles = theme => ({
 
 class ActivitiesSlider extends React.Component {
 
+	componentDidMount() {
+		const {firestore, tripId, locationId} = this.props;
+
+		const firestoreRef = {
+			collection: 'TRIPS',
+			doc: tripId,
+			subcollections: [{
+				collection: 'locations',
+				doc: locationId,
+				subcollections: [{
+					collection: 'activities',
+				}],
+			}],
+		};
+		firestore.get(firestoreRef);
+	}
+
 	render() {
 		const {classes, activities} = this.props;
 
@@ -73,15 +90,14 @@ class ActivitiesSlider extends React.Component {
 
 ActivitiesSlider.propTypes = {
 	classes: PropTypes.object.isRequired,
+	firestore: PropTypes.object.isRequired,
 	tripId: PropTypes.string.isRequired,
 	locationId: PropTypes.string.isRequired,
 	activities: PropTypes.object,
 };
 
 export default compose(
-	firestoreConnect((props) => [
-		`TRIPS/${props.tripId}/locations/${props.locationId}/activities`,
-	]),
+	firestoreConnect(),
 	connect(
 		({firestore: {data}}, props) => ({
 			activities: data.TRIPS

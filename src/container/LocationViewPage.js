@@ -151,7 +151,6 @@ LocationViewPage.propTypes = {
 	history: PropTypes.object.isRequired,
 	location: PropTypes.objectOf(Location).isRequired,
 };
-
 LocationViewPage.defaultProps = {
 	location: new Location(),
 };

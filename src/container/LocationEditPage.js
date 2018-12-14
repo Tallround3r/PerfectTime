@@ -68,36 +68,17 @@ const styles = theme => ({
 	},
 });
 
-const copyLocation = (location) => {
-	return {
-		...location,
-		startdate: parseDateIfValid(location.startdate),
-		enddate: parseDateIfValid(location.enddate),
-		address: {...location.address},
-	};
-};
-
 class LocationEditPage extends React.Component {
 
 	state = {
-		location: new Location(),
-		// 	{
-		// 	...this.props.location,
-		// 	// startdate: parseDateIfValid(this.props.location.startdate),
-		// 	// enddate: parseDateIfValid(this.props.location.enddate),
-		// 	address: {...this.props.location.address},
-		// },
+		location: this.props.location,
 	};
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		const {location} = this.props;
 		if (!isEqual(location, prevProps.location)) {
 			this.setState({
-				location: {
-					...location,
-					startdate: parseDateIfValid(location.startdate),
-					enddate: parseDateIfValid(location.enddate),
-				},
+				location,
 			});
 		}
 	}
@@ -114,8 +95,8 @@ class LocationEditPage extends React.Component {
 				doc: match.params[URL_PARAM_LOCATION],
 			}],
 		};
-		const locationWithoutActivities = omit(location, 'activities');
 
+		const locationWithoutActivities = omit(location, 'activities');
 		firestore.set(firestoreRef, locationWithoutActivities);
 
 		const tripId = match.params[URL_PARAM_TRIP];
@@ -129,11 +110,7 @@ class LocationEditPage extends React.Component {
 		const {location, history, match} = this.props;
 
 		this.setState({
-			location: {
-				...location,
-				startdate: location.startdate.toDate(),
-				enddate: location.enddate.toDate(),
-			},
+			location,
 		});
 
 		const tripId = match.params[URL_PARAM_TRIP];
@@ -188,9 +165,6 @@ class LocationEditPage extends React.Component {
 		const tripId = match.params[URL_PARAM_TRIP];
 		const locationId = match.params[URL_PARAM_LOCATION];
 
-		console.log('state', location);
-		console.log('props', this.props.location);
-
 		return (
 			<div className={classes.locationEditPage}>
 				<Typography
@@ -232,7 +206,7 @@ class LocationEditPage extends React.Component {
 								className={classNames(classes.inputField, classes.inputHorizontalSpacing)}
 								keyboard
 								required
-								value={startdate}
+								value={parseDateIfValid(startdate)}
 								onChange={this.handleChangeDate('startdate')}
 								label="Start Date"
 								format="MM/dd/yyyy"
@@ -246,7 +220,7 @@ class LocationEditPage extends React.Component {
 								className={classes.inputField}
 								keyboard
 								required
-								value={enddate}
+								value={parseDateIfValid(enddate)}
 								onChange={this.handleChangeDate('enddate')}
 								label="End Date"
 								format="MM/dd/yyyy"

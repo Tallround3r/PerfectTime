@@ -1,5 +1,5 @@
 const styles = theme => ({
-    activiyViewPage: {
+    activityViewPage: {
         paddingTop: theme.spacing.unit * 3,
     },
     inputContainer: {
