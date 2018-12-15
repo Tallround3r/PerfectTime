@@ -8,81 +8,77 @@ import {connect} from 'react-redux';
 import {firestoreConnect} from 'react-redux-firebase';
 import {NavLink, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
-import {omit} from 'underscore';
+import {isEqual, omit} from 'underscore';
 import ActivitiesSlider from '../components/ActivitiesSlider';
 import * as routes from '../constants/routes';
 import {URL_PARAM_LOCATION, URL_PARAM_TRIP} from '../constants/routes';
 import {Location} from '../models';
+import {parseDateIfValid} from '../utils/parser';
 
 
 const styles = theme => ({
-    locationEditPage: {
-        paddingTop: theme.spacing.unit * 3,
-    },
-    inputContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        margin: theme.spacing.unit,
-        padding: theme.spacing.unit,
-        paddingRight: theme.spacing.unit * 10,
-        minWidth: '25em',
-    },
-    inputField: {
-        marginTop: theme.spacing.unit,
-    },
-    inputHorizontalContainer: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        flexWrap: 'nowrap',
-    },
-    inputHorizontalSpacing: {
-        marginRight: theme.spacing.unit * 2,
-    },
-    addressLabel: {
-        marginTop: theme.spacing.unit * 2,
-    },
-    imagePaper: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: theme.spacing.unit,
-        float: 'right',
-        width: '18em',
-        height: '18em',
-    },
-    imageIcon: {
-        fontSize: '10em',
-    },
-    actionButtonsContainer: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginTop: theme.spacing.unit * 4,
-    },
-    actionButton: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
-    },
-    activitiesContainer: {
-        marginTop: theme.spacing.unit * 6,
-    },
+	locationEditPage: {
+		paddingTop: theme.spacing.unit * 3,
+	},
+	inputContainer: {
+		display: 'flex',
+		flexDirection: 'column',
+		margin: theme.spacing.unit,
+		padding: theme.spacing.unit,
+		paddingRight: theme.spacing.unit * 10,
+		minWidth: '25em',
+	},
+	inputField: {
+		marginTop: theme.spacing.unit,
+	},
+	inputHorizontalContainer: {
+		display: 'flex',
+		justifyContent: 'space-between',
+		flexWrap: 'nowrap',
+	},
+	inputHorizontalSpacing: {
+		marginRight: theme.spacing.unit * 2,
+	},
+	addressLabel: {
+		marginTop: theme.spacing.unit * 2,
+	},
+	imagePaper: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		margin: theme.spacing.unit,
+		float: 'right',
+		width: '18em',
+		height: '18em',
+	},
+	imageIcon: {
+		fontSize: '10em',
+	},
+	actionButtonsContainer: {
+		display: 'flex',
+		justifyContent: 'space-between',
+		marginTop: theme.spacing.unit * 4,
+	},
+	actionButton: {
+		marginLeft: theme.spacing.unit,
+		marginRight: theme.spacing.unit,
+	},
+	activitiesContainer: {
+		marginTop: theme.spacing.unit * 6,
+	},
 });
-
 
 class LocationEditPage extends React.Component {
 
-state = {
-		location: new Location(),
+	state = {
+		location: this.props.location,
 	};
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		const {location} = this.props;
-		if (location !== prevProps.location) {
+		if (!isEqual(location, prevProps.location)) {
 			this.setState({
-				location: {
-					...location,
-					startdate: location.startdate.toDate(),
-					enddate: location.enddate.toDate(),
-				},
+				location,
 			});
 		}
 	}
@@ -99,8 +95,8 @@ state = {
 				doc: match.params[URL_PARAM_LOCATION],
 			}],
 		};
-		const locationWithoutActivities = omit(location, 'activities');
 
+		const locationWithoutActivities = omit(location, 'activities');
 		firestore.set(firestoreRef, locationWithoutActivities);
 
 		const tripId = match.params[URL_PARAM_TRIP];
@@ -114,11 +110,7 @@ state = {
 		const {location, history, match} = this.props;
 
 		this.setState({
-			location: {
-				...location,
-				startdate: location.startdate.toDate(),
-				enddate: location.enddate.toDate(),
-			},
+			location,
 		});
 
 		const tripId = match.params[URL_PARAM_TRIP];
@@ -214,7 +206,7 @@ state = {
 								className={classNames(classes.inputField, classes.inputHorizontalSpacing)}
 								keyboard
 								required
-								value={startdate}
+								value={parseDateIfValid(startdate)}
 								onChange={this.handleChangeDate('startdate')}
 								label="Start Date"
 								format="MM/dd/yyyy"
@@ -228,7 +220,7 @@ state = {
 								className={classes.inputField}
 								keyboard
 								required
-								value={enddate}
+								value={parseDateIfValid(enddate)}
 								onChange={this.handleChangeDate('enddate')}
 								label="End Date"
 								format="MM/dd/yyyy"
@@ -309,18 +301,18 @@ state = {
 						tripId={tripId}
 						locationId={locationId}
 					/>
-                    <div className={classes.actionButtonsContainer}>
-                        <NavLink exact to={routes.ACTIVITY_ADD(tripId, locationId)}>
-                            <Button
-                                className={classes.actionButton}
-                                variant="contained"
-                                color="primary"
-                                fullWidth
-                            >
-                                Add Activity
-                            </Button>
-                        </NavLink>
-                    </div>
+					<div className={classes.actionButtonsContainer}>
+						<NavLink exact to={routes.ACTIVITY_ADD(tripId, locationId)}>
+							<Button
+								className={classes.actionButton}
+								variant="contained"
+								color="primary"
+								fullWidth
+							>
+								Add Activity
+							</Button>
+						</NavLink>
+					</div>
 				</div>
 			</div>
 		);
@@ -340,14 +332,23 @@ LocationEditPage.propTypes = {
 	location: PropTypes.objectOf(Location),
 };
 
+LocationEditPage.defaultProps = {
+	location: new Location(),
+};
+
 export default compose(
 	withRouter,
 	firestoreConnect((props) => {
 		const tripId = props.match.params[URL_PARAM_TRIP];
 		const locationId = props.match.params[URL_PARAM_LOCATION];
-		return [
-			`TRIPS/${tripId}/locations/${locationId}`,
-		];
+		return [{
+			collection: 'TRIPS',
+			doc: tripId,
+			subcollections: [{
+				collection: 'locations',
+				doc: locationId,
+			}],
+		}];
 	}),
 	connect(
 		({firestore: {data}}, props) => {

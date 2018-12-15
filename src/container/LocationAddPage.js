@@ -9,7 +9,8 @@ import {withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import {URL_PARAM_TRIP} from '../constants/routes';
-import {Address, Location} from '../models';
+import {Address} from '../models';
+import {parseDateIfValid} from '../utils/parser';
 
 
 const styles = theme => ({
@@ -194,7 +195,7 @@ class LocationAddPage extends React.Component {
 								className={classNames(classes.inputField, classes.inputHorizontalSpacing)}
 								keyboard
 								required
-								value={startdate}
+								value={parseDateIfValid(startdate)}
 								onChange={this.handleChangeDate('startdate')}
 								label="Start Date"
 								format="MM/dd/yyyy"
@@ -208,7 +209,7 @@ class LocationAddPage extends React.Component {
 								className={classes.inputField}
 								keyboard
 								required
-								value={enddate}
+								value={parseDateIfValid(enddate)}
 								onChange={this.handleChangeDate('enddate')}
 								label="End Date"
 								format="MM/dd/yyyy"

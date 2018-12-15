@@ -1,11 +1,13 @@
 import {Button, Paper, Typography, withStyles} from '@material-ui/core';
 import {AddPhotoAlternateOutlined} from '@material-ui/icons';
+import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect} from 'react-redux-firebase';
 import {NavLink, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import ActivitiesSlider from '../components/ActivitiesSlider';
+import {URL_PARAM_LOCATION, URL_PARAM_TRIP} from '../constants/routes';
 import * as routes from '../constants/routes';
 import {Location} from '../models';
 import {parseDateToString} from '../utils/parser';
@@ -52,26 +54,8 @@ const styles = theme => ({
 
 class LocationViewPage extends React.Component {
 
-	state = {
-		location: new Location(),
-	};
-
-	componentDidUpdate(prevProps, prevState, snapshot) {
-		const {location} = this.props;
-		if (location !== prevProps.location) {
-			this.setState({
-				location: {
-					...location,
-					startdate: location.startdate.toDate(),
-					enddate: location.enddate.toDate(),
-				},
-			});
-		}
-	}
-
 	render() {
-		const {classes, match} = this.props;
-		const {location} = this.state;
+		const {classes, match, location} = this.props;
 		const {title, description, startdate, enddate, address} = location;
 		const tripId = match.params[routes.URL_PARAM_TRIP];
 		const locationId = match.params[routes.URL_PARAM_LOCATION];
@@ -155,6 +139,21 @@ class LocationViewPage extends React.Component {
 	}
 
 }
+
+LocationViewPage.propTypes = {
+	match: PropTypes.shape({
+		params: PropTypes.shape({
+			[URL_PARAM_TRIP]: PropTypes.string.isRequired,
+			[URL_PARAM_LOCATION]: PropTypes.string.isRequired,
+		}),
+	}).isRequired,
+	classes: PropTypes.object.isRequired,
+	history: PropTypes.object.isRequired,
+	location: PropTypes.objectOf(Location).isRequired,
+};
+LocationViewPage.defaultProps = {
+	location: new Location(),
+};
 
 export default compose(
 	withRouter,

@@ -1,10 +1,7 @@
 import React from 'react';
 
-class MembersPage extends React.Component {
 
-	constructor() {
-		super();
-	}
+class MembersPage extends React.Component {
 
 	componentDidMount() {
 

@@ -19,6 +19,7 @@ import {URL_PARAM_TRIP} from '../constants/routes';
 import ActivitiesSlider from '../components/ActivitiesSlider';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import {parseDateIfValid} from '../utils/parser';
 
 
 const styles = theme => ({
@@ -74,7 +75,7 @@ class LocationsPage extends React.Component {
 		const {expanded} = this.state;
 		const tripId = match.params[URL_PARAM_TRIP];
 
-        return (
+		return (
 			<div>
 				<h1>Locations</h1>
 				<div>
@@ -84,8 +85,8 @@ class LocationsPage extends React.Component {
 							? 'No Locations created yet.'
 							: Object.keys(locations).map((key) => {
 								let location = locations[key];
-								let startdate = new Date(locations[key].startdate.seconds * 1000);
-								let enddate = new Date(locations[key].enddate.seconds * 1000);
+								let startdate = parseDateIfValid(locations[key].startdate);
+								let enddate = parseDateIfValid(locations[key].enddate);
 								return (
 									<div key={key}>
 										<ExpansionPanel
@@ -152,9 +153,13 @@ LocationsPage.propTypes = {
 
 export default compose(
 	withRouter,
-	firestoreConnect((props) => [
-		`TRIPS/${props.match.params[URL_PARAM_TRIP]}/locations`,
-	]),
+	firestoreConnect((props) => [{
+		collection: 'TRIPS',
+		doc: props.match.params[URL_PARAM_TRIP],
+		subcollections: [{
+			collection: 'locations',
+		}],
+	}]),
 	connect(
 		({firestore: {data}}, props) => {
 			const tripId = props.match.params[URL_PARAM_TRIP];
