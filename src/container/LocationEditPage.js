@@ -5,13 +5,15 @@ import DatePicker from 'material-ui-pickers/DatePicker';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
-import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
-import {withRouter} from 'react-router-dom';
+import {firestoreConnect} from 'react-redux-firebase';
+import {NavLink, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
-import {omit} from 'underscore';
+import {isEqual, omit} from 'underscore';
 import ActivitiesSlider from '../components/ActivitiesSlider';
+import * as routes from '../constants/routes';
 import {URL_PARAM_LOCATION, URL_PARAM_TRIP} from '../constants/routes';
 import {Location} from '../models';
+import {parseDateIfValid} from '../utils/parser';
 
 
 const styles = theme => ({
@@ -66,33 +68,23 @@ const styles = theme => ({
 	},
 });
 
-
 class LocationEditPage extends React.Component {
 
 	state = {
-		location: new Location(),
+		location: this.props.location,
 	};
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		const {location, activities} = this.props;
-		if (location !== prevProps.location) {
+		const {location} = this.props;
+		if (!isEqual(location, prevProps.location)) {
 			this.setState({
-				location: {
-					...location,
-					startdate: location.startdate.toDate(),
-					enddate: location.enddate.toDate(),
-				},
-			});
-		}
-		if (activities !== prevProps.activities) {
-			this.setState({
-				activities,
+				location,
 			});
 		}
 	}
 
 	handleSubmit = (e) => {
-		const {firestore, match} = this.props;
+		const {firestore, match, history} = this.props;
 		const {location} = this.state;
 
 		const firestoreRef = {
@@ -103,24 +95,27 @@ class LocationEditPage extends React.Component {
 				doc: match.params[URL_PARAM_LOCATION],
 			}],
 		};
-		const locationWithoutActivities = omit(location, 'activities');
-		// TODO: [bug] activities werden beim speichern aus state geloescht
 
+		const locationWithoutActivities = omit(location, 'activities');
 		firestore.set(firestoreRef, locationWithoutActivities);
+
+		const tripId = match.params[URL_PARAM_TRIP];
+		const locationId = match.params[URL_PARAM_LOCATION];
+		history.push(routes.LOCATIONS_VIEW(tripId, locationId));
 
 		e.preventDefault();
 	};
 
 	handleCancel = (e) => {
-		const {location} = this.props;
+		const {location, history, match} = this.props;
 
 		this.setState({
-			location: {
-				...location,
-				startdate: location.startdate.toDate(),
-				enddate: location.enddate.toDate(),
-			},
+			location,
 		});
+
+		const tripId = match.params[URL_PARAM_TRIP];
+		const locationId = match.params[URL_PARAM_LOCATION];
+		history.push(routes.LOCATIONS_VIEW(tripId, locationId));
 
 		e.preventDefault();
 	};
@@ -164,7 +159,7 @@ class LocationEditPage extends React.Component {
 	};
 
 	render() {
-		const {classes, activities, match} = this.props;
+		const {classes, match} = this.props;
 		const {location} = this.state;
 		const {title, description, startdate, enddate, address} = location;
 		const tripId = match.params[URL_PARAM_TRIP];
@@ -211,7 +206,7 @@ class LocationEditPage extends React.Component {
 								className={classNames(classes.inputField, classes.inputHorizontalSpacing)}
 								keyboard
 								required
-								value={startdate}
+								value={parseDateIfValid(startdate)}
 								onChange={this.handleChangeDate('startdate')}
 								label="Start Date"
 								format="MM/dd/yyyy"
@@ -225,7 +220,7 @@ class LocationEditPage extends React.Component {
 								className={classes.inputField}
 								keyboard
 								required
-								value={enddate}
+								value={parseDateIfValid(enddate)}
 								onChange={this.handleChangeDate('enddate')}
 								label="End Date"
 								format="MM/dd/yyyy"
@@ -283,10 +278,10 @@ class LocationEditPage extends React.Component {
 							</Button>
 							<Button
 								className={classes.actionButton}
-								onClick={this.handleCancel}
 								variant="contained"
 								color="secondary"
 								fullWidth
+								onClick={this.handleCancel}
 							>
 								Cancel
 							</Button>
@@ -306,6 +301,18 @@ class LocationEditPage extends React.Component {
 						tripId={tripId}
 						locationId={locationId}
 					/>
+					<div className={classes.actionButtonsContainer}>
+						<NavLink exact to={routes.ACTIVITY_ADD(tripId, locationId)}>
+							<Button
+								className={classes.actionButton}
+								variant="contained"
+								color="primary"
+								fullWidth
+							>
+								Add Activity
+							</Button>
+						</NavLink>
+					</div>
 				</div>
 			</div>
 		);
@@ -321,8 +328,12 @@ LocationEditPage.propTypes = {
 		}),
 	}).isRequired,
 	classes: PropTypes.object.isRequired,
+	history: PropTypes.object.isRequired,
 	location: PropTypes.objectOf(Location),
-	activities: PropTypes.object,
+};
+
+LocationEditPage.defaultProps = {
+	location: new Location(),
 };
 
 export default compose(
@@ -330,10 +341,14 @@ export default compose(
 	firestoreConnect((props) => {
 		const tripId = props.match.params[URL_PARAM_TRIP];
 		const locationId = props.match.params[URL_PARAM_LOCATION];
-		return [
-			`TRIPS/${tripId}/locations/${locationId}`,
-			`TRIPS/${tripId}/locations/${locationId}/activities`,
-		];
+		return [{
+			collection: 'TRIPS',
+			doc: tripId,
+			subcollections: [{
+				collection: 'locations',
+				doc: locationId,
+			}],
+		}];
 	}),
 	connect(
 		({firestore: {data}}, props) => {
@@ -344,11 +359,6 @@ export default compose(
 					&& data.TRIPS[tripId]
 					&& data.TRIPS[tripId].locations
 					&& data.TRIPS[tripId].locations[locationId],
-				activities: data.TRIPS
-					&& data.TRIPS[tripId]
-					&& data.TRIPS[tripId].locations
-					&& data.TRIPS[tripId].locations[locationId]
-					&& data.TRIPS[tripId].locations[locationId].activities,
 			};
 		},
 	),
