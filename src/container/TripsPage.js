@@ -17,8 +17,6 @@ import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import {URL_PARAM_TRIP} from '../constants/routes';
 import ActivitiesSlider from '../components/ActivitiesSlider';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import {parseDateIfValid} from '../utils/parser';
 
 
@@ -58,7 +56,7 @@ const styles = theme => ({
 	},
 });
 
-class LocationsPage extends React.Component {
+class TripsPage extends React.Component {
 
 	state = {
 		expanded: null,
@@ -77,7 +75,7 @@ class LocationsPage extends React.Component {
 
 		return (
 			<div>
-				<h1>Locations</h1>
+				<h1>Trips</h1>
 				<div>
 					{!isLoaded(locations)
 						? 'Loading...'
@@ -133,29 +131,12 @@ class LocationsPage extends React.Component {
 							})}
 				</div>
 
-				<NavLink exact to={routes.LOCATIONS_ADD(tripId)}>
-					<Fab
-						className={classes.fab}
-						color="primary"
-						aria-label="Add"
-					>
-						<AddIcon/>
-					</Fab>
-				</NavLink>
-				<NavLink exact to={routes.TRIPS(tripId)}>
-					<Fab
-						color="primary"
-						aria-label="Add"
-					>
-						Trips
-					</Fab>
-				</NavLink>
 			</div>
 		);
 	}
 }
 
-LocationsPage.propTypes = {
+TripsPage.propTypes = {
 	match: PropTypes.object.isRequired,
 };
 
@@ -179,4 +160,4 @@ export default compose(
 		},
 	),
 	withStyles(styles),
-)(LocationsPage);
+)(TripsPage);

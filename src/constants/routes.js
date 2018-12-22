@@ -4,6 +4,8 @@ export const LANDING = '/';
 export const SIGN_IN = '/login';
 export const SIGN_UP = '/register';
 
+export const TRIPS = (tripId = `:${URL_PARAM_TRIP}`) => `/${tripId}`;
+
 export const LOCATIONS = (tripId = `:${URL_PARAM_TRIP}`) => `/${tripId}/locations`;
 export const LOCATIONS_VIEW = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${URL_PARAM_LOCATION}`) =>
 	`/${tripId}/locations/${locationId}`;
