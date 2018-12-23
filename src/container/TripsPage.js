@@ -78,9 +78,9 @@ class TripsPage extends React.Component {
 				<h1>Trips</h1>
 				<div>
 					{!isLoaded(locations)
-						? 'Loading...'
+						? 'Loading Trips...'
 						: isEmpty(locations)
-							? 'No Locations created yet.'
+							? 'No Trips created yet.'
 							: Object.keys(locations).map((key) => {
 								let location = locations[key];
 								let startdate = parseDateIfValid(locations[key].startdate);
