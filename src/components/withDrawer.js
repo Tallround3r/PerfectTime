@@ -16,9 +16,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty} from 'react-redux-firebase';
-import {NavLink} from 'react-router-dom';
+import {NavLink, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import {AUTH_CONDITION_WITH_DRAWER} from '../constants/auth-conditions';
+import {URL_PARAM_TRIP} from '../constants/routes';
 import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
 import {menuItems} from './MenuItems';
@@ -124,8 +125,9 @@ const withDrawer = (Component) => {
 		};
 
 		render() {
-			const {classes, auth} = this.props;
+			const {classes, auth, match} = this.props;
 			const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+			const tripId = match.params[URL_PARAM_TRIP];
 
 			const drawerContent = <div>
 				<div className={classes.toolbarIcon}>
@@ -153,7 +155,7 @@ const withDrawer = (Component) => {
 
 				<Divider/>
 
-				<List>{menuItems}</List>
+				<List>{menuItems(tripId)}</List>
 			</div>;
 
 			return (
@@ -168,7 +170,7 @@ const withDrawer = (Component) => {
 								<IconButton
 									color="inherit"
 									aria-label="Open drawer"
-									onClick={this.handleDrawerOpen}
+									onClick={tripId && this.handleDrawerOpen}
 									className={classNames(
 										classes.menuButton,
 										this.state.open && classes.menuButtonHidden,
@@ -190,6 +192,7 @@ const withDrawer = (Component) => {
 							</Toolbar>
 						</AppBar>
 
+						{tripId &&
 						<Hidden smDown>
 							<Drawer
 								className={classes.drawer}
@@ -201,8 +204,9 @@ const withDrawer = (Component) => {
 							>
 								{drawerContent}
 							</Drawer>
-						</Hidden>
+						</Hidden>}
 
+						{tripId &&
 						<Hidden mdUp>
 							<SwipeableDrawer
 								onClose={this.handleDrawerClose}
@@ -213,7 +217,7 @@ const withDrawer = (Component) => {
 							>
 								{drawerContent}
 							</SwipeableDrawer>
-						</Hidden>
+						</Hidden>}
 
 						<div className={classes.content}>
 							<div className={classes.appBarSpacer}/>
@@ -228,11 +232,17 @@ const withDrawer = (Component) => {
 
 	AppWrapper.propTypes = {
 		classes: PropTypes.object.isRequired,
+		match: PropTypes.shape({
+			params: PropTypes.shape({
+				[URL_PARAM_TRIP]: PropTypes.string,
+			}),
+		}).isRequired,
 		auth: PropTypes.object,
 	};
 
 	return compose(
 		withAuthorization(AUTH_CONDITION_WITH_DRAWER),
+		withRouter,
 		firestoreConnect(),
 		connect(
 			({firebase: {auth}}) => ({
