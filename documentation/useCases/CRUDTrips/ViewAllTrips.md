@@ -30,8 +30,8 @@ It will also show reference the feature files for automated testing.
 
 ### 2.2 Feature File
 
-The feature files are still in development and will be added soon.
-Once they are, they can be found <a href="../../../features" >here</a>.
+The feature files can be found <a href="../../../features" >here</a>.
+The tests are still under development.
 
 ## 3. Preconditions
 
