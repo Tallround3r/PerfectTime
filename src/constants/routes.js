@@ -8,6 +8,8 @@ export const TRIPS = () => `/trips`;
 export const TRIPS_ADD = () => `/trips/add`;
 export const TRIPS_EDIT = (tripId = `:${URL_PARAM_TRIP}`) => `/trips/${tripId}/edit`;
 
+export const MEMBERS = (tripId = `:${URL_PARAM_TRIP}`) => `/trips/${tripId}/members`;
+
 export const LOCATIONS = (tripId = `:${URL_PARAM_TRIP}`) => `/trips/${tripId}/locations`;
 export const LOCATIONS_VIEW = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${URL_PARAM_LOCATION}`) =>
 	`/trips/${tripId}/locations/${locationId}`;
@@ -22,7 +24,6 @@ export const ACTIVITY_EDIT = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${UR
 export const ACTIVITY_VIEW = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${URL_PARAM_LOCATION}`, activityId = `:${URL_PARAM_ACTIVITY}`) =>
 	`/trips/${tripId}/locations/${locationId}/activity/${activityId}`;
 
-export const MEMBERS = '/members';
 
 
 /** URL parameter **/

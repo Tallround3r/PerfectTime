@@ -8,12 +8,11 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import * as routes from '../constants/routes';
-import {TRIP_ID} from '../constants/staticIds';
 
 
-export const menuItems = (
+export const menuItems = (tripId) => (
 	<div>
-		<NavLink exact to={routes.LOCATIONS(TRIP_ID)} className="nav-link">
+		<NavLink exact to={routes.LOCATIONS(tripId)} className="nav-link">
 			<ListItem button>
 				<ListItemIcon>
 					<LocationOnIcon/>
@@ -21,7 +20,7 @@ export const menuItems = (
 				<ListItemText primary="Locations"/>
 			</ListItem>
 		</NavLink>
-		<NavLink exact to={routes.MEMBERS} className="nav-link">
+		<NavLink exact to={routes.MEMBERS(tripId)} className="nav-link">
 			<ListItem button>
 				<ListItemIcon>
 					<AccountCircleIcon/>

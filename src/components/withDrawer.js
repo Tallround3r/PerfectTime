@@ -126,8 +126,8 @@ const withDrawer = (Component) => {
 
 		render() {
 			const {classes, auth, match} = this.props;
-			const tripId = match.params[URL_PARAM_TRIP];
 			const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+			const tripId = match.params[URL_PARAM_TRIP];
 
 			const drawerContent = <div>
 				<div className={classes.toolbarIcon}>
@@ -155,7 +155,7 @@ const withDrawer = (Component) => {
 
 				<Divider/>
 
-				<List>{menuItems}</List>
+				<List>{menuItems(tripId)}</List>
 			</div>;
 
 			return (
