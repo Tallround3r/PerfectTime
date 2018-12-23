@@ -9,13 +9,15 @@ import {
 	Typography,
 	withStyles,
 } from '@material-ui/core';
-import {Delete, Edit} from '@material-ui/icons';
+import {Delete, Edit, OpenInNew} from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React from 'react';
+import {NavLink} from 'react-router-dom';
 import {compose} from 'redux';
+import * as routes from '../constants/routes';
 import {Activity} from '../models';
-import {getRandomImage} from '../utils/RessourceUtils';
 import {parseDateToString} from '../utils/parser';
+import {getRandomImage} from '../utils/RessourceUtils';
 
 
 const styles = theme => ({
@@ -36,16 +38,12 @@ class ActivityCard extends React.Component {
 
 	cardImage = getRandomImage();
 
-	handleEdit = (e) => {
-
-	};
-
 	handleDelete = (e) => {
 
 	};
 
 	render() {
-		const {classes, activity} = this.props;
+		const {classes, activity, tripId, locationId} = this.props;
 		const {title, description, startdate, enddate} = activity;
 
 		return (
@@ -66,7 +64,6 @@ class ActivityCard extends React.Component {
 						{description}
 					</Typography>
 				</CardContent>
-
 				<CardActions className={classes.actions}>
 					<Tooltip title="Delete" aria-label="Delete">
 						<IconButton
@@ -76,11 +73,18 @@ class ActivityCard extends React.Component {
 						</IconButton>
 					</Tooltip>
 					<Tooltip title="Edit" aria-label="Edit">
-						<IconButton
-							onClick={this.handleEdit}
-						>
-							<Edit/>
-						</IconButton>
+						<NavLink exact to={routes.ACTIVITY_EDIT(tripId, locationId, this.props.activityId)}>
+							<IconButton>
+								<Edit/>
+							</IconButton>
+						</NavLink>
+					</Tooltip>
+					<Tooltip title="Open" aria-label="Open">
+						<NavLink exact to={routes.ACTIVITY_VIEW(tripId, locationId, this.props.activityId)}>
+							<IconButton>
+								<OpenInNew/>
+							</IconButton>
+						</NavLink>
 					</Tooltip>
 				</CardActions>
 			</Card>
@@ -91,6 +95,9 @@ class ActivityCard extends React.Component {
 ActivityCard.propTypes = {
 	classes: PropTypes.object.isRequired,
 	activity: PropTypes.objectOf(Activity).isRequired,
+	activityId: PropTypes.string.isRequired,
+	tripId: PropTypes.string.isRequired,
+	locationId: PropTypes.string.isRequired,
 };
 
 export default compose(

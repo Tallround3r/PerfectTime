@@ -106,6 +106,9 @@ class SignUp extends React.Component {
 		firebase.createUser(credentials, profile)
 			.then(() => {
 				this.setState({...INITIAL_STATE});
+				return firebase.auth().currentUser.sendEmailVerification();
+			})
+			.then(() => {
 				history.push(routes.SIGN_IN);
 			})
 			.catch(error => {
@@ -153,66 +156,66 @@ class SignUp extends React.Component {
 								<FormControl className={classes.firstNameForm} margin="normal" required fullWidth>
 									<InputLabel htmlFor="firstName">First Name</InputLabel>
 									<Input id="firstName" autoFocus
-										   name="firstName"
-										   value={firstName}
-										   onChange={this.handleChangeInput}
+									       name="firstName"
+									       value={firstName}
+									       onChange={this.handleChangeInput}
 									/>
 								</FormControl>
 								<FormControl margin="normal" required fullWidth>
 									<InputLabel htmlFor="lastName">Last Name</InputLabel>
 									<Input id="lastName"
-										   name="lastName"
-										   value={lastName}
-										   onChange={this.handleChangeInput}
+									       name="lastName"
+									       value={lastName}
+									       onChange={this.handleChangeInput}
 									/>
 								</FormControl>
 							</div>
 							<FormControl margin="normal" required fullWidth>
 								<InputLabel htmlFor="username">Username</InputLabel>
 								<Input id="username"
-									   name="username"
-									   autoComplete="username"
-									   value={username}
-									   onChange={this.handleChangeInput}
+								       name="username"
+								       autoComplete="username"
+								       value={username}
+								       onChange={this.handleChangeInput}
 								/>
 							</FormControl>
 							<FormControl margin="normal" required fullWidth>
 								<InputLabel htmlFor="email">Email</InputLabel>
 								<Input id="email"
-									   name="email"
-									   autoComplete="email"
-									   value={email}
-									   onChange={this.handleChangeInput}
+								       name="email"
+								       autoComplete="email"
+								       value={email}
+								       onChange={this.handleChangeInput}
 								/>
 							</FormControl>
 							<FormControl margin="normal" required fullWidth>
 								<InputLabel htmlFor="password">Password</InputLabel>
 								<Input id="password"
-									   name="password"
-									   type="password"
-									   autoComplete="current-password"
-									   value={password}
-									   onChange={this.handleChangeInput}
+								       name="password"
+								       type="password"
+								       autoComplete="current-password"
+								       value={password}
+								       onChange={this.handleChangeInput}
 								/>
 							</FormControl>
 							<FormControl margin="normal" required fullWidth>
 								<InputLabel htmlFor="passwordConfirm">Repeat Password</InputLabel>
 								<Input id="passwordConfirm"
-									   name="passwordConfirm"
-									   type="password"
-									   value={passwordConfirm}
-									   onChange={this.handleChangeInput}
+								       name="passwordConfirm"
+								       type="password"
+								       value={passwordConfirm}
+								       onChange={this.handleChangeInput}
 								/>
 							</FormControl>
 
 							{error && <p className={classes.errorMessage}>{error.message}</p>}
 
 							<Button type="submit" fullWidth
-									variant="contained"
-									id="signUpButton"
-									color="primary"
-									className={classes.submit}
-									disabled={submitted || !isValid(username, email, password, passwordConfirm, firstName, lastName)}
+							        variant="contained"
+							        id="signUpButton"
+							        color="primary"
+							        className={classes.submit}
+							        disabled={submitted || !isValid(username, email, password, passwordConfirm, firstName, lastName)}
 							>
 								Sign Up
 							</Button>

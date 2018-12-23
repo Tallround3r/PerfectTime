@@ -24,6 +24,23 @@ const styles = theme => ({
 
 class ActivitiesSlider extends React.Component {
 
+	componentDidMount() {
+		const {firestore, tripId, locationId} = this.props;
+
+		const firestoreRef = {
+			collection: 'TRIPS',
+			doc: tripId,
+			subcollections: [{
+				collection: 'locations',
+				doc: locationId,
+				subcollections: [{
+					collection: 'activities',
+				}],
+			}],
+		};
+		firestore.get(firestoreRef);
+	}
+
 	render() {
 		const {classes, activities} = this.props;
 
@@ -61,24 +78,26 @@ class ActivitiesSlider extends React.Component {
 				</Slider>;
 	}
 
-	renderActivityCards = () => Object.keys(this.props.activities).map(key => (
-		<div key={key} className={this.props.classes.slideItem}>
-			<ActivityCard activity={this.props.activities[key]}/>
-		</div>
-	));
+	renderActivityCards = () => Object.keys(this.props.activities).map(key => {
+		const {classes, activities, tripId, locationId} = this.props;
+		return (
+			<div key={key} className={classes.slideItem}>
+				<ActivityCard activity={activities[key]} activityId={key} tripId={tripId} locationId={locationId}/>
+			</div>
+		);
+	});
 }
 
 ActivitiesSlider.propTypes = {
 	classes: PropTypes.object.isRequired,
+	firestore: PropTypes.object.isRequired,
 	tripId: PropTypes.string.isRequired,
 	locationId: PropTypes.string.isRequired,
 	activities: PropTypes.object,
 };
 
 export default compose(
-	firestoreConnect((props) => [
-		`TRIPS/${props.tripId}/locations/${props.locationId}/activities`,
-	]),
+	firestoreConnect(),
 	connect(
 		({firestore: {data}}, props) => ({
 			activities: data.TRIPS
