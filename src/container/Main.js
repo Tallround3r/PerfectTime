@@ -13,9 +13,9 @@ import LocationViewPage from './LocationViewPage';
 import MembersPage from './MembersPage';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
-import TripsPage from './TripsPage';
 import TripAddPage from './TripAddPage';
-//import TripViewPage from './TripViewPage';
+import TripEditPage from './TripEditPage';
+import TripsPage from './TripsPage';
 
 
 function Main() {
@@ -24,7 +24,7 @@ function Main() {
 			<Switch>
 				<Route exact path={routes.TRIPS()} component={withDrawer(TripsPage)}/>
 				<Route exact path={routes.TRIPS_ADD()} component={withDrawer(TripAddPage)}/>
-				{/*<Route exact path={routes.TRIPS_VIEW()} component={withDrawer(TripViewPage)}/>*/}
+				<Route exact path={routes.TRIPS_EDIT()} component={withDrawer(TripEditPage)}/>
 				<Route exact path={routes.LOCATIONS()} component={withDrawer(LocationsPage)}/>
 				<Route exact path={routes.LOCATIONS_ADD()} component={withDrawer(LocationAddPage)}/>
 				<Route exact path={routes.LOCATIONS_EDIT()} component={withDrawer(LocationEditPage)}/>

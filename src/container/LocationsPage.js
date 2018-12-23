@@ -19,6 +19,7 @@ import {URL_PARAM_TRIP} from '../constants/routes';
 import ActivitiesSlider from '../components/ActivitiesSlider';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import {Trip} from '../models';
 import {parseDateIfValid} from '../utils/parser';
 
 
@@ -71,13 +72,16 @@ class LocationsPage extends React.Component {
 	};
 
 	render() {
-		const {classes, locations, match} = this.props;
+		const {classes, trip, locations, match} = this.props;
 		const {expanded} = this.state;
 		const tripId = match.params[URL_PARAM_TRIP];
 
 		return (
 			<div>
-				<h1>Locations</h1>
+				<h1>
+					{isLoaded(trip) && !isEmpty(trip) && `${trip.title} — `}
+					Locations
+				</h1>
 				<div>
 					{!isLoaded(locations)
 						? 'Loading...'
@@ -149,11 +153,16 @@ class LocationsPage extends React.Component {
 
 LocationsPage.propTypes = {
 	match: PropTypes.object.isRequired,
+	trip: PropTypes.objectOf(Trip),
+	locations: PropTypes.object,
 };
 
 export default compose(
 	withRouter,
 	firestoreConnect((props) => [{
+		collection: 'TRIPS',
+		doc: props.match.params[URL_PARAM_TRIP],
+	}, {
 		collection: 'TRIPS',
 		doc: props.match.params[URL_PARAM_TRIP],
 		subcollections: [{
@@ -164,6 +173,8 @@ export default compose(
 		({firestore: {data}}, props) => {
 			const tripId = props.match.params[URL_PARAM_TRIP];
 			return {
+				trip: data.TRIPS
+					&& data.TRIPS[tripId],
 				locations: data.TRIPS
 					&& data.TRIPS[tripId]
 					&& data.TRIPS[tripId].locations,

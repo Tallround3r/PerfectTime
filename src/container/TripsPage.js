@@ -2,8 +2,10 @@ import {withStyles} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import ArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+import DirectionsWalk from '@material-ui/icons/DirectionsWalk';
+import EditIcon from '@material-ui/icons/Edit';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
@@ -13,7 +15,6 @@ import {compose} from 'redux';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import * as routes from '../constants/routes';
-import PictureStar from '../images/star.jpg';
 import {parseDateIfValid} from '../utils/parser';
 
 
@@ -23,6 +24,7 @@ const styles = theme => ({
 		marginTop: theme.spacing.unit * 2,
 		marginBottom: theme.spacing.unit * 2,
 		background: theme.palette.secondary.main,
+		cursor: 'default',
 	},
 	bigColumn: {
 		flexBasis: '50%',
@@ -51,6 +53,9 @@ const styles = theme => ({
 		bottom: theme.spacing.unit * 5,
 		right: theme.spacing.unit * 5,
 	},
+	iconAvatar: {
+		color: '#000',
+	},
 });
 
 class TripsPage extends React.Component {
@@ -59,15 +64,15 @@ class TripsPage extends React.Component {
 		expanded: null,
 	};
 
-	handleExpansionPanelChange = panel => (event, expanded) => {
-		this.setState({
-			expanded: expanded ? panel : null,
-		});
+	handleClickEditButton = (tripId) => (e) => {
+		const {history} = this.props;
+
+		history.push(routes.TRIPS_EDIT(tripId));
+		e.preventDefault();
 	};
 
 	render() {
 		const {classes, trips} = this.props;
-		const {expanded} = this.state;
 
 		return (
 			<div>
@@ -85,15 +90,22 @@ class TripsPage extends React.Component {
 									<div key={key}>
 										<ExpansionPanel
 											className={classes.locationPanel}
-											expanded={expanded === key}
-											onChange={this.handleExpansionPanelChange(key)}
+											expanded={false}
 										>
 											<ExpansionPanelSummary>
 												<div className={classes.smallColumn}>
-													<Avatar src={PictureStar}/>
+													<Avatar className={classes.iconAvatar}>
+														<DirectionsWalk fontSize="large"/>
+													</Avatar>
 												</div>
 												<div className={classes.bigColumn}>
-													<Typography>{trip.title}</Typography>
+													<NavLink exact to={routes.LOCATIONS(key)}>
+														<Typography
+															variant={'h6'}
+														>
+															{trip.title}
+														</Typography>
+													</NavLink>
 												</div>
 												<div className={classes.bigColumn}>
 													<Typography>
@@ -107,11 +119,9 @@ class TripsPage extends React.Component {
 													<Typography>{trip.description}</Typography>
 												</div>
 												<div className={classes.smallColumn}>
-													<NavLink exact to={routes.LOCATIONS(key)}>
-														<Avatar>
-															<ArrowRightIcon/>
-														</Avatar>
-													</NavLink>
+													<IconButton onClick={this.handleClickEditButton(key)}>
+														<EditIcon/>
+													</IconButton>
 												</div>
 											</ExpansionPanelSummary>
 										</ExpansionPanel>
@@ -125,6 +135,7 @@ class TripsPage extends React.Component {
 }
 
 TripsPage.propTypes = {
+	history: PropTypes.object.isRequired,
 	trips: PropTypes.object,
 };
 

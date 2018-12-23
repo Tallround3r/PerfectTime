@@ -1,15 +1,18 @@
 import {Button, Paper, TextField, Typography, withStyles} from '@material-ui/core';
 import {AddPhotoAlternateOutlined} from '@material-ui/icons';
 import classNames from 'classnames';
-import DatePicker from 'material-ui-pickers/DatePicker/DatePickerModal';
+import DatePicker from 'material-ui-pickers/DatePicker';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect} from 'react-redux-firebase';
-import {withRouter} from 'react-router-dom';
+import {NavLink, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
+import {isEqual, omit} from 'underscore';
+import ActivitiesSlider from '../components/ActivitiesSlider';
 import * as routes from '../constants/routes';
-import {URL_PARAM_TRIP} from '../constants/routes';
+import {URL_PARAM_LOCATION, URL_PARAM_TRIP} from '../constants/routes';
+import {Location, Trip} from '../models';
 import {parseDateIfValid} from '../utils/parser';
 
 
@@ -60,48 +63,50 @@ const styles = theme => ({
 		marginLeft: theme.spacing.unit,
 		marginRight: theme.spacing.unit,
 	},
+	activitiesContainer: {
+		marginTop: theme.spacing.unit * 6,
+	},
 });
 
-const INITIAL_TRIP = {
-	title: '',
-	description: '',
-	startdate: null,
-	enddate: null,
-};
-
-class TripAddPage extends React.Component {
+class TripEditPage extends React.Component {
 
 	state = {
-		trip: INITIAL_TRIP,
+		trip: this.props.trip,
 	};
 
-	handleSubmit = (e) => {
-		const {firestore, history, auth} = this.props;
-		const {trip} = this.state;
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		const {trip} = this.props;
+		if (!isEqual(trip, prevProps.trip)) {
+			this.setState({
+				trip,
+			});
+		}
+	}
 
-		trip.owner = auth.uid;
+	handleSubmit = (e) => {
+		const {firestore, match, history} = this.props;
+		const {trip} = this.state;
 
 		const firestoreRef = {
 			collection: 'TRIPS',
+			doc: match.params[URL_PARAM_TRIP],
 		};
 
-		firestore.add(firestoreRef, trip)
-			.then((docRef) => {
-				history.push(routes.TRIPS());
-			});
+		firestore.set(firestoreRef, trip);
+
+		history.push(routes.TRIPS());
 
 		e.preventDefault();
 	};
 
 	handleCancel = (e) => {
-		const {history, match} = this.props;
+		const {trip, history} = this.props;
 
 		this.setState({
-			location: INITIAL_TRIP,
+			trip,
 		});
 
-		const tripId = match.params[URL_PARAM_TRIP];
-		history.push(routes.TRIPS(tripId));
+		history.push(routes.TRIPS());
 
 		e.preventDefault();
 	};
@@ -111,7 +116,7 @@ class TripAddPage extends React.Component {
 
 		this.setState((prevState) => {
 			return {
-				location: {
+				trip: {
 					...prevState.trip,
 					[name]: value,
 				},
@@ -122,7 +127,7 @@ class TripAddPage extends React.Component {
 	handleChangeDate = (name) => (date) => {
 		this.setState((prevState) => {
 			return {
-				location: {
+				trip: {
 					...prevState.trip,
 					[name]: date,
 				},
@@ -141,7 +146,7 @@ class TripAddPage extends React.Component {
 					variant="h4"
 					gutterBottom={true}
 				>
-					Add new Trip
+					Edit Trip
 				</Typography>
 
 				<div>
@@ -210,14 +215,14 @@ class TripAddPage extends React.Component {
 								color="primary"
 								fullWidth
 							>
-								Add Trip
+								Save Trip
 							</Button>
 							<Button
 								className={classes.actionButton}
-								onClick={this.handleCancel}
 								variant="contained"
 								color="secondary"
 								fullWidth
+								onClick={this.handleCancel}
 							>
 								Cancel
 							</Button>
@@ -227,21 +232,41 @@ class TripAddPage extends React.Component {
 			</div>
 		);
 	}
+
 }
 
-TripAddPage.propTypes = {
+TripEditPage.propTypes = {
+	match: PropTypes.shape({
+		params: PropTypes.shape({
+			[URL_PARAM_TRIP]: PropTypes.string.isRequired,
+		}),
+	}).isRequired,
 	classes: PropTypes.object.isRequired,
 	history: PropTypes.object.isRequired,
-	auth: PropTypes.object,
+	trip: PropTypes.objectOf(Location),
+};
+
+TripEditPage.defaultProps = {
+	trip: new Trip(),
 };
 
 export default compose(
 	withRouter,
-	firestoreConnect(),
+	firestoreConnect((props) => {
+		const tripId = props.match.params[URL_PARAM_TRIP];
+		return [{
+			collection: 'TRIPS',
+			doc: tripId,
+		}];
+	}),
 	connect(
-		({firebase: {auth}}) => ({
-			auth,
-		}),
+		({firestore: {data}}, props) => {
+			const tripId = props.match.params[URL_PARAM_TRIP];
+			return {
+				trip: data.TRIPS
+					&& data.TRIPS[tripId],
+			};
+		},
 	),
 	withStyles(styles),
-)(TripAddPage);
+)(TripEditPage);
