@@ -15,7 +15,9 @@ There is a closely related use case <b> CRUD Trips </b>. This use case shows all
 
 ### 1.2 Mockups
 
-tbd.
+![mockup file missing][mu1]
+
+[mu1]: ./view_All_Trips.png "Mockup"
 
 ## 2. Flow of events
 

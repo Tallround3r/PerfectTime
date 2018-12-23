@@ -14,8 +14,29 @@ There is a closely related use case <b> View All Trips </b>. This use case shows
 
 ### 1.2 Mockups
 
-tbd.
+#### Select a trip from View All Trips
+To be able to create a trip or view a trip, one may choose the correct button in the ViewAllTrips page.
 
+![mockup file missing][mu10]
+
+[mu10]: ./viewAllTripsSelectionMockUp.png "Create Trip"
+
+#### Create Trip
+![mockup file missing][mu11]
+
+[mu11]: ./createTripMockUp.png "Create Trip"
+#### View Trip
+![mockup file missing][mu12]
+
+[mu12]: ./viewTripMockUp.png "View Trip"
+#### Edit Trip
+![mockup file missing][mu13]
+
+[mu13]: ./editTripMockUp.png "Edit Trip"
+#### Delete Trip
+![mockup file missing][mu14]
+
+[mu14]: ./deleteTripMockUp.png "Delete Trip"
 ## 2. Flow of events
 
 This section shows the different flow of events for the different CRUD functions.
