@@ -19,7 +19,7 @@ To be able to create a trip or view a trip, one may choose the correct button in
 
 ![mockup file missing][mu10]
 
-[mu10]: ./viewAllTripsSelectionMockUp.png "Create Trip"
+[mu10]: ./viewAllTripsSelectionMockUp.png "Selecting / Creating a Trip"
 
 #### Create Trip
 ![mockup file missing][mu11]

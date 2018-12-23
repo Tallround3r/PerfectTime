@@ -17,7 +17,7 @@ There is a closely related use case <b> CRUD Trips </b>. This use case shows all
 
 ![mockup file missing][mu1]
 
-[mu1]: ./view_All_Trips.png "Mockup"
+[mu1]: ./View_All_Trips.png "Mockup"
 
 ## 2. Flow of events
 
