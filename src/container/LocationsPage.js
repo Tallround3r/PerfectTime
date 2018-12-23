@@ -3,22 +3,23 @@ import Avatar from '@material-ui/core/Avatar';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import Fab from '@material-ui/core/Fab';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
+import AddIcon from '@material-ui/icons/Add';
 import ArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import PictureStar from '../images/star.jpg';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import {NavLink, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+import ActivitiesSlider from '../components/ActivitiesSlider';
 import * as routes from '../constants/routes';
 import {URL_PARAM_TRIP} from '../constants/routes';
-import ActivitiesSlider from '../components/ActivitiesSlider';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
+import PictureStar from '../images/star.jpg';
 import {Trip} from '../models';
 import {parseDateIfValid} from '../utils/parser';
 
@@ -138,13 +139,19 @@ class LocationsPage extends React.Component {
 				</div>
 
 				<NavLink exact to={routes.LOCATIONS_ADD(tripId)}>
-					<Fab
-						className={classes.fab}
-						color="primary"
+					<Tooltip
+						title="Add"
 						aria-label="Add"
+						placement="bottom"
 					>
-						<AddIcon/>
-					</Fab>
+						<Fab
+							className={classes.fab}
+							color="primary"
+							aria-label="Add"
+						>
+							<AddIcon/>
+						</Fab>
+					</Tooltip>
 				</NavLink>
 			</div>
 		);
