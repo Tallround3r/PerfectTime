@@ -6,12 +6,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect} from 'react-redux-firebase';
-import {NavLink, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {compose} from 'redux';
-import {isEqual, omit} from 'underscore';
-import ActivitiesSlider from '../components/ActivitiesSlider';
+import {isEqual} from 'underscore';
 import * as routes from '../constants/routes';
-import {URL_PARAM_LOCATION, URL_PARAM_TRIP} from '../constants/routes';
+import {URL_PARAM_TRIP} from '../constants/routes';
 import {Location, Trip} from '../models';
 import {parseDateIfValid} from '../utils/parser';
 
