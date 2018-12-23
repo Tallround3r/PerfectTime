@@ -4,12 +4,12 @@ import classNames from 'classnames';
 import DatePicker from 'material-ui-pickers/DatePicker/DatePickerModal';
 import PropTypes from 'prop-types';
 import React from 'react';
+import {connect} from 'react-redux';
 import {firestoreConnect} from 'react-redux-firebase';
 import {withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import {URL_PARAM_TRIP} from '../constants/routes';
-import {Address} from '../models';
 import {parseDateIfValid} from '../utils/parser';
 
 
@@ -67,33 +67,28 @@ const INITIAL_LOCATION = {
 	description: '',
 	startdate: null,
 	enddate: null,
-	address: new Address(),
 };
 
-class LocationAddPage extends React.Component {
+class TripAddPage extends React.Component {
 
 	state = {
 		location: INITIAL_LOCATION,
 	};
 
 	handleSubmit = (e) => {
-		const {firestore, match, history} = this.props;
+		const {firestore, history, auth} = this.props;
 		const {location} = this.state;
+
+		location.owner = auth.uid;
 
 		const firestoreRef = {
 			collection: 'TRIPS',
-			doc: match.params[URL_PARAM_TRIP],
-			subcollections: [{
-				collection: 'locations',
-			}],
 		};
 
 		firestore.add(firestoreRef, location)
 			.then((docRef) => {
-				const tripId = match.params[URL_PARAM_TRIP];
-				history.push(routes.LOCATIONS_VIEW(tripId, docRef.id));
+				history.push(routes.TRIPS());
 			});
-
 
 		e.preventDefault();
 	};
@@ -124,20 +119,6 @@ class LocationAddPage extends React.Component {
 		});
 	};
 
-	handleChangeAddress = (e) => {
-		const {name, value} = e.target;
-
-		this.setState((prevState) => ({
-			location: {
-				...prevState.location,
-				address: {
-					...prevState.location.address,
-					[name]: value,
-				},
-			},
-		}));
-	};
-
 	handleChangeDate = (name) => (date) => {
 		this.setState((prevState) => {
 			return {
@@ -152,7 +133,7 @@ class LocationAddPage extends React.Component {
 	render() {
 		const {classes} = this.props;
 		const {location} = this.state;
-		const {title, description, startdate, enddate, address} = location;
+		const {title, description, startdate, enddate} = location;
 
 		return (
 			<div className={classes.locationEditPage}>
@@ -221,25 +202,6 @@ class LocationAddPage extends React.Component {
 							/>
 						</div>
 
-						<div className={classes.inputHorizontalContainer}>
-							<TextField
-								className={classNames(classes.inputField, classes.inputHorizontalSpacing)}
-								label="Owner"
-								name="owner"
-								value={address.city || ''}
-								onChange={this.handleChangeAddress}
-								fullWidth
-							/>
-							<TextField
-								className={classes.inputField}
-								label="Members"
-								name="members"
-								value={address.zipCode || ''}
-								onChange={this.handleChangeAddress}
-								fullWidth
-							/>
-						</div>
-
 						<div className={classes.actionButtonsContainer}>
 							<Button
 								className={classes.actionButton}
@@ -267,18 +229,19 @@ class LocationAddPage extends React.Component {
 	}
 }
 
-LocationAddPage.propTypes = {
-	match: PropTypes.shape({
-		params: PropTypes.shape({
-			[URL_PARAM_TRIP]: PropTypes.string.isRequired,
-		}),
-	}).isRequired,
+TripAddPage.propTypes = {
 	classes: PropTypes.object.isRequired,
 	history: PropTypes.object.isRequired,
+	auth: PropTypes.object,
 };
 
 export default compose(
 	withRouter,
 	firestoreConnect(),
+	connect(
+		({firebase: {auth}}) => ({
+			auth,
+		}),
+	),
 	withStyles(styles),
-)(LocationAddPage);
+)(TripAddPage);
