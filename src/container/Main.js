@@ -13,13 +13,14 @@ import LocationViewPage from './LocationViewPage';
 import MembersPage from './MembersPage';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
-import TripsPage from "./TripsPage";
+import TripsPage from './TripsPage';
 
 
 function Main() {
 	return (
 		<main>
 			<Switch>
+				<Route exact path={routes.TRIPS()} component={withDrawer(TripsPage)}/>
 				<Route exact path={routes.LOCATIONS()} component={withDrawer(LocationsPage)}/>
 				<Route exact path={routes.LOCATIONS_ADD()} component={withDrawer(LocationAddPage)}/>
 				<Route exact path={routes.LOCATIONS_EDIT()} component={withDrawer(LocationEditPage)}/>
@@ -27,7 +28,6 @@ function Main() {
 				<Route exact path={routes.ACTIVITY_ADD()} component={withDrawer(ActivityAddPage)}/>
 				<Route exact path={routes.ACTIVITY_EDIT()} component={withDrawer(ActivityEditPage)}/>
                 <Route exact path={routes.ACTIVITY_VIEW()} component={withDrawer(ActivityViewPage)}/>
-				<Route exact path={routes.TRIPS()} component={withDrawer(TripsPage)}/>
 				<Route exact path={routes.MEMBERS} component={withDrawer(MembersPage)}/>
 				<Route exact path={routes.SIGN_IN} component={SignIn}/>
 				<Route exact path={routes.SIGN_UP} component={SignUp}/>

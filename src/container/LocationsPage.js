@@ -142,14 +142,6 @@ class LocationsPage extends React.Component {
 						<AddIcon/>
 					</Fab>
 				</NavLink>
-				<NavLink exact to={routes.TRIPS(tripId)}>
-					<Fab
-						color="primary"
-						aria-label="Add"
-					>
-						Trips
-					</Fab>
-				</NavLink>
 			</div>
 		);
 	}

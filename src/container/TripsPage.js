@@ -1,22 +1,19 @@
 import {withStyles} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import PictureStar from '../images/star.jpg';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import {NavLink, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
 import * as routes from '../constants/routes';
-import {URL_PARAM_TRIP} from '../constants/routes';
-import ActivitiesSlider from '../components/ActivitiesSlider';
+import PictureStar from '../images/star.jpg';
 import {parseDateIfValid} from '../utils/parser';
 
 
@@ -69,22 +66,21 @@ class TripsPage extends React.Component {
 	};
 
 	render() {
-		const {classes, locations, match} = this.props;
+		const {classes, trips} = this.props;
 		const {expanded} = this.state;
-		const tripId = match.params[URL_PARAM_TRIP];
 
 		return (
 			<div>
 				<h1>Trips</h1>
 				<div>
-					{!isLoaded(locations)
+					{!isLoaded(trips)
 						? 'Loading Trips...'
-						: isEmpty(locations)
+						: isEmpty(trips)
 							? 'No Trips created yet.'
-							: Object.keys(locations).map((key) => {
-								let location = locations[key];
-								let startdate = parseDateIfValid(locations[key].startdate);
-								let enddate = parseDateIfValid(locations[key].enddate);
+							: Object.keys(trips).map((key) => {
+								let trip = trips[key];
+								let startdate = parseDateIfValid(trip.startdate);
+								let enddate = parseDateIfValid(trip.enddate);
 								return (
 									<div key={key}>
 										<ExpansionPanel
@@ -97,65 +93,50 @@ class TripsPage extends React.Component {
 													<Avatar src={PictureStar}/>
 												</div>
 												<div className={classes.bigColumn}>
-													<Typography>{location.title}</Typography>
+													<Typography>{trip.title}</Typography>
 												</div>
 												<div className={classes.bigColumn}>
-													<Typography>Start
-														Date: {startdate.getDate()}.{startdate.getMonth()}.{startdate.getFullYear()}</Typography>
-													<Typography>End
-														Date: {enddate.getDate()}.{enddate.getMonth()}.{enddate.getFullYear()}</Typography>
+													<Typography>
+														from {startdate.getMonth()}/{startdate.getDate()}/{startdate.getFullYear()}
+													</Typography>
+													<Typography>
+														to {enddate.getMonth()}/{enddate.getDate()}/{enddate.getFullYear()}
+													</Typography>
 												</div>
 												<div className={classes.bigColumn}>
-													<Typography>{locations[key].description}</Typography>
+													<Typography>{trip.description}</Typography>
 												</div>
 												<div className={classes.smallColumn}>
-													<NavLink exact to={routes.LOCATIONS_VIEW(tripId, key)}>
+													<NavLink exact to={routes.LOCATIONS(key)}>
 														<Avatar>
 															<ArrowRightIcon/>
 														</Avatar>
 													</NavLink>
 												</div>
 											</ExpansionPanelSummary>
-
-											<ExpansionPanelDetails>
-												<div style={{width: '100%'}}>
-													<ActivitiesSlider
-														tripId={tripId}
-														locationId={key}
-													/>
-												</div>
-											</ExpansionPanelDetails>
 										</ExpansionPanel>
 									</div>
 								);
 							})}
 				</div>
-
 			</div>
 		);
 	}
 }
 
 TripsPage.propTypes = {
-	match: PropTypes.object.isRequired,
+	trips: PropTypes.object,
 };
 
 export default compose(
 	withRouter,
 	firestoreConnect((props) => [{
 		collection: 'TRIPS',
-		doc: props.match.params[URL_PARAM_TRIP],
-		subcollections: [{
-			collection: 'locations',
-		}],
 	}]),
 	connect(
 		({firestore: {data}}, props) => {
-			const tripId = props.match.params[URL_PARAM_TRIP];
 			return {
-				locations: data.TRIPS
-					&& data.TRIPS[tripId]
-					&& data.TRIPS[tripId].locations,
+				trips: data.TRIPS,
 			};
 		},
 	),
