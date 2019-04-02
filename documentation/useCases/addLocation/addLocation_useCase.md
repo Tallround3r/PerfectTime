@@ -22,7 +22,7 @@ View where the User is able to add the location.
 
 ![activity diagram file missing][ad]
 
-[ad]: AddLocation_ActivityDiagramm.png "Activity Diagram"
+[ad]: addLocation_activityDiagramm.png "Activity Diagram"
 
 #### Feature file
 
