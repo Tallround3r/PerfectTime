@@ -24,7 +24,7 @@ View where the User is able to edit the activity.
 
 ![activity diagram file missing][ad]
 
-[ad]: editActivity_ActivityDiagramm.png "Activity Diagram"
+[ad]: editActivity_activityDiagramm.png "Activity Diagram"
 
 #### Feature file
 
