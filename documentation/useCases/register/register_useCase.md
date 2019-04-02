@@ -23,7 +23,7 @@ View where the User is able to register.
 
 ![activity diagram file missing][ad]
 
-[ad]: register_activityDiagramm.png "Activity Diagram"
+[ad]: register_activityDiagram.png "Activity Diagram"
 
 #### Feature file
 
