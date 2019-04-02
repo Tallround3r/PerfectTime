@@ -35,7 +35,7 @@ View where the User is able to edit the location.
 
 ![activity diagram file missing][ad]
 
-[ad]: EditLocation_ActivityDiagramm.png "Activity Diagram"
+[ad]: EditLocation_activityDiagramm.png "Activity Diagram"
 
 #### Feature file
 
