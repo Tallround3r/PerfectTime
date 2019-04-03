@@ -41,12 +41,12 @@ Link to [feature file](../../../features/editActivity.feature).
 
 ## 6 Function Points
 not needed yet
-<Tool from http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html
+<!--<Tool from http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html-->
 
-The score is 28.48 function Points.
+<!--The score is 28.48 function Points.-->
 
-![function points file missing][fp]
+<!--![function points file missing][fp]-->
 
-[fp]: ./EditLocation_FunctionPoints.PNG "Function Points">
+<!--[fp]: ./EditLocation_FunctionPoints.PNG "Function Points">-->
 
 
