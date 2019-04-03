@@ -37,7 +37,7 @@ Link to [feature file](../../../features/editActivity.feature).
 1. Synchronize database with added data.
 
 ## 6 Function Points
-N/A
+not needed yet
 <!--<Tool from http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html-->
 
 <!--The score is 28.48 function Points.-->
