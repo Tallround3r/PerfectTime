@@ -27,11 +27,11 @@
 </g>
 <g id="clust5" class="cluster"><title>cluster_2</title>
 <polygon fill="lightgray" stroke="lightgrey" points="587,-950.8 587,-1061.4 1613,-1061.4 1613,-950.8 587,-950.8"/>
-<text text-anchor="middle" x="1100.22" y="-1030.4" font-family="Times,serif" font-size="30.00">C:/Users/Service/Desktop/PerfectTimeWorkspace/PerfectTime/src/container/App.js</text>
+<text text-anchor="middle" x="1100.22" y="-1030.4" font-family="Times,serif" font-size="30.00">C:/Users/Service/Desktop/PerfectTimeWorkspace/PerfectTime/src/container/App.tsx</text>
 </g>
 <g id="clust6" class="cluster"><title>cluster_3</title>
 <polygon fill="lightgray" stroke="lightgrey" points="6019,-251.8 6019,-786.2 7125,-786.2 7125,-251.8 6019,-251.8"/>
-<text text-anchor="middle" x="6572.2" y="-755.2" font-family="Times,serif" font-size="30.00">C:/Users/Service/Desktop/PerfectTimeWorkspace/PerfectTime/src/container/DemoPage.js</text>
+<text text-anchor="middle" x="6572.2" y="-755.2" font-family="Times,serif" font-size="30.00">C:/Users/Service/Desktop/PerfectTimeWorkspace/PerfectTime/src/container/DemoPage.tsx</text>
 </g>
 <g id="clust7" class="cluster"><title>cluster_4</title>
 <polygon fill="lightgray" stroke="lightgrey" points="7133,-331.4 7133,-786.2 8324,-786.2 8324,-331.4 7133,-331.4"/>
@@ -43,7 +43,7 @@
 </g>
 <g id="clust9" class="cluster"><title>cluster_6</title>
 <polygon fill="lightgray" stroke="lightgrey" points="8,-662.8 8,-942.8 1412,-942.8 1412,-662.8 8,-662.8"/>
-<text text-anchor="middle" x="527.055" y="-911.8" font-family="Times,serif" font-size="30.00">C:/Users/Service/Desktop/PerfectTimeWorkspace/PerfectTime/src/container/Main.js</text>
+<text text-anchor="middle" x="527.055" y="-911.8" font-family="Times,serif" font-size="30.00">C:/Users/Service/Desktop/PerfectTimeWorkspace/PerfectTime/src/container/Main.tsx</text>
 </g>
 <g id="clust10" class="cluster"><title>cluster_7</title>
 <polygon fill="lightgray" stroke="lightgrey" points="9529,-8 9529,-798.6 10680,-798.6 10680,-8 9529,-8"/>
