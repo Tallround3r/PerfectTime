@@ -16,10 +16,10 @@ if (!firebase.apps.length) {
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// const firestoreSettings = { 
+// const firestoreSettings = {
 // 	timestampsInSnapshots: true,
 // };
-db.settings(firestoreSettings);
+// db.settings(firestoreSettings);
 
 export {
 	auth,
