@@ -3,7 +3,7 @@ node_js:
   - "node"
 warnings_are_errors: false
 install:
-  - npm install
+  - yarn
 script:
   - npm run build
 deploy:
