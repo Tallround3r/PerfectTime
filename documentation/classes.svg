@@ -15,11 +15,11 @@
 </g>
 <g id="clust2" class="cluster"><title>cluster_1</title>
 <polygon fill="lightgray" stroke="lightgrey" points="2194,-188.8 2194,-450.4 2965,-450.4 2965,-188.8 2194,-188.8"/>
-<text text-anchor="middle" x="2579.81" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/ActivityAddPage.js</text>
+<text text-anchor="middle" x="2579.81" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/ActivityAddPage.tsx</text>
 </g>
 <g id="clust3" class="cluster"><title>cluster_2</title>
 <polygon fill="lightgray" stroke="lightgrey" points="2973,-188.8 2973,-450.4 3742,-450.4 3742,-188.8 2973,-188.8"/>
-<text text-anchor="middle" x="3357.98" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/ActivityEditPage.js</text>
+<text text-anchor="middle" x="3357.98" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/ActivityEditPage.tsx</text>
 </g>
 <g id="clust4" class="cluster"><title>cluster_3</title>
 <polygon fill="lightgray" stroke="lightgrey" points="924,-602.6 924,-713.2 1538,-713.2 1538,-602.6 924,-602.6"/>

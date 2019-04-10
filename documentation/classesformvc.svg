@@ -15,7 +15,7 @@
 </g>
 <g id="clust2" class="cluster"><title>cluster_1</title>
 <polygon fill="lightgray" stroke="lightgrey" points="2577,-331.4 2577,-786.2 3758,-786.2 3758,-331.4 2577,-331.4"/>
-<text text-anchor="middle" x="3167.71" y="-755.2" font-family="Times,serif" font-size="30.00">C:/Users/Service/Desktop/PerfectTimeWorkspace/PerfectTime/src/container/ActivityEditPage.js</text>
+<text text-anchor="middle" x="3167.71" y="-755.2" font-family="Times,serif" font-size="30.00">C:/Users/Service/Desktop/PerfectTimeWorkspace/PerfectTime/src/container/ActivityEditPage.tsx</text>
 </g>
 <g id="clust3" class="cluster"><title>cluster_10</title>
 <polygon fill="lightgray" stroke="lightgrey" points="3766,-8 3766,-798.6 4820,-798.6 4820,-8 3766,-8"/>
@@ -23,7 +23,7 @@
 </g>
 <g id="clust4" class="cluster"><title>cluster_11</title>
 <polygon fill="lightgray" stroke="lightgrey" points="4828,-331.4 4828,-786.2 6011,-786.2 6011,-331.4 4828,-331.4"/>
-<text text-anchor="middle" x="5419.54" y="-755.2" font-family="Times,serif" font-size="30.00">C:/Users/Service/Desktop/PerfectTimeWorkspace/PerfectTime/src/container/ActivityAddPage.js</text>
+<text text-anchor="middle" x="5419.54" y="-755.2" font-family="Times,serif" font-size="30.00">C:/Users/Service/Desktop/PerfectTimeWorkspace/PerfectTime/src/container/ActivityAddPage.tsx</text>
 </g>
 <g id="clust5" class="cluster"><title>cluster_2</title>
 <polygon fill="lightgray" stroke="lightgrey" points="587,-950.8 587,-1061.4 1613,-1061.4 1613,-950.8 587,-950.8"/>
