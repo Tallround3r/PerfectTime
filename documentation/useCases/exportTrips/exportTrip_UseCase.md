@@ -1,5 +1,5 @@
 # Use-Case Specification: Perfect Time
-# 1. Edit Location
+# 1.Export Trip
 ### 1.1 Brief Description
 
 This use-case describes the export feature of trips. The user is able to export trips into JSON format.
@@ -10,7 +10,7 @@ View all trips.
 
 [lv]: TripsView.png "Trips View"
 
-### 1.3 Example location View
+### 1.3 Example Trip View
 Detail view of a trip with export button.
 ![example location view file missing][lvf]
 
