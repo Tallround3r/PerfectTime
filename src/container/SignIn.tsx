@@ -134,10 +134,11 @@ class SignIn extends React.Component<Props, State> {
 						<Typography variant='h5'>Sign In</Typography>
 
 						<form className={classes.form} onSubmit={this.handleSubmit}>
-							<FormControl margin='normal' required fullWidth>
+							<FormControl margin='normal' required={true} fullWidth={true}>
 								<InputLabel htmlFor='email'>Email</InputLabel>
 								<Input
-									id='email' autoFocus={true}
+									id='email'
+									autoFocus={true}
 									name='email'
 									autoComplete='email'
 									value={email}
