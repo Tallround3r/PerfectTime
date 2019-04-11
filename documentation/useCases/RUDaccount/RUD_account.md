@@ -6,7 +6,7 @@ Last updated:
 11th April 2019
 
 ## 1. RUD for account
-This use case is described as a RUD (Read, Update, Delete). The Create component is realised in the [register](.. /register/register_useCase.md) use case.
+This use case is described as a RUD (Read, Update, Delete). The Create component is realised in the [register](../register/register_useCase.md) use case.
 
 ### 1.1 Brief description
 With the ability to view the account details the user is able to see all the Data, deposited at PerfectTime. If details like the email, name or password are outdated the user also has the opportunity to change these values. Also if there is the wish to leafe Perfect Time the User can delete the account.
