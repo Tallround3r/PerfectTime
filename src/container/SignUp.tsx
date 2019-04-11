@@ -6,17 +6,18 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ChangeEvent, FormEvent} from 'react';
 import {withFirebase} from 'react-redux-firebase';
-import {Link, withRouter} from 'react-router-dom';
+import {Link, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
 import isValid from '../utils/validation/validateSignUp';
+import {createStyles, Theme} from '@material-ui/core';
+import {WithStyles} from '@material-ui/core/es';
 
 
-const styles = theme => ({
+const styles = (theme: Theme) => createStyles({
 	layout: {
 		width: 'auto',
 		display: 'block', // Fix IE11 issue.
@@ -62,7 +63,24 @@ const styles = theme => ({
 	},
 });
 
-const INITIAL_STATE = {
+interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
+	firebase: any,
+}
+
+interface State {
+	username: string,
+	firstName: string,
+	lastName: string,
+	email: string,
+	password: string,
+	passwordConfirm: string,
+	error: any,
+	submitted: boolean,
+
+	[key: string]: any,
+}
+
+const INITIAL_STATE: State = {
 	username: '',
 	firstName: '',
 	lastName: '',
@@ -73,14 +91,11 @@ const INITIAL_STATE = {
 	submitted: false,
 };
 
-class SignUp extends React.Component {
+class SignUp extends React.Component<Props, State> {
 
-	constructor(props) {
-		super(props);
-		this.state = {...INITIAL_STATE};
-	}
+	state = {...INITIAL_STATE};
 
-	handleSubmit = e => {
+	handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		const {
 			username,
 			email,
@@ -111,7 +126,7 @@ class SignUp extends React.Component {
 			.then(() => {
 				history.push(routes.SIGN_IN);
 			})
-			.catch(error => {
+			.catch((error: any) => {
 				this.setState({
 					error,
 				});
@@ -120,7 +135,7 @@ class SignUp extends React.Component {
 		e.preventDefault();
 	};
 
-	handleChangeInput = e => {
+	handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
 		const {name, value} = e.target;
 		this.setState({
 			[name]: value,
@@ -146,76 +161,76 @@ class SignUp extends React.Component {
 				<main className={classes.layout}>
 					<Paper className={classes.paper}>
 						<Link to={routes.LANDING}>
-							<img src={logo} className={classes.logo} alt="Logo"/>
+							<img src={logo} className={classes.logo} alt='Logo'/>
 						</Link>
 
-						<Typography variant="h5">Create Account</Typography>
+						<Typography variant='h5'>Create Account</Typography>
 
 						<form className={classes.form} onSubmit={this.handleSubmit}>
 							<div className={classes.realNameForms}>
-								<FormControl className={classes.firstNameForm} margin="normal" required fullWidth>
-									<InputLabel htmlFor="firstName">First Name</InputLabel>
-									<Input id="firstName" autoFocus
-									       name="firstName"
-									       value={firstName}
-									       onChange={this.handleChangeInput}
+								<FormControl className={classes.firstNameForm} margin='normal' required fullWidth>
+									<InputLabel htmlFor='firstName'>First Name</InputLabel>
+									<Input id='firstName' autoFocus
+										   name='firstName'
+										   value={firstName}
+										   onChange={this.handleChangeInput}
 									/>
 								</FormControl>
-								<FormControl margin="normal" required fullWidth>
-									<InputLabel htmlFor="lastName">Last Name</InputLabel>
-									<Input id="lastName"
-									       name="lastName"
-									       value={lastName}
-									       onChange={this.handleChangeInput}
+								<FormControl margin='normal' required fullWidth>
+									<InputLabel htmlFor='lastName'>Last Name</InputLabel>
+									<Input id='lastName'
+										   name='lastName'
+										   value={lastName}
+										   onChange={this.handleChangeInput}
 									/>
 								</FormControl>
 							</div>
-							<FormControl margin="normal" required fullWidth>
-								<InputLabel htmlFor="username">Username</InputLabel>
-								<Input id="username"
-								       name="username"
-								       autoComplete="username"
-								       value={username}
-								       onChange={this.handleChangeInput}
+							<FormControl margin='normal' required fullWidth>
+								<InputLabel htmlFor='username'>Username</InputLabel>
+								<Input id='username'
+									   name='username'
+									   autoComplete='username'
+									   value={username}
+									   onChange={this.handleChangeInput}
 								/>
 							</FormControl>
-							<FormControl margin="normal" required fullWidth>
-								<InputLabel htmlFor="email">Email</InputLabel>
-								<Input id="email"
-								       name="email"
-								       autoComplete="email"
-								       value={email}
-								       onChange={this.handleChangeInput}
+							<FormControl margin='normal' required fullWidth>
+								<InputLabel htmlFor='email'>Email</InputLabel>
+								<Input id='email'
+									   name='email'
+									   autoComplete='email'
+									   value={email}
+									   onChange={this.handleChangeInput}
 								/>
 							</FormControl>
-							<FormControl margin="normal" required fullWidth>
-								<InputLabel htmlFor="password">Password</InputLabel>
-								<Input id="password"
-								       name="password"
-								       type="password"
-								       autoComplete="current-password"
-								       value={password}
-								       onChange={this.handleChangeInput}
+							<FormControl margin='normal' required fullWidth>
+								<InputLabel htmlFor='password'>Password</InputLabel>
+								<Input id='password'
+									   name='password'
+									   type='password'
+									   autoComplete='current-password'
+									   value={password}
+									   onChange={this.handleChangeInput}
 								/>
 							</FormControl>
-							<FormControl margin="normal" required fullWidth>
-								<InputLabel htmlFor="passwordConfirm">Repeat Password</InputLabel>
-								<Input id="passwordConfirm"
-								       name="passwordConfirm"
-								       type="password"
-								       value={passwordConfirm}
-								       onChange={this.handleChangeInput}
+							<FormControl margin='normal' required fullWidth>
+								<InputLabel htmlFor='passwordConfirm'>Repeat Password</InputLabel>
+								<Input id='passwordConfirm'
+									   name='passwordConfirm'
+									   type='password'
+									   value={passwordConfirm}
+									   onChange={this.handleChangeInput}
 								/>
 							</FormControl>
 
 							{error && <p className={classes.errorMessage}>{error.message}</p>}
 
-							<Button type="submit" fullWidth
-							        variant="contained"
-							        id="signUpButton"
-							        color="primary"
-							        className={classes.submit}
-							        disabled={submitted || !isValid(username, email, password, passwordConfirm, firstName, lastName)}
+							<Button type='submit' fullWidth
+									variant='contained'
+									id='signUpButton'
+									color='primary'
+									className={classes.submit}
+									disabled={submitted || !isValid(username, email, password, passwordConfirm, firstName, lastName)}
 							>
 								Sign Up
 							</Button>
@@ -233,16 +248,8 @@ class SignUp extends React.Component {
 	}
 }
 
-SignUp.propTypes = {
-	classes: PropTypes.object.isRequired,
-	firebase: PropTypes.shape({
-		createUser: PropTypes.func.isRequired,
-	}),
-	auth: PropTypes.object,
-};
-
 export default compose(
 	withFirebase,
-	withStyles(styles),
 	withRouter,
+	withStyles(styles),
 )(SignUp);

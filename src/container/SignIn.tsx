@@ -6,17 +6,18 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ChangeEvent, FormEvent} from 'react';
 import {withFirebase} from 'react-redux-firebase';
-import {Link, withRouter} from 'react-router-dom';
+import {Link, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
 import isValid from '../utils/validation/validateSignIn';
+import {createStyles, Theme} from '@material-ui/core';
+import {WithStyles} from '@material-ui/core/es';
 
 
-const styles = theme => ({
+const styles = (theme: Theme) => createStyles({
 	layout: {
 		width: 'auto',
 		display: 'block', // Fix IE11 issue.
@@ -49,7 +50,24 @@ const styles = theme => ({
 	submit: {
 		marginTop: theme.spacing.unit * 3,
 	},
+	errorMessage: {
+		color: 'red',
+	},
 });
+
+interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
+	firebase: any,
+}
+
+interface State {
+	email: string,
+	password: string,
+	error: any,
+	submitted: boolean,
+
+	[key: string]: any
+}
+
 
 const INITIAL_STATE = {
 	email: '',
@@ -58,14 +76,11 @@ const INITIAL_STATE = {
 	submitted: false,
 };
 
-class SignIn extends React.Component {
+class SignIn extends React.Component<Props, State> {
 
-	constructor(props) {
-		super(props);
-		this.state = {...INITIAL_STATE};
-	}
+	state = {...INITIAL_STATE};
 
-	handleSubmit = e => {
+	handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		const {
 			email,
 			password,
@@ -82,7 +97,7 @@ class SignIn extends React.Component {
 				this.setState({...INITIAL_STATE});
 				history.push(routes.TRIPS());
 			})
-			.catch(error => {
+			.catch((error: any) => {
 				this.setState({
 					error,
 				});
@@ -91,7 +106,7 @@ class SignIn extends React.Component {
 		e.preventDefault();
 	};
 
-	handleChangeInput = e => {
+	handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
 		const {name, value} = e.target;
 		this.setState({
 			[name]: value,
@@ -113,41 +128,41 @@ class SignIn extends React.Component {
 				<main className={classes.layout}>
 					<Paper className={classes.paper}>
 						<Link to={routes.LANDING}>
-							<img src={logo} className={classes.logo} alt="Logo"/>
+							<img src={logo} className={classes.logo} alt='Logo'/>
 						</Link>
 
-						<Typography variant="h5">Sign In</Typography>
+						<Typography variant='h5'>Sign In</Typography>
 
 						<form className={classes.form} onSubmit={this.handleSubmit}>
-							<FormControl margin="normal" required fullWidth>
-								<InputLabel htmlFor="email">Email</InputLabel>
-								<Input id="email" autoFocus
-									   name="email"
-									   autoComplete="email"
+							<FormControl margin='normal' required fullWidth>
+								<InputLabel htmlFor='email'>Email</InputLabel>
+								<Input id='email' autoFocus
+									   name='email'
+									   autoComplete='email'
 									   value={email}
 									   onChange={this.handleChangeInput}
 								/>
 							</FormControl>
-							<FormControl margin="normal" required fullWidth>
-								<InputLabel htmlFor="password">Password</InputLabel>
+							<FormControl margin='normal' required fullWidth>
+								<InputLabel htmlFor='password'>Password</InputLabel>
 								<Input
-									name="password"
-									type="password"
-									id="password"
-									autoComplete="current-password"
+									name='password'
+									type='password'
+									id='password'
+									autoComplete='current-password'
 									value={password}
 									onChange={this.handleChangeInput}
 								/>
 							</FormControl>
 
-							{error && <p className={classes.errorMessage}>{error.message}</p>}
+							{error && <p className={classes.errorMessage}>{error}</p>}
 
 							<Button
-								type="submit"
+								type='submit'
 								fullWidth
-								id="signInButton"
-								variant="contained"
-								color="primary"
+								id='signInButton'
+								variant='contained'
+								color='primary'
 								className={classes.submit}
 								disabled={submitted || !isValid(email, password)}
 							>
@@ -166,13 +181,6 @@ class SignIn extends React.Component {
 		);
 	}
 }
-
-SignIn.propTypes = {
-	classes: PropTypes.object.isRequired,
-	firebase: PropTypes.shape({
-		login: PropTypes.func.isRequired,
-	}),
-};
 
 export default compose(
 	withFirebase,
