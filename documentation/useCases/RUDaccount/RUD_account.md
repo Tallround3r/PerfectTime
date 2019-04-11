@@ -9,19 +9,30 @@ Last updated:
 This use case is described as a RUD (Read, Update, Delete). The Create component is realised in the [register](.. /register/register_useCase.md) use case.
 
 ### 1.1 Brief description
-With the ability to view the account details the user is able to see all the Data, deposited at PerfectTime. If details like the email, profilepicture, name or password are outdated the user also has the opportunity to change these values. Also if there is the wish to leafe Perfect Time the User can delete the account.
+With the ability to view the account details the user is able to see all the Data, deposited at PerfectTime. If details like the email, name or password are outdated the user also has the opportunity to change these values. Also if there is the wish to leafe Perfect Time the User can delete the account.
 
 ### 1.2 Mockups
 
+#### General
+To access the Account Page the User has to be at any site of Perfect Time and click on the setting wheel.
+![mockup file missing][mu1]
+
+[mu1]: ./anyViewMockUp.png "View Account"
+
 #### View Account
+Here the User can see his account. By clicking on edit he gets to the next step below.
 ![mockup file missing][mu12]
 
 [mu12]: ./viewAccountMockUp.png "View Account"
+
 #### Edit Account
+The existing data can be modified and new data liek the address can be added.
 ![mockup file missing][mu13]
 
 [mu13]: ./editAccountMockUp.png "Edit Account"
+
 #### Delete Account
+To delete the Account the User has to confirm by Entering his username.
 ![mockup file missing][mu14]
 
 [mu14]: ./deleteAccountMockUp.png "Delete Account"
