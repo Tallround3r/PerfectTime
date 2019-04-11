@@ -1,5 +1,7 @@
+import {createStyles, Theme} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import {WithStyles} from '@material-ui/core/es';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -13,8 +15,6 @@ import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
 import isValid from '../utils/validation/validateSignUp';
-import {createStyles, Theme} from '@material-ui/core';
-import {WithStyles} from '@material-ui/core/es';
 
 
 const styles = (theme: Theme) => createStyles({

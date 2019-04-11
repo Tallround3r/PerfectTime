@@ -1,5 +1,7 @@
+import {createStyles, Theme} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import {WithStyles} from '@material-ui/core/es';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -13,8 +15,6 @@ import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
 import isValid from '../utils/validation/validateSignIn';
-import {createStyles, Theme} from '@material-ui/core';
-import {WithStyles} from '@material-ui/core/es';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -60,16 +60,16 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 }
 
 interface State {
-	email: string,
-	password: string,
-	error: any,
-	submitted: boolean,
+	email: string;
+	password: string;
+	error: any;
+	submitted: boolean;
 
-	[key: string]: any
+	[key: string]: any;
 }
 
 
-const INITIAL_STATE = {
+const INITIAL_STATE: State = {
 	email: '',
 	password: '',
 	error: null,
@@ -136,14 +136,15 @@ class SignIn extends React.Component<Props, State> {
 						<form className={classes.form} onSubmit={this.handleSubmit}>
 							<FormControl margin='normal' required fullWidth>
 								<InputLabel htmlFor='email'>Email</InputLabel>
-								<Input id='email' autoFocus
-									   name='email'
-									   autoComplete='email'
-									   value={email}
-									   onChange={this.handleChangeInput}
+								<Input
+									id='email' autoFocus={true}
+									name='email'
+									autoComplete='email'
+									value={email}
+									onChange={this.handleChangeInput}
 								/>
 							</FormControl>
-							<FormControl margin='normal' required fullWidth>
+							<FormControl margin='normal' required={true} fullWidth={true}>
 								<InputLabel htmlFor='password'>Password</InputLabel>
 								<Input
 									name='password'
@@ -159,7 +160,7 @@ class SignIn extends React.Component<Props, State> {
 
 							<Button
 								type='submit'
-								fullWidth
+								fullWidth={true}
 								id='signInButton'
 								variant='contained'
 								color='primary'

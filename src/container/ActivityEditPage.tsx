@@ -3,17 +3,16 @@ import {AddPhotoAlternateOutlined} from '@material-ui/icons';
 import classNames from 'classnames';
 import DatePicker from 'material-ui-pickers/DatePicker/DatePickerModal';
 import React, {ChangeEvent, FormEvent, MouseEvent} from 'react';
-import {firestoreConnect} from 'react-redux-firebase';
 import {connect} from 'react-redux';
+import {firestoreConnect} from 'react-redux-firebase';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
-import * as routes from '../constants/routes';
-import {URL_PARAM_ACTIVITY, URL_PARAM_LOCATION, URL_PARAM_TRIP} from '../constants/routes';
-import styles from '../styles/ActivityEditStyles';
 import {isEqual} from 'underscore';
-import {parseDateIfValid} from '../utils/parser';
-import {Activity} from '../types/activity';
+import * as routes from '../constants/routes';
 import Address from '../models/Address';
+import styles from '../styles/ActivityEditStyles';
+import {Activity} from '../types/activity';
+import {parseDateIfValid} from '../utils/parser';
 
 
 interface ActivityEditPageProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
@@ -41,9 +40,9 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 
 	navigateBack = () => {
 		const {history, match} = this.props;
-		const tripId = match.params[URL_PARAM_TRIP];
-		const locationId = match.params[URL_PARAM_LOCATION];
-		const activityId = match.params[URL_PARAM_ACTIVITY];
+		const tripId = match.params[routes.URL_PARAM_TRIP];
+		const locationId = match.params[routes.URL_PARAM_LOCATION];
+		const activityId = match.params[routes.URL_PARAM_ACTIVITY];
 
 		history.push(routes.ACTIVITY_VIEW(tripId, locationId, activityId));
 	};
@@ -63,13 +62,13 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 
 		const firestoreRef = {
 			collection: 'TRIPS',
-			doc: match.params[URL_PARAM_TRIP],
+			doc: match.params[routes.URL_PARAM_TRIP],
 			subcollections: [{
 				collection: 'locations',
-				doc: match.params[URL_PARAM_LOCATION],
+				doc: match.params[routes.URL_PARAM_LOCATION],
 				subcollections: [{
 					collection: 'activities',
-					doc: match.params[URL_PARAM_ACTIVITY],
+					doc: match.params[routes.URL_PARAM_ACTIVITY],
 				}],
 			}],
 		};
@@ -130,6 +129,8 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 		});
 	};
 
+	datePickerMask = (value: string) => (value ? [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] : []);
+
 	render() {
 		const {classes} = this.props;
 		const {activity} = this.state;
@@ -159,7 +160,7 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 							name='title'
 							value={title}
 							onChange={this.handleChangeInput}
-							required
+							required={true}
 						/>
 						<TextField
 							className={classes.inputField}
@@ -167,37 +168,37 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 							name='description'
 							value={description}
 							onChange={this.handleChangeInput}
-							multiline
-							required
+							multiline={true}
+							required={true}
 						/>
 						<div className={classes.inputHorizontalContainer}>
 							<DatePicker
 								className={classNames(classes.inputField, classes.inputHorizontalSpacing)}
-								keyboard
-								required
+								keyboard={true}
+								required={true}
 								value={parseDateIfValid(startdate)}
 								onChange={this.handleChangeDate('startdate')}
 								label='Start Date'
 								format='MM/dd/yyyy'
 								placeholder='MM/DD/YYYY'
-								mask={value => (value ? [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] : [])}
-								disableOpenOnEnter
+								mask={this.datePickerMask}
+								disableOpenOnEnter={true}
 								animateYearScrolling={false}
-								fullWidth
+								fullWidth={true}
 							/>
 							<DatePicker
 								className={classes.inputField}
-								keyboard
-								required
+								keyboard={true}
+								required={true}
 								value={parseDateIfValid(enddate)}
 								onChange={this.handleChangeDate('enddate')}
 								label='End Date'
 								format='MM/dd/yyyy'
 								placeholder='MM/DD/YYYY'
-								mask={value => (value ? [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] : [])}
-								disableOpenOnEnter
+								mask={this.datePickerMask}
+								disableOpenOnEnter={true}
 								animateYearScrolling={false}
-								fullWidth
+								fullWidth={true}
 							/>
 						</div>
 
@@ -214,8 +215,8 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 								name='city'
 								value={address.city || ''}
 								onChange={this.handleChangeAddress}
-								required
-								fullWidth
+								required={true}
+								fullWidth={true}
 							/>
 							<TextField
 								className={classes.inputField}
@@ -223,7 +224,7 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 								name='zipCode'
 								value={address.zipCode || ''}
 								onChange={this.handleChangeAddress}
-								fullWidth
+								fullWidth={true}
 							/>
 						</div>
 						<TextField
@@ -232,7 +233,7 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 							name='country'
 							value={address.country || ''}
 							onChange={this.handleChangeAddress}
-							required
+							required={true}
 						/>
 
 						<div className={classes.actionButtonsContainer}>
@@ -241,7 +242,7 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 								type='submit'
 								variant='contained'
 								color='primary'
-								fullWidth
+								fullWidth={true}
 							>
 								Save Activity
 							</Button>
@@ -250,7 +251,7 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 								onClick={this.handleCancel}
 								variant='contained'
 								color='secondary'
-								fullWidth
+								fullWidth={true}
 							>
 								Cancel
 							</Button>
@@ -264,9 +265,9 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 
 export default compose(withRouter,
 	firestoreConnect((props: ActivityEditPageProps) => {
-		const tripId = props.match.params[URL_PARAM_TRIP];
-		const locationId = props.match.params[URL_PARAM_LOCATION];
-		const activityId = props.match.params[URL_PARAM_ACTIVITY];
+		const tripId = props.match.params[routes.URL_PARAM_TRIP];
+		const locationId = props.match.params[routes.URL_PARAM_LOCATION];
+		const activityId = props.match.params[routes.URL_PARAM_ACTIVITY];
 		return [{
 			collection: 'TRIPS',
 			doc: tripId,
@@ -282,9 +283,9 @@ export default compose(withRouter,
 	}),
 	connect(
 		({firestore: {data}}: any, props: ActivityEditPageProps) => {
-			const tripId = props.match.params[URL_PARAM_TRIP];
-			const locationId = props.match.params[URL_PARAM_LOCATION];
-			const activityId = props.match.params[URL_PARAM_ACTIVITY];
+			const tripId = props.match.params[routes.URL_PARAM_TRIP];
+			const locationId = props.match.params[routes.URL_PARAM_LOCATION];
+			const activityId = props.match.params[routes.URL_PARAM_ACTIVITY];
 			return {
 				activity: data.TRIPS
 					&& data.TRIPS[tripId]

@@ -7,11 +7,10 @@ import {firestoreConnect} from 'react-redux-firebase';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
-import {URL_PARAM_LOCATION, URL_PARAM_TRIP} from '../constants/routes';
 import Address from '../models/Address';
 import styles from '../styles/ActivityEditStyles';
-import {parseDateIfValid} from '../utils/parser';
 import {Activity} from '../types/activity';
+import {parseDateIfValid} from '../utils/parser';
 
 
 const INITIAL_ACTIVITY: Activity = {
@@ -39,8 +38,8 @@ class ActivityAddPage extends React.Component<ActivityAddPageProps, State> {
 
 	navigateBack = () => {
 		const {history, match} = this.props;
-		const tripId = match.params[URL_PARAM_TRIP];
-		const locationId = match.params[URL_PARAM_LOCATION];
+		const tripId = match.params[routes.URL_PARAM_TRIP];
+		const locationId = match.params[routes.URL_PARAM_LOCATION];
 
 		history.push(routes.LOCATIONS_EDIT(tripId, locationId));
 	};
@@ -48,8 +47,8 @@ class ActivityAddPage extends React.Component<ActivityAddPageProps, State> {
 	handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		const {firestore, match} = this.props;
 		const {activity} = this.state;
-		const tripId = match.params[URL_PARAM_TRIP];
-		const locationId = match.params[URL_PARAM_LOCATION];
+		const tripId = match.params[routes.URL_PARAM_TRIP];
+		const locationId = match.params[routes.URL_PARAM_LOCATION];
 
 		const firestoreRef = {
 			collection: 'TRIPS',
@@ -119,11 +118,12 @@ class ActivityAddPage extends React.Component<ActivityAddPageProps, State> {
 		});
 	};
 
+	datePickerMask = (value: string) => (value ? [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] : []);
 
 	render() {
 		const {classes} = this.props;
 		const {activity} = this.state;
-		let {title, description, startdate, enddate, address} = activity;
+		const {title, description, startdate, enddate, address} = activity;
 
 		return (
 			<div className={classes.activityEditPage}>
@@ -149,7 +149,7 @@ class ActivityAddPage extends React.Component<ActivityAddPageProps, State> {
 							name='title'
 							value={title}
 							onChange={this.handleChangeInput}
-							required
+							required={true}
 						/>
 						<TextField
 							className={classes.inputField}
@@ -157,37 +157,37 @@ class ActivityAddPage extends React.Component<ActivityAddPageProps, State> {
 							name='description'
 							value={description}
 							onChange={this.handleChangeInput}
-							multiline
-							required
+							multiline={true}
+							required={true}
 						/>
 						<div className={classes.inputHorizontalContainer}>
 							<DatePicker
 								className={classNames(classes.inputField, classes.inputHorizontalSpacing)}
-								keyboard
-								required
+								keyboard={true}
+								required={true}
 								value={parseDateIfValid(startdate)}
 								onChange={this.handleChangeDate('startdate')}
 								label='Start Date'
 								format='MM/dd/yyyy'
 								placeholder='MM/DD/YYYY'
-								mask={value => (value ? [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] : [])}
-								disableOpenOnEnter
+								mask={this.datePickerMask}
+								disableOpenOnEnter={true}
 								animateYearScrolling={false}
-								fullWidth
+								fullWidth={true}
 							/>
 							<DatePicker
 								className={classes.inputField}
-								keyboard
-								required
+								keyboard={true}
+								required={true}
 								value={parseDateIfValid(enddate)}
 								onChange={this.handleChangeDate('enddate')}
 								label='End Date'
 								format='MM/dd/yyyy'
 								placeholder='MM/DD/YYYY'
-								mask={value => (value ? [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] : [])}
-								disableOpenOnEnter
+								mask={this.datePickerMask}
+								disableOpenOnEnter={true}
 								animateYearScrolling={false}
-								fullWidth
+								fullWidth={true}
 							/>
 						</div>
 
@@ -204,8 +204,8 @@ class ActivityAddPage extends React.Component<ActivityAddPageProps, State> {
 								name='city'
 								value={address.city || ''}
 								onChange={this.handleChangeAddress}
-								required
-								fullWidth
+								required={true}
+								fullWidth={true}
 							/>
 							<TextField
 								className={classes.inputField}
@@ -213,7 +213,7 @@ class ActivityAddPage extends React.Component<ActivityAddPageProps, State> {
 								name='zipCode'
 								value={address.zipCode || ''}
 								onChange={this.handleChangeAddress}
-								fullWidth
+								fullWidth={true}
 							/>
 						</div>
 						<TextField
@@ -222,7 +222,7 @@ class ActivityAddPage extends React.Component<ActivityAddPageProps, State> {
 							name='country'
 							value={address.country || ''}
 							onChange={this.handleChangeAddress}
-							required
+							required={true}
 						/>
 
 						<div className={classes.actionButtonsContainer}>
@@ -231,7 +231,7 @@ class ActivityAddPage extends React.Component<ActivityAddPageProps, State> {
 								type='submit'
 								variant='contained'
 								color='primary'
-								fullWidth
+								fullWidth={true}
 							>
 								Add Activity
 							</Button>
@@ -240,7 +240,7 @@ class ActivityAddPage extends React.Component<ActivityAddPageProps, State> {
 								onClick={this.handleCancel}
 								variant='contained'
 								color='secondary'
-								fullWidth
+								fullWidth={true}
 							>
 								Cancel
 							</Button>

@@ -1,16 +1,14 @@
-import React from 'react';
+import {Button, Paper, Typography, WithStyles, withStyles} from '@material-ui/core';
 import {PhotoOutlined} from '@material-ui/icons';
+import React from 'react';
+import {connect} from 'react-redux';
+import {firestoreConnect} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
-import {firestoreConnect} from 'react-redux-firebase';
 import * as routes from '../constants/routes';
-import {URL_PARAM_ACTIVITY, URL_PARAM_LOCATION, URL_PARAM_TRIP} from '../constants/routes';
-import {parseDateToString} from '../utils/parser';
-import {connect} from 'react-redux';
-import {Button, Paper, Typography, WithStyles, withStyles} from '@material-ui/core';
 import styles from '../styles/ActivityViewStyles';
-import Address from '../models/Address';
 import {Activity} from '../types/activity';
+import {parseDateToString} from '../utils/parser';
 
 interface ActivityViewPageProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	activity: Activity,
@@ -25,7 +23,10 @@ const INITIAL_ACTIVITY: Activity = {
 	description: '',
 	startdate: null,
 	enddate: null,
-	address: new Address(),
+	address: {
+		country: '',
+		city: '',
+	},
 };
 
 class ActivityViewPage extends React.Component<ActivityViewPageProps, State> {
@@ -47,9 +48,9 @@ class ActivityViewPage extends React.Component<ActivityViewPageProps, State> {
 		const {match, classes} = this.props;
 		const {activity} = this.state;
 		const {title, description, address, startdate, enddate} = activity;
-		const tripId = match.params[URL_PARAM_TRIP];
-		const locationId = match.params[URL_PARAM_LOCATION];
-		const activityId = match.params[URL_PARAM_ACTIVITY];
+		const tripId = match.params[routes.URL_PARAM_TRIP];
+		const locationId = match.params[routes.URL_PARAM_LOCATION];
+		const activityId = match.params[routes.URL_PARAM_ACTIVITY];
 
 		return (
 			<div className={classes.activityViewPage}>
@@ -75,8 +76,9 @@ class ActivityViewPage extends React.Component<ActivityViewPageProps, State> {
 						<div className={classes.inputHorizontalContainer}>
 							<Paper className={classes.paperField}>
 								<Typography>From:</Typography>
-								<Typography
-									variant='h6'>{parseDateToString(startdate)}</Typography>
+								<Typography variant='h6'>
+									{parseDateToString(startdate)}
+								</Typography>
 							</Paper>
 							<Paper className={classes.paperField}>
 								<Typography>To:</Typography>
@@ -99,11 +101,11 @@ class ActivityViewPage extends React.Component<ActivityViewPageProps, State> {
 							<Typography variant='h6'>{address.country}</Typography>
 						</Paper>
 						<hr/>
-						<NavLink exact to={routes.ACTIVITY_EDIT(tripId, locationId, activityId)}>
+						<NavLink exact={true} to={routes.ACTIVITY_EDIT(tripId, locationId, activityId)}>
 							<Button
 								color='primary'
 								variant='contained'
-								fullWidth
+								fullWidth={true}
 							>
 								Edit Activity
 							</Button>
@@ -118,18 +120,18 @@ class ActivityViewPage extends React.Component<ActivityViewPageProps, State> {
 
 export default compose(withRouter,
 	firestoreConnect((props: ActivityViewPageProps) => {
-		const tripId = props.match.params[URL_PARAM_TRIP];
-		const locationId = props.match.params[URL_PARAM_LOCATION];
-		const activityId = props.match.params[URL_PARAM_ACTIVITY];
+		const tripId = props.match.params[routes.URL_PARAM_TRIP];
+		const locationId = props.match.params[routes.URL_PARAM_LOCATION];
+		const activityId = props.match.params[routes.URL_PARAM_ACTIVITY];
 		return [
 			`TRIPS/${tripId}/locations/${locationId}/activities/${activityId}`,
 		];
 	}),
 	connect(
 		({firestore: {data}}: any, props: ActivityViewPageProps) => {
-			const tripId = props.match.params[URL_PARAM_TRIP];
-			const locationId = props.match.params[URL_PARAM_LOCATION];
-			const activityId = props.match.params[URL_PARAM_ACTIVITY];
+			const tripId = props.match.params[routes.URL_PARAM_TRIP];
+			const locationId = props.match.params[routes.URL_PARAM_LOCATION];
+			const activityId = props.match.params[routes.URL_PARAM_ACTIVITY];
 			return {
 				activity: data.TRIPS
 					&& data.TRIPS[tripId]
