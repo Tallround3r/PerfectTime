@@ -87,6 +87,18 @@
     "arrow-parens": true,
     // Requires explicit visibility declarations for class members.
     "member-access": false,
+    // Checks ordering of keys in object literals.
+    "object-literal-sort-keys": false,
+    // Requires interface names to begin with a capital ‘I’
+    "interface-name": [
+      true,
+      "never-prefix"
+    ],
+    // Enforces consistent semicolon usage at the end of every statement.
+    "semicolon": [
+      false,
+      "always"
+    ],
 
     // -- Strong Warnings --
     // These rules should almost never be needed, but may be included due to legacy code.
@@ -132,7 +144,7 @@
     "prefer-const": {
       "severity": "warning"
     },
-    // Multi-line object liiterals and function calls should have a trailing comma. This helps avoid merge conflicts.
+    // Multi-line object literals and function calls should have a trailing comma. This helps avoid merge conflicts.
     "trailing-comma": {
       "severity": "warning"
     },
