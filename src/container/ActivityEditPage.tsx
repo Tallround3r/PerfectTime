@@ -12,6 +12,7 @@ import * as routes from '../constants/routes';
 import Address from '../models/Address';
 import styles from '../styles/ActivityEditStyles';
 import {Activity} from '../types/activity';
+import {datePickerMask} from '../utils/datePickerUtils';
 import {parseDateIfValid} from '../utils/parser';
 
 
@@ -129,8 +130,6 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 		});
 	};
 
-	datePickerMask = (value: string) => (value ? [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] : []);
-
 	render() {
 		const {classes} = this.props;
 		const {activity} = this.state;
@@ -181,7 +180,7 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 								label='Start Date'
 								format='MM/dd/yyyy'
 								placeholder='MM/DD/YYYY'
-								mask={this.datePickerMask}
+								mask={datePickerMask}
 								disableOpenOnEnter={true}
 								animateYearScrolling={false}
 								fullWidth={true}
@@ -195,7 +194,7 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 								label='End Date'
 								format='MM/dd/yyyy'
 								placeholder='MM/DD/YYYY'
-								mask={this.datePickerMask}
+								mask={datePickerMask}
 								disableOpenOnEnter={true}
 								animateYearScrolling={false}
 								fullWidth={true}

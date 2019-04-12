@@ -8,6 +8,7 @@ import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import {Location} from '../types/location';
+import {datePickerMask} from '../utils/datePickerUtils';
 import {parseDateIfValid} from '../utils/parser';
 
 
@@ -158,8 +159,6 @@ class LocationAddPage extends React.Component<Props, State> {
 		});
 	};
 
-	datePickerMask = (value: string) => (value ? [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] : []);
-
 	render() {
 		const {classes} = this.props;
 		const {location} = this.state;
@@ -211,7 +210,7 @@ class LocationAddPage extends React.Component<Props, State> {
 								label='Start Date'
 								format='MM/dd/yyyy'
 								placeholder='MM/DD/YYYY'
-								mask={this.datePickerMask}
+								mask={datePickerMask}
 								disableOpenOnEnter={true}
 								animateYearScrolling={false}
 								fullWidth={true}
@@ -225,7 +224,7 @@ class LocationAddPage extends React.Component<Props, State> {
 								label='End Date'
 								format='MM/dd/yyyy'
 								placeholder='MM/DD/YYYY'
-								mask={this.datePickerMask}
+								mask={datePickerMask}
 								disableOpenOnEnter={true}
 								animateYearScrolling={false}
 								fullWidth={true}

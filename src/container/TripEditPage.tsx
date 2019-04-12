@@ -1,21 +1,20 @@
-import {Button, Paper, TextField, Typography, withStyles} from '@material-ui/core';
+import {Button, createStyles, Paper, TextField, Theme, Typography, WithStyles, withStyles} from '@material-ui/core';
 import {AddPhotoAlternateOutlined} from '@material-ui/icons';
 import classNames from 'classnames';
 import DatePicker from 'material-ui-pickers/DatePicker';
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ChangeEvent, FormEvent, MouseEvent} from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect} from 'react-redux-firebase';
-import {withRouter} from 'react-router-dom';
+import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import {isEqual} from 'underscore';
 import * as routes from '../constants/routes';
-import {URL_PARAM_TRIP} from '../constants/routes';
-import {Location, Trip} from '../models';
+import {Trip} from '../types/trip';
+import {datePickerMask} from '../utils/datePickerUtils';
 import {parseDateIfValid} from '../utils/parser';
 
 
-const styles = theme => ({
+const styles = (theme: Theme) => createStyles({
 	locationEditPage: {
 		paddingTop: theme.spacing.unit * 3,
 	},
@@ -67,13 +66,22 @@ const styles = theme => ({
 	},
 });
 
-class TripEditPage extends React.Component {
+interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
+	firestore: any;
+	trip: Trip;
+}
+
+interface State {
+	trip: Trip;
+}
+
+class TripEditPage extends React.Component<Props, State> {
 
 	state = {
 		trip: this.props.trip,
 	};
 
-	componentDidUpdate(prevProps, prevState, snapshot) {
+	componentDidUpdate(prevProps: Props, prevState: State, snapshot: any) {
 		const {trip} = this.props;
 		if (!isEqual(trip, prevProps.trip)) {
 			this.setState({
@@ -82,13 +90,13 @@ class TripEditPage extends React.Component {
 		}
 	}
 
-	handleSubmit = (e) => {
+	handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		const {firestore, match, history} = this.props;
 		const {trip} = this.state;
 
 		const firestoreRef = {
 			collection: 'TRIPS',
-			doc: match.params[URL_PARAM_TRIP],
+			doc: match.params[routes.URL_PARAM_TRIP],
 		};
 
 		firestore.set(firestoreRef, trip);
@@ -98,7 +106,7 @@ class TripEditPage extends React.Component {
 		e.preventDefault();
 	};
 
-	handleCancel = (e) => {
+	handleCancel = (e: MouseEvent) => {
 		const {trip, history} = this.props;
 
 		this.setState({
@@ -110,7 +118,7 @@ class TripEditPage extends React.Component {
 		e.preventDefault();
 	};
 
-	handleChangeInput = (e) => {
+	handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
 		const {name, value} = e.target;
 
 		this.setState((prevState) => {
@@ -123,7 +131,7 @@ class TripEditPage extends React.Component {
 		});
 	};
 
-	handleChangeDate = (name) => (date) => {
+	handleChangeDate = (name: string) => (date: Date | null) => {
 		this.setState((prevState) => {
 			return {
 				trip: {
@@ -142,7 +150,7 @@ class TripEditPage extends React.Component {
 		return (
 			<div className={classes.locationEditPage}>
 				<Typography
-					variant="h4"
+					variant='h4'
 					gutterBottom={true}
 				>
 					Edit Trip
@@ -160,67 +168,67 @@ class TripEditPage extends React.Component {
 					<form className={classes.inputContainer} onSubmit={this.handleSubmit}>
 						<TextField
 							className={classes.inputField}
-							label="Title"
-							name="title"
+							label='Title'
+							name='title'
 							value={title}
 							onChange={this.handleChangeInput}
-							required
+							required={true}
 						/>
 						<TextField
 							className={classes.inputField}
-							label="Description"
-							name="description"
+							label='Description'
+							name='description'
 							value={description}
 							onChange={this.handleChangeInput}
-							multiline
-							required
+							multiline={true}
+							required={true}
 						/>
 						<div className={classes.inputHorizontalContainer}>
 							<DatePicker
 								className={classNames(classes.inputField, classes.inputHorizontalSpacing)}
-								keyboard
-								required
+								keyboard={true}
+								required={true}
 								value={parseDateIfValid(startdate)}
 								onChange={this.handleChangeDate('startdate')}
-								label="Start Date"
-								format="MM/dd/yyyy"
-								placeholder="MM/DD/YYYY"
-								mask={value => (value ? [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] : [])}
-								disableOpenOnEnter
+								label='Start Date'
+								format='MM/dd/yyyy'
+								placeholder='MM/DD/YYYY'
+								mask={datePickerMask}
+								disableOpenOnEnter={true}
 								animateYearScrolling={false}
-								fullWidth
+								fullWidth={true}
 							/>
 							<DatePicker
 								className={classes.inputField}
-								keyboard
-								required
+								keyboard={true}
+								required={true}
 								value={parseDateIfValid(enddate)}
 								onChange={this.handleChangeDate('enddate')}
-								label="End Date"
-								format="MM/dd/yyyy"
-								placeholder="MM/DD/YYYY"
-								mask={value => (value ? [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] : [])}
-								disableOpenOnEnter
+								label='End Date'
+								format='MM/dd/yyyy'
+								placeholder='MM/DD/YYYY'
+								mask={datePickerMask}
+								disableOpenOnEnter={true}
 								animateYearScrolling={false}
-								fullWidth
+								fullWidth={true}
 							/>
 						</div>
 
 						<div className={classes.actionButtonsContainer}>
 							<Button
 								className={classes.actionButton}
-								type="submit"
-								variant="contained"
-								color="primary"
-								fullWidth
+								type='submit'
+								variant='contained'
+								color='primary'
+								fullWidth={true}
 							>
 								Save Trip
 							</Button>
 							<Button
 								className={classes.actionButton}
-								variant="contained"
-								color="secondary"
-								fullWidth
+								variant='contained'
+								color='secondary'
+								fullWidth={true}
 								onClick={this.handleCancel}
 							>
 								Cancel
@@ -234,33 +242,18 @@ class TripEditPage extends React.Component {
 
 }
 
-TripEditPage.propTypes = {
-	match: PropTypes.shape({
-		params: PropTypes.shape({
-			[URL_PARAM_TRIP]: PropTypes.string.isRequired,
-		}),
-	}).isRequired,
-	classes: PropTypes.object.isRequired,
-	history: PropTypes.object.isRequired,
-	trip: PropTypes.objectOf(Location),
-};
-
-TripEditPage.defaultProps = {
-	trip: new Trip(),
-};
-
 export default compose(
 	withRouter,
-	firestoreConnect((props) => {
-		const tripId = props.match.params[URL_PARAM_TRIP];
+	firestoreConnect((props: Props) => {
+		const tripId = props.match.params[routes.URL_PARAM_TRIP];
 		return [{
 			collection: 'TRIPS',
 			doc: tripId,
 		}];
 	}),
 	connect(
-		({firestore: {data}}, props) => {
-			const tripId = props.match.params[URL_PARAM_TRIP];
+		({firestore: {data}}: any, props: Props) => {
+			const tripId = props.match.params[routes.URL_PARAM_TRIP];
 			return {
 				trip: data.TRIPS
 					&& data.TRIPS[tripId],

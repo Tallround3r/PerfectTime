@@ -1,19 +1,17 @@
-import {Button, Paper, Typography, withStyles} from '@material-ui/core';
+import {Button, createStyles, Paper, Theme, Typography, WithStyles, withStyles} from '@material-ui/core';
 import {AddPhotoAlternateOutlined} from '@material-ui/icons';
-import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect} from 'react-redux-firebase';
-import {NavLink, withRouter} from 'react-router-dom';
+import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import ActivitiesSlider from '../components/ActivitiesSlider';
-import {URL_PARAM_LOCATION, URL_PARAM_TRIP} from '../constants/routes';
 import * as routes from '../constants/routes';
-import {Location} from '../models';
+import {Location} from '../types/location';
 import {parseDateToString} from '../utils/parser';
 
 
-const styles = theme => ({
+const styles = (theme: Theme) => createStyles({
 	locationViewPage: {
 		paddingTop: theme.spacing.unit * 3,
 	},
@@ -51,8 +49,11 @@ const styles = theme => ({
 	},
 });
 
+interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
+	location: Location;
+}
 
-class LocationViewPage extends React.Component {
+class LocationViewPage extends React.Component<Props> {
 
 	render() {
 		const {classes, match, location} = this.props;
@@ -63,7 +64,7 @@ class LocationViewPage extends React.Component {
 		return (
 			<div className={classes.locationViewPage}>
 				<Typography
-					variant="h4"
+					variant='h4'
 					gutterBottom={true}
 				>
 					{title}
@@ -81,39 +82,36 @@ class LocationViewPage extends React.Component {
 					<div className={classes.inputContainer}>
 						<Paper className={classes.paperField}>
 							<Typography>Description:</Typography>
-							<Typography variant="h6">{description}</Typography>
+							<Typography variant='h6'>{description}</Typography>
 						</Paper>
 						<div className={classes.inputHorizontalContainer}>
 							<Paper className={classes.paperField}>
 								<Typography>From:</Typography>
-								<Typography variant="h6">{parseDateToString(startdate)}</Typography>
+								<Typography variant='h6'>{parseDateToString(startdate)}</Typography>
 							</Paper>
 							<Paper className={classes.paperField}>
 								<Typography>To:</Typography>
-								<Typography variant="h6">{parseDateToString(enddate)}</Typography>
+								<Typography variant='h6'>{parseDateToString(enddate)}</Typography>
 							</Paper>
 						</div>
 						<hr/>
-						<Typography
-							className={classes.addressLabel}
-							variant="subtitle2"
-						>
+						<Typography variant='subtitle2'>
 							Address
 						</Typography>
 						<Paper className={classes.paperField}>
 							<Typography>City:</Typography>
-							<Typography variant="h6">{address.zipCode} {address.city}</Typography>
+							<Typography variant='h6'>{address.zipCode} {address.city}</Typography>
 						</Paper>
 						<Paper className={classes.paperField}>
 							<Typography>Country:</Typography>
-							<Typography variant="h6">{address.country}</Typography>
+							<Typography variant='h6'>{address.country}</Typography>
 						</Paper>
 						<hr/>
-						<NavLink exact to={routes.LOCATIONS_EDIT(tripId, locationId)}>
+						<NavLink exact={true} to={routes.LOCATIONS_EDIT(tripId, locationId)}>
 							<Button
-								color="primary"
-								variant="contained"
-								fullWidth
+								color='primary'
+								variant='contained'
+								fullWidth={true}
 							>
 								Edit Location
 							</Button>
@@ -123,7 +121,7 @@ class LocationViewPage extends React.Component {
 
 				<div className={classes.activitiesContainer}>
 					<Typography
-						variant="h5"
+						variant='h5'
 						gutterBottom={true}
 					>
 						Activities
@@ -140,24 +138,9 @@ class LocationViewPage extends React.Component {
 
 }
 
-LocationViewPage.propTypes = {
-	match: PropTypes.shape({
-		params: PropTypes.shape({
-			[URL_PARAM_TRIP]: PropTypes.string.isRequired,
-			[URL_PARAM_LOCATION]: PropTypes.string.isRequired,
-		}),
-	}).isRequired,
-	classes: PropTypes.object.isRequired,
-	history: PropTypes.object.isRequired,
-	location: PropTypes.objectOf(Location).isRequired,
-};
-LocationViewPage.defaultProps = {
-	location: new Location(),
-};
-
 export default compose(
 	withRouter,
-	firestoreConnect((props) => {
+	firestoreConnect((props: Props) => {
 		const tripId = props.match.params[routes.URL_PARAM_TRIP];
 		const locationId = props.match.params[routes.URL_PARAM_LOCATION];
 		return [
@@ -165,7 +148,7 @@ export default compose(
 		];
 	}),
 	connect(
-		({firestore: {data}}, props) => {
+		({firestore: {data}}: any, props: Props) => {
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];
 			const locationId = props.match.params[routes.URL_PARAM_LOCATION];
 			return {

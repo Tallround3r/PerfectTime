@@ -31,7 +31,7 @@
 </g>
 <g id="clust6" class="cluster"><title>cluster_5</title>
 <polygon fill="lightgray" stroke="lightgrey" points="4452,-176.4 4452,-450.4 5191,-450.4 5191,-176.4 4452,-176.4"/>
-<text text-anchor="middle" x="4821.97" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/LocationsPage.js</text>
+<text text-anchor="middle" x="4821.97" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/LocationsPage.tsx</text>
 </g>
 <g id="clust7" class="cluster"><title>cluster_6</title>
 <polygon fill="lightgray" stroke="lightgrey" points="5199,-188.8 5199,-450.4 5978,-450.4 5978,-188.8 5199,-188.8"/>
@@ -43,11 +43,11 @@
 </g>
 <g id="clust9" class="cluster"><title>cluster_8</title>
 <polygon fill="lightgray" stroke="lightgrey" points="5986,-188.8 5986,-450.4 6764,-450.4 6764,-188.8 5986,-188.8"/>
-<text text-anchor="middle" x="6375.14" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/LocationEditPage.js</text>
+<text text-anchor="middle" x="6375.14" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/LocationEditPage.tsx</text>
 </g>
 <g id="clust10" class="cluster"><title>cluster_9</title>
 <polygon fill="lightgray" stroke="lightgrey" points="6772,-188.8 6772,-450.4 7654,-450.4 7654,-188.8 6772,-188.8"/>
-<text text-anchor="middle" x="7139.47" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/MembersPage.js</text>
+<text text-anchor="middle" x="7139.47" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/MembersPage.tsx</text>
 </g>
 <!-- 0 -->
 <g id="node1" class="node"><title>0</title>

@@ -39,7 +39,7 @@
 </g>
 <g id="clust8" class="cluster"><title>cluster_5</title>
 <polygon fill="lightgray" stroke="lightgrey" points="8332,-331.4 8332,-786.2 9521,-786.2 9521,-331.4 8332,-331.4"/>
-<text text-anchor="middle" x="8926.87" y="-755.2" font-family="Times,serif" font-size="30.00">C:/Users/Service/Desktop/PerfectTimeWorkspace/PerfectTime/src/container/LocationEditPage.js</text>
+<text text-anchor="middle" x="8926.87" y="-755.2" font-family="Times,serif" font-size="30.00">C:/Users/Service/Desktop/PerfectTimeWorkspace/PerfectTime/src/container/LocationEditPage.tsx</text>
 </g>
 <g id="clust9" class="cluster"><title>cluster_6</title>
 <polygon fill="lightgray" stroke="lightgrey" points="8,-662.8 8,-942.8 1412,-942.8 1412,-662.8 8,-662.8"/>
@@ -47,11 +47,11 @@
 </g>
 <g id="clust10" class="cluster"><title>cluster_7</title>
 <polygon fill="lightgray" stroke="lightgrey" points="9529,-8 9529,-798.6 10680,-798.6 10680,-8 9529,-8"/>
-<text text-anchor="middle" x="10104.7" y="-767.6" font-family="Times,serif" font-size="30.00">C:/Users/Service/Desktop/PerfectTimeWorkspace/PerfectTime/src/container/LocationsPage.js</text>
+<text text-anchor="middle" x="10104.7" y="-767.6" font-family="Times,serif" font-size="30.00">C:/Users/Service/Desktop/PerfectTimeWorkspace/PerfectTime/src/container/LocationsPage.tsx</text>
 </g>
 <g id="clust11" class="cluster"><title>cluster_8</title>
 <polygon fill="lightgray" stroke="lightgrey" points="10688,-331.4 10688,-786.2 11834,-786.2 11834,-331.4 10688,-331.4"/>
-<text text-anchor="middle" x="11261.2" y="-755.2" font-family="Times,serif" font-size="30.00">C:/Users/Service/Desktop/PerfectTimeWorkspace/PerfectTime/src/container/MembersPage.js</text>
+<text text-anchor="middle" x="11261.2" y="-755.2" font-family="Times,serif" font-size="30.00">C:/Users/Service/Desktop/PerfectTimeWorkspace/PerfectTime/src/container/MembersPage.tsx</text>
 </g>
 <g id="clust12" class="cluster"><title>cluster_9</title>
 <polygon fill="lightgray" stroke="lightgrey" points="11842,-8 11842,-798.6 12908,-798.6 12908,-8 11842,-8"/>

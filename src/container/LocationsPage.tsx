@@ -1,4 +1,4 @@
-import {withStyles} from '@material-ui/core';
+import {createStyles, Theme, WithStyles, withStyles} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -8,23 +8,22 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import ArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
-import {NavLink, withRouter} from 'react-router-dom';
+import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import ActivitiesSlider from '../components/ActivitiesSlider';
 import * as routes from '../constants/routes';
-import {URL_PARAM_TRIP} from '../constants/routes';
 import PictureStar from '../images/star.jpg';
-import {Trip} from '../models';
+import {Location} from '../types/location';
+import {Trip} from '../types/trip';
 import {parseDateIfValid} from '../utils/parser';
 
 
-const styles = theme => ({
+const styles = (theme: Theme) => createStyles({
 	locationPanel: {
 		border: 'thin solid #000000',
 		marginTop: theme.spacing.unit * 2,
@@ -60,13 +59,22 @@ const styles = theme => ({
 	},
 });
 
-class LocationsPage extends React.Component {
+interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
+	trip: Trip;
+	locations: { [id: string]: Location },
+}
+
+interface State {
+	expanded: any;
+}
+
+class LocationsPage extends React.Component<Props, State> {
 
 	state = {
 		expanded: null,
 	};
 
-	handleExpansionPanelChange = panel => (event, expanded) => {
+	handleExpansionPanelChange = (panel: any) => (event: any, expanded: any) => {
 		this.setState({
 			expanded: expanded ? panel : null,
 		});
@@ -75,7 +83,7 @@ class LocationsPage extends React.Component {
 	render() {
 		const {classes, trip, locations, match} = this.props;
 		const {expanded} = this.state;
-		const tripId = match.params[URL_PARAM_TRIP];
+		const tripId = match.params[routes.URL_PARAM_TRIP];
 
 		return (
 			<div>
@@ -89,9 +97,9 @@ class LocationsPage extends React.Component {
 						: isEmpty(locations)
 							? 'No Locations created yet.'
 							: Object.keys(locations).map((key) => {
-								let location = locations[key];
-								let startdate = parseDateIfValid(locations[key].startdate);
-								let enddate = parseDateIfValid(locations[key].enddate);
+								const location = locations[key];
+								const startdate = parseDateIfValid(locations[key].startdate);
+								const enddate = parseDateIfValid(locations[key].enddate);
 								return (
 									<div key={key}>
 										<ExpansionPanel
@@ -116,7 +124,7 @@ class LocationsPage extends React.Component {
 													<Typography>{locations[key].description}</Typography>
 												</div>
 												<div className={classes.smallColumn}>
-													<NavLink exact to={routes.LOCATIONS_VIEW(tripId, key)}>
+													<NavLink exact={true} to={routes.LOCATIONS_VIEW(tripId, key)}>
 														<Avatar>
 															<ArrowRightIcon/>
 														</Avatar>
@@ -138,16 +146,16 @@ class LocationsPage extends React.Component {
 							})}
 				</div>
 
-				<NavLink exact to={routes.LOCATIONS_ADD(tripId)}>
+				<NavLink exact={true} to={routes.LOCATIONS_ADD(tripId)}>
 					<Tooltip
-						title="Add"
-						aria-label="Add"
-						placement="bottom"
+						title='Add'
+						aria-label='Add'
+						placement='bottom'
 					>
 						<Fab
 							className={classes.fab}
-							color="primary"
-							aria-label="Add"
+							color='primary'
+							aria-label='Add'
 						>
 							<AddIcon/>
 						</Fab>
@@ -158,27 +166,21 @@ class LocationsPage extends React.Component {
 	}
 }
 
-LocationsPage.propTypes = {
-	match: PropTypes.object.isRequired,
-	trip: PropTypes.objectOf(Trip),
-	locations: PropTypes.object,
-};
-
 export default compose(
 	withRouter,
-	firestoreConnect((props) => [{
+	firestoreConnect((props: Props) => [{
 		collection: 'TRIPS',
-		doc: props.match.params[URL_PARAM_TRIP],
+		doc: props.match.params[routes.URL_PARAM_TRIP],
 	}, {
 		collection: 'TRIPS',
-		doc: props.match.params[URL_PARAM_TRIP],
+		doc: props.match.params[routes.URL_PARAM_TRIP],
 		subcollections: [{
 			collection: 'locations',
 		}],
 	}]),
 	connect(
-		({firestore: {data}}, props) => {
-			const tripId = props.match.params[URL_PARAM_TRIP];
+		({firestore: {data}}: any, props: Props) => {
+			const tripId = props.match.params[routes.URL_PARAM_TRIP];
 			return {
 				trip: data.TRIPS
 					&& data.TRIPS[tripId],

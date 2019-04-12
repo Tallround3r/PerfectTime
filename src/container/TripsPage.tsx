@@ -1,4 +1,4 @@
-import {withStyles} from '@material-ui/core';
+import {createStyles, Theme, WithStyles, withStyles} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -9,19 +9,19 @@ import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import DirectionsWalk from '@material-ui/icons/DirectionsWalk';
 import EditIcon from '@material-ui/icons/Edit';
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {MouseEvent} from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
-import {NavLink, withRouter} from 'react-router-dom';
+import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import * as routes from '../constants/routes';
+import {Trip} from '../types/trip';
 import {parseDateIfValid} from '../utils/parser';
 
 
-const styles = theme => ({
+const styles = (theme: Theme) => createStyles({
 	locationPanel: {
 		border: 'thin solid #000000',
 		marginTop: theme.spacing.unit * 2,
@@ -61,17 +61,26 @@ const styles = theme => ({
 	},
 });
 
-class TripsPage extends React.Component {
+interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
+	trips: { [id: string]: Trip };
+}
+
+interface State {
+	expanded: any;
+}
+
+class TripsPage extends React.Component<Props, State> {
 
 	state = {
 		expanded: null,
 	};
 
-	handleClickEditButton = (tripId) => (e) => {
+	handleClickEditButton = (tripId: string) => (e: MouseEvent) => {
+		e.preventDefault();
+
 		const {history} = this.props;
 
 		history.push(routes.TRIPS_EDIT(tripId));
-		e.preventDefault();
 	};
 
 	render() {
@@ -85,9 +94,9 @@ class TripsPage extends React.Component {
 					: isEmpty(trips)
 						? 'No Trips created yet.'
 						: Object.keys(trips).map((key) => {
-							let trip = trips[key];
-							let startdate = parseDateIfValid(trip.startdate);
-							let enddate = parseDateIfValid(trip.enddate);
+							const trip = trips[key];
+							const startdate = parseDateIfValid(trip.startdate);
+							const enddate = parseDateIfValid(trip.enddate);
 							return (
 								<div key={key}>
 									<ExpansionPanel
@@ -97,11 +106,11 @@ class TripsPage extends React.Component {
 										<ExpansionPanelSummary>
 											<div className={classes.smallColumn}>
 												<Avatar className={classes.iconAvatar}>
-													<DirectionsWalk fontSize="large"/>
+													<DirectionsWalk fontSize='large'/>
 												</Avatar>
 											</div>
 											<div className={classes.bigColumn}>
-												<NavLink exact to={routes.LOCATIONS(key)}>
+												<NavLink exact={true} to={routes.LOCATIONS(key)}>
 													<Typography
 														variant={'h6'}
 													>
@@ -131,16 +140,16 @@ class TripsPage extends React.Component {
 							);
 						})}
 
-				<NavLink exact to={routes.TRIPS_ADD()}>
+				<NavLink exact={true} to={routes.TRIPS_ADD()}>
 					<Tooltip
-						title="Add"
-						aria-label="Add"
-						placement="bottom"
+						title='Add'
+						aria-label='Add'
+						placement='bottom'
 					>
 						<Fab
 							className={classes.fab}
-							color="primary"
-							aria-label="Add"
+							color='primary'
+							aria-label='Add'
 						>
 							<AddIcon/>
 						</Fab>
@@ -151,18 +160,13 @@ class TripsPage extends React.Component {
 	}
 }
 
-TripsPage.propTypes = {
-	history: PropTypes.object.isRequired,
-	trips: PropTypes.object,
-};
-
 export default compose(
 	withRouter,
-	firestoreConnect((props) => [{
+	firestoreConnect((props: Props) => [{
 		collection: 'TRIPS',
 	}]),
 	connect(
-		({firestore: {data}}, props) => {
+		({firestore: {data}}: any, props: Props) => {
 			return {
 				trips: data.TRIPS,
 			};
