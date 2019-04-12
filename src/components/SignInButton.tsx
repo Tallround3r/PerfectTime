@@ -7,8 +7,8 @@ import * as routes from '../constants/routes';
 const SignInButton = () =>
 	<Link to={routes.SIGN_IN}>
 		<Button
-			type="button"
-			color="secondary"
+			type='button'
+			color='secondary'
 		>
 			Sign In
 		</Button>

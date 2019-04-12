@@ -2,7 +2,7 @@ import {Button, createStyles, Paper, TextField, Theme, Typography, WithStyles, w
 import {AddPhotoAlternateOutlined} from '@material-ui/icons';
 import classNames from 'classnames';
 import DatePicker from 'material-ui-pickers/DatePicker';
-import React, {FormEvent} from 'react';
+import React, {ChangeEvent, FormEvent, MouseEvent} from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
@@ -68,8 +68,8 @@ const styles = (theme: Theme) => createStyles({
 });
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
+	locationT: Location;
 	firestore: any;
-	location: Location
 }
 
 interface State {
@@ -90,14 +90,14 @@ const INITIAL_LOCATION: Location = {
 class LocationEditPage extends React.Component<Props, State> {
 
 	state = {
-		location: this.props.location || INITIAL_LOCATION,
+		location: this.props.locationT || INITIAL_LOCATION,
 	};
 
 	componentDidUpdate(prevProps: Props, prevState: State, snapshot: any) {
-		const {location} = this.props;
-		if (!isEqual(location, prevProps.location)) {
+		const {locationT} = this.props;
+		if (!isEqual(locationT, prevProps.locationT)) {
 			this.setState({
-				location,
+				location: locationT,
 			});
 		}
 	}
@@ -125,13 +125,13 @@ class LocationEditPage extends React.Component<Props, State> {
 		e.preventDefault();
 	};
 
-	handleCancel = (e) => {
+	handleCancel = (e: MouseEvent) => {
 		e.preventDefault();
 
-		const {location, history, match} = this.props;
+		const {locationT, history, match} = this.props;
 
 		this.setState({
-			location,
+			location: locationT,
 		});
 
 		const tripId = match.params[routes.URL_PARAM_TRIP];
@@ -139,7 +139,7 @@ class LocationEditPage extends React.Component<Props, State> {
 		history.push(routes.LOCATIONS_VIEW(tripId, locationId));
 	};
 
-	handleChangeInput = (e) => {
+	handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
 		const {name, value} = e.target;
 
 		this.setState((prevState) => {
@@ -152,7 +152,7 @@ class LocationEditPage extends React.Component<Props, State> {
 		});
 	};
 
-	handleChangeAddress = (e) => {
+	handleChangeAddress = (e: ChangeEvent<HTMLInputElement>) => {
 		const {name, value} = e.target;
 
 		this.setState((prevState) => ({
@@ -341,7 +341,7 @@ class LocationEditPage extends React.Component<Props, State> {
 
 export default compose(
 	withRouter,
-	firestoreConnect((props) => {
+	firestoreConnect((props: Props) => {
 		const tripId = props.match.params[routes.URL_PARAM_TRIP];
 		const locationId = props.match.params[routes.URL_PARAM_LOCATION];
 		return [{
@@ -358,7 +358,7 @@ export default compose(
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];
 			const locationId = props.match.params[routes.URL_PARAM_LOCATION];
 			return {
-				location: data.TRIPS
+				locationT: data.TRIPS
 					&& data.TRIPS[tripId]
 					&& data.TRIPS[tripId].locations
 					&& data.TRIPS[tripId].locations[locationId],

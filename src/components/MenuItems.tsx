@@ -10,33 +10,33 @@ import {NavLink} from 'react-router-dom';
 import * as routes from '../constants/routes';
 
 
-export const menuItems = (tripId) => (
+export const menuItems = (tripId: string) => (
 	<div>
-		<NavLink exact to={routes.LOCATIONS(tripId)} className="nav-link">
-			<ListItem button>
+		<NavLink exact={true} to={routes.LOCATIONS(tripId)} className='nav-link'>
+			<ListItem button={true}>
 				<ListItemIcon>
 					<LocationOnIcon/>
 				</ListItemIcon>
-				<ListItemText primary="Locations"/>
+				<ListItemText primary='Locations'/>
 			</ListItem>
 		</NavLink>
-		<NavLink exact to={routes.MEMBERS(tripId)} className="nav-link">
-			<ListItem button>
+		<NavLink exact={true} to={routes.MEMBERS(tripId)} className='nav-link'>
+			<ListItem button={true}>
 				<ListItemIcon>
 					<AccountCircleIcon/>
 				</ListItemIcon>
-				<ListItemText primary="Members"/>
+				<ListItemText primary='Members'/>
 			</ListItem>
 		</NavLink>
 
 		<Divider/>
 
-		<NavLink exact to={routes.TRIPS()} className="nav-link">
-			<ListItem button>
+		<NavLink exact={true} to={routes.TRIPS()} className='nav-link'>
+			<ListItem button={true}>
 				<ListItemIcon>
 					<ExploreIcon/>
 				</ListItemIcon>
-				<ListItemText primary="Trips Overview"/>
+				<ListItemText primary='Trips Overview'/>
 			</ListItem>
 		</NavLink>
 	</div>

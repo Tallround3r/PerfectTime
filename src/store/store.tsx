@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 import {firebaseReducer, reactReduxFirebase} from 'react-redux-firebase';
-import {combineReducers, compose, createStore, applyMiddleware} from 'redux';
+import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import {firestoreReducer, reduxFirestore} from 'redux-firestore';
 import thunk from 'redux-thunk';
 
@@ -18,13 +18,14 @@ export default function configureStore() {
 	};
 
 	const rfConfig = {
-		logListenerError: process.env.NODE_ENV !== 'production', //disable logs on production mode
+		logListenerError: process.env.NODE_ENV !== 'production', // disable logs on production mode
 		allowMultipleListeners: true,
 	};
 
 	const createStoreWithFirebase = compose(
 		reactReduxFirebase(firebase, rrfConfig), // firebase reducer
 		reduxFirestore(firebase, rfConfig), // firestore reducer
+		// @ts-ignore
 	)(createStore);
 
 	// Add firebase to reducers
@@ -34,18 +35,18 @@ export default function configureStore() {
 	});
 
 	const composeEnhancer = process.env.NODE_ENV === 'development'
+		// @ts-ignore
 		? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose : compose;
 
 	// Create store with reducers and initial state
 	const initialState = {};
 
-	const store = createStoreWithFirebase(
+	// @ts-ignore
+	return createStoreWithFirebase(
 		rootReducer,
 		initialState,
 		composeEnhancer(
 			applyMiddleware(thunk),
 		),
 	);
-
-	return store;
 }

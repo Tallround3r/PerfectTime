@@ -15,9 +15,9 @@ exports.url = (url) => {
             return perfectTimeLogin;
         case 'PerfectTimeLocations':
             return perfectTimeLocations;
-        case 'location':
+        case 'locationT.tsx.tsx':
             return perfectTimeTestLocation;
-        case 'edit location view':
+        case 'edit locationT view':
             return perfectTimeTestLocationEdit;
         case 'activity':
             return perfectTimeTestActivity;

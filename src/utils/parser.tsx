@@ -1,9 +1,12 @@
+import firebase from 'firebase';
 import {isDate} from 'underscore';
 
+type Timestamp = firebase.firestore.Timestamp;
 
-export function parseDateToString(timestamp) {
-	if (!timestamp)
+export function parseDateToString(timestamp: Date | Timestamp | null) {
+	if (!timestamp) {
 		return '';
+	}
 
 	const date = isDate(timestamp) ? timestamp : timestamp.toDate();
 
@@ -14,8 +17,10 @@ export function parseDateToString(timestamp) {
 	return `${month}/${day}/${year}`;
 }
 
-export function parseDateIfValid(obj) {
-	if (!obj) return null;
+export function parseDateIfValid(obj: Date | Timestamp | null) {
+	if (!obj) {
+		return null;
+	}
 
 	return isDate(obj) ? obj : obj.toDate();
 }

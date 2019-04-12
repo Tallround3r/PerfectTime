@@ -1,6 +1,7 @@
+import {FirebaseOptions} from '@firebase/app-types';
 import firebase from 'firebase';
 
-const firebaseConfig = {
+const firebaseConfig: FirebaseOptions = {
 	apiKey: process.env.REACT_APP_API_KEY,
 	authDomain: process.env.REACT_APP_AUTH_DOMAIN,
 	databaseURL: process.env.REACT_APP_DATABASE_URL,
@@ -16,10 +17,9 @@ if (!firebase.apps.length) {
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-const firestoreSettings = {
-	timestampsInSnapshots: true,
-};
-db.settings(firestoreSettings);
+// const firestoreSettings = {
+// };
+// db.settings(firestoreSettings);
 
 export {
 	auth,

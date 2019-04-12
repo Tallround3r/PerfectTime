@@ -50,14 +50,25 @@ const styles = (theme: Theme) => createStyles({
 });
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
-	location: Location;
+	tripLocation: Location;
 }
+
+const INITIAL_LOCATION: Location = {
+	title: '',
+	description: '',
+	startdate: null,
+	enddate: null,
+	address: {
+		city: '',
+		country: '',
+	},
+};
 
 class LocationViewPage extends React.Component<Props> {
 
 	render() {
-		const {classes, match, location} = this.props;
-		const {title, description, startdate, enddate, address} = location;
+		const {classes, match, tripLocation} = this.props;
+		const {title, description, startdate, enddate, address} = tripLocation || INITIAL_LOCATION;
 		const tripId = match.params[routes.URL_PARAM_TRIP];
 		const locationId = match.params[routes.URL_PARAM_LOCATION];
 
@@ -152,7 +163,7 @@ export default compose(
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];
 			const locationId = props.match.params[routes.URL_PARAM_LOCATION];
 			return {
-				location: data.TRIPS
+				tripLocation: data.TRIPS
 					&& data.TRIPS[tripId]
 					&& data.TRIPS[tripId].locations
 					&& data.TRIPS[tripId].locations[locationId],

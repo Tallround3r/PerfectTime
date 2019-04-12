@@ -9,7 +9,6 @@ import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import {isEqual} from 'underscore';
 import * as routes from '../constants/routes';
-import Address from '../models/Address';
 import styles from '../styles/ActivityEditStyles';
 import {Activity} from '../types/activity';
 import {datePickerMask} from '../utils/datePickerUtils';
@@ -30,7 +29,10 @@ const INITIAL_ACTIVITY: Activity = {
 	description: '',
 	startdate: null,
 	enddate: null,
-	address: new Address(),
+	address: {
+		city: '',
+		country: '',
+	},
 };
 
 class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {

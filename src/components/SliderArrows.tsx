@@ -1,6 +1,12 @@
 import React from 'react';
 
-export function SliderPrevArrow(props) {
+interface Props {
+	className?: any;
+	style?: any;
+	onClick?: any;
+}
+
+export function SliderPrevArrow(props: Props) {
 	const {className, style, onClick} = props;
 	return (
 		<div
@@ -11,7 +17,7 @@ export function SliderPrevArrow(props) {
 	);
 }
 
-export function SliderNextArrow(props) {
+export function SliderNextArrow(props: Props) {
 	const {className, style, onClick} = props;
 	return (
 		<div

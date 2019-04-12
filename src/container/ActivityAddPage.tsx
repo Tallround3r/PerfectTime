@@ -7,7 +7,6 @@ import {firestoreConnect} from 'react-redux-firebase';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
-import Address from '../models/Address';
 import styles from '../styles/ActivityEditStyles';
 import {Activity} from '../types/activity';
 import {datePickerMask} from '../utils/datePickerUtils';
@@ -19,7 +18,10 @@ const INITIAL_ACTIVITY: Activity = {
 	description: '',
 	startdate: null,
 	enddate: null,
-	address: new Address(),
+	address: {
+		city: '',
+		country: '',
+	},
 };
 
 interface ActivityAddPageProps extends WithStyles<typeof styles>, RouteComponentProps<any> {

@@ -18,8 +18,8 @@ import 'slick-carousel/slick/slick.css';
 import ActivitiesSlider from '../components/ActivitiesSlider';
 import * as routes from '../constants/routes';
 import PictureStar from '../images/star.jpg';
-import {Location} from '../types/location';
 import {Trip} from '../types/trip';
+import {Location} from '../types/location';
 import {parseDateIfValid} from '../utils/parser';
 
 

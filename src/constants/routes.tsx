@@ -1,4 +1,4 @@
-/** Routes **/
+/* Routes */
 export const LANDING = '/';
 
 export const SIGN_IN = '/login';
@@ -25,8 +25,7 @@ export const ACTIVITY_VIEW = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${UR
 	`/trips/${tripId}/locations/${locationId}/activity/${activityId}`;
 
 
-
-/** URL parameter **/
+/* URL parameter */
 export const URL_PARAM_TRIP = 'tripId';
 export const URL_PARAM_LOCATION = 'locationId';
 export const URL_PARAM_ACTIVITY = 'activityId';

@@ -3,10 +3,10 @@ import {
 	CardActions,
 	CardContent,
 	CardHeader,
-	CardMedia,
-	IconButton,
+	CardMedia, createStyles,
+	IconButton, Theme,
 	Tooltip,
-	Typography,
+	Typography, WithStyles,
 	withStyles,
 } from '@material-ui/core';
 import {Delete, Edit, OpenInNew} from '@material-ui/icons';
@@ -15,12 +15,12 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
-import {Activity} from '../models';
+import {Activity} from '../types/activity';
 import {parseDateToString} from '../utils/parser';
 import {getRandomImage} from '../utils/RessourceUtils';
 
 
-const styles = theme => ({
+const styles = (theme: Theme) => createStyles({
 	card: {
 		maxWidth: 400,
 	},
@@ -34,12 +34,21 @@ const styles = theme => ({
 	},
 });
 
-class ActivityCard extends React.Component {
+interface Props extends WithStyles<typeof styles> {
+	tripId: string;
+	locationId: string;
+	activityId: string;
+	activity: Activity;
+}
 
-	cardImage = getRandomImage();
+class ActivityCard extends React.Component<Props> {
 
-	handleDelete = (e) => {
+	state = {
+		cardImage: getRandomImage(),
+	};
 
+	handleDelete = () => {
+		// TODO: implement delete Activity
 	};
 
 	render() {
@@ -55,32 +64,32 @@ class ActivityCard extends React.Component {
 
 				<CardMedia
 					className={classes.media}
-					image={this.cardImage}
+					image={this.state.cardImage}
 					title={title}
 				/>
 
 				<CardContent>
-					<Typography component="p">
+					<Typography component='p'>
 						{description}
 					</Typography>
 				</CardContent>
 				<CardActions className={classes.actions}>
-					<Tooltip title="Delete" aria-label="Delete">
+					<Tooltip title='Delete' aria-label='Delete'>
 						<IconButton
 							onClick={this.handleDelete}
 						>
 							<Delete/>
 						</IconButton>
 					</Tooltip>
-					<Tooltip title="Edit" aria-label="Edit">
-						<NavLink exact to={routes.ACTIVITY_EDIT(tripId, locationId, this.props.activityId)}>
+					<Tooltip title='Edit' aria-label='Edit'>
+						<NavLink exact={true} to={routes.ACTIVITY_EDIT(tripId, locationId, this.props.activityId)}>
 							<IconButton>
 								<Edit/>
 							</IconButton>
 						</NavLink>
 					</Tooltip>
-					<Tooltip title="Open" aria-label="Open">
-						<NavLink exact to={routes.ACTIVITY_VIEW(tripId, locationId, this.props.activityId)}>
+					<Tooltip title='Open' aria-label='Open'>
+						<NavLink exact={true} to={routes.ACTIVITY_VIEW(tripId, locationId, this.props.activityId)}>
 							<IconButton>
 								<OpenInNew/>
 							</IconButton>
@@ -91,14 +100,6 @@ class ActivityCard extends React.Component {
 		);
 	}
 }
-
-ActivityCard.propTypes = {
-	classes: PropTypes.object.isRequired,
-	activity: PropTypes.objectOf(Activity).isRequired,
-	activityId: PropTypes.string.isRequired,
-	tripId: PropTypes.string.isRequired,
-	locationId: PropTypes.string.isRequired,
-};
 
 export default compose(
 	withStyles(styles),

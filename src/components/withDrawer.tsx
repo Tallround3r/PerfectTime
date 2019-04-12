@@ -2,6 +2,7 @@ import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
+import {createStyles, Theme, WithStyles} from '@material-ui/core/es';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
@@ -12,14 +13,12 @@ import Typography from '@material-ui/core/Typography';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MenuIcon from '@material-ui/icons/Menu';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ComponentType} from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty} from 'react-redux-firebase';
-import {NavLink, withRouter} from 'react-router-dom';
+import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import {AUTH_CONDITION_WITH_DRAWER} from '../constants/auth-conditions';
-import {URL_PARAM_TRIP} from '../constants/routes';
 import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
 import {menuItems} from './MenuItems';
@@ -28,11 +27,11 @@ import SignOutButton from './SignOutButton';
 import withAuthorization from './withAuthorization';
 
 
-const withDrawer = (Component) => {
+const withDrawer = (Component: ComponentType) => {
 
 	const drawerWidth = 240;
 	const swipeDrawerWidth = 200;
-	const styles = theme => ({
+	const styles = (theme: Theme) => createStyles({
 		root: {
 			display: 'flex',
 		},
@@ -111,7 +110,15 @@ const withDrawer = (Component) => {
 		},
 	});
 
-	class AppWrapper extends React.Component {
+	interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
+		auth: any;
+	}
+
+	interface State {
+		open: boolean;
+	}
+
+	class AppWrapper extends React.Component<Props, State> {
 		state = {
 			open: false,
 		};
@@ -126,8 +133,9 @@ const withDrawer = (Component) => {
 
 		render() {
 			const {classes, auth, match} = this.props;
+			// @ts-ignore
 			const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
-			const tripId = match.params[URL_PARAM_TRIP];
+			const tripId = match.params[routes.URL_PARAM_TRIP];
 
 			const drawerContent = <div>
 				<div className={classes.toolbarIcon}>
@@ -138,15 +146,15 @@ const withDrawer = (Component) => {
 
 				{this.state.open &&
 				<div>
-					<NavLink exact to={routes.LANDING}>
-						<img src={logo} className={classes.logo} alt="Logo"/>
+					<NavLink exact={true} to={routes.LANDING}>
+						<img src={logo} className={classes.logo} alt='Logo'/>
 					</NavLink>
 
 					<Typography
-						variant="h5"
-						color="inherit"
+						variant='h5'
+						color='inherit'
 						className={classes.title}
-						align="center"
+						align='center'
 					>
 						My Trip
 					</Typography>
@@ -163,13 +171,13 @@ const withDrawer = (Component) => {
 					<CssBaseline/>
 					<div className={classes.root}>
 						<AppBar
-							position="absolute"
+							position='absolute'
 							className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
 						>
 							<Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
 								<IconButton
-									color="inherit"
-									aria-label="Open drawer"
+									color='inherit'
+									aria-label='Open drawer'
 									onClick={tripId && this.handleDrawerOpen}
 									className={classNames(
 										classes.menuButton,
@@ -179,10 +187,10 @@ const withDrawer = (Component) => {
 									<MenuIcon/>
 								</IconButton>
 								<Typography
-									component="h1"
-									variant="h6"
-									color="inherit"
-									noWrap
+									component='h1'
+									variant='h6'
+									color='inherit'
+									noWrap={true}
 									className={classes.title}
 								>
 									Perfect Time — Plan Your Trip
@@ -193,10 +201,9 @@ const withDrawer = (Component) => {
 						</AppBar>
 
 						{tripId &&
-						<Hidden smDown>
+						<Hidden smDown={true}>
 							<Drawer
-								className={classes.drawer}
-								variant="permanent"
+								variant='permanent'
 								classes={{
 									paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
 								}}
@@ -207,7 +214,7 @@ const withDrawer = (Component) => {
 						</Hidden>}
 
 						{tripId &&
-						<Hidden mdUp>
+						<Hidden mdUp={true}>
 							<SwipeableDrawer
 								onClose={this.handleDrawerClose}
 								onOpen={this.handleDrawerOpen}
@@ -230,22 +237,12 @@ const withDrawer = (Component) => {
 		}
 	}
 
-	AppWrapper.propTypes = {
-		classes: PropTypes.object.isRequired,
-		match: PropTypes.shape({
-			params: PropTypes.shape({
-				[URL_PARAM_TRIP]: PropTypes.string,
-			}),
-		}).isRequired,
-		auth: PropTypes.object,
-	};
-
 	return compose(
 		withAuthorization(AUTH_CONDITION_WITH_DRAWER),
 		withRouter,
 		firestoreConnect(),
 		connect(
-			({firebase: {auth}}) => ({
+			({firebase: {auth}}: any) => ({
 				auth,
 			}),
 		),

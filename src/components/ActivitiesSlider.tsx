@@ -1,17 +1,17 @@
-import {withStyles} from '@material-ui/core';
-import PropTypes from 'prop-types';
+import {createStyles, Theme, WithStyles, withStyles} from '@material-ui/core';
 import React from 'react';
+import {connect} from 'react-redux';
+import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import Slider from 'react-slick';
+import {compose} from 'redux';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
+import {Activity} from '../types/activity';
 import ActivityCard from './ActivityCard';
 import {SliderNextArrow, SliderPrevArrow} from './SliderArrows';
-import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
-import connect from 'react-redux/es/connect/connect';
-import {compose} from 'redux';
 
 
-const styles = theme => ({
+const styles = (theme: Theme) => createStyles({
 	slider: {
 		marginLeft: theme.spacing.unit * 4,
 		marginRight: theme.spacing.unit * 4,
@@ -22,7 +22,14 @@ const styles = theme => ({
 	},
 });
 
-class ActivitiesSlider extends React.Component {
+interface Props extends WithStyles<typeof styles> {
+	firestore: any;
+	tripId: string;
+	locationId: string;
+	activities: { [key: string]: Activity }
+}
+
+class ActivitiesSlider extends React.Component<Props> {
 
 	componentDidMount() {
 		const {firestore, tripId, locationId} = this.props;
@@ -78,7 +85,7 @@ class ActivitiesSlider extends React.Component {
 				</Slider>;
 	}
 
-	renderActivityCards = () => Object.keys(this.props.activities).map(key => {
+	renderActivityCards = () => Object.keys(this.props.activities).map((key) => {
 		const {classes, activities, tripId, locationId} = this.props;
 		return (
 			<div key={key} className={classes.slideItem}>
@@ -88,18 +95,10 @@ class ActivitiesSlider extends React.Component {
 	});
 }
 
-ActivitiesSlider.propTypes = {
-	classes: PropTypes.object.isRequired,
-	firestore: PropTypes.object.isRequired,
-	tripId: PropTypes.string.isRequired,
-	locationId: PropTypes.string.isRequired,
-	activities: PropTypes.object,
-};
-
 export default compose(
 	firestoreConnect(),
 	connect(
-		({firestore: {data}}, props) => ({
+		({firestore: {data}}: any, props: Props) => ({
 			activities: data.TRIPS
 				&& data.TRIPS[props.tripId]
 				&& data.TRIPS[props.tripId].locations

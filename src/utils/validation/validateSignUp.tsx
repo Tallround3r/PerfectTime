@@ -1,4 +1,6 @@
-export default function isValid(username, email, pass1, pass2, firstName, lastName) {
+export default function isValid(
+	username: string, email: string, pass1: string, pass2: string, firstName: string, lastName: string,
+) {
 	return username !== ''
 		&& firstName !== ''
 		&& lastName !== ''
