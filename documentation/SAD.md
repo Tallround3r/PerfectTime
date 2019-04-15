@@ -3,7 +3,7 @@
 [mu0]: ../src/images/logo_perfecttime.svg "PT Logo"
 
 # Software Architecture Document 
-Last Updated: 2nd December 2018
+Last Updated: April 15th 2019
 
 ## 1.	Introduction
 This introduction provides an overview of the entire Software Architecture Document. It includes the purpose, scope, definitions, acronyms, abbreviations, references, and overview of the Software Architecture Document.
@@ -106,7 +106,13 @@ The following example illustrates how the Flux architecture of the React framewo
 (N/A)
 
 ## 7.	Deployment View 
-The Perfect Time Application is running on Google Firebase. Firebase provides the database, the media storage, the user functions (registered users, passwords, etc.) and the runtime environment. The application is deployed through a npm-install / command. Concludingly, the server architecture is provided by Firebase and Firebase is integrated into the Perfect Time application. The application can be accessed by any modern web browser that support CSS and Java Script.
+The Perfect Time Application is running on Google Firebase. Firebase provides the database, the media storage, the user functions (registered users, passwords, etc.) and the runtime environment. The application is deployed through a npm-install / command. Travis CI is used to automate the deployment process. The following diagram explains the process.
+
+![mockup file missing][mu7]
+
+[mu7]: ./deploymentViewUML.png "Deployment Process"
+
+Concludingly, the server architecture is provided by Firebase and Firebase is integrated into the Perfect Time application. The application can be accessed by any modern web browser that support CSS and Java Script.
 
 ## 8.	Implementation View 
 (N/A)
@@ -114,9 +120,9 @@ The Perfect Time Application is running on Google Firebase. Firebase provides th
 ## 9.	Data View 
 The Perfect Time application uses Google Firebase to store data. Thereby it uses a NoSQL-database. The application is design to allow the user to define custom fields for his/her trip/location/activity (e.g. ticket number for a concert). Therefor the following diagram shows only the predefined data fields.
 
-![mockup file missing][mu7]
+![mockup file missing][mu8]
 
-[mu7]: ./DatabaseLayout.png "DB layout"
+[mu8]: ./DatabaseLayout.png "DB layout"
 
 The media data (pictures, videos, etc.) are stored in a special storage in Firebase. It will be identified through the primary keys of each data tuple.
 
