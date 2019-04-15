@@ -117,11 +117,11 @@ class LocationsPage extends React.Component<Props, State> {
 												<div className={classes.bigColumn}>
 													<Typography>
 														Start Date:
-														{!!startdate && `${startdate.getDate()}.${startdate.getMonth()}.${startdate.getFullYear()}`}
+														{!!startdate && ` ${startdate.getDate()}.${startdate.getMonth()}.${startdate.getFullYear()}`}
 													</Typography>
 													<Typography>
 														End Date:
-														{!!enddate && `${enddate.getDate()}.${enddate.getMonth()}.${enddate.getFullYear()}`}
+														{!!enddate && ` ${enddate.getDate()}.${enddate.getMonth()}.${enddate.getFullYear()}`}
 													</Typography>
 												</div>
 												<div className={classes.bigColumn}>
@@ -138,11 +138,13 @@ class LocationsPage extends React.Component<Props, State> {
 
 											<ExpansionPanelDetails>
 												<div style={{width: '100%'}}>
-													// @ts-ignore
-													<ActivitiesSlider
-														tripId={tripId}
-														locationId={key}
-													/>
+													{
+														// @ts-ignore
+														<ActivitiesSlider
+															tripId={tripId}
+															locationId={key}
+														/>
+													}
 												</div>
 											</ExpansionPanelDetails>
 										</ExpansionPanel>
