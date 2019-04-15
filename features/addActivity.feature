@@ -12,7 +12,7 @@ Feature: Create new activity for a location
     And I have opened a "location"
     When I click on the "add activity button"
     Then I am navigated to "activity/add"
-#    it is checked wether url contains the string or not
+#    it is checked whether url contains the string or not
 
   Scenario: User adds activity with valid data
     Given I am logged in
