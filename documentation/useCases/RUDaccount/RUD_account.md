@@ -83,13 +83,13 @@ Not needed at the moment.
 Tool from <a href ="http://groups.umd.umich.edu/cis/course.des/cis375/projects/fp99/main.html">http://groups.umd.umich.edu </a>
 The score is XX.XX function points.
 #### Domain characteristics table
-
-![mockup file missing][mu5]
+Not needed yet.
+[comment]: <> (![mockup file missing][mu5])
 
 [mu5]: ./function_points1.png "function points 1"
 
 #### Complexity adjustment table
-
-![mockup file missing][mu6]
+Not needed yet.
+[comment]: <> (![mockup file missing][mu6])
 
 [mu6]: ./function_points2.png "function points 2"
