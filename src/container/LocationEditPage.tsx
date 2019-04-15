@@ -316,6 +316,7 @@ class LocationEditPage extends React.Component<Props, State> {
 						Activities
 					</Typography>
 
+					// @ts-ignore
 					<ActivitiesSlider
 						tripId={tripId}
 						locationId={locationId}

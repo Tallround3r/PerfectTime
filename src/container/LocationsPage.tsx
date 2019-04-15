@@ -18,8 +18,8 @@ import 'slick-carousel/slick/slick.css';
 import ActivitiesSlider from '../components/ActivitiesSlider';
 import * as routes from '../constants/routes';
 import PictureStar from '../images/star.jpg';
-import {Trip} from '../types/trip';
 import {Location} from '../types/location';
+import {Trip} from '../types/trip';
 import {parseDateIfValid} from '../utils/parser';
 
 
@@ -115,10 +115,14 @@ class LocationsPage extends React.Component<Props, State> {
 													<Typography>{location.title}</Typography>
 												</div>
 												<div className={classes.bigColumn}>
-													<Typography>Start
-														Date: {startdate.getDate()}.{startdate.getMonth()}.{startdate.getFullYear()}</Typography>
-													<Typography>End
-														Date: {enddate.getDate()}.{enddate.getMonth()}.{enddate.getFullYear()}</Typography>
+													<Typography>
+														Start Date:
+														{!!startdate && `${startdate.getDate()}.${startdate.getMonth()}.${startdate.getFullYear()}`}
+													</Typography>
+													<Typography>
+														End Date:
+														{!!enddate && `${enddate.getDate()}.${enddate.getMonth()}.${enddate.getFullYear()}`}
+													</Typography>
 												</div>
 												<div className={classes.bigColumn}>
 													<Typography>{locations[key].description}</Typography>
@@ -134,6 +138,7 @@ class LocationsPage extends React.Component<Props, State> {
 
 											<ExpansionPanelDetails>
 												<div style={{width: '100%'}}>
+													// @ts-ignore
 													<ActivitiesSlider
 														tripId={tripId}
 														locationId={key}

@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MenuIcon from '@material-ui/icons/Menu';
 import classNames from 'classnames';
-import React, {ComponentType} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
@@ -27,7 +27,7 @@ import SignOutButton from './SignOutButton';
 import withAuthorization from './withAuthorization';
 
 
-const withDrawer = (Component: ComponentType) => {
+const withDrawer = (Component: React.ComponentType<any>): any => {
 
 	const drawerWidth = 240;
 	const swipeDrawerWidth = 200;

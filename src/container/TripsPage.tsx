@@ -120,10 +120,10 @@ class TripsPage extends React.Component<Props, State> {
 											</div>
 											<div className={classes.bigColumn}>
 												<Typography>
-													from {startdate.getMonth()}/{startdate.getDate()}/{startdate.getFullYear()}
+													from {!!startdate && `${startdate.getMonth()}/${startdate.getDate()}/${startdate.getFullYear()}`}
 												</Typography>
 												<Typography>
-													to {enddate.getMonth()}/{enddate.getDate()}/{enddate.getFullYear()}
+													to {!!enddate && `${enddate.getMonth()}/${enddate.getDate()}/${enddate.getFullYear()}`}
 												</Typography>
 											</div>
 											<div className={classes.bigColumn}>
