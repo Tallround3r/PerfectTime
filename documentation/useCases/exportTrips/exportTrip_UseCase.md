@@ -32,3 +32,20 @@ Detail view of a trip with export button.
 
 ## 4 Postconditions
 None.
+
+## 5 Function Points
+Tool from [http://groups.umd.umich.edu](http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html)
+
+The score is 34.2 function points.
+
+#### Domain Characteristic Table
+
+![function points file missing][fp1]
+
+[fp1]: ./exportTrips_fpDomain.png "Domain Characterictics"
+
+#### Complexity Adjustment Table
+
+![function points file missing][fp2]
+
+[fp2]: ./exportTrips_fpComplexity.png "Complexity Adjustments"

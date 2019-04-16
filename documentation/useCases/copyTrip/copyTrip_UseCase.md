@@ -37,3 +37,20 @@ Edit view of a trip, with "Save as new" button.
 
 ## 4 Postconditions
 1. Save new trip to database.
+
+## 5 Function Points
+Tool from [http://groups.umd.umich.edu](http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html)
+
+The score is 34.2 function points.
+
+#### Domain Characteristic Table
+
+![function points file missing][fp1]
+
+[fp1]: ./copyTrip_fpDomain.png "Domain Characterictics"
+
+#### Complexity Adjustment Table
+
+![function points file missing][fp2]
+
+[fp2]: ./copyTrip_fpComplexity.png "Complexity Adjustments"
