@@ -1,0 +1,13 @@
+Time spent on use cases;;;;;;;;
+Project: Perfect Time - Plan Your Trip;;YouTrack Report:;;;;;;
+TINF17B2;;https://perfecttime.myjetbrains.com/youtrack/reports/time/145-1 ;;;;;;
+;;;;;;;;
+UC ;Documentation ;Coding ;Testing ;Warm-Up time;Total;FP;Completed?;Remarks
+UC Register / Login;6;5;2;2;15;;WAHR;
+UC CRUD trips;12;12;3;5;32;;FALSCH;
+UC CRUD locations;8;32;6;28;74;;FALSCH;"(add and edit are separat use cases, but tasks often do affect both, 
+which is why they are put together for time evaluation)"
+UC CRUD activities;3;17;3;1;24;;FALSCH;"(add and edit are separat use cases, but tasks often do affect both, 
+which is why they are put together for time evaluation)"
+UC User Management;8;8;;2;18;;FALSCH;
+UC Export / Copy Trip;8;;;;8;;FALSCH;(copy and export are separat use cases, but tasks often do affect both, which is why they are put together for time evaluation)
