@@ -1,6 +1,6 @@
 Feature: Create new activity for a location
 
-#  @only - not working bc check if btn null
+  @only #- not working bc check if btn null
   Scenario: The addActivity button is not visible for the user
     Given I am not logged in
     And I have opened a "location"
