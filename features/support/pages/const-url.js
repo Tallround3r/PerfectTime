@@ -8,20 +8,20 @@ const perfectTimeTestActivity = 'http://localhost:3000/location/id=XXX/activitiy
 const perfectTimeTestActivityEdit = 'http://localhost:3000/location/id=XXX/activitiy/id=XXX/edit';
 
 exports.url = (url) => {
-    switch(url){
-        case 'PerfectTime':
-            return perfectTimelocal;
-        case 'PerfectTimeLogin':
-            return perfectTimeLogin;
-        case 'PerfectTimeLocations':
-            return perfectTimeLocations;
-        case 'location':
-            return perfectTimeTestLocation;
-        case 'edit location view':
-            return perfectTimeTestLocationEdit;
-        case 'activity':
-            return perfectTimeTestActivity;
-        case 'edit activity view':
-            return perfectTimeTestActivityEdit;
-    }
+	switch (url) {
+		case 'PerfectTime':
+			return perfectTimelocal;
+		case 'PerfectTimeLogin':
+			return perfectTimeLogin;
+		case 'PerfectTimeLocations':
+			return perfectTimeLocations;
+		case 'location':
+			return perfectTimeTestLocation;
+		case 'edit location view':
+			return perfectTimeTestLocationEdit;
+		case 'activity':
+			return perfectTimeTestActivity;
+		case 'edit activity view':
+			return perfectTimeTestActivityEdit;
+	}
 };

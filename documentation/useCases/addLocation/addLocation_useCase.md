@@ -22,7 +22,7 @@ View where the User is able to add the location.
 
 ![activity diagram file missing][ad]
 
-[ad]: AddLocation_ActivityDiagramm.png "Activity Diagram"
+[ad]: addLocation_activityDiagramm.png "Activity Diagram"
 
 #### Feature file
 
@@ -37,13 +37,13 @@ Link to [feature file](../../../features/editActivity.feature).
 1. Synchronize database with added data.
 
 ## 6 Function Points
-N/A
-<Tool from http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html
+not needed yet
+<!--<Tool from http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html-->
 
-The score is 28.48 function Points.
+<!--The score is 28.48 function Points.-->
 
-![function points file missing][fp]
+<!--![function points file missing][fp]-->
 
-[fp]: ./EditLocation_FunctionPoints.PNG "Function Points">
+<!--[fp]: ./EditLocation_FunctionPoints.PNG "Function Points">-->
 
 
