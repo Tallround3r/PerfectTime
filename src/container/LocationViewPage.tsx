@@ -137,12 +137,13 @@ class LocationViewPage extends React.Component<Props> {
 					>
 						Activities
 					</Typography>
-
-					// @ts-ignore
-					<ActivitiesSlider
-						tripId={tripId}
-						locationId={locationId}
-					/>
+					{
+						// @ts-ignore
+						<ActivitiesSlider
+							tripId={tripId}
+							locationId={locationId}
+						/>
+					}
 				</div>
 			</div>
 		);

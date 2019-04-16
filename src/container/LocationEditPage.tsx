@@ -315,12 +315,13 @@ class LocationEditPage extends React.Component<Props, State> {
 					>
 						Activities
 					</Typography>
-
-					// @ts-ignore
-					<ActivitiesSlider
-						tripId={tripId}
-						locationId={locationId}
-					/>
+					{
+						// @ts-ignore
+						<ActivitiesSlider
+							tripId={tripId}
+							locationId={locationId}
+						/>
+					}
 					<div className={classes.actionButtonsContainer}>
 						<NavLink exact={true} to={routes.ACTIVITY_ADD(tripId, locationId)}>
 							<Button
