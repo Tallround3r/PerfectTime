@@ -98,6 +98,7 @@ class TripAddPage extends React.Component<Props, State> {
 
 		firestore.add(firestoreRef, trip)
 			.then(() => {
+				this.setState({trip: INITIAL_TRIP});
 				history.push(routes.TRIPS());
 			});
 	};
