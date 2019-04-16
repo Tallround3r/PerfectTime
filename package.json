@@ -10,7 +10,7 @@
     "classnames": "^2.2.6",
     "date-fns": "2.0.0-alpha.21",
     "dotenv": "^7.0.0",
-    "firebase": "^5.9.3",
+    "firebase": "^5.9.4",
     "material-ui-pickers": "^2.2.4",
     "npm": "^6.9.0",
     "prop-types": "^15.7.2",
@@ -44,22 +44,22 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@firebase/app-types": "^0.3.7",
+    "@firebase/app-types": "^0.3.8",
     "@types/classnames": "^2.2.7",
     "@types/dotenv": "^6.1.1",
-    "@types/react": "^16.8.12",
-    "@types/react-dom": "^16.8.3",
+    "@types/react": "^16.8.13",
+    "@types/react-dom": "^16.8.4",
     "@types/react-redux": "^7.0.6",
-    "@types/react-router-dom": "^4.3.1",
-    "@types/react-select": "^2.0.15",
+    "@types/react-router-dom": "^4.3.2",
+    "@types/react-select": "^2.0.17",
     "@types/react-slick": "^0.23.3",
     "@types/recharts": "^1.1.16",
     "@types/recompose": "^0.30.5",
     "@types/underscore": "^1.8.14",
     "cucumber": "^5.1.0",
-    "testcafe": "^1.1.1",
+    "testcafe": "^1.1.2",
     "tslint": "^5.15.0",
     "tslint-react": "^4.0.0",
-    "typescript": "^3.4.1"
+    "typescript": "^3.4.3"
   }
 }
