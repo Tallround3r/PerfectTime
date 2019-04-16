@@ -3,14 +3,16 @@ import {
 	CardActions,
 	CardContent,
 	CardHeader,
-	CardMedia, createStyles,
-	IconButton, Theme,
+	CardMedia,
+	createStyles,
+	IconButton,
+	Theme,
 	Tooltip,
-	Typography, WithStyles,
+	Typography,
+	WithStyles,
 	withStyles,
 } from '@material-ui/core';
 import {Delete, Edit, OpenInNew} from '@material-ui/icons';
-import PropTypes from 'prop-types';
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import {compose} from 'redux';
@@ -41,7 +43,11 @@ interface Props extends WithStyles<typeof styles> {
 	activity: Activity;
 }
 
-class ActivityCard extends React.Component<Props> {
+interface State {
+	cardImage: string,
+}
+
+class ActivityCard extends React.Component<Props, State> {
 
 	state = {
 		cardImage: getRandomImage(),
