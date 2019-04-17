@@ -86,10 +86,10 @@ The score is 42.32 function points.
 
 ![function points file missing][fp1]
 
-[fp1]: ./RUD_Account_fpDomain.png "Domain Characterictics"
+[fp1]: ./RUD_Account_fpDomain.PNG "Domain Characterictics"
 
 #### Complexity Adjustment Table
 
 ![function points file missing][fp2]
 
-[fp2]: ./RUD_account_fpComplexity.png "Complexity Adjustments"
+[fp2]: ./RUD_account_fpComplexity.PNG "Complexity Adjustments"

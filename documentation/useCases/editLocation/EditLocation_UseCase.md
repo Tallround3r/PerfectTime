@@ -58,12 +58,12 @@ The score is 37.72 function points.
 
 ![function points file missing][fp1]
 
-[fp1]: ./editLocation_fpDomain.png "Domain Characterictics"
+[fp1]: ./editLocation_fpDomain.PNG "Domain Characterictics"
 
 #### Complexity Adjustment Table
 
 ![function points file missing][fp2]
 
-[fp2]: ./editLocation_fpComplexity.png "Complexity Adjustments"
+[fp2]: ./editLocation_fpComplexity.PNG "Complexity Adjustments"
 
 

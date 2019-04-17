@@ -42,10 +42,10 @@ The score is 34.2 function points.
 
 ![function points file missing][fp1]
 
-[fp1]: ./exportTrips_fpDomain.png "Domain Characterictics"
+[fp1]: ./exportTrips_fpDomain.PNG "Domain Characterictics"
 
 #### Complexity Adjustment Table
 
 ![function points file missing][fp2]
 
-[fp2]: ./exportTrips_fpComplexity.png "Complexity Adjustments"
+[fp2]: ./exportTrips_fpComplexity.PNG "Complexity Adjustments"
