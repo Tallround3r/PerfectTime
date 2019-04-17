@@ -64,7 +64,7 @@ The Perfect Time Application uses Redux on top of React. Redux allows a global s
 ## 3.	Architectural Goals and Constraints 
 The Flux architecture allows the source code of Perfect Time to have a clear structure. The data is provided through the Firebase API. The received JSON-data gets mapped onto the defined models. With that standardized data the Redux state is filled. The updated state leads to an update of the shown elements.
 
-This structure can be described with an example. A component (e.g. LocationsPage.js) defines the method compose() which calls firestoreConnect() to fetch the required data from the database. The received data gets transferred into an array called locations, which is saved in the state. The method render() uses the data as input for HTML code. This code gets displayed with the imported CSS attributes.
+This structure can be described with an example. A component (e.g. LocationsPage.tsx) defines the method compose() which calls firestoreConnect() to fetch the required data from the database. The received data gets transferred into an array called locations, which is saved in the state. The method render() uses the data as input for HTML code. This code gets displayed with the imported CSS attributes.
 
 Through this design the application’s maintainability is increased. Still, mixing the Flux elements in a single method is possible and sometimes necessary. Separating the elements as strict as in the Vaadin Java Framework for example is not possible in React JS.
 

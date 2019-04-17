@@ -15,39 +15,39 @@
 </g>
 <g id="clust2" class="cluster"><title>cluster_1</title>
 <polygon fill="lightgray" stroke="lightgrey" points="2194,-188.8 2194,-450.4 2965,-450.4 2965,-188.8 2194,-188.8"/>
-<text text-anchor="middle" x="2579.81" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/ActivityAddPage.js</text>
+<text text-anchor="middle" x="2579.81" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/ActivityAddPage.tsx</text>
 </g>
 <g id="clust3" class="cluster"><title>cluster_2</title>
 <polygon fill="lightgray" stroke="lightgrey" points="2973,-188.8 2973,-450.4 3742,-450.4 3742,-188.8 2973,-188.8"/>
-<text text-anchor="middle" x="3357.98" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/ActivityEditPage.js</text>
+<text text-anchor="middle" x="3357.98" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/ActivityEditPage.tsx</text>
 </g>
 <g id="clust4" class="cluster"><title>cluster_3</title>
 <polygon fill="lightgray" stroke="lightgrey" points="924,-602.6 924,-713.2 1538,-713.2 1538,-602.6 924,-602.6"/>
-<text text-anchor="middle" x="1231.49" y="-682.2" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/App.js</text>
+<text text-anchor="middle" x="1231.49" y="-682.2" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/App.tsx</text>
 </g>
 <g id="clust5" class="cluster"><title>cluster_4</title>
 <polygon fill="lightgray" stroke="lightgrey" points="3750,-8 3750,-450.4 4444,-450.4 4444,-8 3750,-8"/>
-<text text-anchor="middle" x="4097.48" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/DemoPage.js</text>
+<text text-anchor="middle" x="4097.48" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/DemoPage.tsx</text>
 </g>
 <g id="clust6" class="cluster"><title>cluster_5</title>
 <polygon fill="lightgray" stroke="lightgrey" points="4452,-176.4 4452,-450.4 5191,-450.4 5191,-176.4 4452,-176.4"/>
-<text text-anchor="middle" x="4821.97" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/LocationsPage.js</text>
+<text text-anchor="middle" x="4821.97" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/LocationsPage.tsx</text>
 </g>
 <g id="clust7" class="cluster"><title>cluster_6</title>
 <polygon fill="lightgray" stroke="lightgrey" points="5199,-188.8 5199,-450.4 5978,-450.4 5978,-188.8 5199,-188.8"/>
-<text text-anchor="middle" x="5588.97" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/LocationAddPage.js</text>
+<text text-anchor="middle" x="5588.97" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/LocationAddPage.tsx</text>
 </g>
 <g id="clust8" class="cluster"><title>cluster_7</title>
 <polygon fill="lightgray" stroke="lightgrey" points="8,-327 8,-594.6 1440,-594.6 1440,-327 8,-327"/>
-<text text-anchor="middle" x="321.327" y="-563.6" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/Main.js</text>
+<text text-anchor="middle" x="321.327" y="-563.6" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/Main.tsx</text>
 </g>
 <g id="clust9" class="cluster"><title>cluster_8</title>
 <polygon fill="lightgray" stroke="lightgrey" points="5986,-188.8 5986,-450.4 6764,-450.4 6764,-188.8 5986,-188.8"/>
-<text text-anchor="middle" x="6375.14" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/LocationEditPage.js</text>
+<text text-anchor="middle" x="6375.14" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/LocationEditPage.tsx</text>
 </g>
 <g id="clust10" class="cluster"><title>cluster_9</title>
 <polygon fill="lightgray" stroke="lightgrey" points="6772,-188.8 6772,-450.4 7654,-450.4 7654,-188.8 6772,-188.8"/>
-<text text-anchor="middle" x="7139.47" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/MembersPage.js</text>
+<text text-anchor="middle" x="7139.47" y="-419.4" font-family="Times,serif" font-size="30.00">E:/DHBW_Tim/PerfectTime/src/container/MembersPage.tsx</text>
 </g>
 <!-- 0 -->
 <g id="node1" class="node"><title>0</title>

@@ -474,10 +474,10 @@
 				<v:ud v:nameU="Test" v:prompt="" v:val="VT0(0):5"/>
 				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
 				<v:ud v:nameU="WidthMin" v:prompt="" v:val="VT0(2.5117568863904):1"/>
-				<v:ud v:nameU="EntityName" v:prompt="" v:val="VT4(LocationsPage.js�)"/>
+				<v:ud v:nameU="EntityName" v:prompt="" v:val="VT4(LocationsPage.tsx�)"/>
 			</v:userDefs>
 			<title>Klasse</title>
-			<desc>LocationsPage.js</desc>
+			<desc>LocationsPage.tsx</desc>
 			<g id="shape2-48" v:mID="2" v:groupContext="shape">
 				<title>Tabelle.2</title>
 				<v:userDefs>
@@ -501,7 +501,7 @@
 					<v:ud v:nameU="Spacer" v:prompt="" v:val="VT0(0):26"/>
 					<v:ud v:nameU="UsableHgt" v:prompt="" v:val="VT0(0.43616263699002):1"/>
 					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Klassenname)"/>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(LocationsPage.js�)"/>
+					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(LocationsPage.tsx�)"/>
 				</v:userDefs>
 				<path d="M0 595.28 L184.25 595.28 L184.25 563.87 L0 563.87 L0 595.28 Z" class="st1"/>
 			</g>
@@ -520,7 +520,7 @@
 			<g id="shape1-53" v:mID="1" v:groupContext="groupContent">
 				<v:textBlock v:margins="rect(8.5,4,8.5,4)" v:tabSpace="42.5197"/>
 				<v:textRect cx="92.126" cy="523.055" width="184.26" height="31.4037"/>
-				<text x="4" y="526.66" class="st4" v:langID="1031"><v:paragraph/><v:tabList/>LocationsPage.js<v:tabChar/></text>			</g>
+				<text x="4" y="526.66" class="st4" v:langID="1031"><v:paragraph/><v:tabList/>LocationsPage.tsx<v:tabChar/></text>			</g>
 		</g>
 		<g id="shape6-55" v:mID="6" v:groupContext="shape" transform="translate(80.7874,-388.432)">
 			<title>Mitglied</title>

@@ -59,11 +59,11 @@ exports.select = (selection) => {
             return editActivityButton;
         case 'save activity button':
             return saveActivityButton;
-        case 'add location button':
+        case 'add locationT button':
             return addLocationButton;
-        case 'edit location button':
+        case 'edit locationT button':
             return editLocationButton;
-        case 'save location button':
+        case 'save locationT button':
             return saveLocationButton;
         case 'locationTitle':
             return locationTitle;
