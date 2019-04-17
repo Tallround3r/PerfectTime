@@ -99,10 +99,10 @@ The application can be separated in different Use Cases.
 	- Special use case: [View all trips](./useCases/CRUDTrips/ViewAllTrips.md) (public or own trips)
 - CRUD locations: Have several locations during a trip.
 	- [Add location](./useCases/addLocation/addLocation_useCase.md): Add new location
-	- [Edit location](./useCases/editLocation/EditLocation_UseCase.md): Edit existing location (add custom fields)
+	- [Edit location](./useCases/editLocation/EditLocation_UseCase.md): Edit existing location (add custom fields) (incl. R&D)
 - CRUD activities: Have several activities at a location.
 	- [Add activity](./useCases/addActivity/add-activity-use-case.md): Add a new activity
-	- [Edit activity](./useCases/editActivity/editActivity_useCase.md): Edit existing location (add custom fields)
+	- [Edit activity](./useCases/editActivity/editActivity_useCase.md): Edit existing location (add custom fields) (incl. R&D)
 - [Register / Login](./useCases/register/register_useCase.md): Allows User to create an account and log in.
 - [User Management](./useCases/RUDaccount/RUD_account.md): A user can edit his account and own a or be member of a trip.
 - [Export Trip](./useCases/exportTrips/exportTrip_UseCase.md): The user can export and save the trip data.
