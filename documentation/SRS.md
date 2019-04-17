@@ -94,7 +94,7 @@ Any registered users can create a trip / travel for him-/herself. The owner of a
 Any trip members can edit the information contained in a trip. They can add meta data (i.e. budget, time frame, country, etc.). They can add locations to the trip and edit the information of the location (place, date, costs, etc.). They can also add activities to the locations.
 
 #### 3.1.4 Use Cases
-The application can be separated in different Use Cases.
+The functionality (as described above) of the application can be separated in different Use Cases. Adding more use cases in the future is likely, since the project is still under development.
 - [CRUD trips](./useCases/CRUDTrips/CRUD_trips.md): Working with trips to plan a travel.
 	- Special use case: [View all trips](./useCases/CRUDTrips/ViewAllTrips.md) (public or own trips)
 - CRUD locations: Have several locations during a trip.
