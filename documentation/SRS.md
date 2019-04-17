@@ -95,18 +95,18 @@ Any trip members can edit the information contained in a trip. They can add meta
 
 #### 3.1.4 Use Cases
 The application can be separated in different Use Cases.
-- [CRUD trips](https://github.com/Tallround3r/PerfectTime/blob/master/documentation/useCases/CRUDTrips/CRUD_trips.md): Working with trips to plan a travel.
-	- Special use case: [View all trips](https://github.com/Tallround3r/PerfectTime/blob/master/documentation/useCases/CRUDTrips/ViewAllTrips.md) (public or own trips)
+- [CRUD trips](./useCases/CRUDTrips/CRUD_trips.md): Working with trips to plan a travel.
+	- Special use case: [View all trips](./useCases/CRUDTrips/ViewAllTrips.md) (public or own trips)
 - CRUD locations: Have several locations during a trip.
-	- [Add location](https://github.com/Tallround3r/PerfectTime/blob/master/documentation/useCases/addLocation/addLocation_useCase.md): Add new location
-	- [Edit location](https://github.com/Tallround3r/PerfectTime/blob/master/documentation/useCases/editLocation/EditLocation_UseCase.md): Edit existing location (add custom fields)
+	- [Add location](./useCases/addLocation/addLocation_useCase.md): Add new location
+	- [Edit location](./useCases/editLocation/EditLocation_UseCase.md): Edit existing location (add custom fields)
 - CRUD activities: Have several activities at a location.
-	- [Add activity](https://github.com/Tallround3r/PerfectTime/blob/master/documentation/useCases/addActivity/add-activity-use-case.md): Add a new activity
-	- [Edit activity](https://github.com/Tallround3r/PerfectTime/blob/master/documentation/useCases/editActivity/editActivity_useCase.md): Edit existing location (add custom fields)
-- [Register / Login](https://github.com/Tallround3r/PerfectTime/blob/master/documentation/useCases/register/register_useCase.md): Allows User to create an account and log in.
-- [User Management](https://github.com/Tallround3r/PerfectTime/blob/master/documentation/useCases/RUDaccount/RUD_account.md): A user can edit his account and own a or be member of a trip.
-- [Export Trip](https://github.com/Tallround3r/PerfectTime/blob/master/documentation/useCases/exportTrips/exportTrip_UseCase.md): The user can export and save the trip data.
-- [Copy Trip](https://github.com/Tallround3r/PerfectTime/blob/master/documentation/useCases/copyTrip/copyTrip_UseCase.md): The user can copy a (public) trip into a new own trip.
+	- [Add activity](./useCases/addActivity/add-activity-use-case.md): Add a new activity
+	- [Edit activity](./useCases/editActivity/editActivity_useCase.md): Edit existing location (add custom fields)
+- [Register / Login](./useCases/register/register_useCase.md): Allows User to create an account and log in.
+- [User Management](./useCases/RUDaccount/RUD_account.md): A user can edit his account and own a or be member of a trip.
+- [Export Trip](./useCases/exportTrips/exportTrip_UseCase.md): The user can export and save the trip data.
+- [Copy Trip](./useCases/copyTrip/copyTrip_UseCase.md): The user can copy a (public) trip into a new own trip.
 
 
 ### 3.2	Usability 
