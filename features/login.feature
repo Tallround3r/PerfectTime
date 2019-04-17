@@ -20,4 +20,4 @@ Feature: Register to PerfectTime is working
     And I am not logged in
     And I insert valid login Data
     When I click on the "Login Button"
-    Then I am navigated to "/locations"
+    Then I am navigated to "/trips"

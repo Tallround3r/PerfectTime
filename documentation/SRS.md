@@ -3,7 +3,7 @@
 [mu0]: ../src/images/logo_perfecttime.svg "PT Logo"
 
 # Software Requirements Specification 
-Last updated: 2nd December 2018
+Last updated: April 15th, 2019
 
 ## 1.	Introduction
 For our course Software Engineering we are creating a web application. Our application is called Perfect Time – plan your trip. 
