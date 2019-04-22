@@ -39,6 +39,7 @@ const styles = (theme: Theme) => createStyles({
 	},
 	inputHorizontalSpacing: {
 		marginRight: theme.spacing.unit * 2,
+		marginBottom: theme.spacing.unit * 3,
 	},
 	addressLabel: {
 		marginTop: theme.spacing.unit * 2,
@@ -67,6 +68,9 @@ const styles = (theme: Theme) => createStyles({
 	activitiesContainer: {
 		marginTop: theme.spacing.unit * 6,
 	},
+	divider: {
+		height: theme.spacing.unit * 3,
+	}
 });
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
@@ -92,14 +96,21 @@ class TripEditPage extends React.Component<Props, State> {
 
 	state = {
 		trip: this.props.trip || INITIAL_TRIP,
-		selectedMembers: getSelectOptionsFromTripMembers(this.props.trip) || [],
+		selectedMembers: [],
 	};
 
+	componentDidMount(): void {
+		this.setState({
+			selectedMembers: this.getSelectOptionsFromTripMembers(this.props.trip),
+		});
+	}
+
 	componentDidUpdate(prevProps: Props, prevState: State, snapshot: any) {
-		const {trip} = this.props;
-		if (!isEqual(trip, prevProps.trip)) {
+		const {trip, users} = this.props;
+		if (!isEqual(trip, prevProps.trip) || !isEqual(users, prevProps.users)) {
 			this.setState({
 				trip,
+				selectedMembers: this.getSelectOptionsFromTripMembers(trip),
 			});
 		}
 	}
@@ -114,7 +125,7 @@ class TripEditPage extends React.Component<Props, State> {
 		};
 
 		// @ts-ignore
-		const members = selectedMembers.map(memberOption => memberOption.value);
+		const members = selectedMembers.map((memberOption) => memberOption.value);
 
 		const tripN = {
 			...trip,
@@ -170,23 +181,41 @@ class TripEditPage extends React.Component<Props, State> {
 		});
 	};
 
+	getSelectOptionsFromTripMembers = (trip: Trip): ValueType<OptionType> => {
+		const {users} = this.props;
+		if (trip && trip.members && users) {
+			// @ts-ignore
+			return trip.members.map((memberId) => ({label: users[memberId].username, value: memberId}));
+		}
+	};
+
 	render() {
 		const {classes, users} = this.props;
 		const {trip, selectedMembers} = this.state;
 		const {title, description, startdate, enddate} = trip;
 
 		const selectableUsers = isLoaded(users) && !isEmpty(users)
-			// @ts-ignore
-			? Object.keys(users).map((id) => ({label: users[id].username, value: id}))
+			? Object.keys(users)
+				.filter((id) => id !== trip.owner)
+				// @ts-ignore
+				.map((id) => ({label: users[id].username, value: id}))
 			: [];
 
 		return (
 			<div className={classes.locationEditPage}>
 				<Typography
 					variant='h4'
-					gutterBottom={true}
 				>
 					Edit Trip
+				</Typography>
+				<Typography
+					variant={'subtitle1'}
+					gutterBottom={true}
+				>
+					{
+						// @ts-ignore
+						trip && trip.owner && users && `create by ${users[trip.owner].username}`
+					}
 				</Typography>
 
 				<div>
@@ -282,18 +311,6 @@ class TripEditPage extends React.Component<Props, State> {
 
 }
 
-function getSelectOptionsFromTripMembers(trip: Trip): ValueType<OptionType> {
-	if (trip && trip.members) {
-		return trip.members.map((member) => ({label: '', value: !!(member.id) ? member.id : member}))
-	}
-}
-
-function mapMember(member: string): ValueType<OptionType> {
-	return ({label: '', value: member});
-}
-function mapMember(member: User): ValueType<OptionType> {
-	return ({label: '', value: member.id});
-}
 
 export default compose(
 	withRouter,
@@ -307,9 +324,10 @@ export default compose(
 		}];
 	}),
 	connect(
-		({firestore: {data}}: any, props: Props) => {
+		({firebase, firestore: {data}}: any, props: Props) => {
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];
 			return {
+				auth: firebase.auth,
 				trip: data.TRIPS
 					&& data.TRIPS[tripId],
 				users: data.users,

@@ -167,10 +167,7 @@ export type OptionType = { label: string; value: string };
 interface MultiSelectProps extends WithStyles<typeof styles> {
 	theme: Theme,
 	options: GroupedOptionsType<OptionType> | OptionsType<OptionType>,
-	value: {
-		label: string,
-		value: string,
-	}[],
+	value: ValueType<OptionType>,
 	label: string,
 	placeholder: string,
 	onChange: (value: ValueType<OptionType>, action: ActionMeta) => void,
