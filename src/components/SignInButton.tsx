@@ -9,6 +9,7 @@ const SignInButton = () =>
 		<Button
 			type='button'
 			color='secondary'
+			variant='outlined'
 		>
 			Sign In
 		</Button>
