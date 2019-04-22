@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MenuIcon from '@material-ui/icons/Menu';
 import classNames from 'classnames';
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
@@ -160,6 +160,7 @@ const withDrawer = (Component: React.ComponentType<any>): any => {
 
     interface State {
         open: boolean;
+        searchTerm: string;
     }
 
     class AppWrapper extends React.Component<Props, State> {
@@ -176,8 +177,9 @@ const withDrawer = (Component: React.ComponentType<any>): any => {
         this.setState({open: false});
     };
 
-    onInputChange = (e) => {
+    onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({searchTerm: e.target.value});
+        console.log(this.state);
     };
 
     onButtonClick = () => {
