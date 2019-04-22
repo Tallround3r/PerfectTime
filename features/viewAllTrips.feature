@@ -1,3 +1,5 @@
+# Features tagged with @only are working, all others are not
+
 Feature: View all trips that I own, or that I am a member of
 
   Scenario: I can access view all trips

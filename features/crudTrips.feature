@@ -1,3 +1,5 @@
+# Features tagged with @only are working, all others are not
+
 Feature: CRUD trips
 
   Scenario: I can view a trip that I own

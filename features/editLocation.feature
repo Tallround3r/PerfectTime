@@ -1,3 +1,5 @@
+# Features tagged with @only are working, all others are not
+
 Feature: Edit data of existing location
 
   Scenario: The editLocation button is not visible for the user

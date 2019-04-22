@@ -1,3 +1,5 @@
+# Features tagged with @only are working, all others are not
+
 Feature: Create new location for a trip
 
 #  @only - not working bc check if btn null

@@ -1,3 +1,5 @@
+# Features tagged with @only are working, all others are not
+
 Feature: Register to PerfectTime is working
 
   Background:

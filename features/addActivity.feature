@@ -1,3 +1,5 @@
+# Features tagged with @only are working, all others are not
+
 Feature: Create new activity for a location
 
   @only #- not working bc check if btn null
