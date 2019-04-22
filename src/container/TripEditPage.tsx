@@ -4,12 +4,15 @@ import classNames from 'classnames';
 import DatePicker from 'material-ui-pickers/DatePicker';
 import React, {ChangeEvent, FormEvent, MouseEvent} from 'react';
 import {connect} from 'react-redux';
-import {firestoreConnect} from 'react-redux-firebase';
+import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
+import {ActionMeta, ValueType} from 'react-select/lib/types';
 import {compose} from 'redux';
 import {isEqual} from 'underscore';
+import MultiSelect, {OptionType} from '../components/MultiSelect';
 import * as routes from '../constants/routes';
 import {Trip} from '../types/trip';
+import {User} from '../types/user';
 import {datePickerMask} from '../utils/datePickerUtils';
 import {parseDateIfValid} from '../utils/parser';
 
@@ -69,16 +72,27 @@ const styles = (theme: Theme) => createStyles({
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	firestore: any;
 	trip: Trip;
+	users: User[];
 }
 
 interface State {
 	trip: Trip;
+	selectedMembers: ValueType<OptionType> // Array<{ label: string; value: string }>
 }
+
+const INITIAL_TRIP: Trip = {
+	title: '',
+	description: '',
+	startdate: null,
+	enddate: null,
+};
+
 
 class TripEditPage extends React.Component<Props, State> {
 
 	state = {
-		trip: this.props.trip,
+		trip: this.props.trip || INITIAL_TRIP,
+		selectedMembers: getSelectOptionsFromTripMembers(this.props.trip) || [],
 	};
 
 	componentDidUpdate(prevProps: Props, prevState: State, snapshot: any) {
@@ -92,14 +106,22 @@ class TripEditPage extends React.Component<Props, State> {
 
 	handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		const {firestore, match, history} = this.props;
-		const {trip} = this.state;
+		const {trip, selectedMembers} = this.state;
 
 		const firestoreRef = {
 			collection: 'TRIPS',
 			doc: match.params[routes.URL_PARAM_TRIP],
 		};
 
-		firestore.set(firestoreRef, trip);
+		// @ts-ignore
+		const members = selectedMembers.map(memberOption => memberOption.value);
+
+		const tripN = {
+			...trip,
+			members,
+		};
+
+		firestore.set(firestoreRef, tripN);
 
 		history.push(routes.TRIPS());
 
@@ -142,10 +164,21 @@ class TripEditPage extends React.Component<Props, State> {
 		});
 	};
 
+	handleChangeMembers = (value: ValueType<OptionType>, {action}: ActionMeta) => {
+		this.setState({
+			selectedMembers: value,
+		});
+	};
+
 	render() {
-		const {classes} = this.props;
-		const {trip} = this.state;
+		const {classes, users} = this.props;
+		const {trip, selectedMembers} = this.state;
 		const {title, description, startdate, enddate} = trip;
+
+		const selectableUsers = isLoaded(users) && !isEmpty(users)
+			// @ts-ignore
+			? Object.keys(users).map((id) => ({label: users[id].username, value: id}))
+			: [];
 
 		return (
 			<div className={classes.locationEditPage}>
@@ -213,6 +246,13 @@ class TripEditPage extends React.Component<Props, State> {
 								fullWidth={true}
 							/>
 						</div>
+						<MultiSelect
+							options={selectableUsers}
+							label={'Members'}
+							placeholder={'Select Members...'}
+							value={selectedMembers}
+							onChange={this.handleChangeMembers}
+						/>
 
 						<div className={classes.actionButtonsContainer}>
 							<Button
@@ -242,6 +282,19 @@ class TripEditPage extends React.Component<Props, State> {
 
 }
 
+function getSelectOptionsFromTripMembers(trip: Trip): ValueType<OptionType> {
+	if (trip && trip.members) {
+		return trip.members.map((member) => ({label: '', value: !!(member.id) ? member.id : member}))
+	}
+}
+
+function mapMember(member: string): ValueType<OptionType> {
+	return ({label: '', value: member});
+}
+function mapMember(member: User): ValueType<OptionType> {
+	return ({label: '', value: member.id});
+}
+
 export default compose(
 	withRouter,
 	firestoreConnect((props: Props) => {
@@ -249,6 +302,8 @@ export default compose(
 		return [{
 			collection: 'TRIPS',
 			doc: tripId,
+		}, {
+			collection: 'users',
 		}];
 	}),
 	connect(
@@ -257,6 +312,7 @@ export default compose(
 			return {
 				trip: data.TRIPS
 					&& data.TRIPS[tripId],
+				users: data.users,
 			};
 		},
 	),
