@@ -157,7 +157,7 @@ class SignIn extends React.Component<Props, State> {
 								/>
 							</FormControl>
 
-							{error && <p className={classes.errorMessage}>{error}</p>}
+							{error && <p className={classes.errorMessage}>{error.message}</p>}
 
 							<Button
 								type='submit'
