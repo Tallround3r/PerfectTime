@@ -152,10 +152,10 @@ export default compose(
 		({firebase, firestore: {data}}: any, props: Props) => {
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];
 			return {
-				auth: firebase.auth,
 				trip: data.TRIPS
 					&& data.TRIPS[tripId],
 				users: data.users,
+				auth: firebase.auth,
 			};
 		},
 	),
