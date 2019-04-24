@@ -11,7 +11,7 @@ import {
 	WithStyles,
 	withStyles,
 } from '@material-ui/core';
-import {Edit} from '@material-ui/icons';
+import {Edit, PersonAdd} from '@material-ui/icons';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
@@ -34,11 +34,16 @@ const styles = (theme: Theme) => createStyles({
 	editIcon: {
 		marginRight: theme.spacing.unit,
 	},
+	icon: {
+		margin: theme.spacing.unit * 2,
+	},
 });
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
+	firestore: any;
 	trip: Trip,
 	users: User[],
+	auth: any,
 }
 
 class MembersPage extends React.Component<Props> {
@@ -47,6 +52,33 @@ class MembersPage extends React.Component<Props> {
 		const {history, match} = this.props;
 
 		history.push(routes.TRIPS_EDIT(match.params[routes.URL_PARAM_TRIP]));
+	};
+
+	handleFollowUser = (userToFollow : any) => {
+		const {users, auth} = this.props;
+		const {firestore, match, history} = this.props;
+
+		const user = users[auth.uid];
+
+		console.log(users);
+		console.log(auth);
+
+		const firestoreRef = {
+			collection: 'users',
+			doc: this.props.auth.uid,
+		};
+
+		const following = [...user.following];
+		following.push(userToFollow);
+		console.log(following);
+
+		const userUpdated = {
+			...user,
+			following,
+		};
+		console.log(userUpdated);
+
+		firestore.set(firestoreRef, userUpdated);
 	};
 
 	render() {
@@ -90,7 +122,7 @@ class MembersPage extends React.Component<Props> {
 									return (
 										<TableRow key={userId}>
 											<TableCell component='th' scope='row'>
-												{username}
+												{username}  <Button onClick={() => this.handleFollowUser(userId)} disabled={false}><PersonAdd className={classes.icon}/></Button>
 											</TableCell>
 											<TableCell>
 												{firstName}
@@ -124,6 +156,7 @@ export default compose(
 		({firebase, firestore: {data}}: any, props: Props) => {
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];
 			return {
+				auth: firebase.auth,
 				trip: data.TRIPS
 					&& data.TRIPS[tripId],
 				users: data.users,
