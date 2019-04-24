@@ -119,8 +119,8 @@ export default compose(withRouter,
         ({firestore: {data}}: any, props: UserViewPageProps) => {
             const userId = props.match.params[routes.URL_PARAM_USER];
             return {
-                activity: data.USERS
-                    && data.USERS[userId]
+                activity: data.users
+                    && data.users[userId]
             };
         },
     ),

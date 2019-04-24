@@ -25,6 +25,7 @@ import {menuItems} from './MenuItems';
 import SignInButton from './SignInButton';
 import SignOutButton from './SignOutButton';
 import withAuthorization from './withAuthorization';
+import AccountButton from "./AccountButton";
 
 
 const withDrawer = (Component: React.ComponentType<any>): any => {
@@ -195,6 +196,8 @@ const withDrawer = (Component: React.ComponentType<any>): any => {
 								>
 									Perfect Time — Plan Your Trip
 								</Typography>
+
+								<AccountButton/>
 
 								{isEmpty(auth) ? <SignInButton/> : <SignOutButton/>}
 							</Toolbar>
