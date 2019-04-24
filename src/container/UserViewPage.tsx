@@ -22,7 +22,7 @@ const INITIAL_USER: User = {
         firstName: '',
         lastName: '',
         email: '',
-        memberSince: Date.prototype,
+        memberSince: new Date(),
         country: '',
         language: '',
     };
@@ -114,14 +114,14 @@ export default compose(withRouter,
     firestoreConnect((props: UserViewPageProps) => {
         const userId = props.match.params[routes.URL_PARAM_USER];
         return [
-            `User/${userId}`,
+            `users/${userId}`,
         ];
     }),
     connect(
         ({firestore: {data}}: any, props: UserViewPageProps) => {
             const userId = props.match.params[routes.URL_PARAM_USER];
             return {
-                activity: data.users
+                user: data.users
                     && data.users[userId]
             };
         },

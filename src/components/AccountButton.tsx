@@ -1,18 +1,28 @@
 import Button from '@material-ui/core/Button';
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, RouteComponentProps} from 'react-router-dom';
 import * as routes from '../constants/routes';
+import {connect} from "react-redux";
 
-const userId : string = '2JZ179iMcxZ6uH7lkTpGJxCDvbF3'; // hard coded test user id
+interface AccountButtonProps {
+    auth: any,
+}
 
-const AccountButton = () =>
-    <Link to={routes.USER(userId)}>
+const AccountButton = (props: AccountButtonProps) =>
+<Link to={routes.USER(props.auth.uid)}>
     <Button
         type='button'
         color='secondary'
     >
     Account
+        {console.log(props.auth)}
     </Button>
     </Link>;
 
-export default AccountButton;
+export default
+connect(
+    ({firebase: {auth}}: any) => ({
+        auth,
+    }),
+)
+(AccountButton);
