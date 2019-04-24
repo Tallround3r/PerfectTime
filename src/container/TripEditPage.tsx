@@ -4,12 +4,15 @@ import classNames from 'classnames';
 import DatePicker from 'material-ui-pickers/DatePicker';
 import React, {ChangeEvent, FormEvent, MouseEvent} from 'react';
 import {connect} from 'react-redux';
-import {firestoreConnect} from 'react-redux-firebase';
+import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
+import {ActionMeta, ValueType} from 'react-select/lib/types';
 import {compose} from 'redux';
 import {isEqual} from 'underscore';
+import MultiSelect, {OptionType} from '../components/MultiSelect';
 import * as routes from '../constants/routes';
 import {Trip} from '../types/trip';
+import {User} from '../types/user';
 import {datePickerMask} from '../utils/datePickerUtils';
 import {parseDateIfValid} from '../utils/parser';
 
@@ -36,6 +39,7 @@ const styles = (theme: Theme) => createStyles({
 	},
 	inputHorizontalSpacing: {
 		marginRight: theme.spacing.unit * 2,
+		marginBottom: theme.spacing.unit * 3,
 	},
 	addressLabel: {
 		marginTop: theme.spacing.unit * 2,
@@ -64,42 +68,71 @@ const styles = (theme: Theme) => createStyles({
 	activitiesContainer: {
 		marginTop: theme.spacing.unit * 6,
 	},
+	divider: {
+		height: theme.spacing.unit * 3,
+	}
 });
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	firestore: any;
 	trip: Trip;
+	users: User[];
 }
 
 interface State {
 	trip: Trip;
+	selectedMembers: ValueType<OptionType> // Array<{ label: string; value: string }>
 }
+
+const INITIAL_TRIP: Trip = {
+	title: '',
+	description: '',
+	startdate: null,
+	enddate: null,
+};
+
 
 class TripEditPage extends React.Component<Props, State> {
 
 	state = {
-		trip: this.props.trip,
+		trip: this.props.trip || INITIAL_TRIP,
+		selectedMembers: [],
 	};
 
+	componentDidMount(): void {
+		this.setState({
+			selectedMembers: this.getSelectOptionsFromTripMembers(this.props.trip),
+		});
+	}
+
 	componentDidUpdate(prevProps: Props, prevState: State, snapshot: any) {
-		const {trip} = this.props;
-		if (!isEqual(trip, prevProps.trip)) {
+		const {trip, users} = this.props;
+		if (!isEqual(trip, prevProps.trip) || !isEqual(users, prevProps.users)) {
 			this.setState({
 				trip,
+				selectedMembers: this.getSelectOptionsFromTripMembers(trip),
 			});
 		}
 	}
 
 	handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		const {firestore, match, history} = this.props;
-		const {trip} = this.state;
+		const {trip, selectedMembers} = this.state;
 
 		const firestoreRef = {
 			collection: 'TRIPS',
 			doc: match.params[routes.URL_PARAM_TRIP],
 		};
 
-		firestore.set(firestoreRef, trip);
+		// @ts-ignore
+		const members = selectedMembers.map((memberOption) => memberOption.value);
+
+		const tripN = {
+			...trip,
+			members,
+		};
+
+		firestore.set(firestoreRef, tripN);
 
 		history.push(routes.TRIPS());
 
@@ -142,18 +175,47 @@ class TripEditPage extends React.Component<Props, State> {
 		});
 	};
 
+	handleChangeMembers = (value: ValueType<OptionType>, {action}: ActionMeta) => {
+		this.setState({
+			selectedMembers: value,
+		});
+	};
+
+	getSelectOptionsFromTripMembers = (trip: Trip): ValueType<OptionType> => {
+		const {users} = this.props;
+		if (trip && trip.members && users) {
+			// @ts-ignore
+			return trip.members.map((memberId) => ({label: users[memberId].username, value: memberId}));
+		}
+	};
+
 	render() {
-		const {classes} = this.props;
-		const {trip} = this.state;
+		const {classes, users} = this.props;
+		const {trip, selectedMembers} = this.state;
 		const {title, description, startdate, enddate} = trip;
+
+		const selectableUsers = isLoaded(users) && !isEmpty(users)
+			? Object.keys(users)
+				.filter((id) => id !== trip.owner)
+				// @ts-ignore
+				.map((id) => ({label: users[id].username, value: id}))
+			: [];
 
 		return (
 			<div className={classes.locationEditPage}>
 				<Typography
 					variant='h4'
-					gutterBottom={true}
 				>
 					Edit Trip
+				</Typography>
+				<Typography
+					variant={'subtitle1'}
+					gutterBottom={true}
+				>
+					{
+						// @ts-ignore
+						trip && trip.owner && users && `create by ${users[trip.owner].username}`
+					}
 				</Typography>
 
 				<div>
@@ -213,6 +275,13 @@ class TripEditPage extends React.Component<Props, State> {
 								fullWidth={true}
 							/>
 						</div>
+						<MultiSelect
+							options={selectableUsers}
+							label={'Members'}
+							placeholder={'Select Members...'}
+							value={selectedMembers}
+							onChange={this.handleChangeMembers}
+						/>
 
 						<div className={classes.actionButtonsContainer}>
 							<Button
@@ -242,6 +311,7 @@ class TripEditPage extends React.Component<Props, State> {
 
 }
 
+
 export default compose(
 	withRouter,
 	firestoreConnect((props: Props) => {
@@ -249,14 +319,18 @@ export default compose(
 		return [{
 			collection: 'TRIPS',
 			doc: tripId,
+		}, {
+			collection: 'users',
 		}];
 	}),
 	connect(
-		({firestore: {data}}: any, props: Props) => {
+		({firebase, firestore: {data}}: any, props: Props) => {
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];
 			return {
+				auth: firebase.auth,
 				trip: data.TRIPS
 					&& data.TRIPS[tripId],
+				users: data.users,
 			};
 		},
 	),

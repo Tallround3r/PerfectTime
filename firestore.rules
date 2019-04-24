@@ -6,8 +6,8 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
-      allow read, update, delete: if request.auth.uid == userId;
-      allow create;
+      allow read, create;
+      allow update, delete: if request.auth.uid == userId;
   	}
 
   	match /presence/{document=**} {
