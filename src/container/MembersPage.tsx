@@ -20,6 +20,8 @@ import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import {Trip} from '../types/trip';
 import {User} from '../types/user';
+import {ValueType} from "react-select/lib/types";
+import {OptionType} from "../components/MultiSelect";
 
 const styles = (theme: Theme) => createStyles({
 	root: {
@@ -56,27 +58,20 @@ class MembersPage extends React.Component<Props> {
 
 	handleFollowUser = (userToFollow : any) => {
 		const {users, auth} = this.props;
-		const {firestore, match, history} = this.props;
-
-		const user = users[auth.uid];
-
-		console.log(users);
-		console.log(auth);
+		const {firestore} = this.props;
+		const currentUser = users[auth.uid];
 
 		const firestoreRef = {
 			collection: 'users',
-			doc: this.props.auth.uid,
+			doc: auth.uid,
 		};
 
-		const following = [...user.following];
+		const following = [...currentUser.following];
 		following.push(userToFollow);
-		console.log(following);
-
 		const userUpdated = {
-			...user,
+			...currentUser,
 			following,
 		};
-		console.log(userUpdated);
 
 		firestore.set(firestoreRef, userUpdated);
 	};
@@ -119,10 +114,11 @@ class MembersPage extends React.Component<Props> {
 								{trip.members.map((userId) => {
 									// @ts-ignore
 									const {username, firstName, lastName} = users[userId];
+									const currentUser = users[this.props.auth.uid];
 									return (
 										<TableRow key={userId}>
 											<TableCell component='th' scope='row'>
-												{username}  <Button onClick={() => this.handleFollowUser(userId)} disabled={false}><PersonAdd className={classes.icon}/></Button>
+												{username}  <Button onClick={() => this.handleFollowUser(userId)} disabled={currentUser.following.includes(userId)}><PersonAdd className={classes.icon}/></Button>
 											</TableCell>
 											<TableCell>
 												{firstName}
