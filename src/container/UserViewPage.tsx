@@ -75,20 +75,22 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
                         <Typography>Last Name:</Typography>
                         <Typography variant='h6'>{lastName}</Typography>
                     </Paper>
-                    <Paper className={classes.paperField}>
+                </div>
+                <br/>
+                <Paper className={classes.paperField}>
                         <Typography>Mail:</Typography>
                         <Typography variant='h6'>{email}</Typography>
-                    </Paper>
-                    <Paper className={classes.paperField}>
-                        <Typography>Home Country:</Typography>
-                        <Typography variant='h6'>{country}</Typography>
-                    </Paper>
-                    <br/>
-                    <Paper className={classes.paperField}>
+                </Paper>
+                <Paper className={classes.paperField}>
+                    <Typography>Home Country:</Typography>
+                    <Typography variant='h6'>{country}</Typography>
+                </Paper>
+                <br/>
+                <Paper className={classes.paperField}>
                         <Typography>Member since:</Typography>
                         <Typography variant='h6'>{parseDateToString(memberSince)}</Typography>
-                    </Paper>
-                </div>
+                </Paper>
+
                 <hr/>
                 <NavLink exact={true} to={routes.USER_EDIT(userId)}>
                     <Button
