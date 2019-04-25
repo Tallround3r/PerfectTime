@@ -21,6 +21,7 @@ import {compose} from 'redux';
 import {AUTH_CONDITION_WITH_DRAWER} from '../constants/auth-conditions';
 import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
+import AccountButton from './AccountButton';
 import {menuItems} from './MenuItems';
 import SignInButton from './SignInButton';
 import SignOutButton from './SignOutButton';
@@ -196,11 +197,13 @@ const withDrawer = (Component: React.ComponentType<any>): any => {
 									Perfect Time — Plan Your Trip
 								</Typography>
 
+								<AccountButton/>
+
 								{isEmpty(auth) ? <SignInButton/> : <SignOutButton/>}
 							</Toolbar>
 						</AppBar>
 
-						{tripId &&
+						{!!tripId &&
 						<Hidden smDown={true}>
 							<Drawer
 								variant='permanent'

@@ -16,6 +16,7 @@ import SignUp from './SignUp';
 import TripAddPage from './TripAddPage';
 import TripEditPage from './TripEditPage';
 import TripsPage from './TripsPage';
+import UserViewPage from "./UserViewPage";
 
 
 function Main() {
@@ -32,6 +33,7 @@ function Main() {
 				<Route exact={true} path={routes.ACTIVITY_ADD()} component={withDrawer(ActivityAddPage)}/>
 				<Route exact={true} path={routes.ACTIVITY_EDIT()} component={withDrawer(ActivityEditPage)}/>
 				<Route exact={true} path={routes.ACTIVITY_VIEW()} component={withDrawer(ActivityViewPage)}/>
+				<Route exact={true} path={routes.USER_VIEW()} component={withDrawer(UserViewPage)}/>
 				<Route exact={true} path={routes.MEMBERS()} component={withDrawer(MembersPage)}/>
 				<Route exact={true} path={routes.SIGN_IN} component={SignIn}/>
 				<Route exact={true} path={routes.SIGN_UP} component={SignUp}/>

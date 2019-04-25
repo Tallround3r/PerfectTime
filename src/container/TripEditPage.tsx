@@ -70,7 +70,7 @@ const styles = (theme: Theme) => createStyles({
 	},
 	divider: {
 		height: theme.spacing.unit * 3,
-	}
+	},
 });
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
@@ -184,8 +184,11 @@ class TripEditPage extends React.Component<Props, State> {
 	getSelectOptionsFromTripMembers = (trip: Trip): ValueType<OptionType> => {
 		const {users} = this.props;
 		if (trip && trip.members && users) {
-			// @ts-ignore
-			return trip.members.map((memberId) => ({label: users[memberId].username, value: memberId}));
+			return trip.members.map((memberId) => {
+				// @ts-ignore
+				const username = users[memberId] ? users[memberId].username || '' : '';
+				return {label: username, value: memberId};
+			});
 		}
 	};
 
