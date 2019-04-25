@@ -21,11 +21,11 @@ import {compose} from 'redux';
 import {AUTH_CONDITION_WITH_DRAWER} from '../constants/auth-conditions';
 import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
+import AccountButton from './AccountButton';
 import {menuItems} from './MenuItems';
 import SignInButton from './SignInButton';
 import SignOutButton from './SignOutButton';
 import withAuthorization from './withAuthorization';
-import AccountButton from "./AccountButton";
 
 
 const withDrawer = (Component: React.ComponentType<any>): any => {
@@ -203,7 +203,7 @@ const withDrawer = (Component: React.ComponentType<any>): any => {
 							</Toolbar>
 						</AppBar>
 
-						{tripId &&
+						{!!tripId &&
 						<Hidden smDown={true}>
 							<Drawer
 								variant='permanent'
