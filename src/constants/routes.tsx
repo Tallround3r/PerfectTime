@@ -28,6 +28,7 @@ export const USER = (userId = `:${URL_PARAM_USER}`) => `/user/${userId}`;
 export const USER_VIEW = (userId = `:${URL_PARAM_USER}`) => `/user/${userId}`;
 export const USER_EDIT = (userId = `:${URL_PARAM_USER}`) => `/user/${userId}/edit`;
 export const USER_CHANGE_PASSWORD = (userId = `:${URL_PARAM_USER}`) => `/user/${userId}/changepw`;
+export const USER_CHANGE_EMAIL = (userId = `:${URL_PARAM_USER}`) => `/user/${userId}/changeemail`;
 export const USER_DELETE_ACCOUNT = (userId = `:${URL_PARAM_USER}`) => `/user/${userId}/deleteaccount`;
 
 /* URL parameter */

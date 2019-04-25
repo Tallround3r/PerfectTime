@@ -207,14 +207,23 @@ class UserEditPage extends React.Component<UserEditPageProps, State> {
                         <Typography variant='h6'>{parseDateToString(memberSince)}</Typography>
                 </Paper>
                 <div className={classes.inputHorizontalContainer}>
-                <NavLink exact={true} to={routes.USER_CHANGE_PASSWORD(userId)}>
+                <NavLink exact={true} to={routes.USER_CHANGE_EMAIL(userId)}>
                     <Button
                         color='primary'
                         variant='contained'
                         fullWidth={true}
                     >
-                        Change Email & Password
+                        Change Email
                     </Button>
+                </NavLink>
+                <NavLink exact={true} to={routes.USER_CHANGE_PASSWORD(userId)}>
+                        <Button
+                            color='primary'
+                            variant='contained'
+                            fullWidth={true}
+                        >
+                            Change Password
+                        </Button>
                 </NavLink>
                 <NavLink exact={true} to={routes.USER_DELETE_ACCOUNT(userId)}>
                     <Button
