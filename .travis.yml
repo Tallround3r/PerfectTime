@@ -5,7 +5,6 @@ branches:
   - master
 node_js:
   - "11"
-  - "node"
 warnings_are_errors: false
 install:
   - yarn
