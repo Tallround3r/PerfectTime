@@ -1,17 +1,10 @@
 import React from 'react';
-
 import {firestoreConnect, withFirebase} from 'react-redux-firebase';
-
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
-
 import {compose} from 'redux';
-
 import * as routes from '../constants/routes';
-
 import {User} from "../types/user";
-
 import {Button, Paper, Typography, withStyles, WithStyles} from "@material-ui/core";
-
 import styles from "../styles/UserViewStyles";
 import {parseDateToString} from "../utils/parser";
 import {connect} from "react-redux";
@@ -24,27 +17,26 @@ interface UserViewPageProps extends WithStyles<typeof styles>, RouteComponentPro
 
 interface State {
     user: User,
-    isOwnAccount : boolean
+    isOwnAccount: boolean
 }
 
 const INITIAL_USER: User = {
-        username: '',
-        firstName: '',
-        lastName: '',
-        email: '',
-        memberSince: new Date(),
-        country: '',
-        language: '',
-        following: [],
-
-    };
+    username: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    memberSince: new Date(),
+    country: '',
+    language: '',
+    following: [],
+};
 
 
 class UserViewPage extends React.Component<UserViewPageProps, State> {
 
     state = {
         user: this.props.user || INITIAL_USER,
-        isOwnAccount : false
+        isOwnAccount: false
     };
 
     componentDidUpdate(prevProps: UserViewPageProps, prevState: State) {
@@ -67,61 +59,61 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
 
         return (
 
-        <div className={classes.userViewPage}>
-            <Typography
-                variant='h4'
-                gutterBottom={true}
-            >
-                User details of {username}
-            </Typography>
+            <div className={classes.userViewPage}>
+                <Typography
+                    variant='h4'
+                    gutterBottom={true}
+                >
+                    User details of {username}
+                </Typography>
 
-            <div className={classes.inputContainer}>
-                <Paper className={classes.paperField}>
-                    <Typography>User Name:</Typography>
-                    <Typography variant='h6'>{username}</Typography>
-                </Paper>
-                <div className={classes.inputHorizontalContainer}>
+                <div className={classes.inputContainer}>
                     <Paper className={classes.paperField}>
-                        <Typography>First Name:</Typography>
-                        <Typography variant='h6'>
-                            {firstName}
-                        </Typography>
+                        <Typography>User Name:</Typography>
+                        <Typography variant='h6'>{username}</Typography>
                     </Paper>
+                    <div className={classes.inputHorizontalContainer}>
+                        <Paper className={classes.paperField}>
+                            <Typography>First Name:</Typography>
+                            <Typography variant='h6'>
+                                {firstName}
+                            </Typography>
+                        </Paper>
+                        <Paper className={classes.paperField}>
+                            <Typography>Last Name:</Typography>
+                            <Typography variant='h6'>{lastName}</Typography>
+                        </Paper>
+                    </div>
+                    <br/>
                     <Paper className={classes.paperField}>
-                        <Typography>Last Name:</Typography>
-                        <Typography variant='h6'>{lastName}</Typography>
-                    </Paper>
-                </div>
-                <br/>
-                <Paper className={classes.paperField}>
                         <Typography>Mail:</Typography>
                         <Typography variant='h6'>{email}</Typography>
-                </Paper>
-                <Paper className={classes.paperField} hidden={! country}>
-                    <Typography>Home Country:</Typography>
-                    <Typography variant='h6'>{country}</Typography>
-                </Paper>
-                <Paper className={classes.paperField} hidden={! language}>
-                    <Typography>Language:</Typography>
-                    <Typography variant='h6'>{language}</Typography>
-                </Paper>
-                <br/>
-                <Paper className={classes.paperField}>
+                    </Paper>
+                    <Paper className={classes.paperField} hidden={!country}>
+                        <Typography>Home Country:</Typography>
+                        <Typography variant='h6'>{country}</Typography>
+                    </Paper>
+                    <Paper className={classes.paperField} hidden={!language}>
+                        <Typography>Language:</Typography>
+                        <Typography variant='h6'>{language}</Typography>
+                    </Paper>
+                    <br/>
+                    <Paper className={classes.paperField}>
                         <Typography>Member since:</Typography>
                         <Typography variant='h6'>{parseDateToString(memberSince)}</Typography>
-                </Paper>
-                <hr/>
-                <NavLink exact={true} to={routes.USER_EDIT(userId)} hidden={!this.state.isOwnAccount}>
-                    <Button
-                        color='primary'
-                        variant='contained'
-                        fullWidth={true}
-                    >
-                        Edit Account
-                    </Button>
-                </NavLink>
+                    </Paper>
+                    <hr/>
+                    <NavLink exact={true} to={routes.USER_EDIT(userId)} hidden={!this.state.isOwnAccount}>
+                        <Button
+                            color='primary'
+                            variant='contained'
+                            fullWidth={true}
+                        >
+                            Edit Account
+                        </Button>
+                    </NavLink>
+                </div>
             </div>
-        </div>
 
         );
 
@@ -144,7 +136,7 @@ export default compose(withRouter, withFirebase, firestoreConnect((props: UserVi
             };
         },
     ),
-    connect (({firebase: {auth}}: any) => ({
+    connect(({firebase: {auth}}: any) => ({
         auth,
     })),
     withStyles(styles),

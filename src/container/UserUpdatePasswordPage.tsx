@@ -225,7 +225,7 @@ class UserUpdatePasswordPage extends React.Component<UserUpdatePasswordPageProps
                             >
                                 Change Password
                             </Button>
-                            <br/>
+                            <br/> <br/>
                             <NavLink exact={true} to={routes.USER_VIEW(this.props.auth.uid)}>
                                 <Button
                                     color='primary'

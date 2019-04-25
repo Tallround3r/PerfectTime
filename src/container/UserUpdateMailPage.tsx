@@ -209,6 +209,7 @@ class UserUpdateMailPage extends React.Component<UserUpdateMailPageProps, State>
                                 Change Email-Address
                             </Button>
                             <br/>
+                            <br/>
                             <NavLink exact={true} to={routes.USER_VIEW(this.props.auth.uid)}>
                                 <Button
                                     color='primary'
