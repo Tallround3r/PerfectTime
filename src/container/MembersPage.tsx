@@ -118,7 +118,7 @@ class MembersPage extends React.Component<Props> {
 									return (
 										<TableRow key={userId}>
 											<TableCell component='th' scope='row'>
-												{username}  <Button onClick={() => this.handleFollowUser(userId)} disabled={currentUser.following.includes(userId)}><PersonAdd className={classes.icon}/></Button>
+												{username}  <Button onClick={() => this.handleFollowUser(userId)} disabled={!!currentUser && currentUser.following.includes(userId)}><PersonAdd className={classes.icon}/></Button>
 											</TableCell>
 											<TableCell>
 												{firstName}
