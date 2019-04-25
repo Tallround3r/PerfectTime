@@ -28,6 +28,8 @@ const INITIAL_USER: User = {
         memberSince: new Date(),
         country: '',
         language: '',
+        following: [],
+
     };
 
 
