@@ -12,6 +12,7 @@ import {connect} from "react-redux";
 interface UserEditPageProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
     user: User,
     firestore: any,
+    auth: any,
 }
 
 interface State {
@@ -43,6 +44,15 @@ class UserEditPage extends React.Component<UserEditPageProps, State> {
             });
         }
     }
+
+    componentDidMount(): void {
+        const {match} = this.props;
+        if(match.params[routes.URL_PARAM_USER] != this.props.auth.uid)
+        {
+            this.navigateBack();
+        }
+    }
+
     navigateBack = () => {
         const {history, match} = this.props;
         const userId = match.params[routes.URL_PARAM_USER];
@@ -243,6 +253,8 @@ export default compose(withRouter,
                     && data.users[userId]
             };
         },
-    ),
+    ),connect (({firebase: {auth}}: any) => ({
+        auth,
+    })),
     withStyles(styles),
 )(UserEditPage);

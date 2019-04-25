@@ -101,8 +101,6 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
                         <Typography>Member since:</Typography>
                         <Typography variant='h6'>{parseDateToString(memberSince)}</Typography>
                 </Paper>
-                {console.log(this.state)}
-                {console.log(this.props)}
                 <hr/>
                 <NavLink exact={true} to={routes.USER_EDIT(userId)} hidden={!this.state.isOwnAccount}>
                     <Button

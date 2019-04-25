@@ -96,33 +96,34 @@ class UserDeletePage extends React.Component<UserDeletePageProps, State> {
         const {history, firebase} = this.props;
         const {firestore, match} = this.props;
 
-        const credentials = {
-            email,
-            password,
-        };
-        const firebaseUser = this.props.firebase.auth().currentUser;
+        const credentials = firebase.auth.EmailAuthProvider.credential(
+              email,
+              password
+         );
         const userId = this.props.auth.uid;
-        const firestoreRef = {
-            collection: 'users',
-            doc: match.params[userId],
-        };
-        firebase.reauthenticateWithCredential(credentials)
-            .then(() => {
-                firebaseUser.delete().then(() => {
-                    alert(`User deleted.`);
-                    firestore.delete(firestoreRef); // TODO: check if it is working
-                }).catch(
-                    function (error : any) {
-                        console.log(error);
-                    })
-                history.push(routes.LANDING);
-            })
+
+        firebase.auth().currentUser.reauthenticateAndRetrieveDataWithCredential(credentials)
             .catch((error: any) => {
                 alert("An error occurred. Please check your credentials")
                 this.setState({
                     error,
                 });
-            });
+            })
+            .then(() => {
+                firestore.collection('users').doc(userId).delete();
+                firebase.auth().currentUser.delete()
+                    .catch(
+                        function (error : any) {
+                            console.log(error);
+                            alert("An Error occurred while deleting the account.");
+                        })
+                    .then(() => {
+                    alert(`User deleted.`);
+                        history.push(routes.SIGN_IN);
+                })
+
+            })
+            ;
 
         e.preventDefault();
     };
