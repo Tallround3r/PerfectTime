@@ -217,7 +217,7 @@ class TripEditPage extends React.Component<Props, State> {
 				>
 					{
 						// @ts-ignore
-						trip && trip.owner && users && `create by ${users[trip.owner].username}`
+						trip && trip.owner && users && users[trip.owner] && `create by ${users[trip.owner].username}`
 					}
 				</Typography>
 

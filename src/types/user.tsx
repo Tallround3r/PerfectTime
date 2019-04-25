@@ -1,5 +1,5 @@
 export interface User {
-	[key: string]: string | Date | undefined | Array<string>,
+	[key: string]: string | Date | undefined | string[],
 
 	id?: string,
 	username: string,
@@ -9,5 +9,5 @@ export interface User {
 	memberSince: Date,
 	country?: string,
 	language?: string,
-	following: Array<string>,
+	following: string[],
 }
