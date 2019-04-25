@@ -9,12 +9,14 @@ import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 import React, {ChangeEvent, FormEvent} from 'react';
-import {withFirebase} from 'react-redux-firebase';
+import {firestoreConnect, withFirebase} from 'react-redux-firebase';
 import {Link, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
 import isValid from '../utils/validation/validateSignIn';
+import {connect} from "react-redux";
+import {User} from "../types/user";
 
 
 const styles = (theme: Theme) => createStyles({
@@ -55,11 +57,14 @@ const styles = (theme: Theme) => createStyles({
 	},
 });
 
-interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
+interface UserDeletePageProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
+	user: User,
 	firebase: any,
+	firestore: any,
 }
 
 interface State {
+	user:User;
 	email: string;
 	password: string;
 	error: any;
@@ -70,13 +75,22 @@ interface State {
 
 
 const INITIAL_STATE: State = {
+	user: {
+		username: '',
+		firstName: '',
+		lastName: '',
+		email: '',
+		memberSince: new Date(),
+		country: '',
+		language: '',
+	},
 	email: '',
 	password: '',
 	error: null,
 	submitted: false,
 };
 
-class UserDeletePage extends React.Component<Props, State> {
+class UserDeletePage extends React.Component<UserDeletePageProps, State> {
 
 	state = {...INITIAL_STATE};
 
@@ -91,11 +105,21 @@ class UserDeletePage extends React.Component<Props, State> {
 			email,
 			password,
 		};
-
-		firebase.login(credentials)
+		const firebaseUser = firebase.auth().currentUser;
+		const userId = firebaseUser.uid;
+		const firestoreRef = {
+			collection: 'users',
+			doc: match.params[routes.URL_PARAM_USER],
+		};
+		firebase.reauthenticateWithCredential(credentials)
 			.then(() => {
-				this.setState({...INITIAL_STATE});
-				history.push(routes.TRIPS());
+				firebaseUser.delete().then( () => {
+					alert(`User deleted.`);
+					firestore.delete(firestoreRef); // TODO: check if it is working
+				}).catch(
+					function(error){
+						alert('An error occured, please try again later');})
+				history.push(routes.LANDING);
 			})
 			.catch((error: any) => {
 				this.setState({
@@ -116,6 +140,7 @@ class UserDeletePage extends React.Component<Props, State> {
 	render() {
 		const {classes} = this.props;
 		const {
+			user,
 			email,
 			password,
 			error,
@@ -131,7 +156,7 @@ class UserDeletePage extends React.Component<Props, State> {
 							<img src={logo} className={classes.logo} alt='Logo'/>
 						</Link>
 
-						<Typography variant='h5'>Sign In</Typography>
+						<Typography variant='h5'>Delete Account</Typography>
 
 						<form className={classes.form} onSubmit={this.handleSubmit}>
 							<FormControl margin='normal' required={true} fullWidth={true}>
@@ -168,15 +193,10 @@ class UserDeletePage extends React.Component<Props, State> {
 								className={classes.submit}
 								disabled={submitted || !isValid(email, password)}
 							>
-								Login
+								Delete Account
 							</Button>
 						</form>
 
-						<p>
-							Don't have an account?
-							{' '}
-							<Link to={routes.SIGN_UP} id={'signIn'}>Sign Up</Link>
-						</p>
 					</Paper>
 				</main>
 			</React.Fragment>
@@ -187,5 +207,19 @@ class UserDeletePage extends React.Component<Props, State> {
 export default compose(
 	withFirebase,
 	withStyles(styles),
-	withRouter,
+	withRouter, firestoreConnect((props: UserDeletePagePropsPageProps) => {
+		const userId = props.match.params[routes.URL_PARAM_USER];
+		return [
+			`users/${userId}`,
+		];
+	}),
+	connect(
+		({firestore: {data}}: any, props: UserDeletePagePropsPageProps) => {
+			const userId = props.match.params[routes.URL_PARAM_USER];
+			return {
+				user: data.users
+					&& data.users[userId]
+			};
+		},
+	),
 )(UserDeletePage);

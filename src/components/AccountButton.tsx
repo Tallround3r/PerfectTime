@@ -15,7 +15,6 @@ const AccountButton = (props: AccountButtonProps) =>
         color='secondary'
     >
     Account
-        {console.log(props.auth)}
     </Button>
     </Link>;
 
