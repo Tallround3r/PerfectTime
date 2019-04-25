@@ -145,7 +145,7 @@ class UserEditPage extends React.Component<UserEditPageProps, State> {
                     name='country'
                     value={country}
                     onChange={this.handleChangeInput}
-                    required={true}
+                    required={false}
                 />
                 <TextField
                     className={classes.inputField}
@@ -153,12 +153,32 @@ class UserEditPage extends React.Component<UserEditPageProps, State> {
                     name='language'
                     value={language}
                     onChange={this.handleChangeInput}
-                    required={true}
+                    required={false}
                 />
                 <cite>
                     The language setting will not change the application setting. This feature is still to be developed.
                 </cite>
                 <br/>
+                <div className={classes.actionButtonsContainer}>
+                    <Button
+                        className={classes.actionButton}
+                        type='submit'
+                        variant='contained'
+                        color='primary'
+                        fullWidth={true}
+                    >
+                        Save Changes
+                    </Button>
+                    <Button
+                        className={classes.actionButton}
+                        variant='contained'
+                        color='secondary'
+                        fullWidth={true}
+                        onClick={this.handleCancel}
+                    >
+                        Cancel
+                    </Button>
+                </div>
             </form>
             <hr/>
             <div className={classes.inputContainer}>
@@ -196,26 +216,7 @@ class UserEditPage extends React.Component<UserEditPageProps, State> {
                 </NavLink>
                 <hr/>
             </div>
-            <div className={classes.actionButtonsContainer}>
-                <Button
-                    className={classes.actionButton}
-                    type='submit'
-                    variant='contained'
-                    color='primary'
-                    fullWidth={true}
-                >
-                    Save Changes
-                </Button>
-                <Button
-                    className={classes.actionButton}
-                    variant='contained'
-                    color='secondary'
-                    fullWidth={true}
-                    onClick={this.handleCancel}
-                >
-                    Cancel
-                </Button>
-            </div>
+
             </div>
 
 

@@ -85,6 +85,10 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
                     <Typography>Home Country:</Typography>
                     <Typography variant='h6'>{country}</Typography>
                 </Paper>
+                <Paper className={classes.paperField}>
+                    <Typography>Language:</Typography>
+                    <Typography variant='h6'>{language}</Typography>
+                </Paper>
                 <br/>
                 <Paper className={classes.paperField}>
                         <Typography>Member since:</Typography>
