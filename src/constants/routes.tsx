@@ -24,8 +24,12 @@ export const ACTIVITY_EDIT = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${UR
 export const ACTIVITY_VIEW = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${URL_PARAM_LOCATION}`, activityId = `:${URL_PARAM_ACTIVITY}`) =>
 	`/trips/${tripId}/locations/${locationId}/activity/${activityId}`;
 
+export const USER = (userId = `:${URL_PARAM_USER}`) => `/user/${userId}`;
+export const USER_VIEW = (userId = `:${URL_PARAM_USER}`) => `/user/${userId}`;
+export const USER_EDIT = (userId = `:${URL_PARAM_USER}`) => `/user/${userId}/edit`;
 
 /* URL parameter */
 export const URL_PARAM_TRIP = 'tripId';
 export const URL_PARAM_LOCATION = 'locationId';
 export const URL_PARAM_ACTIVITY = 'activityId';
+export const URL_PARAM_USER = 'userId';

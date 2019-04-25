@@ -113,8 +113,12 @@ class MembersPage extends React.Component<Props> {
 							<TableBody>
 								{trip.members.map((userId) => {
 									// @ts-ignore
-									const {username, firstName, lastName} = users[userId];
-									const currentUser = users[this.props.auth.uid];
+									const {username, firstName, lastName} = users[userId] || {
+										username: 'Loading...',
+										firstName: '',
+										lastName: '',
+									};
+                  const currentUser = users[this.props.auth.uid];
 									return (
 										<TableRow key={userId}>
 											<TableCell component='th' scope='row'>
