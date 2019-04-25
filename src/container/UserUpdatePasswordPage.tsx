@@ -14,9 +14,8 @@ import {Link, NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
-import isValid from '../utils/validation/validateSignIn';
+import isValid from '../utils/validation/validateUpdatePW';
 import {connect} from "react-redux";
-import {User} from "../types/user";
 
 
 const styles = (theme: Theme) => createStyles({
@@ -83,7 +82,7 @@ const INITIAL_STATE: State = {
     submitted: false,
 };
 
-class UserUpdatePasswordPage extends React.Component<UserDeletePageProps, State> {
+class UserUpdatePasswordPage extends React.Component<UserUpdatePasswordPageProps, State> {
 
     state = {
             email: this.props.auth.email ,
@@ -136,6 +135,7 @@ class UserUpdatePasswordPage extends React.Component<UserDeletePageProps, State>
         e.preventDefault();
     };
 
+    // matches the name attribute of the HTMLInputElement to a variable from state
     handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
         this.setState({
@@ -164,18 +164,18 @@ class UserUpdatePasswordPage extends React.Component<UserDeletePageProps, State>
                             <img src={logo} className={classes.logo} alt='Logo'/>
                         </Link>
 
-                        <Typography variant='h5'>Change Email-Address</Typography>
+                        <Typography variant='h5'>Change Password</Typography>
                         <Typography variant='h6'>Warning:</Typography>
-                        <Typography variant='h6'>This changes the login mail-address.</Typography>
+                        <Typography variant='h6'>This changes the login password.</Typography>
 
                         <form className={classes.form} onSubmit={this.handleSubmit}>
                             <FormControl margin='normal' required={true} fullWidth={true}>
                                 <InputLabel htmlFor='email'>Email</InputLabel>
                                 <Input
-                                    id='email-old'
+                                    id='email'
                                     autoFocus={true}
-                                    name='email-old'
-                                    autoComplete='email-old'
+                                    name='email'
+                                    autoComplete='email'
                                     value={email}
                                     onChange={this.handleChangeInput}
                                 />
@@ -187,27 +187,26 @@ class UserUpdatePasswordPage extends React.Component<UserDeletePageProps, State>
                                     name='password'
                                     type='password'
                                     id='password'
-                                    autoComplete='current-password'
                                     value={password}
                                     onChange={this.handleChangeInput}
                                 />
                             </FormControl>
                             <FormControl margin='normal' required={true} fullWidth={true}>
-                                <InputLabel htmlFor='email'>Email</InputLabel>
+                                <InputLabel htmlFor='passwordNew'>New Password</InputLabel>
                                 <Input
-                                    id='password-new'
-                                    name='password-new'
-                                    autoComplete='password-new'
+                                    id='passwordNew'
+                                    name='passwordNew'
+                                    type='password'
                                     value={passwordNew}
                                     onChange={this.handleChangeInput}
                                 />
                             </FormControl>
                             <FormControl margin='normal' required={true} fullWidth={true}>
-                                <InputLabel htmlFor='email'>Email</InputLabel>
+                                <InputLabel htmlFor='passwordNewCheck'>New Password</InputLabel>
                                 <Input
-                                    id='password-new-check'
-                                    name='password-new-check'
-                                    autoComplete='password-new-check'
+                                    id='passwordNewCheck'
+                                    name='passwordNewCheck'
+                                    type='password'
                                     value={passwordNewCheck}
                                     onChange={this.handleChangeInput}
                                 />
@@ -222,7 +221,7 @@ class UserUpdatePasswordPage extends React.Component<UserDeletePageProps, State>
                                 variant='contained'
                                 color='primary'
                                 className={classes.submit}
-                                disabled={submitted || !isValid(email, password)}
+                                disabled={submitted || !isValid(email, password, passwordNewCheck, passwordNew)}
                             >
                                 Change Password
                             </Button>

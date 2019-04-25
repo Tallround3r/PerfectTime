@@ -206,12 +206,12 @@ class UserEditPage extends React.Component<UserEditPageProps, State> {
                         <Typography>Member since:</Typography>
                         <Typography variant='h6'>{parseDateToString(memberSince)}</Typography>
                 </Paper>
-                <div className={classes.inputHorizontalContainer}>
+                <div className={classes.actionButtonsContainer}>
                 <NavLink exact={true} to={routes.USER_CHANGE_EMAIL(userId)}>
                     <Button
                         color='primary'
                         variant='contained'
-                        fullWidth={true}
+                        fullWidth={false}
                     >
                         Change Email
                     </Button>
@@ -220,7 +220,7 @@ class UserEditPage extends React.Component<UserEditPageProps, State> {
                         <Button
                             color='primary'
                             variant='contained'
-                            fullWidth={true}
+                            fullWidth={false}
                         >
                             Change Password
                         </Button>
@@ -229,7 +229,7 @@ class UserEditPage extends React.Component<UserEditPageProps, State> {
                     <Button
                         color='primary'
                         variant='contained'
-                        fullWidth={true}
+                        fullWidth={false}
                     >
                         Delete Account
                     </Button>

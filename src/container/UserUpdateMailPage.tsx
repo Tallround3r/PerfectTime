@@ -14,9 +14,8 @@ import {Link, NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
-import isValid from '../utils/validation/validateSignIn';
+import isValid from '../utils/validation/validateUpdateMail';
 import {connect} from "react-redux";
-import {User} from "../types/user";
 
 
 const styles = (theme: Theme) => createStyles({
@@ -142,6 +141,7 @@ class UserUpdateMailPage extends React.Component<UserUpdateMailPageProps, State>
         const {classes} = this.props;
         const {
             email,
+            emailNew,
             password,
             error,
             submitted,
@@ -162,23 +162,23 @@ class UserUpdateMailPage extends React.Component<UserUpdateMailPageProps, State>
 
                         <form className={classes.form} onSubmit={this.handleSubmit}>
                             <FormControl margin='normal' required={true} fullWidth={true}>
-                                <InputLabel htmlFor='email'>Email</InputLabel>
+                                <InputLabel htmlFor='email'>Current Email</InputLabel>
                                 <Input
-                                    id='email-old'
+                                    id='email'
                                     autoFocus={true}
-                                    name='email-old'
-                                    autoComplete='email-old'
+                                    name='email'
+                                    autoComplete='email'
                                     value={email}
                                     onChange={this.handleChangeInput}
                                 />
                             </FormControl>
                             <FormControl margin='normal' required={true} fullWidth={true}>
-                                <InputLabel htmlFor='email'>Email</InputLabel>
+                                <InputLabel htmlFor='emailNew'>New Email</InputLabel>
                                 <Input
-                                    id='email-new'
+                                    id='emailNew'
                                     autoFocus={true}
-                                    name='email-new'
-                                    autoComplete='email-new'
+                                    name='emailNew'
+                                    autoComplete='emailNew'
                                     value={emailNew}
                                     onChange={this.handleChangeInput}
                                 />
@@ -204,7 +204,7 @@ class UserUpdateMailPage extends React.Component<UserUpdateMailPageProps, State>
                                 variant='contained'
                                 color='primary'
                                 className={classes.submit}
-                                disabled={submitted || !isValid(email, password)}
+                                disabled={submitted || !isValid(email, emailNew, password)}
                             >
                                 Change Email-Address
                             </Button>
