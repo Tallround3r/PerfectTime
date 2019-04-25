@@ -1,11 +1,10 @@
 language: node_js
-node_js:
-  - "11"
 # safelist
 branches:
   only:
   - master
 node_js:
+  - "11"
   - "node"
 warnings_are_errors: false
 install:
