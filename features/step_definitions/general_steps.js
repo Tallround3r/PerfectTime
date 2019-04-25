@@ -29,7 +29,7 @@ Given('I am logged in', async function () {
 
 Given('I am not logged in', async function () {
     // Write code here that turns the phrase above into concrete actions
-    //return 'pending';
+    return 'pending';
 });
 
 Then('There is no {string}', async function (element) {

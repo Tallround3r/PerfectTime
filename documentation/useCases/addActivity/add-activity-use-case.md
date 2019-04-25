@@ -47,9 +47,9 @@ Link to [feature file](../../../features/addActivity.feature).
 
 
 ## 5 Function Points
-Tool from [http://groups.umd.umich.edu](http://groups.umd.umich.edu/cis/course.des/cis375/projects/fp99/main.html)
+Tool from [http://groups.umd.umich.edu](http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html)
 
-The score is 23.8 function points.
+The score is 37.72 function points.
 
 #### Domain Characteristic Table
 

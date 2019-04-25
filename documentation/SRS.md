@@ -3,7 +3,7 @@
 [mu0]: ../src/images/logo_perfecttime.svg "PT Logo"
 
 # Software Requirements Specification 
-Last updated: 2nd December 2018
+Last updated: April 15th, 2019
 
 ## 1.	Introduction
 For our course Software Engineering we are creating a web application. Our application is called Perfect Time – plan your trip. 
@@ -92,6 +92,22 @@ The registered users can also chat with each other within a travel community (al
 #### 3.1.3	CRUD
 Any registered users can create a trip / travel for him-/herself. The owner of a trip can also delete the trip. The owner of a trip can also edit a trip. He or she can make a trip public or private and enable the blog function. For a future version of Perfect Time, it is planned to allow custom fields for each individual trip / location / activity. The user will be able to define these fields in the edit menu of the item. The add menu will only contain the standardized fields.
 Any trip members can edit the information contained in a trip. They can add meta data (i.e. budget, time frame, country, etc.). They can add locations to the trip and edit the information of the location (place, date, costs, etc.). They can also add activities to the locations.
+
+#### 3.1.4 Use Cases
+The functionality (as described above) of the application can be separated in different Use Cases. Adding more use cases in the future is likely, since the project is still under development.
+- [CRUD trips](./useCases/CRUDTrips/CRUD_trips.md): Working with trips to plan a travel.
+	- Special use case: [View all trips](./useCases/CRUDTrips/ViewAllTrips.md) (public or own trips)
+- CRUD locations: Have several locations during a trip.
+	- [Add location](./useCases/addLocation/addLocation_useCase.md): Add new location
+	- [Edit location](./useCases/editLocation/EditLocation_UseCase.md): Edit existing location (add custom fields) (incl. R&D)
+- CRUD activities: Have several activities at a location.
+	- [Add activity](./useCases/addActivity/add-activity-use-case.md): Add a new activity
+	- [Edit activity](./useCases/editActivity/editActivity_useCase.md): Edit existing location (add custom fields) (incl. R&D)
+- [Register / Login](./useCases/register/register_useCase.md): Allows User to create an account and log in.
+- [User Management](./useCases/RUDaccount/RUD_account.md): A user can edit his account and own a or be member of a trip.
+- [Export Trip](./useCases/exportTrips/exportTrip_UseCase.md): The user can export and save the trip data.
+- [Copy Trip](./useCases/copyTrip/copyTrip_UseCase.md): The user can copy a (public) trip into a new own trip.
+
 
 ### 3.2	Usability 
 #### 3.2.1	User training

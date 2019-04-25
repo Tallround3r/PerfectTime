@@ -39,14 +39,21 @@ Link to [feature file](../../../features/editActivity.feature).
 ## 4 Postconditions
 1. Synchronize database with updated data.
 
-## 6 Function Points
-not needed yet
-<!--<Tool from http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html-->
+## 5 Function Points
+Tool from [http://groups.umd.umich.edu](http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html)
 
-<!--The score is 28.48 function Points.-->
+The score is 37.72 function points.
 
-<!--![function points file missing][fp]-->
+#### Domain Characteristic Table
 
-<!--[fp]: ./EditLocation_FunctionPoints.PNG "Function Points">-->
+![function points file missing][fp1]
+
+[fp1]: ./editActivity_fpDomain.PNG "Domain Characterictics"
+
+#### Complexity Adjustment Table
+
+![function points file missing][fp2]
+
+[fp2]: ./editActivity_fpComplexity.PNG "Complexity Adjustments"
 
 
