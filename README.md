@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b0ef64629e3349d89318a9c0047b2414)](https://app.codacy.com/app/Tallround3r/PerfectTime?utm_source=github.com&utm_medium=referral&utm_content=Tallround3r/PerfectTime&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.org/Tallround3r/PerfectTime.svg?branch=master)](https://travis-ci.org/Tallround3r/PerfectTime) ![Uptime Robot status](https://img.shields.io/uptimerobot/status/m782529085-a22a193ca6454b749aea34bb.svg)
 
 # PerfectTime
