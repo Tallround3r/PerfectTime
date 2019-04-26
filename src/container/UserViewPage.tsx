@@ -1,7 +1,7 @@
 import {Button, Paper, Typography, withStyles, WithStyles} from '@material-ui/core';
 import React from 'react';
 import {connect} from 'react-redux';
-import {firestoreConnect} from 'react-redux-firebase';
+import {firestoreConnect, withFirebase} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
@@ -11,10 +11,13 @@ import {parseDateToString} from '../utils/parser';
 
 interface UserViewPageProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	user: User,
+	firebase: any,
+	auth: any,
 }
 
 interface State {
 	user: User,
+	isOwnAccount: boolean
 }
 
 const INITIAL_USER: User = {
@@ -25,6 +28,7 @@ const INITIAL_USER: User = {
 	memberSince: new Date(),
 	country: '',
 	language: '',
+	following: [],
 };
 
 
@@ -32,10 +36,13 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
 
 	state = {
 		user: this.props.user || INITIAL_USER,
+		isOwnAccount: false,
 	};
 
 	componentDidUpdate(prevProps: UserViewPageProps, prevState: State) {
 		const {user} = this.props;
+		const {match} = this.props;
+		this.state.isOwnAccount = (match.params[routes.URL_PARAM_USER] == this.props.auth.uid);
 		if (user !== prevProps.user) {
 			this.setState({
 				user,
@@ -48,6 +55,7 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
 		const {user} = this.state;
 		const {username, firstName, lastName, email, memberSince, country, language} = user;
 		const userId = match.params[routes.URL_PARAM_USER];
+		this.state.isOwnAccount = (userId == this.props.auth.uid);
 
 		return (
 
@@ -81,18 +89,21 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
 						<Typography>Mail:</Typography>
 						<Typography variant='h6'>{email}</Typography>
 					</Paper>
-					<Paper className={classes.paperField}>
+					<Paper className={classes.paperField} hidden={!country}>
 						<Typography>Home Country:</Typography>
 						<Typography variant='h6'>{country}</Typography>
+					</Paper>
+					<Paper className={classes.paperField} hidden={!language}>
+						<Typography>Language:</Typography>
+						<Typography variant='h6'>{language}</Typography>
 					</Paper>
 					<br/>
 					<Paper className={classes.paperField}>
 						<Typography>Member since:</Typography>
 						<Typography variant='h6'>{parseDateToString(memberSince)}</Typography>
 					</Paper>
-
 					<hr/>
-					<NavLink exact={true} to={routes.USER_EDIT(userId)}>
+					<NavLink exact={true} to={routes.USER_EDIT(userId)} hidden={!this.state.isOwnAccount}>
 						<Button
 							color='primary'
 							variant='contained'
@@ -110,8 +121,7 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
 	}
 }
 
-export default compose(withRouter,
-	firestoreConnect((props: UserViewPageProps) => {
+export default compose(withRouter, withFirebase, firestoreConnect((props: UserViewPageProps) => {
 		const userId = props.match.params[routes.URL_PARAM_USER];
 		return [
 			`users/${userId}`,
@@ -126,5 +136,8 @@ export default compose(withRouter,
 			};
 		},
 	),
+	connect(({firebase: {auth}}: any) => ({
+		auth,
+	})),
 	withStyles(styles),
 )(UserViewPage);

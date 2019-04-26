@@ -15,6 +15,7 @@ import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
 import isValid from '../utils/validation/validateSignUp';
+import {maskArray} from "react-text-mask";
 
 
 const styles = (theme: Theme) => createStyles({
@@ -75,6 +76,7 @@ interface State {
 	password: string,
 	passwordConfirm: string,
 	error: any,
+	following: Array<string>,
 	submitted: boolean,
 
 	[key: string]: any,
@@ -88,6 +90,7 @@ const INITIAL_STATE: State = {
 	password: '',
 	passwordConfirm: '',
 	error: null,
+	following: [],
 	submitted: false,
 };
 
@@ -102,6 +105,7 @@ class SignUp extends React.Component<Props, State> {
 			password,
 			firstName,
 			lastName,
+			following,
 		} = this.state;
 		const {history, firebase} = this.props;
 
@@ -115,6 +119,7 @@ class SignUp extends React.Component<Props, State> {
 			email,
 			firstName,
 			lastName,
+			following,
 			memberSince: new Date(),
 		};
 
@@ -152,6 +157,7 @@ class SignUp extends React.Component<Props, State> {
 			password,
 			passwordConfirm,
 			error,
+			following,
 			submitted,
 		} = this.state;
 
