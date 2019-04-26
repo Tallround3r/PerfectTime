@@ -1,6 +1,8 @@
 language: node_js
+# safelist
 node_js:
   - "node"
+  - "11"
 branches:
   only:
     - master
