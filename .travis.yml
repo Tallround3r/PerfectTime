@@ -1,6 +1,9 @@
 language: node_js
 node_js:
   - "node"
+branches:
+  only:
+    - master
 warnings_are_errors: false
 install:
   - yarn
