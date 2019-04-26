@@ -1,6 +1,10 @@
 language: node_js
+# safelist
+branches:
+  only:
+  - master
 node_js:
-  - "node"
+  - "11"
 warnings_are_errors: false
 install:
   - yarn
