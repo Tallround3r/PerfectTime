@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Tallround3r/PerfectTime.svg?branch=master)](https://travis-ci.org/Tallround3r/PerfectTime)
+[![Build Status](https://travis-ci.org/Tallround3r/PerfectTime.svg?branch=master)](https://travis-ci.org/Tallround3r/PerfectTime) [![Uptime](/uptime-robot/status/:m782529085-a22a193ca6454b749aea34bb)]
 
 # PerfectTime
 Trip Planning Tool
