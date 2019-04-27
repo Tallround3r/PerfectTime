@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.org/Tallround3r/PerfectTime.svg?branch=master)](https://travis-ci.org/Tallround3r/PerfectTime) ![Uptime Robot status](https://img.shields.io/uptimerobot/status/m782529085-a22a193ca6454b749aea34bb.svg) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a218b469a8a94a0799da3a26740ecd38)](https://www.codacy.com/app/Tallround3r/PerfectTime?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Tallround3r/PerfectTime&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.org/Tallround3r/PerfectTime.svg?branch=master)](https://travis-ci.org/Tallround3r/PerfectTime) ![Uptime Robot status](https://img.shields.io/uptimerobot/status/m782529085-a22a193ca6454b749aea34bb.svg) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a218b469a8a94a0799da3a26740ecd38)](https://www.codacy.com/app/Tallround3r/PerfectTime?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Tallround3r/PerfectTime&amp;utm_campaign=Badge_Grade) [![codecov](https://codecov.io/gh/Tallround3r/PerfectTime/branch/master/graph/badge.svg)](https://codecov.io/gh/Tallround3r/PerfectTime)
+
+
 
 # PerfectTime
 Trip Planning Tool
