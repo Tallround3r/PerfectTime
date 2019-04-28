@@ -90,7 +90,10 @@ This Test Plan for PerfectTime supports the following objectives:
 
 ### 1.2 Scope
 
-The scope of testing our project consist of three parts: Unit testing the JavaScript logic inside our React frontend, functional testing the ReactJS frontend and XXX third test variant
+The scope of testing our project consist of several parts:
+- Unit testing the JavaScript logic inside our React frontend, so that we can be sure our calculations and checks work properly
+- Functional testing the React frontend, so that the provided functions are proven to work and to test access levels of users. Also the UI the user interacts with is tested with these tests.
+- Installation testing to be sure that the automatic deployment of the appplication works.
 
 ### 1.3 Intended Audience
 
@@ -129,16 +132,16 @@ See Table of Contents.
 
 ## 2. Evaluation Mission and Test Motivation
 
-The motivation behind our testing is to find bugs, as well as logical and funtional errors in our application and its sourcecode. Due to this we will be able to improve quality and reduce technical risks. It will help us realising our use cases and in providing a stable application.
+The motivation behind our testing approach is to find bugs, as well as logical and funtional errors in our application and its sourcecode. Due to this we will be able to improve quality and reduce technical risks. It will help us realising our use cases and in providing a stable application.
 
 ### 2.1 Background
 
-With testing our Project we will make sure that any changes at the sourcecode wont result in a broken application. By integrating the tests in our deployment process we are save, that only working versions of our project are gettin deployed to our Firebase server. This will make sure that our Applikation has a high availability and is functionally correct all the time.
+With testing our project we will make sure that any changes at the sourcecode wont result in a broken application. By integrating the tests in our deployment process we are save, that only working versions of our project are gettin deployed to our Firebase server. This will make sure that our application has a high availability and is functionally correct all the time.
 For more information also see Deployment View in the SAD.
 
 ### 2.2 Evaluation Mission
 
-As mention earlier we want to find bugs, as well as logical and funtional errors. We want the best experience for our users by guaranteeing this. Therefore we have to create our Application with an outstanding quality.
+As mentioned earlier we want to find bugs, as well as logical and funtional errors. We want the best experience for our users by guaranteeing this. Therefore we have to create our application with an outstanding quality.
 
 ### 2.3 Test Motivators
 
@@ -152,20 +155,22 @@ Our testing is motivated by
 
 The listing below identifies those test items (software, hardware, and supporting product elements) that have been identified as targets for testing. This list represents what items will be tested.
 
-Items for Testing:
-- logtical functions included in React (like valid email check)
-- web frontend
-- XXX
+Items for testing:
+- logical functions included in React (like valid email check)
+- web frontend (functionality and UI)
+- automated installation
 
 ## 4. Outline of Planned Tests
 
+The following section provides a high-level outline of the tests that will be performed and those that will not.
+
 ### 4.1 Outline of Test Inclusions
 
-The React functionality will be tested with unit tests. Functional tests against the frontendare performed with Cucumber and Selenium. THIRD TEST VARIANT XXX
+The React functionality will be tested with unit tests. Functional tests against the frontend are performed with Cucumber and Selenium. Security will also be tested with function tests. The installation is tested with Travis CI logs and Uptime Robot.
 
 ### 4.2 Outline of Other Candidates for Potential Inclusion
 
-Stress testing as well as load testing the application would be useful but we trust in the computing power of Google servers. Also Security and Access Control Testing is pretty useful but performed throug Google we will be save that this works.
+Stress testing as well as load testing the application would be useful but we trust in the computing power of Google servers.
 
 ### 4.3 Outline of Test Exclusions
 
@@ -173,12 +178,7 @@ Stress testing as well as load testing the application would be useful but we tr
 - Volume Testing
 - Performance Profiling
 - Data and Database Integrity Testing
-- Failover and Recovery Testing
 - Configuration Testing
-- Installation Testing
-- User Interface Testing
-
--> ONE OF THEM IS OUR THIRD...
 
 ## 5. Test Approach
 
@@ -192,50 +192,91 @@ Stress testing as well as load testing the application would be useful but we tr
 
 ### 5.2 Testing Techniques and Types
 
-#### 5.2.1	Unit Testing
-|| |
-|---|---|
-|Technique Objective  	| Unit tests are testing the correct functionality of React functions such as checking for a valid email adress. |
-|Technique 		|  For unit testing Jest ist used. Jest uses simple JS files to define what the tests shall do and are easily executable. |
-|Oracles 		|  Unit tests can be started manually in the CLI as well as through the WebStorm IDE. Also integration in travis deployment is possible. To see wether the test is green or not Jest will check if the "toBe" value is correct. |
-|Required Tools 	|  Jest, Travis, Codecov|
-|Success Criteria	|    The Success Criteria is, that all Tests complete successfully. This means that the logic is implemented propperly. Coverage > X%     |
-|Special Considerations	|     Not everything in the PerfectTime application can be tested with unit tests. There is much Data that is just fetched from the Database and then shown to the user and less logical functions that only require internal React data. |
+#### 5.2.1 Data and Database Integrity Testing
+
+n/a
 
 #### 5.2.2 Function Testing
 
 || |
 |---|---|
-|Technique Objective  	| Proving that the functionalities of the Use Cases work on screen. Especially functional requirements are tested|
-|Technique 		|  We use Selenium and Cucumber to function test our Application. Cucumber provides feature files to define the functionality. Selenium is needed to execute the tests in an automated Web Browser.  |
+|Technique Objective  	| Proving that the functionalities of the use cases work on screen. Especially functional requirements are tested|
+|Technique 		|  We use Selenium and Cucumber to function test our application. Cucumber provides feature files to define the functionality. Selenium is needed to execute the tests in an automated web browser.  |
 |Oracles 		|  Function tests can be started manually in the CLI as well as through the WebStorm IDE. Also integration in travis deployment is possible.   |
-|Required Tools 	| Selenium + Cucumber (+ travisCI)	 |
-|Success Criteria	|     	The Success Criteria is, that all Tests complete successfully. This means that all tested Use Cases work propperly.        |
+|Required Tools 	| Selenium + Cucumber (+ TravisCI)	 |
+|Success Criteria	|     	The Success Criteria is, that all tests complete successfully. This means that all tested use cases work properly.        |
 |Special Considerations	|     n/a         |
 
-#### 5.2.3 tbd
+#### 5.2.3 Business Cycle Testing
 
-#### 5.2.3 Data and Database Integrity Testing
+n/a
 
-#### 5.2.4 Business Cycle Testing
+#### 5.2.4 User Interface Testing
 
-#### 5.2.5 User Interface Testing
+|| |
+|---|---|
+|Technique Objective  	| These tests ensure that the functionality we want to provide to the user through our UI is proven to work.|
+|Technique 		|  On the one side required tests are written for some use cases, which will perform automatically. On the other side every team member who uses the site will open bugs on git if something isnt working.|
+|Oracles 		|  Manually found issues are reported directly, automatically checked tests will fail if functionality is not working.   |
+|Required Tools 	| Selenium + Cucumber (+ TravisCI), git	 |
+|Success Criteria	|     	The Success Criteria is, that all Tests complete successfully. This means that the UI works properly. Also criteria is that no issues are found during code check.        |
+|Special Considerations	|     n/a         |
 
-#### 5.2.6 Performance Profiling
+#### 5.2.5 Performance Profiling
 
-#### 5.2.7 Load Testing
+n/a
 
-#### 5.2.8 Stress Testing
+#### 5.2.6 Load Testing
 
-#### 5.2.9 Volume Testing
+n/a
 
-#### 5.2.10 Security and Access Control Testing
+#### 5.2.7 Stress Testing
 
-#### 5.2.11 Failover and Recovery Testing
+n/a
 
-#### 5.2.12 Configuration Testing
+#### 5.2.8 Volume Testing
 
-#### 5.2.13 Installation Testing
+n/a
+
+#### 5.2.9 Security and Access Control Testing
+
+|| |
+|---|---|
+|Technique Objective  	| These tests ensure two major needs: <br/> - That only users who have permisson to acess different pages (like edit pages of trips) have access to these pages <br/> - And that unauthorized access to the backend and database systems is prevented. (-> Done by Google Firebase)|
+|Technique 		|  To prevent the first objective to happen we ensure that code is proven by several members of the Team when checking it into master. Also some of the function tests are covering this objective. <br/> The second Objective is handeled by Goolge Firebase.|
+|Oracles 		|  Manually found issues are Reported directly, automatically checked tests will fail if functionality not working.   |
+|Required Tools 	| Selenium + Cucumber (+ TravisCI), git	 |
+|Success Criteria	|     	The Success Criteria is, that all Tests complete successfully. This means that there are no security reasons. Also criteria is that no issues are found during code check.        |
+|Special Considerations	|     n/a         |
+
+#### 5.2.10  Failover and Recovery Testing
+
+n/a
+
+#### 5.2.11 Configuration Testing
+
+n/a
+
+#### 5.2.12 Installation Testing
+
+|| |
+|---|---|
+|Technique Objective  	| This test is to make sure that it is possible to deploy the application with an automated Travis CI server onto the Google Firebase webserver.|
+|Technique 		|  The build on Travis will perform automatically if all tests are green. After that the application will be deployed. Errors are logged by Travis. Also we have a checker wether the website is online or not which is a badge in our repo.
+|Oracles 		|  If Travis fails the logs need to be checked. If the site is not online also the logs need to be checked and furthermore the Firebase server status.
+|Required Tools 	| TavisCI, Uptime Robot, Firebase
+|Success Criteria	|     	The Success Criteria is, that the website is deployed properly and the server is up.
+|Special Considerations	|     n/a         |
+
+#### 5.2.13 Unit Testing
+|| |
+|---|---|
+|Technique Objective  	| Unit tests are testing the correct functionality of React functions such as checking for a valid email adress. |
+|Technique 		|  For unit testing Jest is used. Jest uses simple JS files to define what the tests shall do and are easily executable. |
+|Oracles 		|  Unit tests can be started manually in the CLI as well as through the WebStorm IDE. Also integration in Travis deployment is possible. To see wether the test is green or not Jest will check if the "toBe" value is correct. |
+|Required Tools 	|  Jest, Travis, Codecov|
+|Success Criteria	|    The Success Criteria is, that all Tests complete successfully. This means that the logic is implemented propperly.|
+|Special Considerations	|     Not everything in the PerfectTime application can be tested with unit tests. There is many data that is just fetched from the database and then shown to the user (no unit to test) and less logical functions that only require internal React data. |
 
 ## 6. Entry and Exit Criteria
 
@@ -243,7 +284,7 @@ Stress testing as well as load testing the application would be useful but we tr
 
 #### 6.1.1 Test Plan Entry Criteria
 
-The Test Plan can be begin as soon as the testing environment is set. Jest need to be installed, Cucumber and Selenium alredy working. After that the test will be executed manually. To automate all the testing TravisCI need to be set up, which is alredy done. Then with every commit or pull request to the master branch all tests are performed.
+The Test Plan can begin as soon as the testing environment is set. Jest need to be installed, Cucumber and Selenium alredy working. After installing the tests will be executed manually. To automate all the testing TravisCI need to be set up, which is alredy done. Then with every commit or pull request to the master branch all tests are performed.
 
 #### 6.1.2 Test Plan Exit Criteria
 
@@ -251,7 +292,7 @@ The testing on PerfectTime can end either when the Project has finished and is r
 
 #### 6.1.3  Suspension and Resumption Criteria
 
-Test will be suspended if there are critical need that need to be implemented in short time because stakeholders need it. After implementing it is important to resume the Test Plan.
+Test will be suspended if there are critical needs that must to be implemented in short time because stakeholders want it. After implementing it is important to resume the Test Plan.
 
 ### 6.2 Test Cycles
 
@@ -270,26 +311,30 @@ A Test Cycle is fulfilled when every test is green and functionality is guarante
 Travis runs all tests and will fail the build if tests arent passed, an overview can be seen on our travis page.
 Travis Build: https://travis-ci.org/Tallround3r/PerfectTime
 
-Output of Cucumber tests when they success:
+Output of Cucumber function tests when they success:
 ![Cucumber Tests](./Midterms/testCoverage.jpg)
 
-more images tbd
+more images of unit tests tbd
 
 ### 7.2 Reporting on Test Coverage
 
-The test coverage percentage can be found at the Badge in our GitHub repo. The coverage is calculated with CodeCov.
-Test Coverage will be calculated with every commit or pull request on master during the resulting build process.
-https://github.com/Tallround3r/PerfectTime/blob/master/README.md
+The test coverage percentage can be found at the badge in our GitHub repo. The coverage is calculated with CodeCov.
+Test coverage will be calculated with every commit or pull request on master during the resulting build process.
+https://codecov.io/gh/Tallround3r/PerfectTime
 
 ### 7.3 Perceived Quality Reports
 
-Code Quality will be measured with codacy. It given a diagramm overview over Issues found in the code, relating to the date. The issues are seperated in Security, Error Prone, Code Style, Compatibility, Unused Code and Performance. Quality Badge in our repo will indicate how good the code is. Quality is checked daily.
+Code quality will be measured with codacy. It gives a diagramm overview over found issues in the code, relating to the date. The issues are seperated in Security, Error Prone, Code Style, Compatibility, Unused Code and Performance. The quality badge in our repo will indicate how good the code is. Quality is checked daily.
+https://app.codacy.com/project/Tallround3r/PerfectTime/dashboard
 
-Test Coverage is creating multiple graphes, showing the test coverage of the project, the folders and the files.
+Test coverage is creating multiple graphes, showing the test coverage of the project, the folders and the files.
+https://codecov.io/gh/Tallround3r/PerfectTime
 
 adding images tbd
 
 ### 7.4 Incident Logs and Change Requests
+
+Here are the badges from pur GitHub repo:
 
 [![Build Status](https://travis-ci.org/Tallround3r/PerfectTime.svg?branch=master)](https://travis-ci.org/Tallround3r/PerfectTime) ![Uptime Robot status](https://img.shields.io/uptimerobot/status/m782529085-a22a193ca6454b749aea34bb.svg) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a218b469a8a94a0799da3a26740ecd38)](https://www.codacy.com/app/Tallround3r/PerfectTime?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Tallround3r/PerfectTime&amp;utm_campaign=Badge_Grade) [![codecov](https://codecov.io/gh/Tallround3r/PerfectTime/branch/master/graph/badge.svg)](https://codecov.io/gh/Tallround3r/PerfectTime)
 
@@ -311,7 +356,7 @@ n/a
 
 #### 7.6.3 Test Guidelines
 
-The Unit, XXX and Function tests need to cover all functionalities, covered by the tested use case. Pushes to the GitHub repo ale only allowed if all tests are passed and green. Befor automatic thestin in the build Process tests need to run locally.
+The unit, installation, function and security tests need to cover all functionalities, covered by the tested use cases. Pushes to the GitHub repo are only allowed if all tests are passed and green. Befor automatic testing in the build Process tests need to run locally.
 
 #### 7.6.4 Traceability Matrices
 
@@ -319,8 +364,8 @@ n/a
 
 ## 8. Testing Workflow
 
-Tests are runnin automatically on every travis build. When passing the build is published to the server. Tests mean Unit, Function and XXX tests. The deployment is triggered by git commits and pull requests.
-Furthermore the test coverage it evaluated by CodeCov and visualised in diagrams. Also a Badge is added in the GitHub repo.
+Tests are running automatically on every Travis build. When passing the build is published to the server. Tests mean unit, function, security and installation tests. The deployment is triggered by GitHub commits and pull requests. Pull requests come from a differnt testing and development branch, which is not the master branch.
+Furthermore the test coverage it evaluated by CodeCov and visualised in diagrams. Also a badge is added in the GitHub repo.
 Code Quality is evaluated with codacy and also results in a diagram.
 
 Beside running all the tests automatically tests need to get passed in the local environment of every developer.
@@ -349,7 +394,7 @@ The following base software elements are required in the test environment for th
 | Chromedriver |  11 | Application |
 | Firefox |  66	| Internet Browser |
 | Edge |  44	| Internet Browser |
-| Node.js |  11	| Serverside JavaScript |
+| Node.js |  11	| Serverside JS |
 | WebStorm |  2018.3.1	| IDE, Test Development |
 | React |  16.8	| Framework for JS |
 
@@ -373,11 +418,11 @@ The following Test Environment Configurations needs to be provided and supported
 
 | Configuration Name | Description | Implemented in Physical Configuration |
 |---|---|---|
-| Average user configuration | User needs WebStorm or similar IDE, Node.js, cloned GitHub repo, installed dependencies | n/a |
-| Minimal configuration supported |  To run tests at minimum Node.JS is needed	| n/a |
+| Average user configuration | User needs WebStorm or similar IDE, Node.js, cloned GitHub repo, installed dependencies | PC, notebook, internet, power supply |
+| Minimal configuration supported |  To run tests at minimum Node.JS is needed	| see above |
 | Visually and mobility challenged |  n/a | n/a |
 | International Double Byte OS |  n/a	| n/a |
-| Network installation (not client) |  Network build up by Node.js	| n/a |
+| Network installation (not client) |  Network build up by Node.js	| PC, internet |
 
 ## 10. Responsibilities, Staffing, and Training Needs
 
@@ -385,7 +430,6 @@ The following Test Environment Configurations needs to be provided and supported
 
 This table shows the staffing assumptions for the test effort.
 
-Human Resources
 
 | Role | Minimum Resources Recommended (number of full-time roles allocated) |	Specific Responsibilities or Comments |
 |---|---|---|
@@ -399,15 +443,15 @@ Human Resources
 ### 10.2 Staffing and Training Needs
 
 This section outlines how to approach staffing and training the test roles for the project.
-The whole Team is part of every step in development, testint and deployment. Therefore not anyone needs deep knowledge of every tool and Franework but basic understanding. Knowledge can easily be shared inside the Team and most technologies offer huge documentations.
+The whole Team is part of every step in development, testing and deployment. Therefore not anyone needs deep knowledge of every tool and framework but basic understanding. Knowledge can easily be transfered inside the team and most technologies offer good documentations.
 
 ## 11. Iteration Milestones
 
 | Milestone | Planned Start Date | Actual Start Date | Planned End Date | Actual End Date |
 |---|---|---|---|---|
 | Have Unit Tests | 23.04.2019 |  |  	07.05.2019 |  |
-| Have XXX Tests | 23.04.2019 |  |  	07.05.2019 |  |
-| > XX% Test Coverage |  	30.04.2019 |  |  	07.05.2019 | |
+| Have security function Tests | 23.04.2019 |  |  	07.05.2019 |  |
+| > 10% Test Coverage |  	30.04.2019 |  |  	07.05.2019 | |
 | Tests integrated in TravisCI |  	30.04.2019 |  |  	07.05.2019 |  |
 | Code Coverage Tool working| 30.04.2019 |  |  	07.05.2019 |  |
 | Code Quality Tool working| 23.04.2019 | 23.04.2019 |  07.05.2019 | 27.04.2019 |
@@ -429,7 +473,7 @@ The whole Team is part of every step in development, testint and deployment. The
 
 | Assumption to be proven | Impact of Assumption being incorrect | Owners |
 |---|---|---|
-| Any developer has same environment and same tools | Other tools, better other versiond wont work properly |  |
+| Any developer has same environment and same tools | Other tools or other versions wont work properly |  |
 |  |  |  |
 |  |  |	 |
 
