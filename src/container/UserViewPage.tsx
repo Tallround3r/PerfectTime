@@ -111,7 +111,7 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
                     >
                     User details of {username}
 
-                    {!(isLoaded(user) && isLoaded(users) && isLoaded(this.props.auth.uid))
+                    {!(isLoaded(user) && isLoaded(users) && isLoaded(this.props.auth.uid)) // users may load only partially
                         ? 'Loading user ...'
                         : <span>
 
