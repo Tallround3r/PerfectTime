@@ -10,6 +10,8 @@ warnings_are_errors: false
 install:
   - yarn
 script:
+  - npm run test
+  - npm run cucumber
   - npm run build
 deploy:
   provider: firebase
