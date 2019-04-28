@@ -1,16 +1,19 @@
 import React from 'react';
-import {firestoreConnect, withFirebase} from 'react-redux-firebase';
+import {firestoreConnect, isLoaded, withFirebase} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import {User} from "../types/user";
-import {Button, Paper, Typography, withStyles, WithStyles} from "@material-ui/core";
+import {Button, Paper, TableCell, Typography, withStyles, WithStyles} from "@material-ui/core";
 import styles from "../styles/UserViewStyles";
 import {parseDateToString} from "../utils/parser";
 import {connect} from "react-redux";
+import {PersonAdd, Stop} from "@material-ui/icons";
 
 interface UserViewPageProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
     user: User,
+    users: User[],
+    firestore: any,
     firebase: any,
     auth: any,
 }
@@ -50,21 +53,85 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
         }
     }
 
+    handleFollowUser = (userToFollow: any) => () => {
+        const {users, auth} = this.props;
+        const {firestore} = this.props;
+        const currentUser = users[auth.uid];
+
+        const firestoreRef = {
+            collection: 'users',
+            doc: auth.uid,
+        };
+
+        const following = [...currentUser.following];
+        following.push(userToFollow);
+        const userUpdated = {
+            ...currentUser,
+            following,
+        };
+
+        firestore.set(firestoreRef, userUpdated);
+    };
+
+    handleUnfollowUser = (userToUnfollow: any) => () => {
+        const {users, auth} = this.props;
+        const {firestore} = this.props;
+        const currentUser = users[auth.uid];
+
+        const firestoreRef = {
+            collection: 'users',
+            doc: auth.uid,
+        };
+
+        const following = [...currentUser.following];
+        following.splice(following.indexOf(userToUnfollow), 1);
+        const userUpdated = {
+            ...currentUser,
+            following,
+        };
+
+        firestore.set(firestoreRef, userUpdated);
+    };
+
     render() {
-        const {match, classes} = this.props;
+        const {users, match, classes} = this.props;
         const {user} = this.state;
         const {username, firstName, lastName, email, memberSince, country, language} = user;
         const userId = match.params[routes.URL_PARAM_USER];
         this.state.isOwnAccount = (userId == this.props.auth.uid);
 
+
         return (
 
             <div className={classes.userViewPage}>
+                {console.log(users)}
                 <Typography
                     variant='h4'
                     gutterBottom={true}
-                >
+                    >
                     User details of {username}
+
+                    {!(isLoaded(user) && isLoaded(users) && isLoaded(this.props.auth.uid))
+                        ? 'Loading user ...'
+                        : <span>
+
+                            <Button
+                                    onClick={this.handleFollowUser(userId)}
+                                    disabled={this.state.isOwnAccount || users[this.props.auth.uid].following.includes(userId)}
+                                    hidden={this.state.isOwnAccount || users[this.props.auth.uid].following.includes(userId)}
+                                >
+                                    <PersonAdd className={classes.icon}/>
+                            </Button>
+                                <Button
+                                    onClick={this.handleUnfollowUser(userId)}
+                                    disabled={this.state.isOwnAccount || !users[this.props.auth.uid].following.includes(userId)}
+                                    hidden={this.state.isOwnAccount || !users[this.props.auth.uid].following.includes(userId)}
+                                >
+                                    <Stop className={classes.icon}/>
+                                </Button>
+                        </span>
+                    }
+
                 </Typography>
 
                 <div className={classes.inputContainer}>
@@ -113,6 +180,17 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
                         </Button>
                     </NavLink>
                 </div>
+                <hr/>
+                <NavLink exact={true} to={routes.USER_FOLLOWS(userId)}>
+                    <Button
+                        color='primary'
+                        variant='contained'
+                        fullWidth={true}
+                    >
+                        See the people {username} is following.
+                    </Button>
+                </NavLink>
+
             </div>
 
         );
@@ -121,18 +199,24 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
     }
 }
 
-export default compose(withRouter, withFirebase, firestoreConnect((props: UserViewPageProps) => {
+export default compose(withRouter, withFirebase,
+    firestoreConnect((props: UserViewPageProps) => {
         const userId = props.match.params[routes.URL_PARAM_USER];
-        return [
-            `users/${userId}`,
-        ];
+        return [{
+            collection: 'users',
+            doc: userId,
+        }, {
+            collection: 'users',
+        }];
     }),
     connect(
-        ({firestore: {data}}: any, props: UserViewPageProps) => {
+        ({firebase, firestore: {data}}: any, props: UserViewPageProps) => {
             const userId = props.match.params[routes.URL_PARAM_USER];
             return {
                 user: data.users
-                    && data.users[userId]
+                    && data.users[userId],
+                users: data.users,
+                auth: firebase.auth,
             };
         },
     ),
