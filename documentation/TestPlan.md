@@ -166,7 +166,7 @@ The following section provides a high-level outline of the tests that will be pe
 
 ### 4.1 Outline of Test Inclusions
 
-The React functionality will be tested with unit tests. Functional tests against the frontend are performed with Cucumber and Selenium. Security will also be tested with function tests. The installation is tested with Travis CI logs and Uptime Robot.
+The React functionality will be tested with unit tests. Functional tests against the frontend are performed with Cucumber and TestCafe. Security will also be tested with function tests. The installation is tested with Travis CI logs and Uptime Robot.
 
 ### 4.2 Outline of Other Candidates for Potential Inclusion
 
@@ -186,7 +186,7 @@ Stress testing as well as load testing the application would be useful but we tr
 
 - [Jest](https://jestjs.io/)
 - [Cucumber](https://cucumber.io/)
-- [Selenium](https://www.seleniumhq.org/)
+- [TestCafe](https://github.com/DevExpress/testcafe)
 - [TravisCI](https://travis-ci.org/Tallround3r/PerfectTime)
 - [CodeCov](https://codecov.io/gh/Tallround3r/PerfectTime)
 
@@ -201,9 +201,9 @@ n/a
 || |
 |---|---|
 |Technique Objective  	| Proving that the functionalities of the use cases work on screen. Especially functional requirements are tested|
-|Technique 		|  We use Selenium and Cucumber to function test our application. Cucumber provides feature files to define the functionality. Selenium is needed to execute the tests in an automated web browser.  |
+|Technique 		|  We use TestCafe and Cucumber to function test our application. Cucumber provides feature files to define the functionality. TestCafe is needed to execute the tests in an automated web browser.  |
 |Oracles 		|  Function tests can be started manually in the CLI as well as through the WebStorm IDE. Also integration in travis deployment is possible.   |
-|Required Tools 	| Selenium + Cucumber (+ TravisCI)	 |
+|Required Tools 	| TestCafe + Cucumber (+ TravisCI)	 |
 |Success Criteria	|     	The Success Criteria is, that all tests complete successfully. This means that all tested use cases work properly.        |
 |Special Considerations	|     n/a         |
 
@@ -218,7 +218,7 @@ n/a
 |Technique Objective  	| These tests ensure that the functionality we want to provide to the user through our UI is proven to work.|
 |Technique 		|  On the one side required tests are written for some use cases, which will perform automatically. On the other side every team member who uses the site will open bugs on git if something isnt working.|
 |Oracles 		|  Manually found issues are reported directly, automatically checked tests will fail if functionality is not working.   |
-|Required Tools 	| Selenium + Cucumber (+ TravisCI), git	 |
+|Required Tools 	| TestCafe + Cucumber (+ TravisCI), git	 |
 |Success Criteria	|     	The Success Criteria is, that all Tests complete successfully. This means that the UI works properly. Also criteria is that no issues are found during code check.        |
 |Special Considerations	|     n/a         |
 
@@ -245,7 +245,7 @@ n/a
 |Technique Objective  	| These tests ensure two major needs: <br/> - That only users who have permisson to acess different pages (like edit pages of trips) have access to these pages <br/> - And that unauthorized access to the backend and database systems is prevented. (-> Done by Google Firebase)|
 |Technique 		|  To prevent the first objective to happen we ensure that code is proven by several members of the Team when checking it into master. Also some of the function tests are covering this objective. <br/> The second Objective is handeled by Goolge Firebase.|
 |Oracles 		|  Manually found issues are Reported directly, automatically checked tests will fail if functionality not working.   |
-|Required Tools 	| Selenium + Cucumber (+ TravisCI), git	 |
+|Required Tools 	| TestCafe + Cucumber (+ TravisCI), git	 |
 |Success Criteria	|     	The Success Criteria is, that all Tests complete successfully. This means that there are no security reasons. Also criteria is that no issues are found during code check.        |
 |Special Considerations	|     n/a         |
 
@@ -284,7 +284,7 @@ n/a
 
 #### 6.1.1 Test Plan Entry Criteria
 
-The Test Plan can begin as soon as the testing environment is set. Jest need to be installed, Cucumber and Selenium alredy working. After installing the tests will be executed manually. To automate all the testing TravisCI need to be set up, which is alredy done. Then with every commit or pull request to the master branch all tests are performed.
+The Test Plan can begin as soon as the testing environment is set. Jest need to be installed, Cucumber and TestCafe alredy working. After installing the tests will be executed manually. To automate all the testing TravisCI need to be set up, which is alredy done. Then with every commit or pull request to the master branch all tests are performed.
 
 #### 6.1.2 Test Plan Exit Criteria
 
@@ -410,7 +410,7 @@ The following tools will be employed to support the test process for this Test P
 | Metrics | Codecov | Codecov  | latest	 |
 | Testing | Jest | Facebook Inc  | 24.6	 |
 | Testing | Cucumber | cucumber  | latest	 |
-| Testing | Selenium | SeleniumHQ  | latest	 |
+| Testing | TestCafe | TestCafe  | latest	 |
 
 ### 9.4 Test Environment Configurations
 
