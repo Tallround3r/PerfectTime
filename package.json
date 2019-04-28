@@ -48,6 +48,7 @@
     "@firebase/app-types": "^0.3.8",
     "@types/classnames": "^2.2.7",
     "@types/dotenv": "^6.1.1",
+    "@types/jest": "^24.0.11",
     "@types/react": "^16.8.13",
     "@types/react-dom": "^16.8.4",
     "@types/react-redux": "^7.0.6",
@@ -59,6 +60,7 @@
     "@types/underscore": "^1.8.14",
     "cucumber": "^5.1.0",
     "testcafe": "^1.1.2",
+    "ts-jest": "^24.0.2",
     "tslint": "^5.15.0",
     "tslint-react": "^4.0.0",
     "typescript": "^3.4.3"
