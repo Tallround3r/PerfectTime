@@ -8,7 +8,7 @@ describe('username check', () => {
         expect(validateSignUp("", "Tim.Kertzscher@web.de", "password", "password", "name", "lastname")).toBe(false);
     });
 });
-
+ 
 describe('email check', () => {
     it('knows that Tim.Kertzscher@web.de is valid Email', () => {
         expect(validateSignUp("username", "Tim.Kertzscher@web.de", "password", "password", "name", "lastname")).toBe(true);
