@@ -152,7 +152,7 @@ class UsersFollowedPage extends React.Component<Props> {
 						</Table>
 				}
 
-				<NavLink exact={true} to={routes.USER_FOLLOWS(this.props.match.params[routes.URL_PARAM_USER])} >
+				<NavLink exact={true} to={routes.USER_VIEW(this.props.match.params[routes.URL_PARAM_USER])} >
 					<Button
 						color='primary'
 						variant='contained'
@@ -182,8 +182,9 @@ export default compose(
 		({firebase, firestore: {data}}: any, props: Props) => {
 			const userId = props.match.params[routes.URL_PARAM_USER];
 			return {
-				users: data.users
+				user: data.users
 					&& data.users[userId],
+				users: data.users,
 				auth: firebase.auth,
 			};
 		},
