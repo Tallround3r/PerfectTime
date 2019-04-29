@@ -106,6 +106,7 @@ const withDrawer = (Component: React.ComponentType<any>): any => {
 		logo: {
 			display: 'block',
 			width: '50%',
+			margin: 'auto',
 			marginBottom: '20px',
 		},
 		menuLogo: {
