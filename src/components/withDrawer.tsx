@@ -110,14 +110,13 @@ const withDrawer = (Component: React.ComponentType<any>): any => {
 			marginBottom: '20px',
 		},
 		menuLogo: {
-			display: 'block',
-			width: '7%',
 			margin: 'auto',
-			marginLeft: theme.spacing.unit * 3,
-			marginRight: theme.spacing.unit,
 		},
 		menuLogoLink: {
-			width: 'auto',
+			display: 'flex',
+			marginLeft: theme.spacing.unit * 3,
+			marginRight: theme.spacing.unit * 4,
+			width: '5%',
 		}
 	});
 
@@ -198,6 +197,7 @@ const withDrawer = (Component: React.ComponentType<any>): any => {
 									>
 										<MenuIcon/>
 									</IconButton> :
+
 									<NavLink exact={true} to={routes.TRIPS()} className={classes.menuLogoLink}>
 										<img src={logo} className={classes.menuLogo} alt='Logo'/>
 									</NavLink>
@@ -234,6 +234,9 @@ const withDrawer = (Component: React.ComponentType<any>): any => {
 						{tripId &&
 						<Hidden mdUp={true}>
 							<SwipeableDrawer
+								classes={{
+									paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
+								}}
 								onClose={this.handleDrawerClose}
 								onOpen={this.handleDrawerOpen}
 								open={this.state.open}
