@@ -11,11 +11,11 @@ import Typography from '@material-ui/core/Typography';
 import React, {ChangeEvent, FormEvent} from 'react';
 import {withFirebase} from 'react-redux-firebase';
 import {Link, RouteComponentProps, withRouter} from 'react-router-dom';
+import {maskArray} from 'react-text-mask';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
 import isValid from '../utils/validation/validateSignUp';
-import {maskArray} from "react-text-mask";
 
 
 const styles = (theme: Theme) => createStyles({
@@ -76,7 +76,7 @@ interface State {
 	password: string,
 	passwordConfirm: string,
 	error: any,
-	following: Array<string>,
+	following: string[],
 	submitted: boolean,
 
 	[key: string]: any,
@@ -110,8 +110,8 @@ class SignUp extends React.Component<Props, State> {
 		const {history, firebase} = this.props;
 
 		const credentials = {
-			email: email,
-			password: password,
+			email,
+			password,
 			signIn: 'true',
 		};
 		const profile = {
@@ -174,15 +174,15 @@ class SignUp extends React.Component<Props, State> {
 
 						<form className={classes.form} onSubmit={this.handleSubmit}>
 							<div className={classes.realNameForms}>
-								<FormControl className={classes.firstNameForm} margin='normal' required fullWidth>
+								<FormControl className={classes.firstNameForm} margin='normal' required={true} fullWidth={true}>
 									<InputLabel htmlFor='firstName'>First Name</InputLabel>
-									<Input id='firstName' autoFocus
+									<Input id='firstName' autoFocus={true}
 										   name='firstName'
 										   value={firstName}
 										   onChange={this.handleChangeInput}
 									/>
 								</FormControl>
-								<FormControl margin='normal' required fullWidth>
+								<FormControl margin='normal' required={true} fullWidth={true}>
 									<InputLabel htmlFor='lastName'>Last Name</InputLabel>
 									<Input id='lastName'
 										   name='lastName'
@@ -191,7 +191,7 @@ class SignUp extends React.Component<Props, State> {
 									/>
 								</FormControl>
 							</div>
-							<FormControl margin='normal' required fullWidth>
+							<FormControl margin='normal' required={true} fullWidth={true}>
 								<InputLabel htmlFor='username'>Username</InputLabel>
 								<Input id='username'
 									   name='username'
@@ -200,7 +200,7 @@ class SignUp extends React.Component<Props, State> {
 									   onChange={this.handleChangeInput}
 								/>
 							</FormControl>
-							<FormControl margin='normal' required fullWidth>
+							<FormControl margin='normal' required={true} fullWidth={true}>
 								<InputLabel htmlFor='email'>Email</InputLabel>
 								<Input id='email'
 									   name='email'
@@ -209,7 +209,7 @@ class SignUp extends React.Component<Props, State> {
 									   onChange={this.handleChangeInput}
 								/>
 							</FormControl>
-							<FormControl margin='normal' required fullWidth>
+							<FormControl margin='normal' required={true} fullWidth={true}>
 								<InputLabel htmlFor='password'>Password</InputLabel>
 								<Input id='password'
 									   name='password'
@@ -219,7 +219,7 @@ class SignUp extends React.Component<Props, State> {
 									   onChange={this.handleChangeInput}
 								/>
 							</FormControl>
-							<FormControl margin='normal' required fullWidth>
+							<FormControl margin='normal' required={true} fullWidth={true}>
 								<InputLabel htmlFor='passwordConfirm'>Repeat Password</InputLabel>
 								<Input id='passwordConfirm'
 									   name='passwordConfirm'
@@ -231,7 +231,7 @@ class SignUp extends React.Component<Props, State> {
 
 							{error && <p className={classes.errorMessage}>{error.message}</p>}
 
-							<Button type='submit' fullWidth
+							<Button type='submit' fullWidth={true}
 									variant='contained'
 									id='signUpButton'
 									color='primary'

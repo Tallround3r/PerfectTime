@@ -16,11 +16,11 @@ import SignUp from './SignUp';
 import TripAddPage from './TripAddPage';
 import TripEditPage from './TripEditPage';
 import TripsPage from './TripsPage';
-import UserViewPage from "./UserViewPage";
-import UserEditPage from "./UserEditPage";
-import UserDeletePage from "./UserDeletePage";
-import UserUpdateMailPage from "./UserUpdateMailPage";
-import UserUpdatePasswordPage from "./UserUpdatePasswordPage";
+import UserDeletePage from './UserDeletePage';
+import UserEditPage from './UserEditPage';
+import UserUpdateMailPage from './UserUpdateMailPage';
+import UserUpdatePasswordPage from './UserUpdatePasswordPage';
+import UserViewPage from './UserViewPage';
 
 
 function Main() {

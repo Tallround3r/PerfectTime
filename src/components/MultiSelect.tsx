@@ -74,7 +74,7 @@ function inputComponent({inputRef, ...props}: { inputRef: any }) {
 function Control(props: any) {
 	return (
 		<TextField
-			fullWidth
+			fullWidth={true}
 			InputProps={{
 				inputComponent,
 				inputProps: {
@@ -145,7 +145,7 @@ function MultiValue(props: any) {
 
 function Menu(props: any) {
 	return (
-		<Paper square className={props.selectProps.classes.paper} {...props.innerProps}>
+		<Paper square={true} className={props.selectProps.classes.paper} {...props.innerProps}>
 			{props.children}
 		</Paper>
 	);
@@ -162,7 +162,7 @@ const components = {
 	ValueContainer,
 };
 
-export type OptionType = { label: string; value: string };
+export interface OptionType { label: string; value: string }
 
 interface MultiSelectProps extends WithStyles<typeof styles> {
 	theme: Theme,
@@ -180,7 +180,7 @@ class MultiSelect extends React.Component<MultiSelectProps> {
 		const selectStyles: StylesConfig = {
 			input: (base: object) => ({
 				...base,
-				color: theme.palette.text.primary,
+				"color": theme.palette.text.primary,
 				'& input': {
 					font: 'inherit',
 				},
@@ -194,7 +194,7 @@ class MultiSelect extends React.Component<MultiSelectProps> {
 					classes={classes}
 					styles={selectStyles}
 					textFieldProps={{
-						label: label,
+						label,
 						InputLabelProps: {
 							shrink: true,
 						},
