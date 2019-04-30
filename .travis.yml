@@ -8,6 +8,7 @@ branches:
     - master
 warnings_are_errors: false
 install:
+  - npm install cucumber -g
   - yarn
 script:
   - npm run test
