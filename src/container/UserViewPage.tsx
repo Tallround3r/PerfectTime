@@ -119,7 +119,7 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
                             <Button
                                     onClick={this.handleFollowUser(userId)}
                                     // disabled={!!this.state.isOwnAccount || users[this.props.firebase.auth().uid].following.includes(userId)}
-                                    hidden={!!isOwnAccount || users[this.props.firebase.auth().uid].following.includes(userId)}
+                                    hidden={!!isOwnAccount || users[this.props.firebase.auth.uid].following.includes(userId)}
                                 >
                                     <PersonAdd className={classes.icon}/>
                             </Button>
@@ -201,6 +201,9 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
 }
 
 export default compose(withRouter, withFirebase,
+    connect(({firebase: {auth}}: any) => ({
+        auth,
+    })),
     firestoreConnect((props: UserViewPageProps) => {
         const userId = props.match.params[routes.URL_PARAM_USER];
         return [{
@@ -221,8 +224,6 @@ export default compose(withRouter, withFirebase,
             };
         },
     ),
-    connect(({firebase: {auth}}: any) => ({
-        auth,
-    })),
+
     withStyles(styles),
 )(UserViewPage);
