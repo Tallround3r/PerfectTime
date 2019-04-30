@@ -1,16 +1,45 @@
 language: node_js
+node_js:
+  - "11"
+cache: yarn
 # safelist
 branches:
   only:
-  - master
-node_js:
-  - "11"
+    - master
 warnings_are_errors: false
 install:
+  - npm install cucumber -g
   - yarn
-script:
-  - npm run build
+jobs:
+  include:
+    - stage: build
+      script:
+        - npm run build
+    - stage: Unit tests
+      dist: trusty
+      script:
+        - npm run test
+#    - stage: Function tests
+#      dist: trusty
+#      sudo: required
+#      addons:
+#        firefox: latest
+#        apt:
+#          sources:
+#          - google-chrome
+#          packages:
+#          - google-chrome-stable fluxbox
+#      before_script:
+#        - npm start &
+#        - "export DISPLAY=:99.0"
+#        - "sh -e /etc/init.d/xvfb start"
+#        - sleep 3
+#        - fluxbox >/dev/null 2>&1 &
+#      script:
+#        - sleep 120
+#        - npm run cucumbertravis
 deploy:
+  if: branch = master
   provider: firebase
   skip_cleanup: true
   token:
