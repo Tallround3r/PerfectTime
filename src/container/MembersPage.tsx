@@ -16,7 +16,7 @@ import {Edit, PersonAdd} from '@material-ui/icons';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded, populate} from 'react-redux-firebase';
-import {RouteComponentProps, withRouter} from 'react-router-dom';
+import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import {Trip} from '../types/trip';
@@ -123,7 +123,7 @@ class MembersPage extends React.Component<Props> {
 									return (
 										<TableRow key={`memberTableRow-${memberIndex}`}>
 											<TableCell component='th' scope='row'>
-												<NavLink exact={true} to={routes.USER_VIEW(userId)}>
+												<NavLink exact={true} to={routes.USER_VIEW(id)}>
 												{username}
 												</NavLink>
 												<IconButton
