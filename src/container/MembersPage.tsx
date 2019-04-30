@@ -15,7 +15,7 @@ import {Edit, PersonAdd} from '@material-ui/icons';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
-import {RouteComponentProps, withRouter} from 'react-router-dom';
+import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import {Trip} from '../types/trip';
@@ -119,7 +119,8 @@ class MembersPage extends React.Component<Props> {
 									const currentUser = users[this.props.auth.uid];
 									return (
 										<TableRow key={userId}>
-											<TableCell component='th' scope='row'>
+                                            <NavLink exact={true} to={routes.USER_VIEW(userId)}>
+                                            <TableCell component='th' scope='row'>
 												{username}
 												<Button
 													onClick={this.handleFollowUser(userId)}
@@ -128,6 +129,7 @@ class MembersPage extends React.Component<Props> {
 													<PersonAdd className={classes.icon}/>
 												</Button>
 											</TableCell>
+                                            </NavLink>
 											<TableCell>
 												{firstName}
 											</TableCell>

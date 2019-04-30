@@ -45,10 +45,11 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
     componentDidUpdate(prevProps: UserViewPageProps, prevState: State) {
         const {user} = this.props;
         const {match} = this.props;
-        this.state.isOwnAccount = (match.params[routes.URL_PARAM_USER] == this.props.auth.uid);
+        const isOwnAccount = (match.params[routes.URL_PARAM_USER] == this.props.auth.uid);
         if (user !== prevProps.user) {
             this.setState({
                 user,
+                isOwnAccount,
             });
         }
     }
@@ -95,10 +96,10 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
 
     render() {
         const {users, match, classes} = this.props;
-        const {user} = this.state;
+        const {user, isOwnAccount} = this.state;
         const {username, firstName, lastName, email, memberSince, country, language} = user;
         const userId = match.params[routes.URL_PARAM_USER];
-        this.state.isOwnAccount = (userId == this.props.auth.uid);
+
 
 
         return (
@@ -111,21 +112,21 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
                     >
                     User details of {username}
 
-                    {!(isLoaded(user) && isLoaded(users) && isLoaded(this.props.auth.uid)) // users may load only partially
-                        ? 'Loading user ...'
+                    {!(isLoaded(user) && isLoaded(users) && isLoaded(this.props.auth) && isLoaded(users[2])) // users may load only partially
+                        ? '...'
                         : <span>
-
+                            {console.log(users[this.props.firebase.auth().uid].following.includes(userId))}
                             <Button
                                     onClick={this.handleFollowUser(userId)}
-                                    disabled={this.state.isOwnAccount || users[this.props.auth.uid].following.includes(userId)}
-                                    hidden={this.state.isOwnAccount || users[this.props.auth.uid].following.includes(userId)}
+                                    // disabled={!!this.state.isOwnAccount || users[this.props.firebase.auth().uid].following.includes(userId)}
+                                    hidden={!!isOwnAccount || users[this.props.firebase.auth().uid].following.includes(userId)}
                                 >
                                     <PersonAdd className={classes.icon}/>
                             </Button>
                                 <Button
                                     onClick={this.handleUnfollowUser(userId)}
-                                    disabled={this.state.isOwnAccount || !users[this.props.auth.uid].following.includes(userId)}
-                                    hidden={this.state.isOwnAccount || !users[this.props.auth.uid].following.includes(userId)}
+                                    // disabled={!!this.state.isOwnAccount || !users[this.props.auth.uid].following.includes(userId)}
+                                    hidden={!!isOwnAccount || !users[this.props.auth.uid].following.includes(userId)}
                                 >
                                     <Stop className={classes.icon}/>
                                 </Button>
