@@ -123,7 +123,9 @@ class MembersPage extends React.Component<Props> {
 									return (
 										<TableRow key={`memberTableRow-${memberIndex}`}>
 											<TableCell component='th' scope='row'>
+												<NavLink exact={true} to={routes.USER_VIEW(userId)}>
 												{username}
+												</NavLink>
 												<IconButton
 													aria-label='Follow'
 													onClick={this.handleFollowUser(id)}
