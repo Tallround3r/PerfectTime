@@ -19,25 +19,25 @@ jobs:
       dist: trusty
       script:
         - npm run test
-    - stage: Function tests
-      dist: trusty
-      sudo: required
-      addons:
-        firefox: latest
-        apt:
-          sources:
-          - google-chrome
-          packages:
-          - google-chrome-stable fluxbox
-      before_script:
-        - npm start &
-        - "export DISPLAY=:99.0"
-        - "sh -e /etc/init.d/xvfb start"
-        - sleep 3
-        - fluxbox >/dev/null 2>&1 &
-      script:
-        - sleep 120
-        - npm run cucumbertravis
+#    - stage: Function tests
+#      dist: trusty
+#      sudo: required
+#      addons:
+#        firefox: latest
+#        apt:
+#          sources:
+#          - google-chrome
+#          packages:
+#          - google-chrome-stable fluxbox
+#      before_script:
+#        - npm start &
+#        - "export DISPLAY=:99.0"
+#        - "sh -e /etc/init.d/xvfb start"
+#        - sleep 3
+#        - fluxbox >/dev/null 2>&1 &
+#      script:
+#        - sleep 120
+#        - npm run cucumbertravis
 deploy:
   if: branch = master
   provider: firebase
