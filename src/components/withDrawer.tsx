@@ -106,17 +106,21 @@ const withDrawer = (Component: React.ComponentType<any>): any => {
 		logo: {
 			display: 'block',
 			width: '50%',
+			margin: 'auto',
 			marginBottom: '20px',
+
 		},
 		menuLogo: {
-			display: 'block',
-			width: '7%',
+
 			margin: 'auto',
-			marginLeft: theme.spacing.unit * 3,
-			marginRight: theme.spacing.unit,
+
 		},
 		menuLogoLink: {
-			width: 'auto',
+			display: 'flex',
+			width: '3%',
+			margin: theme.spacing.unit,
+			marginLeft: theme.spacing.unit * 3,
+			marginRight: theme.spacing.unit *4,
 		}
 	});
 

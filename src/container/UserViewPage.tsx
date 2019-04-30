@@ -5,7 +5,6 @@ import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import {User} from "../types/user";
-import {Button, Paper, TableCell, Typography, withStyles, WithStyles} from "@material-ui/core";
 import styles from "../styles/UserViewStyles";
 import {parseDateToString} from "../utils/parser";
 import {connect} from "react-redux";

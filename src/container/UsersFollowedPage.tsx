@@ -122,9 +122,11 @@ class UsersFollowedPage extends React.Component<Props> {
 									const currentUser = users[this.props.auth.uid];
 									return (
 										<TableRow key={userId}>
-                                            <NavLink exact={true} to={routes.USER_VIEW(userId)}>
+
 											<TableCell component='th' scope='row'>
+                                                <NavLink exact={true} to={routes.USER_VIEW(userId)}>
 												{username}
+                                                </NavLink>
 												<Button
 													onClick={this.handleFollowUser(userId)}
 													disabled={!!currentUser && currentUser.following.includes(userId)}
@@ -140,7 +142,7 @@ class UsersFollowedPage extends React.Component<Props> {
 													<Stop className={classes.icon}/>
 												</Button>
 											</TableCell>
-                                            </NavLink>
+
 											<TableCell>
 												{firstName}
 											</TableCell>
