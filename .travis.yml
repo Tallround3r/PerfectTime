@@ -26,7 +26,7 @@ jobs:
         firefox: latest
         apt:
           sources:
-            - google-chrome
+          - google-chrome
           packages:
           - google-chrome-stable fluxbox
       before_script:
@@ -36,7 +36,7 @@ jobs:
         - sleep 3
         - fluxbox >/dev/null 2>&1 &
       script:
-        - sleep 180
+        - sleep 60
         - npm run cucumbertravis
 deploy:
   if: branch = master
