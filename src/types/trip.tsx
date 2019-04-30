@@ -9,5 +9,7 @@ export interface Trip {
 	startdate: Date | Timestamp | null,
 	enddate: Date | Timestamp | null,
 	owner?: string | User,
-	members?: Array<string>,
+	ownerObj?: User,
+	members?: string[],
+	membersObj?: { [key: number]: User },
 }

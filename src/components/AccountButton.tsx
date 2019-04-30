@@ -1,8 +1,8 @@
 import Button from '@material-ui/core/Button';
 import React from 'react';
+import {connect} from 'react-redux';
 import {Link, RouteComponentProps} from 'react-router-dom';
 import * as routes from '../constants/routes';
-import {connect} from "react-redux";
 
 interface AccountButtonProps {
     auth: any,

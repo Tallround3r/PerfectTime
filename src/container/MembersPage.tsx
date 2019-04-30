@@ -1,6 +1,7 @@
 import {
 	Button,
 	createStyles,
+	IconButton,
 	Table,
 	TableBody,
 	TableCell,
@@ -14,12 +15,14 @@ import {
 import {Edit, PersonAdd} from '@material-ui/icons';
 import React from 'react';
 import {connect} from 'react-redux';
-import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
-import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
+import {firestoreConnect, isEmpty, isLoaded, populate} from 'react-redux-firebase';
+import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import {Trip} from '../types/trip';
 import {User} from '../types/user';
+import {spinnerWhileLoading} from '../utils/firebaseUtils';
+
 
 const styles = (theme: Theme) => createStyles({
 	root: {
@@ -34,16 +37,16 @@ const styles = (theme: Theme) => createStyles({
 	editIcon: {
 		marginRight: theme.spacing.unit,
 	},
-	icon: {
-		margin: theme.spacing.unit * 2,
+	followBtn: {
+		marginLeft: theme.spacing.unit * 2,
 	},
 });
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	firestore: any;
 	trip: Trip,
-	users: User[],
 	auth: any,
+	authUser: User,
 }
 
 class MembersPage extends React.Component<Props> {
@@ -55,19 +58,18 @@ class MembersPage extends React.Component<Props> {
 	};
 
 	handleFollowUser = (userToFollow: any) => () => {
-		const {users, auth} = this.props;
+		const {auth, authUser} = this.props;
 		const {firestore} = this.props;
-		const currentUser = users[auth.uid];
 
 		const firestoreRef = {
 			collection: 'users',
 			doc: auth.uid,
 		};
 
-		const following = [...currentUser.following];
+		const following = [...authUser.following];
 		following.push(userToFollow);
 		const userUpdated = {
-			...currentUser,
+			...authUser,
 			following,
 		};
 
@@ -75,7 +77,8 @@ class MembersPage extends React.Component<Props> {
 	};
 
 	render() {
-		const {classes, users, trip} = this.props;
+		const {classes, trip, authUser} = this.props;
+		console.log(trip);
 
 		return (
 			<div className={classes.root}>
@@ -96,9 +99,9 @@ class MembersPage extends React.Component<Props> {
 					Members
 				</Typography>
 
-				{!(isLoaded(trip) && isLoaded(users))
+				{!(isLoaded(trip))
 					? 'Loading members...'
-					: isEmpty(trip) || !trip.members || trip.members.length === 0
+					: isEmpty(trip) || !trip.membersObj
 						? 'No members added.' :
 						<Table>
 							<TableHead>
@@ -109,27 +112,28 @@ class MembersPage extends React.Component<Props> {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{trip.members.map((userId) => {
+								{Object.keys(trip.membersObj).map((memberIndex) => {
 									// @ts-ignore
-									const {username, firstName, lastName} = users[userId] || {
+									const {id, username, firstName, lastName} = trip.membersObj[memberIndex] || {
+										id: '',
 										username: 'Loading...',
 										firstName: '',
 										lastName: '',
 									};
-									const currentUser = users[this.props.auth.uid];
 									return (
-										<TableRow key={userId}>
-
-                                            <TableCell component='th' scope='row'>
-                                                <NavLink exact={true} to={routes.USER_VIEW(userId)}>
+										<TableRow key={`memberTableRow-${memberIndex}`}>
+											<TableCell component='th' scope='row'>
 												{username}
-                                                </NavLink>
-												<Button
-													onClick={this.handleFollowUser(userId)}
-													disabled={!!currentUser && currentUser.following.includes(userId)}
+												<IconButton
+													aria-label='Follow'
+													onClick={this.handleFollowUser(id)}
+													disabled={!!authUser && !!id && authUser.following.includes(id)}
+													className={classes.followBtn}
 												>
-													<PersonAdd className={classes.icon}/>
-												</Button>
+													<PersonAdd
+														fontSize={'small'}
+													/>
+												</IconButton>
 											</TableCell>
 
 											<TableCell>
@@ -149,25 +153,30 @@ class MembersPage extends React.Component<Props> {
 	}
 }
 
+const populates = [{child: 'members', root: 'users', keyProp: 'id', childAlias: 'membersObj'}];
+
 export default compose(
 	withRouter,
+	connect(({firebase: {auth}}: any) => ({auth})),
+	spinnerWhileLoading(['auth']),
 	firestoreConnect((props: Props) => {
 		const tripId = props.match.params[routes.URL_PARAM_TRIP];
 		return [{
 			collection: 'TRIPS',
 			doc: tripId,
+			populates,
 		}, {
 			collection: 'users',
+			doc: props.auth.uid,
 		}];
 	}),
 	connect(
-		({firebase, firestore: {data}}: any, props: Props) => {
+		({firebase, firestore}: any, props: Props) => {
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];
 			return {
-				trip: data.TRIPS
-					&& data.TRIPS[tripId],
-				users: data.users,
-				auth: firebase.auth,
+				trip: populate(firestore, `TRIPS/${tripId}`, populates),
+				authUser: firestore.data.users
+					&& firestore.data.users[firebase.auth.uid],
 			};
 		},
 	),
