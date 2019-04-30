@@ -106,9 +106,18 @@ const withDrawer = (Component: React.ComponentType<any>): any => {
 		logo: {
 			display: 'block',
 			width: '50%',
-			margin: 'auto',
 			marginBottom: '20px',
 		},
+		menuLogo: {
+			display: 'block',
+			width: '7%',
+			margin: 'auto',
+			marginLeft: theme.spacing.unit * 3,
+			marginRight: theme.spacing.unit,
+		},
+		menuLogoLink: {
+			width: 'auto',
+		}
 	});
 
 	interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
@@ -176,17 +185,22 @@ const withDrawer = (Component: React.ComponentType<any>): any => {
 							className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
 						>
 							<Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
-								<IconButton
-									color='inherit'
-									aria-label='Open drawer'
-									onClick={tripId && this.handleDrawerOpen}
-									className={classNames(
-										classes.menuButton,
-										this.state.open && classes.menuButtonHidden,
-									)}
-								>
-									<MenuIcon/>
-								</IconButton>
+								{!!tripId ?
+									<IconButton
+										color='inherit'
+										aria-label='Open drawer'
+										onClick={tripId && this.handleDrawerOpen}
+										className={classNames(
+											classes.menuButton,
+											this.state.open && classes.menuButtonHidden,
+										)}
+									>
+										<MenuIcon/>
+									</IconButton> :
+									<NavLink exact={true} to={routes.TRIPS()} className={classes.menuLogoLink}>
+										<img src={logo} className={classes.menuLogo} alt='Logo'/>
+									</NavLink>
+								}
 								<Typography
 									component='h1'
 									variant='h6'

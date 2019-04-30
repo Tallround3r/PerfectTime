@@ -1,3 +1,4 @@
+import {Button, Paper, Typography, withStyles, WithStyles} from '@material-ui/core';
 import React from 'react';
 import {firestoreConnect, isLoaded, withFirebase} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
@@ -19,28 +20,28 @@ interface UserViewPageProps extends WithStyles<typeof styles>, RouteComponentPro
 }
 
 interface State {
-    user: User,
-    isOwnAccount: boolean
+	user: User,
+	isOwnAccount: boolean
 }
 
 const INITIAL_USER: User = {
-    username: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    memberSince: new Date(),
-    country: '',
-    language: '',
-    following: [],
+	username: '',
+	firstName: '',
+	lastName: '',
+	email: '',
+	memberSince: new Date(),
+	country: '',
+	language: '',
+	following: [],
 };
 
 
 class UserViewPage extends React.Component<UserViewPageProps, State> {
 
-    state = {
-        user: this.props.user || INITIAL_USER,
-        isOwnAccount: false
-    };
+	state = {
+		user: this.props.user || INITIAL_USER,
+		isOwnAccount: false,
+	};
 
     componentDidUpdate(prevProps: UserViewPageProps, prevState: State) {
         const {user} = this.props;
@@ -102,7 +103,7 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
 
 
 
-        return (
+		return (
 
             <div className={classes.userViewPage}>
                 {console.log(users)}
@@ -194,10 +195,10 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
 
             </div>
 
-        );
+		);
 
 
-    }
+	}
 }
 
 export default compose(withRouter, withFirebase,
