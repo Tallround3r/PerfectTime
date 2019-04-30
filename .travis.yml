@@ -29,13 +29,12 @@ jobs:
           packages:
           - google-chrome-stable fluxbox
       before_script:
-        - cd frontend
-        - npm start &
-        - cd ../
+        - npm start
         - "export DISPLAY=:99.0"
         - "sh -e /etc/init.d/xvfb start"
-        - sleep 3
-        - fluxbox >/dev/null 2>&1 &
+        - sleep 3 # give xvfb some time to start
+        - rackup  # start a Web server
+        - sleep 3 # give Web server some time to bind to sockets, etc
       script:
         - npm run cucumbertravis
 deploy:
