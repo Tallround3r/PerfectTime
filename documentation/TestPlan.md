@@ -118,9 +118,9 @@ Use Cases:
 
 - [UC Add Activity](./useCases/addActivity/add-activity-use-case.md)
 - [UC Add Location](./useCases/addLocation/addLocation_useCase.md)
-- [UC Copy Trip](./useCases/copyTrip/copyTrip_useCase.md)
+- [UC Copy Trip](./useCases/copyTrip/copyTrip_UseCase.md)
 - [UC CRUD Trips](./useCases/CRUDTrips/CRUD_trips.md)
-- [UC Edit Activity](./useCases/edicActivity/editActivity_useCase.md)
+- [UC Edit Activity](./useCases/editActivity/editActivity_useCase.md)
 - [UC Edit Location](./useCases/editLocation/EditLocation_UseCase.md)
 - [UC Export Trips](./useCases/exportTrips/exportTrip_UseCase.md)
 - [UC Register](./useCases/register/register_useCase.md)
