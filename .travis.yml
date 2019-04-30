@@ -12,7 +12,7 @@ install:
   - yarn
 script:
   - npm run test
-  - npm run cucumber
+  - npm run cucumbertravis
   - npm run build
 deploy:
   provider: firebase
