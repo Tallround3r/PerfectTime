@@ -33,7 +33,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "cucumber": "./node_modules/.bin/cucumber-js.cmd --tags @only"
+    "cucumber": "./node_modules/.bin/cucumber-js.cmd --tags @only",
+    "cucumbertravis": "./node_modules/.bin/cucumber-js --tags @only"
   },
   "eslintConfig": {
     "extends": "react-app"
