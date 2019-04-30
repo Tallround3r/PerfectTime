@@ -112,6 +112,7 @@ const withDrawer = (Component: React.ComponentType<any>): any => {
 		},
 		menuLogo: {
 			margin: 'auto',
+			width: '100%'
 		},
 		menuLogoLink: {
 			display: 'flex',
