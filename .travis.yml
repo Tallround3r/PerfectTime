@@ -42,7 +42,7 @@ jobs:
 #        - sleep 120
 #        - npm run cucumbertravis
 deploy:
-  if: branch = master
+#  if: branch = master
   provider: firebase
   skip_cleanup: true
   token:
