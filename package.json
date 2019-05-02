@@ -31,7 +31,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest --config jestconfig.json",
     "eject": "react-scripts eject",
     "cucumber": "./node_modules/.bin/cucumber-js.cmd --tags @only",
     "cucumbertravis": "./node_modules/.bin/cucumber-js --tags @only"
