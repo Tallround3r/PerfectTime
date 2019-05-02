@@ -9,6 +9,7 @@ branches:
 warnings_are_errors: false
 install:
   - npm install cucumber -g
+  - npm install codecov -g
   - yarn
 jobs:
   include:
@@ -38,6 +39,8 @@ jobs:
 #      script:
 #        - sleep 120
 #        - npm run cucumbertravis
+after_success:
+  - codecov
 deploy:
   if: branch = master
   provider: firebase
