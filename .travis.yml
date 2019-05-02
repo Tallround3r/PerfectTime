@@ -20,6 +20,8 @@ jobs:
       dist: trusty
       script:
         - npm run test
+      after_success:
+        - codecov
 #    - stage: Function tests
 #      dist: trusty
 #      sudo: required
@@ -39,8 +41,6 @@ jobs:
 #      script:
 #        - sleep 120
 #        - npm run cucumbertravis
-after_success:
-  - codecov
 deploy:
   if: branch = master
   provider: firebase
