@@ -17,7 +17,7 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
-import {Activity} from '../types/activity';
+import {Activity} from '../types';
 import {parseDateToString} from '../utils/parser';
 import {getRandomImage} from '../utils/RessourceUtils';
 

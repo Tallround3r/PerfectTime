@@ -7,7 +7,7 @@ import {firestoreConnect} from 'react-redux-firebase';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
-import {Location} from '../types/location';
+import {Location} from '../types';
 import {datePickerMask} from '../utils/datePickerUtils';
 import {parseDateIfValid} from '../utils/parser';
 

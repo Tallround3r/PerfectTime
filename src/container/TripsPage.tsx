@@ -16,6 +16,7 @@ import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
+import AppWrapper from '../components/AppWrapper';
 import * as routes from '../constants/routes';
 import {Trip} from '../types/trip';
 import {parseDateIfValid} from '../utils/parser';

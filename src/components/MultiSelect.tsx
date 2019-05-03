@@ -180,7 +180,7 @@ class MultiSelect extends React.Component<MultiSelectProps> {
 		const selectStyles: StylesConfig = {
 			input: (base: object) => ({
 				...base,
-				"color": theme.palette.text.primary,
+				'color': theme.palette.text.primary,
 				'& input': {
 					font: 'inherit',
 				},
