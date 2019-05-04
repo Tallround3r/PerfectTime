@@ -18,7 +18,7 @@ import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
-import {AUTH_CONDITION_WITH_DRAWER} from '../constants/auth-conditions';
+import {AUTH_CONDITION_TRIP, AUTH_CONDITION_WITH_DRAWER} from '../constants/auth-conditions';
 import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
 import AccountButton from './AccountButton';

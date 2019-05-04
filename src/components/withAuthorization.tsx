@@ -9,30 +9,31 @@ interface Props extends RouteComponentProps<any> {
 	auth: any;
 }
 
-const withAuthorization = (authCondition: (auth: any) => boolean) => (Component: ComponentType) => {
+const withAuthorization = (authCondition: (auth: any, ...args: any[]) => boolean, ...args: any[]) =>
+	(Component: ComponentType) => {
 
-	class WithAuthorization extends React.Component<Props> {
-		componentDidMount() {
-			firebase.auth.onAuthStateChanged((authUser) => {
-				if (!authCondition(authUser)) {
-					this.props.history.push(routes.SIGN_IN);
-				}
-			});
+		class WithAuthorization extends React.Component<Props> {
+			componentDidMount() {
+				firebase.auth.onAuthStateChanged((authUser) => {
+					if (!authCondition(authUser, args)) {
+						this.props.history.push(routes.SIGN_IN);
+					}
+				});
+			}
+
+			render() {
+				return this.props.auth ? <Component {...this.props} /> : null;
+			}
 		}
 
-		render() {
-			return this.props.auth ? <Component/> : null;
-		}
-	}
-
-	return compose(
-		withRouter,
-		connect(
-			({firebase: {auth}}: any) => ({
-				auth,
-			}),
-		),
-	)(WithAuthorization);
-};
+		return compose(
+			withRouter,
+			connect(
+				({firebase: {auth}}: any) => ({
+					auth,
+				}),
+			),
+		)(WithAuthorization);
+	};
 
 export default withAuthorization;

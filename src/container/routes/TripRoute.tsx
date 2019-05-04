@@ -1,5 +1,11 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {withFirestore} from 'react-redux-firebase';
 import {Route, Switch} from 'react-router-dom';
+import {compose} from 'redux';
+import withAppWrapper from '../../components/withAppWrapper';
+import withAuthorization from '../../components/withAuthorization';
+import {AUTH_CONDITION_TRIP} from '../../constants/auth-conditions';
 import * as routes from '../../constants/routes';
 import ActivityAddPage from '../ActivityAddPage';
 import ActivityEditPage from '../ActivityEditPage';
@@ -25,4 +31,4 @@ function TripRoute() {
 	</Switch>;
 }
 
-export default TripRoute;
+export default withAppWrapper(TripRoute)

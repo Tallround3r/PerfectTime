@@ -18,7 +18,7 @@ function Main() {
 				<Route exact={true} path={routes.SIGN_IN} component={SignIn}/>
 				<Route exact={true} path={routes.SIGN_UP} component={SignUp}/>
 				<Route exact={true} path={routes.TRIPS_ADD()} component={withAppWrapper(TripAddPage)}/>
-				<Route path={routes.TRIP_VIEW()} component={withAppWrapper(TripRoute)}/>
+				<Route path={routes.TRIP_VIEW()} component={TripRoute}/>
 				<Route path={routes.TRIPS()} component={withAppWrapper(TripsPage)}/>
 				<Route path={routes.USER()} component={UserRoute}/>
 				<Route path={routes.LANDING} component={DemoPage}/>
