@@ -117,7 +117,7 @@ class UserUpdateMailPage extends React.Component<UserUpdateMailPageProps, State>
 				firebase.auth().currentUser.updateEmail(this.state.emailNew)
 					.then(() => {
 						alert(`Email-Address changed to ` + this.state.emailNew);
-						history.push(routes.USER_VIEW(userId));
+						history.push(routes.USER(userId));
 					})
 					.catch((error: any) => {
 						console.log(error);
@@ -210,7 +210,7 @@ class UserUpdateMailPage extends React.Component<UserUpdateMailPageProps, State>
 							</Button>
 							<br/>
 							<br/>
-							<NavLink exact={true} to={routes.USER_VIEW(this.props.auth.uid)}>
+							<NavLink exact={true} to={routes.USER(this.props.auth.uid)}>
 								<Button
 									color='primary'
 									variant='contained'

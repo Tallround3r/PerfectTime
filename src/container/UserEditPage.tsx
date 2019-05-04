@@ -57,7 +57,7 @@ class UserEditPage extends React.Component<UserEditPageProps, State> {
 		const {history, match} = this.props;
 		const userId = match.params[routes.URL_PARAM_USER];
 
-		history.push(routes.USER_VIEW(userId));
+		history.push(routes.USER(userId));
 	};
 
 	handleSubmit = (e: FormEvent<HTMLFormElement>) => {
