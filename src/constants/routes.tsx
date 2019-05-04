@@ -6,6 +6,7 @@ export const SIGN_UP = '/register';
 
 export const TRIPS = () => `/trips`;
 export const TRIPS_ADD = () => `/trips/add`;
+export const TRIP_VIEW = (tripId = `:${URL_PARAM_TRIP}`) => `/trips/${tripId}`;
 export const TRIPS_EDIT = (tripId = `:${URL_PARAM_TRIP}`) => `/trips/${tripId}/edit`;
 export const TRIP_MEMBERS = (tripId = `:${URL_PARAM_TRIP}`) => `/trips/${tripId}/members`;
 

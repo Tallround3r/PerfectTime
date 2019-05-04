@@ -1,12 +1,12 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
-import withAppWrapper from '../components/withAppWrapper';
-import * as routes from '../constants/routes';
-import UserDeletePage from './UserDeletePage';
-import UserEditPage from './UserEditPage';
-import UserUpdateMailPage from './UserUpdateMailPage';
-import UserUpdatePasswordPage from './UserUpdatePasswordPage';
-import UserViewPage from './UserViewPage';
+import withAppWrapper from '../../components/withAppWrapper';
+import * as routes from '../../constants/routes';
+import UserDeletePage from '../UserDeletePage';
+import UserEditPage from '../UserEditPage';
+import UserUpdateMailPage from '../UserUpdateMailPage';
+import UserUpdatePasswordPage from '../UserUpdatePasswordPage';
+import UserViewPage from '../UserViewPage';
 
 function UserRoute() {
 	return <Switch>
