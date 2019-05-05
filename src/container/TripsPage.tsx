@@ -93,52 +93,54 @@ class TripsPage extends React.Component<Props, State> {
 					? 'Loading Trips...'
 					: isEmpty(trips)
 						? 'No Trips created yet.'
-						: Object.keys(trips).map((key) => {
-							const trip = trips[key];
-							const startdate = parseDateIfValid(trip.startdate);
-							const enddate = parseDateIfValid(trip.enddate);
-							return (
-								<div key={key}>
-									<ExpansionPanel
-										className={classes.locationPanel}
-										expanded={false}
-									>
-										<ExpansionPanelSummary>
-											<div className={classes.smallColumn}>
-												<Avatar className={classes.iconAvatar}>
-													<DirectionsWalk fontSize='large'/>
-												</Avatar>
-											</div>
-											<div className={classes.bigColumn}>
-												<NavLink exact={true} to={routes.LOCATIONS(key)}>
-													<Typography
-														variant={'h6'}
-													>
-														{trip.title}
+						: Object.keys(trips)
+							.filter((key) => !!trips[key])
+							.map((key) => {
+								const trip = trips[key];
+								const startdate = parseDateIfValid(trip.startdate);
+								const enddate = parseDateIfValid(trip.enddate);
+								return (
+									<div key={key}>
+										<ExpansionPanel
+											className={classes.locationPanel}
+											expanded={false}
+										>
+											<ExpansionPanelSummary>
+												<div className={classes.smallColumn}>
+													<Avatar className={classes.iconAvatar}>
+														<DirectionsWalk fontSize='large'/>
+													</Avatar>
+												</div>
+												<div className={classes.bigColumn}>
+													<NavLink exact={true} to={routes.LOCATIONS(key)}>
+														<Typography
+															variant={'h6'}
+														>
+															{trip.title}
+														</Typography>
+													</NavLink>
+												</div>
+												<div className={classes.bigColumn}>
+													<Typography>
+														from {!!startdate && `${startdate.getMonth()}/${startdate.getDate()}/${startdate.getFullYear()}`}
 													</Typography>
-												</NavLink>
-											</div>
-											<div className={classes.bigColumn}>
-												<Typography>
-													from {!!startdate && `${startdate.getMonth()}/${startdate.getDate()}/${startdate.getFullYear()}`}
-												</Typography>
-												<Typography>
-													to {!!enddate && `${enddate.getMonth()}/${enddate.getDate()}/${enddate.getFullYear()}`}
-												</Typography>
-											</div>
-											<div className={classes.bigColumn}>
-												<Typography>{trip.description}</Typography>
-											</div>
-											<div className={classes.smallColumn}>
-												<IconButton onClick={this.handleClickEditButton(key)}>
-													<EditIcon/>
-												</IconButton>
-											</div>
-										</ExpansionPanelSummary>
-									</ExpansionPanel>
-								</div>
-							);
-						})}
+													<Typography>
+														to {!!enddate && `${enddate.getMonth()}/${enddate.getDate()}/${enddate.getFullYear()}`}
+													</Typography>
+												</div>
+												<div className={classes.bigColumn}>
+													<Typography>{trip.description}</Typography>
+												</div>
+												<div className={classes.smallColumn}>
+													<IconButton onClick={this.handleClickEditButton(key)}>
+														<EditIcon/>
+													</IconButton>
+												</div>
+											</ExpansionPanelSummary>
+										</ExpansionPanel>
+									</div>
+								);
+							})}
 
 				<NavLink exact={true} to={routes.TRIPS_ADD()}>
 					<Tooltip

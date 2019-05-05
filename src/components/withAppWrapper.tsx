@@ -144,12 +144,10 @@ const withAppWrapper = (Component: React.ComponentType<any>): any => {
 		};
 
 		render() {
-			const {classes, auth, match, location} = this.props;
+			const {classes, auth, match} = this.props;
 			// @ts-ignore
 			const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 			const tripId = match.params[routes.URL_PARAM_TRIP];
-			console.log(location);
-			console.log(match);
 
 			const drawerContent = <div>
 				<div className={classes.toolbarIcon}>
