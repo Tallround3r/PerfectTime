@@ -1,14 +1,9 @@
 import {CircularProgress} from '@material-ui/core';
 import React from 'react';
-import {connect} from 'react-redux';
-import {firestoreConnect, withFirestore} from 'react-redux-firebase';
 import {Route, RouteComponentProps, Switch, withRouter} from 'react-router-dom';
-import {compose} from 'redux';
-import {isEqual} from 'underscore';
 import {AUTH_CONDITION_TRIP} from '../../constants/auth-conditions';
 import * as routes from '../../constants/routes';
 import {firebase} from '../../firebase';
-import {Trip} from '../../types';
 import ActivityAddPage from '../ActivityAddPage';
 import ActivityEditPage from '../ActivityEditPage';
 import ActivityViewPage from '../ActivityViewPage';
