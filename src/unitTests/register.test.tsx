@@ -1,4 +1,4 @@
-import validateSignUp from './utils/validation/validateSignUp';
+import validateSignUp from '../utils/validation/validateSignUp';
 
 describe('username check', () => {
 	it('knows that Tallround3r is valid username', () => {
