@@ -1,25 +1,33 @@
+let faker = require('faker');
 import validateUpdateMail from '../utils/validation/validateUpdateMail';
 
-describe('email check', () => {
+let randomValidPassword = faker.internet.password();
+let randomValidNewEmail = faker.internet.email();
+let randomValidEmail = faker.internet.email();
+
+describe('new email check', () => {
     it('knows that Tim.Kertzscher@web.de is valid new Email', () => {
-        expect(validateUpdateMail('Tom.Tailor@ich.de','Tim.Kertzscher@web.de', 'password')).toBe(true);
+        expect(validateUpdateMail(randomValidEmail,'Tim.Kertzscher@web.de', randomValidPassword)).toBe(true);
     });
     it('knows that mail with missing @ is incorrect new Email', () => {
-        expect(validateUpdateMail('Tom.Tailor@ich.de', 'Tom.Tailor.web.de', 'password')).toBe(false);
+        expect(validateUpdateMail(randomValidEmail, 'Tom.Tailor.web.de', randomValidPassword)).toBe(false);
     });
     it('knows that mail with missing . is incorrect new Email', () => {
-        expect(validateUpdateMail('Tom.Tailor@ich.de','Tim@mailcom', 'password')).toBe(false);
+        expect(validateUpdateMail(randomValidEmail,'Tim@mailcom', randomValidPassword)).toBe(false);
     });
     it('knows that empty String is incorrect new Email', () => {
-        expect(validateUpdateMail('Tom.Tailor@ich.de', '', 'password')).toBe(false);
+        expect(validateUpdateMail(randomValidEmail, '', randomValidPassword)).toBe(false);
     });
+});
+
+    describe('email check', () => {
     it('knows that empty String is incorrect Email', () => {
-        expect(validateUpdateMail('', 'Tim.Kertzscher@web.de', 'password')).toBe(false);
+        expect(validateUpdateMail('', randomValidNewEmail, randomValidPassword)).toBe(false);
     });
     it('knows that mail with missing . is incorrect new Email', () => {
-        expect(validateUpdateMail('Jan@mailcom', 'Tim.Kertzscher@web.de', 'password')).toBe(false);
+        expect(validateUpdateMail('Jan@mailcom', randomValidNewEmail, randomValidPassword)).toBe(false);
     });
     it('knows that mail with missing @ is incorrect new Email', () => {
-        expect(validateUpdateMail('Test.mail.com', 'Tim.Kertzscher@web.de', 'password')).toBe(false);
+        expect(validateUpdateMail('Test.mail.com', randomValidNewEmail, randomValidPassword)).toBe(false);
     });
 });
