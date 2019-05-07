@@ -14,11 +14,12 @@ import {
 import {Stop, PersonAdd} from '@material-ui/icons';
 import React from 'react';
 import {connect} from 'react-redux';
-import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
+import {firestoreConnect, isEmpty, isLoaded, populate} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import {User} from '../types/user';
+import {spinnerWhileLoading} from "../utils/firebaseUtils";
 
 const styles = (theme: Theme) => createStyles({
 	root: {
@@ -42,44 +43,43 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	firestore: any;
 	user: User;
 	users: User[],
+    authUser: User,
 	auth: any,
 }
 
 class UsersFollowedPage extends React.Component<Props> {
 
 	handleFollowUser = (userToFollow: any) => () => {
-		const {users, auth} = this.props;
+		const {auth, authUser} = this.props;
 		const {firestore} = this.props;
-		const currentUser = users[auth.uid];
 
 		const firestoreRef = {
 			collection: 'users',
 			doc: auth.uid,
 		};
 
-		const following = [...currentUser.following];
+		const following = [...authUser.following];
 		following.push(userToFollow);
 		const userUpdated = {
-			...currentUser,
+			...authUser,
 			following,
 		};
 
 		firestore.set(firestoreRef, userUpdated);
 	};
 	handleUnfollowUser = (userToUnfollow: any) => () => {
-		const {users, auth} = this.props;
+		const {auth, authUser} = this.props;
 		const {firestore} = this.props;
-		const currentUser = users[auth.uid];
 
 		const firestoreRef = {
 			collection: 'users',
 			doc: auth.uid,
 		};
 
-		const following = [...currentUser.following];
+		const following = [...authUser.following];
 		following.splice(following.indexOf(userToUnfollow), 1);
 		const userUpdated = {
-			...currentUser,
+			...authUser,
 			following,
 		};
 
@@ -87,7 +87,7 @@ class UsersFollowedPage extends React.Component<Props> {
 	};
 
 	render() {
-		const {user, classes, users} = this.props;
+		const {user, classes, users, authUser} = this.props;
 
 		return (
 			<div className={classes.root}>
@@ -99,7 +99,7 @@ class UsersFollowedPage extends React.Component<Props> {
 					{user.username} follows:
 				</Typography>
 
-				{!(isLoaded(user) && isLoaded(users))
+				{!(isLoaded(user) && isLoaded(authUser) && isLoaded(users))
 					? 'Loading followed user...'
 					: isEmpty(user) || !user.following || user.following.length === 0
 						? 'No other users.' :
@@ -119,7 +119,6 @@ class UsersFollowedPage extends React.Component<Props> {
 										firstName: '',
 										lastName: '',
 									};
-									const currentUser = users[this.props.auth.uid];
 									return (
 										<TableRow key={userId}>
 
@@ -129,15 +128,15 @@ class UsersFollowedPage extends React.Component<Props> {
                                                 </NavLink>
 												<Button
 													onClick={this.handleFollowUser(userId)}
-													disabled={!!currentUser && currentUser.following.includes(userId)}
-													hidden={!!currentUser && currentUser.following.includes(userId)}
+													disabled={!!authUser && authUser.following.includes(userId)}
+													hidden={!!authUser && authUser.following.includes(userId)}
 												>
 													<PersonAdd className={classes.icon}/>
 												</Button>
 												<Button
 													onClick={this.handleUnfollowUser(userId)}
-													disabled={userId == this.props.auth.uid || !!currentUser.following.includes(userId)}
-													hidden={userId == this.props.auth.uid || !!currentUser.following.includes(userId)}
+													disabled={userId == this.props.auth.uid || !!authUser.following.includes(userId)}
+													hidden={userId == this.props.auth.uid || !!authUser.following.includes(userId)}
 												>
 													<Stop className={classes.icon}/>
 												</Button>
@@ -170,26 +169,31 @@ class UsersFollowedPage extends React.Component<Props> {
 		);
 	}
 }
+const populates = [{child: 'following', root: 'users', keyProp: 'id', childAlias: 'followingObj'}];
 
 export default compose(
 	withRouter,
+    connect(({firebase: {auth}}: any) => ({auth})),
+    spinnerWhileLoading(['auth']),
 	firestoreConnect((props: Props) => {
 		const userId = props.match.params[routes.URL_PARAM_USER];
 		return [{
 			collection: 'users',
 			doc: userId,
+            populates,
 		}, {
 			collection: 'users',
+            doc: props.auth.uid
 		}];
 	}),
 	connect(
-		({firebase, firestore: {data}}: any, props: Props) => {
+		({firebase, firestore}: any, props: Props) => {
 			const userId = props.match.params[routes.URL_PARAM_USER];
 			return {
-				user: data.users
-					&& data.users[userId],
-				users: data.users,
-				auth: firebase.auth,
+				user: populate(firestore, `users/${userId}`, populates),
+				users: firestore.data.users,
+                authUser:firestore.data.users
+                    && firestore.data.users[firebase.auth.uid],
 			};
 		},
 	),
