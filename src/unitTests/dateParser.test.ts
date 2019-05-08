@@ -19,7 +19,7 @@ describe('parseDate check', () => {
     });
     // it('recognizes invalid date', () => {
     //     expect(parseDateIfValid(new Date('2019-0-30T03:46:17.579Z'))).toBe(new Date(NaN));
-    // });
+    // });  
 });
 
 describe('parseDate to String check', () => {
