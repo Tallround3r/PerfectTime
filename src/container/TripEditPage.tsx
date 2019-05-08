@@ -116,6 +116,8 @@ class TripEditPage extends React.Component<Props, State> {
 	}
 
 	handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
 		const {firestore, match, history} = this.props;
 		const {trip, selectedMembers} = this.state;
 
@@ -124,19 +126,18 @@ class TripEditPage extends React.Component<Props, State> {
 			doc: match.params[routes.URL_PARAM_TRIP],
 		};
 
-		// @ts-ignore
-		const members = selectedMembers.map((memberOption) => memberOption.value);
+		const members = !!selectedMembers
+			// @ts-ignore
+			? selectedMembers.map((memberOption) => memberOption.value)
+			: [];
 
 		const tripN = {
 			...trip,
 			members,
 		};
-
 		firestore.set(firestoreRef, tripN);
 
 		history.push(routes.TRIPS());
-
-		e.preventDefault();
 	};
 
 	handleCancel = (e: MouseEvent) => {
@@ -195,9 +196,9 @@ class TripEditPage extends React.Component<Props, State> {
 	render() {
 		const {classes, users} = this.props;
 		const {trip, selectedMembers} = this.state;
-		const {title, description, startdate, enddate} = trip;
+		const {title, description, startdate, enddate} = trip || INITIAL_TRIP;
 
-		const selectableUsers = isLoaded(users) && !isEmpty(users)
+		const selectableUsers = isLoaded(users) && !isEmpty(users) && !!trip
 			? Object.keys(users)
 				.filter((id) => id !== trip.owner)
 				// @ts-ignore
@@ -217,7 +218,7 @@ class TripEditPage extends React.Component<Props, State> {
 				>
 					{
 						// @ts-ignore
-						trip && trip.owner && users && users[trip.owner] && `create by ${users[trip.owner].username}`
+						!!trip && !!trip.owner && !!users && !!users[trip.owner] && `create by ${users[trip.owner].username}`
 					}
 				</Typography>
 
