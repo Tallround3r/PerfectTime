@@ -311,14 +311,15 @@ A Test Cycle is fulfilled when every test is green and functionality is guarante
 Travis runs all tests and will fail the build if tests arent passed, an overview can be seen on our travis page.
 Travis Build: https://travis-ci.org/Tallround3r/PerfectTime
 
-Output of Cucumber function tests when they success:
-![Cucumber Tests](./Midterms/testCoverage.jpg)
+Output of Cucumber function tests when they succed:
+![Cucumber Tests](./Function_Testing_Coverage.jpg)
 
-more images of unit tests tbd
+Output of Unit tests when they succed:
+![Unit Tests](./Unit_Testing_CLI.PNG)
 
 ### 7.2 Reporting on Test Coverage
 
-The test coverage percentage can be found at the badge in our GitHub repo. The coverage is calculated with CodeCov.
+The test coverage percentage can be found at the badge in our GitHub repo (or in 7.4). The coverage is calculated with Jest and CodeCov.
 Test coverage will be calculated with every commit or pull request on master during the resulting build process.
 https://codecov.io/gh/Tallround3r/PerfectTime
 
@@ -329,8 +330,6 @@ https://app.codacy.com/project/Tallround3r/PerfectTime/dashboard
 
 Test coverage is creating multiple graphes, showing the test coverage of the project, the folders and the files.
 https://codecov.io/gh/Tallround3r/PerfectTime
-
-adding images tbd
 
 ### 7.4 Incident Logs and Change Requests
 
