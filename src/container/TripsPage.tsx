@@ -12,6 +12,7 @@ import 'slick-carousel/slick/slick.css';
 import TripPanel from '../components/TripPanel';
 import * as routes from '../constants/routes';
 import {Trip} from '../types';
+import {isUserOfTrip} from '../utils/authUtils';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -38,6 +39,7 @@ const styles = (theme: Theme) => createStyles({
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	trips: { [id: string]: Trip };
+	auth: any;
 }
 
 interface State {
@@ -50,7 +52,7 @@ class TripsPage extends React.Component<Props, State> {
 		expanded: null,
 	};
 
-	handleClickEditButton = (tripId: string) => (e: MouseEvent) => {
+	handleEditBtnClicked = (tripId: string) => (e: MouseEvent) => {
 		e.preventDefault();
 
 		const {history} = this.props;
@@ -58,8 +60,14 @@ class TripsPage extends React.Component<Props, State> {
 		history.push(routes.TRIPS_EDIT(tripId));
 	};
 
+	handleDeleteBtnClicked = (tripId: string) => (e: MouseEvent) => {
+		e.preventDefault();
+
+		// TODO: open dialog for confirming trip deletion
+	};
+
 	render() {
-		const {classes, trips} = this.props;
+		const {classes, trips, auth} = this.props;
 
 		return (
 			<div>
@@ -69,13 +77,17 @@ class TripsPage extends React.Component<Props, State> {
 					: isEmpty(trips)
 						? 'No Trips created yet.'
 						: Object.keys(trips)
-							.filter((key) => !!trips[key])
+							.filter((key) => (!!trips[key] && trips[key].public) || isUserOfTrip(trips[key], auth))
 							.map((key) => {
 								return (
 									<TripPanel
 										key={key}
+										id={key}
 										trip={trips[key]}
-										onEdit={this.handleClickEditButton(key)}
+										showEditBtn={isUserOfTrip(trips[key], auth)}
+										showDeleteBtn={trips[key].owner === auth.uid}
+										onEdit={this.handleEditBtnClicked(key)}
+										onDelete={this.handleDeleteBtnClicked(key)}
 									/>
 								);
 							})}
@@ -106,8 +118,9 @@ export default compose(
 		collection: 'TRIPS',
 	}]),
 	connect(
-		({firestore: {data}}: any, props: Props) => {
+		({firebase: {auth}, firestore: {data}}: any, props: Props) => {
 			return {
+				auth,
 				trips: data.TRIPS,
 			};
 		},

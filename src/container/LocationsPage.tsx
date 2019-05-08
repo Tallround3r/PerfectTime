@@ -87,8 +87,7 @@ class LocationsPage extends React.Component<Props, State> {
 		return (
 			<div>
 				<h1>
-					{isLoaded(trip) && !isEmpty(trip) && `${trip.title} — `}
-					Locations
+					Locations {isLoaded(trip) && !isEmpty(trip) && ` of Trip "${trip.title}"`}
 				</h1>
 				<div>
 					{!isLoaded(locations)
