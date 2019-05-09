@@ -1,5 +1,6 @@
 import {createStyles, Theme, WithStyles, withStyles} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -56,6 +57,11 @@ const styles = (theme: Theme) => createStyles({
 		position: 'absolute',
 		bottom: theme.spacing.unit * 5,
 		right: theme.spacing.unit * 5,
+	},
+	export: {
+		position: 'absolute',
+		bottom: theme.spacing.unit * 6,
+		left: theme.spacing.unit * 14,
 	},
 });
 
@@ -168,6 +174,9 @@ class LocationsPage extends React.Component<Props, State> {
 						</Fab>
 					</Tooltip>
 				</NavLink>
+				<Button variant='contained' className={classes.export}>
+					Export Trip
+				</Button>
 			</div>
 		);
 	}
