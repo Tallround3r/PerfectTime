@@ -86,6 +86,12 @@ class LocationsPage extends React.Component<Props, State> {
 		});
 	};
 
+	exportTrip = () => {
+		const {trip} = this.props;
+		const tripJSON = JSON.stringify(trip);
+		console.log(tripJSON);
+	};
+
 	render() {
 		const {classes, trip, locations, match} = this.props;
 		const {expanded} = this.state;
@@ -174,7 +180,10 @@ class LocationsPage extends React.Component<Props, State> {
 						</Fab>
 					</Tooltip>
 				</NavLink>
-				<Button variant='contained' className={classes.export}>
+                {
+                    (isLoaded())
+                }
+				<Button variant='contained' className={classes.export} onClick={this.exportTrip}>
 					Export Trip
 				</Button>
 			</div>
