@@ -18,6 +18,7 @@ import TripEditPage from './TripEditPage';
 import TripsPage from './TripsPage';
 import UserDeletePage from './UserDeletePage';
 import UserEditPage from './UserEditPage';
+import UsersFollowedPage from './UsersFollowedPage';
 import UserUpdateMailPage from './UserUpdateMailPage';
 import UserUpdatePasswordPage from './UserUpdatePasswordPage';
 import UserViewPage from './UserViewPage';
@@ -38,6 +39,7 @@ function Main() {
 				<Route exact={true} path={routes.ACTIVITY_EDIT()} component={withDrawer(ActivityEditPage)}/>
 				<Route exact={true} path={routes.ACTIVITY_VIEW()} component={withDrawer(ActivityViewPage)}/>
 				<Route exact={true} path={routes.USER_VIEW()} component={withDrawer(UserViewPage)}/>
+				<Route exact={true} path={routes.USER_FOLLOWS()} component={withDrawer(UsersFollowedPage)}/>
 				<Route exact={true} path={routes.USER_EDIT()} component={withDrawer(UserEditPage)}/>
 				<Route exact={true} path={routes.USER_DELETE_ACCOUNT()} component={withDrawer(UserDeletePage)}/>
 				<Route exact={true} path={routes.USER_CHANGE_PASSWORD()} component={withDrawer(UserUpdatePasswordPage)}/>

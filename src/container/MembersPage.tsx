@@ -12,11 +12,11 @@ import {
 	WithStyles,
 	withStyles,
 } from '@material-ui/core';
-import {Edit, PersonAdd} from '@material-ui/icons';
+import {Edit, PersonAdd, PersonOutline} from '@material-ui/icons';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded, populate} from 'react-redux-firebase';
-import {RouteComponentProps, withRouter} from 'react-router-dom';
+import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import {Trip} from '../types/trip';
@@ -58,6 +58,30 @@ class MembersPage extends React.Component<Props> {
 	};
 
 	handleFollowUser = (userToFollow: any) => () => {
+		const {auth} = this.props;
+		const {authUser} = this.props;
+		const {firestore} = this.props;
+
+		if (!authUser.following) {
+			authUser.following = [];
+		}
+
+		const firestoreRef = {
+			collection: 'users',
+			doc: auth.uid,
+		};
+
+		const following = [...authUser.following];
+		following.push(userToFollow);
+		const userUpdated = {
+			...authUser,
+			following,
+		};
+
+		firestore.set(firestoreRef, userUpdated);
+	};
+
+	handleUnfollowUser = (userToUnfollow: any) => () => {
 		const {auth, authUser} = this.props;
 		const {firestore} = this.props;
 
@@ -67,7 +91,7 @@ class MembersPage extends React.Component<Props> {
 		};
 
 		const following = [...authUser.following];
-		following.push(userToFollow);
+		following.splice(following.indexOf(userToUnfollow), 1);
 		const userUpdated = {
 			...authUser,
 			following,
@@ -123,18 +147,40 @@ class MembersPage extends React.Component<Props> {
 									return (
 										<TableRow key={`memberTableRow-${memberIndex}`}>
 											<TableCell component='th' scope='row'>
-												{username}
+												<NavLink exact={true} to={routes.USER_VIEW(id)}>
+													{username}
+												</NavLink>
+												<span hidden={!authUser || id === this.props.auth.uid}>
+													<span
+														hidden={!!authUser && !!authUser.following
+														&& authUser.following.indexOf(id) > -1}
+													>
+														<IconButton
+															aria-label='Follow'
+															onClick={this.handleFollowUser(id)}
+															disabled={!authUser || id === this.props.auth.uid
+															|| (!!authUser.following && authUser.following.indexOf(id) > -1)}
+														>
+														<PersonAdd fontSize={'small'}/>
+														</IconButton>
+													</span>
+													<span
+														hidden={!!authUser.following && !(authUser.following.indexOf(id) > -1)}
+													>
 												<IconButton
-													aria-label='Follow'
-													onClick={this.handleFollowUser(id)}
-													disabled={!!authUser && !!id && authUser.following.includes(id)}
-													className={classes.followBtn}
+													aria-label='Stop Follow'
+													onClick={this.handleUnfollowUser(id)}
+													disabled={!authUser || id === this.props.auth.uid
+													|| (!!authUser.following && !(authUser.following.indexOf(id) > -1))}
+
 												>
-													<PersonAdd
-														fontSize={'small'}
-													/>
+													<PersonOutline fontSize={'small'}/>
 												</IconButton>
+													</span>
+												</span>
+
 											</TableCell>
+
 											<TableCell>
 												{firstName}
 											</TableCell>
