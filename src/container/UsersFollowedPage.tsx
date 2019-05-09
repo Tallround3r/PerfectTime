@@ -11,7 +11,7 @@ import {
 	WithStyles,
 	withStyles,
 } from '@material-ui/core';
-import {PersonOutline, PersonAdd} from '@material-ui/icons';
+import {PersonAdd, PersonOutline} from '@material-ui/icons';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded, populate} from 'react-redux-firebase';
@@ -19,7 +19,7 @@ import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import {User} from '../types/user';
-import {spinnerWhileLoading} from "../utils/firebaseUtils";
+import {spinnerWhileLoading} from '../utils/firebaseUtils';
 
 const styles = (theme: Theme) => createStyles({
 	root: {
@@ -43,7 +43,7 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	firestore: any;
 	user: User;
 	users: User[],
-    authUser: User,
+ authUser: User,
 	auth: any,
 }
 
@@ -53,8 +53,8 @@ class UsersFollowedPage extends React.Component<Props> {
 		const {auth, authUser} = this.props;
 		const {firestore} = this.props;
 
-		if(!authUser.following) {
-            authUser.following = [];}
+		if (!authUser.following) {
+            authUser.following = []; }
 
 		const firestoreRef = {
 			collection: 'users',
@@ -129,21 +129,21 @@ class UsersFollowedPage extends React.Component<Props> {
                                                 <NavLink exact={true} to={routes.USER_VIEW(userId)}>
 												{username}
                                                 </NavLink>
-                                                <span hidden = {!authUser || userId == this.props.auth.uid}>
+                                                <span hidden={!authUser || userId == this.props.auth.uid}>
 
-                                                    <span hidden={!!authUser.following && authUser.following.indexOf(userId)> -1}>
+                                                    <span hidden={!!authUser.following && authUser.following.indexOf(userId) > -1}>
                                                     <Button
 													onClick={this.handleFollowUser(userId)}
-													disabled={!authUser || userId == this.props.auth.uid || (!!authUser.following && authUser.following.indexOf(userId)> -1)}
+													disabled={!authUser || userId == this.props.auth.uid || (!!authUser.following && authUser.following.indexOf(userId) > -1)}
 
 												    >
 													    <PersonAdd className={classes.icon}/>
 												    </Button>
                                                     </span>
-                                                    <span hidden={!!authUser.following && !(authUser.following.indexOf(userId)>-1)}>
+                                                    <span hidden={!!authUser.following && !(authUser.following.indexOf(userId) > -1)}>
 												<Button
 													onClick={this.handleUnfollowUser(userId)}
-													disabled={!authUser || userId == this.props.auth.uid || (!!authUser.following && !(authUser.following.indexOf(userId)> -1))}
+													disabled={!authUser || userId == this.props.auth.uid || (!!authUser.following && !(authUser.following.indexOf(userId) > -1))}
 
 												>
 													<PersonOutline className={classes.icon}/>
@@ -190,10 +190,10 @@ export default compose(
 		return [{
 			collection: 'users',
 			doc: userId,
-            populates,
+   populates,
 		}, {
 			collection: 'users',
-            doc: props.auth.uid
+   doc: props.auth.uid
 		}];
 	}),
 	connect(
@@ -202,7 +202,7 @@ export default compose(
 			return {
 				user: populate(firestore, `users/${userId}`, populates),
 				users: firestore.data.users,
-                authUser:firestore.data.users
+    authUser: firestore.data.users
                     && firestore.data.users[firebase.auth.uid],
 			};
 		},

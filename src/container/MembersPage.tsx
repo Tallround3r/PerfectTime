@@ -59,11 +59,12 @@ class MembersPage extends React.Component<Props> {
 
 	handleFollowUser = (userToFollow: any) => () => {
 		const {auth} = this.props;
-		let {authUser} = this.props;
+		const {authUser} = this.props;
 		const {firestore} = this.props;
 
-		if(!authUser.following) {
-			authUser.following = [];}
+		if (!authUser.following) {
+			authUser.following = [];
+		}
 
 		const firestoreRef = {
 			collection: 'users',
@@ -147,31 +148,36 @@ class MembersPage extends React.Component<Props> {
 										<TableRow key={`memberTableRow-${memberIndex}`}>
 											<TableCell component='th' scope='row'>
 												<NavLink exact={true} to={routes.USER_VIEW(id)}>
-												{username}
+													{username}
 												</NavLink>
-												<span hidden = {!authUser || id == this.props.auth.uid}>
-
-                                                    <span hidden={!!authUser.following && authUser.following.indexOf(id)> -1}>
-                                                    <IconButton
-														aria-label='Follow'
-														onClick={this.handleFollowUser(id)}
-														disabled={!authUser || id == this.props.auth.uid || (!!authUser.following && authUser.following.indexOf(id)> -1)}
-
+												<span hidden={!authUser || id === this.props.auth.uid}>
+													<span
+														hidden={!!authUser && !!authUser.following
+														&& authUser.following.indexOf(id) > -1}
 													>
-													    <PersonAdd fontSize={'small'}/>
-												    </IconButton>
-                                                    </span>
-                                                    <span hidden={!!authUser.following && !(authUser.following.indexOf(id)>-1)}>
+														<IconButton
+															aria-label='Follow'
+															onClick={this.handleFollowUser(id)}
+															disabled={!authUser || id === this.props.auth.uid
+															|| (!!authUser.following && authUser.following.indexOf(id) > -1)}
+														>
+														<PersonAdd fontSize={'small'}/>
+														</IconButton>
+													</span>
+													<span
+														hidden={!!authUser.following && !(authUser.following.indexOf(id) > -1)}
+													>
 												<IconButton
 													aria-label='Stop Follow'
 													onClick={this.handleUnfollowUser(id)}
-													disabled={!authUser || id == this.props.auth.uid || (!!authUser.following && !(authUser.following.indexOf(id)> -1))}
+													disabled={!authUser || id === this.props.auth.uid
+													|| (!!authUser.following && !(authUser.following.indexOf(id) > -1))}
 
 												>
 													<PersonOutline fontSize={'small'}/>
 												</IconButton>
-                                                    </span>
-                                                </span>
+													</span>
+												</span>
 
 											</TableCell>
 

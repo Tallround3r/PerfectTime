@@ -1,15 +1,15 @@
 import {Button, Paper, TableCell, Typography, withStyles, WithStyles} from '@material-ui/core';
+import {PersonAdd, PersonOutline} from '@material-ui/icons';
 import React from 'react';
+import {connect} from 'react-redux';
 import {firestoreConnect, isLoaded, withFirebase} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
-import {User} from "../types/user";
-import styles from "../styles/UserViewStyles";
-import {parseDateToString} from "../utils/parser";
-import {connect} from "react-redux";
-import {PersonAdd, PersonOutline} from "@material-ui/icons";
-import {spinnerWhileLoading} from "../utils/firebaseUtils";
+import styles from '../styles/UserViewStyles';
+import {User} from '../types/user';
+import {spinnerWhileLoading} from '../utils/firebaseUtils';
+import {parseDateToString} from '../utils/parser';
 
 interface UserViewPageProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
     user: User,
@@ -44,7 +44,7 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
 		isOwnAccount: false,
 	};
 
-    componentDidUpdate(prevProps: UserViewPageProps, prevState: State) {
+ componentDidUpdate(prevProps: UserViewPageProps, prevState: State) {
         const {user} = this.props;
         const {match} = this.props;
         const isOwnAccount = (match.params[routes.URL_PARAM_USER] == this.props.auth.uid);
@@ -56,12 +56,12 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
         }
     }
 
-    handleFollowUser = (userToFollow: any) => () => {
+ handleFollowUser = (userToFollow: any) => () => {
         const {auth, authUser} = this.props;
         const {firestore} = this.props;
 
-        if(!authUser.following) {
-            authUser.following = [];}
+        if (!authUser.following) {
+            authUser.following = []; }
 
         const firestoreRef = {
             collection: 'users',
@@ -77,7 +77,7 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
 
         firestore.set(firestoreRef, userUpdated);
     };
-    handleUnfollowUser = (userToUnfollow: any) => () => {
+ handleUnfollowUser = (userToUnfollow: any) => () => {
         const {auth, authUser} = this.props;
         const {firestore} = this.props;
 
@@ -95,13 +95,13 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
         firestore.set(firestoreRef, userUpdated);
     };
 
-    render() {
+ render() {
         const {users, match, classes, authUser} = this.props;
         const {user, isOwnAccount} = this.state;
         const {username, firstName, lastName, email, memberSince, country, language} = user;
         const userId = match.params[routes.URL_PARAM_USER];
 
-		return (
+		      return (
 
             <div className={classes.userViewPage}>
                 {console.log(users)}
@@ -114,20 +114,20 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
                     {!(isLoaded(user) && isLoaded(users) && isLoaded(authUser)) // users may load only partially
                         ? '...'
                         : <span hidden={!!isOwnAccount}>
-                            <span hidden={!!isOwnAccount || (!!authUser.following && authUser.following.indexOf(userId)> -1)}>
+                            <span hidden={!!isOwnAccount || (!!authUser.following && authUser.following.indexOf(userId) > -1)}>
                             <Button
                                     onClick={this.handleFollowUser(userId)}
-                                    disabled={!authUser || !!this.state.isOwnAccount || (!!authUser.following && authUser.following.indexOf(userId)> -1)}
+                                    disabled={!authUser || !!this.state.isOwnAccount || (!!authUser.following && authUser.following.indexOf(userId) > -1)}
 
                                 >
                                     <PersonAdd className={classes.icon}/>
 
                             </Button>
                             </span>
-                            <span hidden={!!isOwnAccount || (!!authUser.following && !(authUser.following.indexOf(userId)> -1))}>
+                            <span hidden={!!isOwnAccount || (!!authUser.following && !(authUser.following.indexOf(userId) > -1))}>
                                 <Button
                                     onClick={this.handleUnfollowUser(userId)}
-                                    disabled={!authUser || !!this.state.isOwnAccount || (!!authUser.following && !(authUser.following.indexOf(userId)> -1))}
+                                    disabled={!authUser || !!this.state.isOwnAccount || (!!authUser.following && !(authUser.following.indexOf(userId) > -1))}
 
                                 >
                                     <PersonOutline className={classes.icon}/>
@@ -227,7 +227,7 @@ export default compose(withRouter, withFirebase,
                 user: data.users
                     && data.users[userId],
                 users: data.users,
-                authUser:data.users
+                authUser: data.users
                     && data.users[firebase.auth.uid],
             };
         },
