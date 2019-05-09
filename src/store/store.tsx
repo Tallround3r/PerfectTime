@@ -13,8 +13,8 @@ export default function configureStore() {
 		useFirestoreForProfile: true,
 		allowMultipleListeners: true,
 		userProfile: 'users', // collection where profiles are stored in database
-		// presence: 'presence', // collection where list of online users is stored in database
-		// sessions: 'sessions', // collection where list of user sessions is stored in database
+		presence: 'presence', // collection where list of online users is stored in database
+		sessions: 'sessions', // collection where list of user sessions is stored in database
 	};
 
 	const rfConfig = {
