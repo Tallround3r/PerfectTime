@@ -1,4 +1,4 @@
-import {Button, Paper, TableCell, Typography, withStyles, WithStyles} from '@material-ui/core';
+import {Button, Paper, Typography, withStyles, WithStyles} from '@material-ui/core';
 import {PersonAdd, PersonOutline} from '@material-ui/icons';
 import React from 'react';
 import {connect} from 'react-redux';
