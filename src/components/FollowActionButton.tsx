@@ -1,5 +1,5 @@
 import {RouteComponentProps, withRouter} from "react-router";
-import {firestoreConnect, withFirebase} from "react-redux-firebase";
+import {firestoreConnect, isLoaded, withFirebase} from "react-redux-firebase";
 import {connect} from "react-redux";
 import {spinnerWhileLoading} from "../utils/firebaseUtils";
 import {Button, WithStyles, withStyles} from "@material-ui/core";
@@ -8,6 +8,7 @@ import {User} from "../types/user";
 import React from "react";
 import {compose} from 'redux';
 import {PersonAdd, PersonOutline} from "@material-ui/icons";
+
 
 interface FollowActionButtonProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
     userId: string,
@@ -64,6 +65,9 @@ class FollowActionButton extends React.Component<FollowActionButtonProps> {
         const {userId, classes, authUser} = this.props;
 
         return (
+            <span>
+            {!(isLoaded(authUser) || isLoaded(authUser.following))
+                ? '...' :
             <span hidden={!authUser || userId == this.props.auth.uid}>
 
                     <span
@@ -84,8 +88,9 @@ class FollowActionButton extends React.Component<FollowActionButtonProps> {
 								<PersonOutline className={classes.icon}/>
 							</Button>
                     </span>
-            </span>
+            </span>}
 
+            </span>
         );
     }
 }

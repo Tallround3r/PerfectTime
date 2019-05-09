@@ -1,5 +1,4 @@
 import {Button, Paper, Typography, withStyles, WithStyles} from '@material-ui/core';
-import {PersonAdd, PersonOutline} from '@material-ui/icons';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isLoaded, withFirebase} from 'react-redux-firebase';
@@ -10,6 +9,7 @@ import styles from '../styles/UserViewStyles';
 import {User} from '../types/user';
 import {spinnerWhileLoading} from '../utils/firebaseUtils';
 import {parseDateToString} from '../utils/parser';
+import FollowActionButton from "../components/FollowActionButton";
 
 interface UserViewPageProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
     user: User,
@@ -55,47 +55,7 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
             });
         }
     }
-
- handleFollowUser = (userToFollow: any) => () => {
-        const {auth, authUser} = this.props;
-        const {firestore} = this.props;
-
-        if (!authUser.following) {
-            authUser.following = []; }
-
-        const firestoreRef = {
-            collection: 'users',
-            doc: auth.uid,
-        };
-
-        const following = [...authUser.following];
-        following.push(userToFollow);
-        const userUpdated = {
-            ...authUser,
-            following,
-        };
-
-        firestore.set(firestoreRef, userUpdated);
-    };
- handleUnfollowUser = (userToUnfollow: any) => () => {
-        const {auth, authUser} = this.props;
-        const {firestore} = this.props;
-
-        const firestoreRef = {
-            collection: 'users',
-            doc: auth.uid,
-        };
-
-        const following = [...authUser.following];
-        following.splice(following.indexOf(userToUnfollow), 1);
-        const userUpdated = {
-            ...authUser,
-            following,
-        };
-        firestore.set(firestoreRef, userUpdated);
-    };
-
- render() {
+    render() {
         const {users, match, classes, authUser} = this.props;
         const {user, isOwnAccount} = this.state;
         const {username, firstName, lastName, email, memberSince, country, language} = user;
@@ -114,25 +74,10 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
                     {!(isLoaded(user) && isLoaded(users) && isLoaded(authUser)) // users may load only partially
                         ? '...'
                         : <span hidden={!!isOwnAccount}>
-                            <span hidden={!!isOwnAccount || (!!authUser.following && authUser.following.indexOf(userId) > -1)}>
-                            <Button
-                                    onClick={this.handleFollowUser(userId)}
-                                    disabled={!authUser || !!this.state.isOwnAccount || (!!authUser.following && authUser.following.indexOf(userId) > -1)}
-
-                                >
-                                    <PersonAdd className={classes.icon}/>
-
-                            </Button>
-                            </span>
-                            <span hidden={!!isOwnAccount || (!!authUser.following && !(authUser.following.indexOf(userId) > -1))}>
-                                <Button
-                                    onClick={this.handleUnfollowUser(userId)}
-                                    disabled={!authUser || !!this.state.isOwnAccount || (!!authUser.following && !(authUser.following.indexOf(userId) > -1))}
-
-                                >
-                                    <PersonOutline className={classes.icon}/>
-                                </Button>
-                            </span>
+                            {
+                                //@ts-ignore
+                                <FollowActionButton userId={userId}/>
+                            }
                         </span>
                     }
 
