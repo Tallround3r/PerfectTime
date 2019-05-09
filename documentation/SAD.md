@@ -2,7 +2,7 @@
 
 [mu0]: ../src/images/logo_perfecttime.svg "PT Logo"
 
-# Software Architecture Document 
+# Software Architecture Document
 Last Updated: April 15th 2019
 
 ## 1.	Introduction
@@ -12,7 +12,7 @@ This document describes the architecture of the Perfect Time Application. This a
 This document provides a comprehensive architectural overview of the system, using a number of different architectural views to depict different aspects of the system. It is intended to capture and convey the significant architectural decisions which have been made on the system.
 
 This document was designed to give the stakeholders and especially the customers of the Perfect Time Application an in-depth understanding on how the application was built. It will allow the customers to hand over the project to another team for further development and maintenance.
-The document can be used to understand the code structure and to adapt or extend the code and the functionality of the software.  
+The document can be used to understand the code structure and to adapt or extend the code and the functionality of the software.
 
 ### 1.2	Scope
 This document is closely related to the <a href="./SRS.md">Software Requirement Specifications </a> and the defined <a href="./useCases">Use Cases</a>. Both can be found in the <a href = "https://github.com/Tallround3r/PerfectTime">GitHub</a> repository of the Application. This document will influence the further coding and testing efforts and thereby the whole documentation of the Perfect Time Application.
@@ -28,16 +28,16 @@ This document is closely related to the <a href="./SRS.md">Software Requirement 
 -	Activity = one specific activity planned for a location. An activity might be a place or an event. Each activity must be assigned to a location.
 
 ### 1.4	References
--   Perfect Time Blog: https://perfecttime608150251.wordpress.com/ 
--	Perfect Time YouTrack: https://perfecttime.myjetbrains.com/youtrack/agiles 
--	Perfect Time Git Repository: https://github.com/Tallround3r/PerfectTime 
--	Perfect Time Application Website: https://perfecttime-planyourtrip.firebaseapp.com/ 
--	React JS Documentation: https://reactjs.org/ 
+-   Perfect Time Blog: https://perfecttime608150251.wordpress.com/
+-	Perfect Time YouTrack: https://perfecttime.myjetbrains.com/youtrack/agiles
+-	Perfect Time Git Repository: https://github.com/Tallround3r/PerfectTime
+-	Perfect Time Application Website: https://perfecttime-planyourtrip.firebaseapp.com/
+-	React JS Documentation: https://reactjs.org/
 
 ### 1.5	Overview
 The document contains the following aspects. It explains the architectural representation of the Perfect Time Application. It states to goals and constraints of the chosen architecture. It details the Use Cases of the finished application. It describes the logical view of the Architecture, which includes the significant parts of the design model and the subsystems and packages. This document does not decompose the whole system into lightweight and heavyweight processes, as they are not applicable to this application. It also focuses on the deployment of the application. The implementation model of this document. It describes the selected database and storage of the application. The document will describe size and expected performance of the application. As the last aspect it describes the expected quality and how the chosen architecture should support the quality of the application.
 
-## 2.	Architectural Representation 
+## 2.	Architectural Representation
 This section describes what software architecture is for the current system, and how it is represented.
 The Perfect Time Application is a React JS application. Therefor it implements the React architecture, which is based on Flux. This diagram describes the main aspects of the Flux architecture.
 
@@ -61,14 +61,14 @@ React provides predefined functions and interfaces to smoothen the communication
 
 The Perfect Time Application uses Redux on top of React. Redux allows a global state, which can be used by all components of the web application. In plain React each component has its on state. Therefor communication and data consistency between components can be difficult to achieve. Using Redux solves this problem.
 
-## 3.	Architectural Goals and Constraints 
+## 3.	Architectural Goals and Constraints
 The Flux architecture allows the source code of Perfect Time to have a clear structure. The data is provided through the Firebase API. The received JSON-data gets mapped onto the defined models. With that standardized data the Redux state is filled. The updated state leads to an update of the shown elements.
 
 This structure can be described with an example. A component (e.g. LocationsPage.tsx) defines the method compose() which calls firestoreConnect() to fetch the required data from the database. The received data gets transferred into an array called locations, which is saved in the state. The method render() uses the data as input for HTML code. This code gets displayed with the imported CSS attributes.
 
 Through this design the application’s maintainability is increased. Still, mixing the Flux elements in a single method is possible and sometimes necessary. Separating the elements as strict as in the Vaadin Java Framework for example is not possible in React JS.
 
-## 4.	Use-Case View 
+## 4.	Use-Case View
 The application provides the use cases shown in the following diagram.
 
 ![mockup file missing][mu3]
@@ -78,34 +78,35 @@ The application provides the use cases shown in the following diagram.
 ### 4.1	Use-Case Realizations
 N/A
 
-## 5.	Logical View 
+## 5.	Logical View
 This section describes the architecturally significant parts of the design model, such as its decomposition into subsystems and packages. First an overview over the classes is given. Then the elements of the Flux-architecture are shown on an example. Since the whole class diagram (which is a converted file diagram, because React is based on Java Script and does not use classes) is compromised of many files, which all include some state, dispatcher and view functions, it would create a mess, if a diagram with all Flux elements would be drawn. The simple example shows an understandable case, which can be transferred to all the other classes / files.
 
 ### 5.1	Overview
 The following diagrams show the defined containers and the components of the application and their methods. The components are used in different containers. Each container represents a page / single view a user can access. A container can include several components. A component is an element shown on a page (e.g. a list or a button).
+
 Container:
 
 ![mockup file missing][mu4]
 
-[mu4]: ./classesformvc.svg "Container"
+[mu4]: ./ClassDiagramms/containerformvc.svg "Container"
 
 Components:
 
 ![mockup file missing][mu5]
 
-[mu5]: ./componentsformvc.svg "Components"
+[mu5]: ./ClassDiagramms/componentsformvc.svg "Components"
 
 ### 5.2	Architecturally Significant Design Packages
-The following example illustrates how the Flux architecture of the React framework is designed in the Perfect Time application. It can be translated to any other component / container. 
+The following example illustrates how the Flux architecture of the React framework is designed in the Perfect Time application. It can be translated to any other component / container.
 
 ![mockup file missing][mu6]
 
-[mu6]: ./Flux4PerfectTimeExample.png "FluxExample"
+[mu6]: ./Flux/Flux4PerfectTimeExample.png "FluxExample"
 
-## 6.	Process View 
+## 6.	Process View
 (N/A)
 
-## 7.	Deployment View 
+## 7.	Deployment View
 The Perfect Time Application is running on Google Firebase. Firebase provides the database, the media storage, the user functions (registered users, passwords, etc.) and the runtime environment. The application is deployed through a npm-install / command. Travis CI is used to automate the deployment process. The following diagram explains the process.
 
 ![mockup file missing][mu7]
@@ -114,24 +115,24 @@ The Perfect Time Application is running on Google Firebase. Firebase provides th
 
 Concludingly, the server architecture is provided by Firebase and Firebase is integrated into the Perfect Time application. The application can be accessed by any modern web browser that support CSS and Java Script.
 
-## 8.	Implementation View 
+## 8.	Implementation View
 (N/A)
 
-## 9.	Data View 
+## 9.	Data View
 The Perfect Time application uses Google Firebase to store data. Thereby it uses a NoSQL-database. The application is design to allow the user to define custom fields for his/her trip/location/activity (e.g. ticket number for a concert). Therefor the following diagram shows only the predefined data fields.
 
 ![mockup file missing][mu8]
 
-[mu8]: ./DatabaseLayout.png "DB layout"
+[mu8]: ./Database/DatabaseLayout.png "DB layout"
 
 The media data (pictures, videos, etc.) are stored in a special storage in Firebase. It will be identified through the primary keys of each data tuple.
 
-## 10.	Size and Performance 
+## 10.	Size and Performance
 The size of the application depends mainly on the number of trips which users have created. Other important figures are the number of registered users and the number of views of the applications. React applications are easily scalable. However, the “bottleneck” of this application is Firebase. The application is running on the free plan. Thereby the storage size and the number of views per period are limited. This can be changed easily be upgrade to a paid plan for the application.
 
-## 11.	Quality 
+## 11.	Quality
 The application is easily extensible. Adding further React components to the application is simple. As described in chapter 10, the application can be enlarged by switching to a paid Firebase subscription. As a Google service, the creators believe Firebase to be consistently available and maintained. Thereby, the application should run reliably. The integration limits the portability of the application to other firebase accounts. In cannot simply be transferred to another backend.
-Regarding safety and privacy concerns, the creators of the application to provide proper security through the user login. However, exploits in the Firebase and the React source code cannot be ruled out completely. Privacy might also be a concern. Google is not allowed to access the user data which Perfect Time is storing in Firebase. Still the Perfect Time team cannot promise that the NSA or other US agencies won’t collect data of Firebase users. 
+Regarding safety and privacy concerns, the creators of the application to provide proper security through the user login. However, exploits in the Firebase and the React source code cannot be ruled out completely. Privacy might also be a concern. Google is not allowed to access the user data which Perfect Time is storing in Firebase. Still the Perfect Time team cannot promise that the NSA or other US agencies won’t collect data of Firebase users.
 The user login is saved in a protected database, which is provided by Firebase. Therefor, they are not freely accessible. The Perfect Time application will only allow the upload of certain file types (e.g. JPEG). Apart from that, no integration of a malware detection toll is planned for.
 
 
