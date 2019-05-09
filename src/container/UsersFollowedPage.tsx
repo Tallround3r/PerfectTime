@@ -53,6 +53,9 @@ class UsersFollowedPage extends React.Component<Props> {
 		const {auth, authUser} = this.props;
 		const {firestore} = this.props;
 
+		if(!authUser.following) {
+            authUser.following = [];}
+
 		const firestoreRef = {
 			collection: 'users',
 			doc: auth.uid,
@@ -128,15 +131,15 @@ class UsersFollowedPage extends React.Component<Props> {
                                                 </NavLink>
 												<Button
 													onClick={this.handleFollowUser(userId)}
-													disabled={!!authUser && authUser.following.includes(userId)}
-													hidden={!!authUser && authUser.following.includes(userId)}
+													disabled={!authUser || userId == this.props.auth.uid || (!!authUser.following && authUser.following.indexOf(userId)> -1)}
+													hidden={!authUser || userId == this.props.auth.uid || (!!authUser.following && authUser.following.indexOf(userId)> -1)}
 												>
 													<PersonAdd className={classes.icon}/>
 												</Button>
 												<Button
 													onClick={this.handleUnfollowUser(userId)}
-													disabled={userId == this.props.auth.uid || !!authUser.following.includes(userId)}
-													hidden={userId == this.props.auth.uid || !!authUser.following.includes(userId)}
+													disabled={!authUser || userId == this.props.auth.uid || (!!authUser.following && !(authUser.following.indexOf(userId)> -1))}
+													hidden={!authUser || userId == this.props.auth.uid || (!!authUser.following && !(authUser.following.indexOf(userId)>-1))}
 												>
 													<Stop className={classes.icon}/>
 												</Button>

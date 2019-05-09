@@ -58,8 +58,12 @@ class MembersPage extends React.Component<Props> {
 	};
 
 	handleFollowUser = (userToFollow: any) => () => {
-		const {auth, authUser} = this.props;
+		const {auth} = this.props;
+		let {authUser} = this.props;
 		const {firestore} = this.props;
+
+		if(!authUser.following) {
+			authUser.following = [];}
 
 		const firestoreRef = {
 			collection: 'users',
@@ -129,7 +133,7 @@ class MembersPage extends React.Component<Props> {
 												<IconButton
 													aria-label='Follow'
 													onClick={this.handleFollowUser(id)}
-													disabled={!!authUser && !!id && authUser.following.includes(id)}
+													disabled={!!authUser && !!id && !!authUser.following && authUser.following.indexOf(id) > -1}
 													className={classes.followBtn}
 												>
 													<PersonAdd
