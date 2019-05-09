@@ -12,7 +12,7 @@ import {
 	WithStyles,
 	withStyles,
 } from '@material-ui/core';
-import {Edit, PersonAdd} from '@material-ui/icons';
+import {Edit, PersonAdd, PersonOutline} from '@material-ui/icons';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded, populate} from 'react-redux-firebase';
@@ -80,6 +80,25 @@ class MembersPage extends React.Component<Props> {
 		firestore.set(firestoreRef, userUpdated);
 	};
 
+	handleUnfollowUser = (userToUnfollow: any) => () => {
+		const {auth, authUser} = this.props;
+		const {firestore} = this.props;
+
+		const firestoreRef = {
+			collection: 'users',
+			doc: auth.uid,
+		};
+
+		const following = [...authUser.following];
+		following.splice(following.indexOf(userToUnfollow), 1);
+		const userUpdated = {
+			...authUser,
+			following,
+		};
+
+		firestore.set(firestoreRef, userUpdated);
+	};
+
 	render() {
 		const {classes, trip, authUser} = this.props;
 		console.log(trip);
@@ -130,16 +149,30 @@ class MembersPage extends React.Component<Props> {
 												<NavLink exact={true} to={routes.USER_VIEW(id)}>
 												{username}
 												</NavLink>
+												<span hidden = {!authUser || id == this.props.auth.uid}>
+
+                                                    <span hidden={!!authUser.following && authUser.following.indexOf(id)> -1}>
+                                                    <IconButton
+														aria-label='Follow'
+														onClick={this.handleFollowUser(id)}
+														disabled={!authUser || id == this.props.auth.uid || (!!authUser.following && authUser.following.indexOf(id)> -1)}
+
+													>
+													    <PersonAdd fontSize={'small'}/>
+												    </IconButton>
+                                                    </span>
+                                                    <span hidden={!!authUser.following && !(authUser.following.indexOf(id)>-1)}>
 												<IconButton
-													aria-label='Follow'
-													onClick={this.handleFollowUser(id)}
-													disabled={!!authUser && !!id && !!authUser.following && authUser.following.indexOf(id) > -1}
-													className={classes.followBtn}
+													aria-label='Stop Follow'
+													onClick={this.handleUnfollowUser(id)}
+													disabled={!authUser || id == this.props.auth.uid || (!!authUser.following && !(authUser.following.indexOf(id)> -1))}
+
 												>
-													<PersonAdd
-														fontSize={'small'}
-													/>
+													<PersonOutline fontSize={'small'}/>
 												</IconButton>
+                                                    </span>
+                                                </span>
+
 											</TableCell>
 
 											<TableCell>

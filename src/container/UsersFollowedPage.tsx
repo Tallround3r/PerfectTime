@@ -11,7 +11,7 @@ import {
 	WithStyles,
 	withStyles,
 } from '@material-ui/core';
-import {Stop, PersonAdd} from '@material-ui/icons';
+import {PersonOutline, PersonAdd} from '@material-ui/icons';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded, populate} from 'react-redux-firebase';
@@ -129,20 +129,27 @@ class UsersFollowedPage extends React.Component<Props> {
                                                 <NavLink exact={true} to={routes.USER_VIEW(userId)}>
 												{username}
                                                 </NavLink>
-												<Button
+                                                <span hidden = {!authUser || userId == this.props.auth.uid}>
+
+                                                    <span hidden={!!authUser.following && authUser.following.indexOf(userId)> -1}>
+                                                    <Button
 													onClick={this.handleFollowUser(userId)}
 													disabled={!authUser || userId == this.props.auth.uid || (!!authUser.following && authUser.following.indexOf(userId)> -1)}
-													hidden={!authUser || userId == this.props.auth.uid || (!!authUser.following && authUser.following.indexOf(userId)> -1)}
-												>
-													<PersonAdd className={classes.icon}/>
-												</Button>
+
+												    >
+													    <PersonAdd className={classes.icon}/>
+												    </Button>
+                                                    </span>
+                                                    <span hidden={!!authUser.following && !(authUser.following.indexOf(userId)>-1)}>
 												<Button
 													onClick={this.handleUnfollowUser(userId)}
 													disabled={!authUser || userId == this.props.auth.uid || (!!authUser.following && !(authUser.following.indexOf(userId)> -1))}
-													hidden={!authUser || userId == this.props.auth.uid || (!!authUser.following && !(authUser.following.indexOf(userId)>-1))}
+
 												>
-													<Stop className={classes.icon}/>
+													<PersonOutline className={classes.icon}/>
 												</Button>
+                                                    </span>
+                                                </span>
 											</TableCell>
 
 											<TableCell>

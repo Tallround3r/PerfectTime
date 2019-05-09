@@ -1,4 +1,4 @@
-import {Button, Paper, Typography, withStyles, WithStyles} from '@material-ui/core';
+import {Button, Paper, TableCell, Typography, withStyles, WithStyles} from '@material-ui/core';
 import React from 'react';
 import {firestoreConnect, isLoaded, withFirebase} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
@@ -8,13 +8,15 @@ import {User} from "../types/user";
 import styles from "../styles/UserViewStyles";
 import {parseDateToString} from "../utils/parser";
 import {connect} from "react-redux";
-import {PersonAdd, Stop} from "@material-ui/icons";
+import {PersonAdd, PersonOutline} from "@material-ui/icons";
+import {spinnerWhileLoading} from "../utils/firebaseUtils";
 
 interface UserViewPageProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
     user: User,
     users: User[],
     firestore: any,
     firebase: any,
+    authUser: User,
     auth: any,
 }
 
@@ -55,52 +57,49 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
     }
 
     handleFollowUser = (userToFollow: any) => () => {
-        const {users, auth} = this.props;
+        const {auth, authUser} = this.props;
         const {firestore} = this.props;
-        const currentUser = users[auth.uid];
+
+        if(!authUser.following) {
+            authUser.following = [];}
 
         const firestoreRef = {
             collection: 'users',
             doc: auth.uid,
         };
 
-        const following = [...currentUser.following];
+        const following = [...authUser.following];
         following.push(userToFollow);
         const userUpdated = {
-            ...currentUser,
+            ...authUser,
             following,
         };
 
         firestore.set(firestoreRef, userUpdated);
     };
-
     handleUnfollowUser = (userToUnfollow: any) => () => {
-        const {users, auth} = this.props;
+        const {auth, authUser} = this.props;
         const {firestore} = this.props;
-        const currentUser = users[auth.uid];
 
         const firestoreRef = {
             collection: 'users',
             doc: auth.uid,
         };
 
-        const following = [...currentUser.following];
+        const following = [...authUser.following];
         following.splice(following.indexOf(userToUnfollow), 1);
         const userUpdated = {
-            ...currentUser,
+            ...authUser,
             following,
         };
-
         firestore.set(firestoreRef, userUpdated);
     };
 
     render() {
-        const {users, match, classes} = this.props;
+        const {users, match, classes, authUser} = this.props;
         const {user, isOwnAccount} = this.state;
         const {username, firstName, lastName, email, memberSince, country, language} = user;
         const userId = match.params[routes.URL_PARAM_USER];
-
-
 
 		return (
 
@@ -112,24 +111,28 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
                     >
                     User details of {username}
 
-                    {!(isLoaded(user) && isLoaded(users) && isLoaded(this.props.auth) && isLoaded(users[2])) // users may load only partially
+                    {!(isLoaded(user) && isLoaded(users) && isLoaded(authUser)) // users may load only partially
                         ? '...'
-                        : <span>
-                            {console.log(users[this.props.firebase.auth().uid].following.includes(userId))}
+                        : <span hidden={!!isOwnAccount}>
+                            <span hidden={!!isOwnAccount || (!!authUser.following && authUser.following.indexOf(userId)> -1)}>
                             <Button
                                     onClick={this.handleFollowUser(userId)}
-                                    // disabled={!!this.state.isOwnAccount || users[this.props.firebase.auth().uid].following.includes(userId)}
-                                    hidden={!!isOwnAccount || users[this.props.firebase.auth.uid].following.includes(userId)}
+                                    disabled={!authUser || !!this.state.isOwnAccount || (!!authUser.following && authUser.following.indexOf(userId)> -1)}
+
                                 >
                                     <PersonAdd className={classes.icon}/>
+
                             </Button>
+                            </span>
+                            <span hidden={!!isOwnAccount || (!!authUser.following && !(authUser.following.indexOf(userId)> -1))}>
                                 <Button
                                     onClick={this.handleUnfollowUser(userId)}
-                                    // disabled={!!this.state.isOwnAccount || !users[this.props.auth.uid].following.includes(userId)}
-                                    hidden={!!isOwnAccount || !users[this.props.auth.uid].following.includes(userId)}
+                                    disabled={!authUser || !!this.state.isOwnAccount || (!!authUser.following && !(authUser.following.indexOf(userId)> -1))}
+
                                 >
-                                    <Stop className={classes.icon}/>
+                                    <PersonOutline className={classes.icon}/>
                                 </Button>
+                            </span>
                         </span>
                     }
 
@@ -200,15 +203,19 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
 	}
 }
 
+const populates = [{child: 'following', root: 'users', keyProp: 'id', childAlias: 'followingObj'}];
+
 export default compose(withRouter, withFirebase,
     connect(({firebase: {auth}}: any) => ({
         auth,
     })),
+    spinnerWhileLoading(['auth']),
     firestoreConnect((props: UserViewPageProps) => {
         const userId = props.match.params[routes.URL_PARAM_USER];
         return [{
             collection: 'users',
             doc: userId,
+            populates,
         }, {
             collection: 'users',
         }];
@@ -220,7 +227,8 @@ export default compose(withRouter, withFirebase,
                 user: data.users
                     && data.users[userId],
                 users: data.users,
-                auth: firebase.auth,
+                authUser:data.users
+                    && data.users[firebase.auth.uid],
             };
         },
     ),
