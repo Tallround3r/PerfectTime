@@ -1,50 +1,21 @@
 import {createStyles, Theme, Typography, WithStyles, withStyles} from '@material-ui/core';
+import * as React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect} from 'react-redux-firebase';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import ActivitiesSlider from '../components/ActivitiesSlider';
+import LocationMetadata from '../components/LocationMetadataView';
 import * as routes from '../constants/routes';
 import {Location} from '../types/location';
-import LocationMetadata from "../components/LocationMetadata";
-import * as React from "react";
 
 
 const styles = (theme: Theme) => createStyles({
 	locationViewPage: {
 		paddingTop: theme.spacing.unit * 3,
 	},
-	inputContainer: {
-		display: 'flex',
-		flexDirection: 'column',
-		margin: theme.spacing.unit,
-		padding: theme.spacing.unit,
-		paddingRight: theme.spacing.unit * 10,
-		minWidth: '25em',
-	},
-	inputHorizontalContainer: {
-		display: 'flex',
-		justifyContent: 'space-between',
-		flexWrap: 'nowrap',
-	},
-	imagePaper: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		margin: theme.spacing.unit,
-		float: 'right',
-		width: '30em',
-		height: '20em',
-	},
-	imageIcon: {
-		fontSize: '10em',
-	},
 	activitiesContainer: {
 		marginTop: theme.spacing.unit * 6,
-	},
-	paperField: {
-		width: '100%',
-		height: 'auto',
 	},
 });
 
@@ -74,8 +45,16 @@ class LocationViewPage extends React.Component<Props> {
 
 		return (
 			<div className={classes.locationViewPage}>
-				<LocationMetadata title={title} classes={classes} description={description} timestamp={startdate}
-								  timestamp1={enddate} address={address} tripId={tripId} locationId={locationId}/>
+				<LocationMetadata
+					title={title}
+					classes={classes}
+					description={description}
+					timestamp={startdate}
+					timestamp1={enddate}
+					address={address}
+					tripId={tripId}
+					locationId={locationId}
+				/>
 
 				<div className={classes.activitiesContainer}>
 					<Typography
