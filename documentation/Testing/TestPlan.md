@@ -110,21 +110,21 @@ The intended audience of this test plan are project members and stakeholders. It
 
 - [GitHub](https://github.com/Tallround3r/PerfectTime)
 - [Blog](https://perfecttime608150251.wordpress.com/)
-- [Overall Use case diagram](./useCases/UseCaseDiagram_redesigned.png)
-- [Software Requirements Specification](SRS.md)
-- [Software Architecture Document](SAD.md)
+- [Overall Use case diagram](../useCases/UseCaseDiagram_redesigned.png)
+- [Software Requirements Specification](../SRS.md)
+- [Software Architecture Document](../SAD.md)
 
 Use Cases:
 
-- [UC Add Activity](./useCases/addActivity/add-activity-use-case.md)
-- [UC Add Location](./useCases/addLocation/addLocation_useCase.md)
-- [UC Copy Trip](./useCases/copyTrip/copyTrip_UseCase.md)
-- [UC CRUD Trips](./useCases/CRUDTrips/CRUD_trips.md)
-- [UC Edit Activity](./useCases/editActivity/editActivity_useCase.md)
+- [UC Add Activity](../useCases/addActivity/add-activity-use-case.md)
+- [UC Add Location](../useCases/addLocation/addLocation_useCase.md)
+- [UC Copy Trip](../useCases/copyTrip/copyTrip_UseCase.md)
+- [UC CRUD Trips](../useCases/CRUDTrips/CRUD_trips.md)
+- [UC Edit Activity](../useCases/editActivity/editActivity_useCase.md)
 - [UC Edit Location](./useCases/editLocation/EditLocation_UseCase.md)
-- [UC Export Trips](./useCases/exportTrips/exportTrip_UseCase.md)
-- [UC Register](./useCases/register/register_useCase.md)
-- [UC RUD Account](./useCases/RUDaccount/RUD_account.md)
+- [UC Export Trips](../useCases/exportTrips/exportTrip_UseCase.md)
+- [UC Register](../useCases/register/register_useCase.md)
+- [UC RUD Account](../useCases/RUDaccount/RUD_account.md)
 
 ### 1.6 Document Structure
 
@@ -311,14 +311,15 @@ A Test Cycle is fulfilled when every test is green and functionality is guarante
 Travis runs all tests and will fail the build if tests arent passed, an overview can be seen on our travis page.
 Travis Build: https://travis-ci.org/Tallround3r/PerfectTime
 
-Output of Cucumber function tests when they success:
-![Cucumber Tests](./Midterms/testCoverage.jpg)
+Output of Cucumber function tests when they succed:
+![Cucumber Tests](./Function_Testing_Coverage.jpg)
 
-more images of unit tests tbd
+Output of Unit tests when they succed:
+![Unit Tests](./Unit_Testing_CLI.PNG)
 
 ### 7.2 Reporting on Test Coverage
 
-The test coverage percentage can be found at the badge in our GitHub repo. The coverage is calculated with CodeCov.
+The test coverage percentage can be found at the badge in our GitHub repo (or in 7.4). The coverage is calculated with Jest and CodeCov.
 Test coverage will be calculated with every commit or pull request on master during the resulting build process.
 https://codecov.io/gh/Tallround3r/PerfectTime
 
@@ -329,8 +330,6 @@ https://app.codacy.com/project/Tallround3r/PerfectTime/dashboard
 
 Test coverage is creating multiple graphes, showing the test coverage of the project, the folders and the files.
 https://codecov.io/gh/Tallround3r/PerfectTime
-
-adding images tbd
 
 ### 7.4 Incident Logs and Change Requests
 
