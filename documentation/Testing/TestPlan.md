@@ -110,21 +110,21 @@ The intended audience of this test plan are project members and stakeholders. It
 
 - [GitHub](https://github.com/Tallround3r/PerfectTime)
 - [Blog](https://perfecttime608150251.wordpress.com/)
-- [Overall Use case diagram](./useCases/UseCaseDiagram_redesigned.png)
-- [Software Requirements Specification](SRS.md)
-- [Software Architecture Document](SAD.md)
+- [Overall Use case diagram](../useCases/UseCaseDiagram_redesigned.png)
+- [Software Requirements Specification](../SRS.md)
+- [Software Architecture Document](../SAD.md)
 
 Use Cases:
 
-- [UC Add Activity](./useCases/addActivity/add-activity-use-case.md)
-- [UC Add Location](./useCases/addLocation/addLocation_useCase.md)
-- [UC Copy Trip](./useCases/copyTrip/copyTrip_UseCase.md)
-- [UC CRUD Trips](./useCases/CRUDTrips/CRUD_trips.md)
-- [UC Edit Activity](./useCases/editActivity/editActivity_useCase.md)
+- [UC Add Activity](../useCases/addActivity/add-activity-use-case.md)
+- [UC Add Location](../useCases/addLocation/addLocation_useCase.md)
+- [UC Copy Trip](../useCases/copyTrip/copyTrip_UseCase.md)
+- [UC CRUD Trips](../useCases/CRUDTrips/CRUD_trips.md)
+- [UC Edit Activity](../useCases/editActivity/editActivity_useCase.md)
 - [UC Edit Location](./useCases/editLocation/EditLocation_UseCase.md)
-- [UC Export Trips](./useCases/exportTrips/exportTrip_UseCase.md)
-- [UC Register](./useCases/register/register_useCase.md)
-- [UC RUD Account](./useCases/RUDaccount/RUD_account.md)
+- [UC Export Trips](../useCases/exportTrips/exportTrip_UseCase.md)
+- [UC Register](../useCases/register/register_useCase.md)
+- [UC RUD Account](../useCases/RUDaccount/RUD_account.md)
 
 ### 1.6 Document Structure
 
