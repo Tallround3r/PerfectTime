@@ -43,19 +43,19 @@ The Perfect Time Application is a React JS application. Therefor it implements t
 
 ![mockup file missing][mu1]
 
-[mu1]: ./flux-simple-f8-diagram-explained-1300w.png "Flux"
+[mu1]: ./Flux/flux-simple-f8-diagram-explained-1300w.png "Flux"
 
 Flux works slightly different from MVC. The main differences are the naming (dispatcher instead of controller and state instead of model) and the communication between the components. While in MVC the controller updates the View, in Flux the dispatcher updates the state and the state will change the view. MVC also allows changes in the model to be recognized by the controller (e.g. by an updated entry in the database). In Flux all changes are committed to the dispatcher, which will change the model and take the predefined action. The following diagram shows the differences between the architectural designs.
 
 ![mockup file missing][mu2]
 
-[mu2]: ./flux-mvc-300x168.png "FluxVsMVC"
+[mu2]: ./Flux/flux-mvc-300x168.png "FluxVsMVC"
 
 Another difference from MVC is the fact, that the different entities (controller, etc.) are not (necessarily) represented by own classes or files. In React they are represented by methods in each individual component. The React Flux architecture is slightly different from the normal Flux architecture.
 
 ![mockup file missing][mu21]
 
-[mu21]: ./ReactFluxArchitecture.png "FluxVsMVC"
+[mu21]: ./Flux/ReactFluxArchitecture.png "FluxVsMVC"
 
 React provides predefined functions and interfaces to smoothen the communication between the Flux elements and to simplify the development process.
 
