@@ -2,13 +2,13 @@
 
 [mu0]: ../src/images/logo_perfecttime.svg "PT Logo"
 
-# Software Requirements Specification 
+# Software Requirements Specification
 Last updated: April 15th, 2019
 
 ## 1.	Introduction
-For our course Software Engineering we are creating a web application. Our application is called Perfect Time – plan your trip. 
+For our course Software Engineering we are creating a web application. Our application is called Perfect Time – plan your trip.
 Our vision is to create an Application that allows you to plan your trip by setting different locations or stages. You will also be able to insert generic data for the whole vacation. After your holiday you can add a blog in the App using the already available data from planning your trip. Afterwards you can publish your trip and share it with your friends. They can use your plan as an outline for their own trip by simply importing your published data.
-This document will specify the software requirements we will have to fulfill, if we want to transform our vision into a satisfying software product. This Software Requirements Specification (SRS) adheres to the standards defined by IEEE830-1998. 
+This document will specify the software requirements we will have to fulfill, if we want to transform our vision into a satisfying software product. This Software Requirements Specification (SRS) adheres to the standards defined by IEEE830-1998.
 
 ### 1.1	Purpose
 This SRS fully describes the external behavior of the Perfect Time Application. It also describes nonfunctional requirements, design constraints, and other factors necessary to provide a complete and comprehensive description of the requirements for the software.
@@ -26,7 +26,7 @@ Goal: Allow subpages for individual locations / events. One page should contain 
 	Goal: Allow redesign of location subpages into a travel blog. The individual location 	pages will look like a travel blog (pictures, videos, text, …).
 -	Share
 	Goal: Allow other users to use the travel plan as a layout for their own travel. The System 	will create the subpages and the vacation info based on the other project.
--	Multiple Users (idea based on blog comment by 
+-	Multiple Users (idea based on blog comment by
 	Goal: Provide different users and change tracking. This feature should make planning 	with multiple persons easier.
 These subsystems will reflect into the functionality and usability requirements which are defined in section 3.
 
@@ -39,16 +39,16 @@ Location = one location visited during the travel. A location might be a city or
 Activity = one specific activity planned for a location. An activity might be a place or an event. Each activity has to be assigned to a location.
 
 ### 1.4	References
--	Perfect Time Blog: https://perfecttime608150251.wordpress.com/ 
--	Perfect Time YouTrack: https://perfecttime.myjetbrains.com/youtrack/agiles 
--	Perfect Time Git Repository: https://github.com/Tallround3r/PerfectTime 
--	Perfect Time Application Website: https://perfecttime-planyourtrip.firebaseapp.com/ 
+-	Perfect Time Blog: https://perfecttime608150251.wordpress.com/
+-	Perfect Time YouTrack: https://perfecttime.myjetbrains.com/youtrack/agiles
+-	Perfect Time Git Repository: https://github.com/Tallround3r/PerfectTime
+-	Perfect Time Application Website: https://perfecttime-planyourtrip.firebaseapp.com/
 
 ### 1.5	Overview
 In section 2 an overall description of the software and its requirements will be given. Section 3 will define the specific requirements. Section 4 will include supporting information (i.e. table of content, etc.).
 
 ## 2.	Overall Description
-This section describes the general factors that affect Perfect Time and its requirements. 
+This section describes the general factors that affect Perfect Time and its requirements.
 
 ###	product perspective
 Perfect Time was created to fill a market gap. The Perfect Time Team could not identify a similar product on the market. However, it can be assumed that there is a market demand, since many people go on vacation and therefore must plan their trip. A good market perspective can be predicted.
@@ -64,7 +64,7 @@ The product has different functions. They are displayed in the use case diagram.
 The users of Perfect Time get divided into three categories. The first category are trip owners. They use the applications to plan one or multiple trips. They decide what the (privacy) settings are and who becomes a trip member. The second category are trip members. They got invited by the trip owner and can contribute to planning the trip. They can add and edit locations. The third group are observers. They can view public travels and use their information as a base layout for creating their own trip and becoming an owner.
 
 ###	constraints
-There are constraints to the number of accesses of our application, since we use the free Google Firebase subscription to host our application. Thereby the scalability of the application is limited. However, by using a higher (paid) subscription plan, the available limits can be easily increased. 
+There are constraints to the number of accesses of our application, since we use the free Google Firebase subscription to host our application. Thereby the scalability of the application is limited. However, by using a higher (paid) subscription plan, the available limits can be easily increased.
 The application is also designed as a web application. It can only be accessed in a modern web browser and with an active internet connection.
 
 ###	assumptions and dependencies
@@ -74,19 +74,19 @@ This application is written during two terms at the DHBW. It is uncertain if the
 ###	requirements subsets
 The requirements will be divided into the following categories: core (core functions), account (user accounts) and CRUD (Working on a trip).
 
-## 3.	Specific Requirements 
+## 3.	Specific Requirements
 This section describes the specific requirements of the application.
 
 ### 3.1	Functionality
 #### 3.1.1	Core
 The core functionality provides the basic web application that can be accessed by the user through a web browser. It is an html page that contains several components created with React. It provides a navigation to and an overview over the other functions.
 It also includes the possibility to view trips, that you are a member or the owner of. Any user can also see public trips. It provides a search function to identify travels.
-The core functions include the possibility to export data from existing (public) trips. The data can be exported to a local drive as a backup. The data can be exported as calendar information (ical), so that the user can see all the locations in his/her calendar. Data from an existing (public) trip can be used to create another trip, which will use the layout of the old trip. 
+The core functions include the possibility to export data from existing (public) trips. The data can be exported to a local drive as a backup. The data can be exported as calendar information (ical), so that the user can see all the locations in his/her calendar. Data from an existing (public) trip can be used to create another trip, which will use the layout of the old trip.
 The basic functions will also provide a series of statistics. The user can see the budget, the expenses calculated, the km driven (per day) and the duration of the trip.
 The last core function is to turn a trip into a travel blog. Using the planning layout, the user can insert pictures, text and videos into each location / activity page.
 
 #### 3.1.2	Account
-The application provides a user management. Any user can become a registered user by filling out the registry form and responding to the confirmation email. A registered user can log into the application. The user can manage his/her account (change password, change email, change user name). He or she can use the CRUD functions. 
+The application provides a user management. Any user can become a registered user by filling out the registry form and responding to the confirmation email. A registered user can log into the application. The user can manage his/her account (change password, change email, change user name). He or she can use the CRUD functions.
 The registered users can also chat with each other within a travel community (all contributors to a trip). The owner of a trip can invite other registered users to become members of the trip.
 
 #### 3.1.3	CRUD
@@ -109,24 +109,24 @@ The functionality (as described above) of the application can be separated in di
 - [Copy Trip](./useCases/copyTrip/copyTrip_UseCase.md): The user can copy a (public) trip into a new own trip.
 
 
-### 3.2	Usability 
+### 3.2	Usability
 #### 3.2.1	User training
 The application is designed to allow an intuitive usage. Any user should be able to use every aspect of the application within three hours. The application provides enough documentation. A video tutorial will be provided by the Perfect Time team, as soon as the application is complete.
 
 #### 3.2.2	Common features to other applications
 The application is designed to mimic common features of other applications. The design used (see section 4) is closely related to designs used by Google and Facebook.
 
-### 3.3	Reliability 
-#### 3.3.1	Availability 
+### 3.3	Reliability
+#### 3.3.1	Availability
 Since the application does not require a long deployment time, there should be only short maintenance times. The application will be available 99.00% of the time.
 
-#### 3.3.2	Mean Time To Repair 
+#### 3.3.2	Mean Time To Repair
 Any serious bug will be fixed within a week. The application will not require any updates by the user.
 
-#### 3.3.3	Accuracy 
+#### 3.3.3	Accuracy
 The application is designed to fulfill all the features described in this document to the full extend.
 
-#### 3.3.4	Maximum Bugs 
+#### 3.3.4	Maximum Bugs
 The application should at no time have more than one bug per 500 lines of code. The finished application should contain way less bugs
 
 ### 3.4	Performance
@@ -144,7 +144,7 @@ If the application should not be operational for any reason the last running ver
 The software uses Unit Tests to ensure it is working correctly. Perfect Time uses JEST to write the tests. Additionally, Cucumber and TestCafe are used for framework tests.
 
 #### 3.5.2	Coding
-The software uses the clean code standards to ensure maintainability. 
+The software uses the clean code standards to ensure maintainability.
 
 ### 3.6	Design Constraints
 #### 3.6.1	React

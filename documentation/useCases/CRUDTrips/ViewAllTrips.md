@@ -10,7 +10,7 @@ This document references the Use Case <b>CRUD Trips</b>, which can be found <a h
 
 ### 1.1 Brief description
 
-In this use case the user generate an overwiew over all trips, he or she owns or is a member of. A trip represents a whole vacation. Each trip has an owner (creator) and several members (optional, invited by the owner). The trip consists of some meta-data (target country, time frame, budget, etc.) and a collection of locations, that the travellers will visit during this trip. A trip can be either private (only accessible to owner and members) or public accessible to all users. 
+In this use case the user generate an overwiew over all trips, he or she owns or is a member of. A trip represents a whole vacation. Each trip has an owner (creator) and several members (optional, invited by the owner). The trip consists of some meta-data (target country, time frame, budget, etc.) and a collection of locations, that the travellers will visit during this trip. A trip can be either private (only accessible to owner and members) or public accessible to all users.
 There is a closely related use case <b> CRUD Trips </b>. This use case shows all the options the user has, once he or she selected a trip from the overview. Selecting a trip will always navigate the application to the view trip function.
 
 ### 1.2 Mockups
@@ -45,19 +45,6 @@ The tests are still under development.
 - The view has to be up-to-date.
 
 ## 5. Function points
-Tool from <a href ="http://groups.umd.umich.edu/cis/course.des/cis375/projects/fp99/main.html">http://groups.umd.umich.edu </a>
-The score is 10.68 function points.
-
-#### Domain characteristics table
-
-![mockup file missing][mu5]
-
-[mu5]: ./function_points11.png "function points 1"
-
-#### Complexity adjustment table
-
-![mockup file missing][mu6]
-
-[mu6]: ./function_points12.png "function points 2"
+See CRUD of Trips <a href="./CRUD_trips.md" >here</a>.
 
 

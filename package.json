@@ -10,6 +10,7 @@
     "classnames": "^2.2.6",
     "date-fns": "2.0.0-alpha.21",
     "dotenv": "^7.0.0",
+    "faker": "^4.1.0",
     "firebase": "^5.9.4",
     "lodash": "^4.17.11",
     "material-ui-pickers": "^2.2.4",
@@ -33,9 +34,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest --config jestconfig.json",
     "eject": "react-scripts eject",
-    "cucumber": "./node_modules/.bin/cucumber-js.cmd --tags @only"
+    "cucumber": "./node_modules/.bin/cucumber-js.cmd --tags @only",
+    "cucumbertravis": "./node_modules/.bin/cucumber-js --tags @only"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -50,6 +52,7 @@
     "@firebase/app-types": "^0.3.8",
     "@types/classnames": "^2.2.7",
     "@types/dotenv": "^6.1.1",
+    "@types/jest": "^24.0.11",
     "@types/react": "^16.8.13",
     "@types/react-dom": "^16.8.4",
     "@types/react-redux": "^7.0.6",
@@ -61,6 +64,7 @@
     "@types/underscore": "^1.8.14",
     "cucumber": "^5.1.0",
     "testcafe": "^1.1.2",
+    "ts-jest": "^24.0.2",
     "tslint": "^5.15.0",
     "tslint-react": "^4.0.0",
     "typescript": "^3.4.3"
