@@ -65,7 +65,6 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
 		return (
 
 			<div className={classes.userViewPage}>
-				{console.log(users)}
 				<Typography
 					variant='h4'
 					gutterBottom={true}
@@ -74,7 +73,7 @@ class UserViewPage extends React.Component<UserViewPageProps, State> {
 
 					{!(isLoaded(user) && isLoaded(users) && isLoaded(authUser)) // users may load only partially
 						? '...'
-						: <span hidden={!!isOwnAccount}>
+						: <span hidden={isOwnAccount}>
 							{
 								// @ts-ignore
 								<FollowActionButton userId={userId}/>

@@ -18,7 +18,7 @@ import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import FollowActionButton from '../components/FollowActionButton';
 import * as routes from '../constants/routes';
-import {User} from '../types/user';
+import {User} from '../types';
 import {spinnerWhileLoading} from '../utils/firebaseUtils';
 
 const styles = (theme: Theme) => createStyles({
