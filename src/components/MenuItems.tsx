@@ -20,7 +20,7 @@ export const menuItems = (tripId: string) => (
 				<ListItemText primary='Locations'/>
 			</ListItem>
 		</NavLink>
-		<NavLink exact={true} to={routes.MEMBERS(tripId)} className='nav-link'>
+		<NavLink exact={true} to={routes.TRIP_MEMBERS(tripId)} className='nav-link'>
 			<ListItem button={true}>
 				<ListItemIcon>
 					<AccountCircleIcon/>

@@ -6,9 +6,10 @@ export const SIGN_UP = '/register';
 
 export const TRIPS = () => `/trips`;
 export const TRIPS_ADD = () => `/trips/add`;
+export const TRIP_VIEW = (tripId = `:${URL_PARAM_TRIP}`) => `/trips/${tripId}`;
 export const TRIPS_EDIT = (tripId = `:${URL_PARAM_TRIP}`) => `/trips/${tripId}/edit`;
+export const TRIP_MEMBERS = (tripId = `:${URL_PARAM_TRIP}`) => `/trips/${tripId}/members`;
 
-export const MEMBERS = (tripId = `:${URL_PARAM_TRIP}`) => `/trips/${tripId}/members`;
 
 export const LOCATIONS = (tripId = `:${URL_PARAM_TRIP}`) => `/trips/${tripId}/locations`;
 export const LOCATIONS_VIEW = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${URL_PARAM_LOCATION}`) =>
@@ -19,8 +20,10 @@ export const LOCATIONS_EDIT = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${U
 
 export const ACTIVITY_ADD = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${URL_PARAM_LOCATION}`) =>
 	`/trips/${tripId}/locations/${locationId}/activity/add`;
+// tslint:disable-next-line:max-line-length
 export const ACTIVITY_EDIT = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${URL_PARAM_LOCATION}`, activityId = `:${URL_PARAM_ACTIVITY}`) =>
 	`/trips/${tripId}/locations/${locationId}/activity/${activityId}/edit`;
+// tslint:disable-next-line:max-line-length
 export const ACTIVITY_VIEW = (tripId = `:${URL_PARAM_TRIP}`, locationId = `:${URL_PARAM_LOCATION}`, activityId = `:${URL_PARAM_ACTIVITY}`) =>
 	`/trips/${tripId}/locations/${locationId}/activity/${activityId}`;
 

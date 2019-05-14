@@ -1,8 +1,20 @@
+rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    match /TRIPS/{document=**} {
-      allow read, write: if request.auth.uid != null;
+    function getTrip(tripId) {
+      return get(/databases/$(database)/documents/TRIPS/$(tripId)).data;
+    }
+
+    function isOwnerOrMember(tripId) {
+      return request.auth.uid != null && (request.auth.uid == getTrip().owner || request.auth.uid in getTrip(tripId).members;
+    }
+
+    match /TRIPS/{tripId}/{document=**} {
+      allow create: if request.auth.uid != null;
+      allow update: if isOwnerOrMember(tripId);
+      allow delete: if request.auth.uid != null && getTrip(tripId).owner == request.auth.uid;
+      allow read: if isOwnerOrMember(tripId) || (request.auth.uid != null && getTrip(tripId).public == true);
     }
 
     match /users/{userId} {

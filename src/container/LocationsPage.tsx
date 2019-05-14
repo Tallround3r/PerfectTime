@@ -11,8 +11,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import LocationPanel from '../components/LocationPanel';
 import * as routes from '../constants/routes';
-import {Location} from '../types/location';
-import {Trip} from '../types/trip';
+import {Location, Trip} from '../types';
 import {parseDateIfValid} from '../utils/parser';
 
 
@@ -81,8 +80,7 @@ class LocationsPage extends React.Component<Props, State> {
 		return (
 			<div>
 				<h1>
-					{isLoaded(trip) && !isEmpty(trip) && `${trip.title} — `}
-					Locations
+					Locations {isLoaded(trip) && !isEmpty(trip) && ` of Trip "${trip.title}"`}
 				</h1>
 				<div>
 					{!isLoaded(locations)

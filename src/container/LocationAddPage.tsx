@@ -5,7 +5,7 @@ import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import LocationMetadataInput from '../components/LocationMetadataInput';
 import * as routes from '../constants/routes';
-import {Location} from '../types/location';
+import {Location} from '../types';
 
 
 const styles = (theme: Theme) => createStyles({

@@ -28,7 +28,7 @@ import SignOutButton from './SignOutButton';
 import withAuthorization from './withAuthorization';
 
 
-const withDrawer = (Component: React.ComponentType<any>): any => {
+const withAppWrapper = (Component: React.ComponentType<any>): any => {
 
 	const drawerWidth = 240;
 	const swipeDrawerWidth = 200;
@@ -119,8 +119,8 @@ const withDrawer = (Component: React.ComponentType<any>): any => {
 			margin: theme.spacing.unit,
 			marginLeft: theme.spacing.unit * 3,
 			marginRight: theme.spacing.unit * 4,
-			width: '3%'
-		}
+			width: '3%',
+		},
 	});
 
 	interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
@@ -274,4 +274,4 @@ const withDrawer = (Component: React.ComponentType<any>): any => {
 	)(AppWrapper);
 };
 
-export default withDrawer;
+export default withAppWrapper;

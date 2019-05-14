@@ -193,7 +193,7 @@ class UserDeletePage extends React.Component<UserDeletePageProps, State> {
 							</Button>
 							<br/>
 							<br/>
-							<NavLink exact={true} to={routes.USER_VIEW(this.props.auth.uid)}>
+							<NavLink exact={true} to={routes.USER(this.props.auth.uid)}>
 								<Button
 									color='primary'
 									variant='contained'
