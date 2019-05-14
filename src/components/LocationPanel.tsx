@@ -12,7 +12,6 @@ import * as routes from '../constants/routes';
 import PictureStar from '../images/star.jpg';
 import {Location} from '../types/location';
 import ActivitiesSlider from './ActivitiesSlider';
-import {log} from "util";
 
 type Timestamp = firebase.firestore.Timestamp;
 
@@ -54,7 +53,7 @@ const styles = (theme: Theme) => createStyles({
 
 interface LocationPanelProps extends WithStyles<typeof styles> {
 	expanded: any,
-	key: string,
+	id: string,
 	onChange: (event: any, expanded: any) => void,
 	location: Location,
 	startdate: Date | null,
@@ -62,12 +61,12 @@ interface LocationPanelProps extends WithStyles<typeof styles> {
 	tripId: string,
 }
 
-function LocationPanel({classes, expanded, key, onChange, location, startdate, enddate, tripId}: LocationPanelProps) {
+function LocationPanel({classes, expanded, id, onChange, location, startdate, enddate, tripId}: LocationPanelProps) {
 	return (
 		<div>
 			<ExpansionPanel
 				className={classes.locationPanel}
-				expanded={expanded === key}
+				expanded={expanded === id}
 				onChange={onChange}
 			>
 				<ExpansionPanelSummary>
@@ -91,7 +90,7 @@ function LocationPanel({classes, expanded, key, onChange, location, startdate, e
 						<Typography>{location.description}</Typography>
 					</div>
 					<div className={classes.smallColumn}>
-						<NavLink exact={true} to={routes.LOCATIONS_VIEW(tripId, key)}>
+						<NavLink exact={true} to={routes.LOCATIONS_VIEW(tripId, id)}>
 							<Avatar>
 								<ArrowRightIcon/>
 							</Avatar>
@@ -101,13 +100,11 @@ function LocationPanel({classes, expanded, key, onChange, location, startdate, e
 
 				<ExpansionPanelDetails>
 					<div style={{width: '100%'}}>
-							{console.log(tripId)}
-						{console.log(key)}
 						{
 							// @ts-ignore
 							<ActivitiesSlider
 								tripId={tripId}
-								locationId={key}  // TODO this key here is undefined...
+								locationId={id}
 							/>
 						}
 					</div>
