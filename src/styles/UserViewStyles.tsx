@@ -38,6 +38,9 @@ const styles = (theme: Theme) => createStyles({
 	imageIcon: {
 		fontSize: '10em',
 	},
+	icon: {
+		margin: theme.spacing.unit * 2,
+	},
 	activitiesContainer: {
 		marginTop: theme.spacing.unit * 6,
 	},

@@ -1,51 +1,21 @@
-import {Button, createStyles, Paper, Theme, Typography, WithStyles, withStyles} from '@material-ui/core';
-import {AddPhotoAlternateOutlined} from '@material-ui/icons';
-import React from 'react';
+import {createStyles, Theme, Typography, WithStyles, withStyles} from '@material-ui/core';
+import * as React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect} from 'react-redux-firebase';
-import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
+import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import ActivitiesSlider from '../components/ActivitiesSlider';
+import LocationMetadata from '../components/LocationMetadataView';
 import * as routes from '../constants/routes';
 import {Location} from '../types/location';
-import {parseDateToString} from '../utils/parser';
 
 
 const styles = (theme: Theme) => createStyles({
 	locationViewPage: {
 		paddingTop: theme.spacing.unit * 3,
 	},
-	inputContainer: {
-		display: 'flex',
-		flexDirection: 'column',
-		margin: theme.spacing.unit,
-		padding: theme.spacing.unit,
-		paddingRight: theme.spacing.unit * 10,
-		minWidth: '25em',
-	},
-	inputHorizontalContainer: {
-		display: 'flex',
-		justifyContent: 'space-between',
-		flexWrap: 'nowrap',
-	},
-	imagePaper: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		margin: theme.spacing.unit,
-		float: 'right',
-		width: '30em',
-		height: '20em',
-	},
-	imageIcon: {
-		fontSize: '10em',
-	},
 	activitiesContainer: {
 		marginTop: theme.spacing.unit * 6,
-	},
-	paperField: {
-		width: '100%',
-		height: 'auto',
 	},
 });
 
@@ -64,6 +34,7 @@ const INITIAL_LOCATION: Location = {
 	},
 };
 
+
 class LocationViewPage extends React.Component<Props> {
 
 	render() {
@@ -74,61 +45,16 @@ class LocationViewPage extends React.Component<Props> {
 
 		return (
 			<div className={classes.locationViewPage}>
-				<Typography
-					variant='h4'
-					gutterBottom={true}
-				>
-					{title}
-				</Typography>
-
-				<div>
-					<Paper
-						className={classes.imagePaper}
-					>
-						<AddPhotoAlternateOutlined
-							className={classes.imageIcon}
-						/>
-					</Paper>
-
-					<div className={classes.inputContainer}>
-						<Paper className={classes.paperField}>
-							<Typography>Description:</Typography>
-							<Typography variant='h6'>{description}</Typography>
-						</Paper>
-						<div className={classes.inputHorizontalContainer}>
-							<Paper className={classes.paperField}>
-								<Typography>From:</Typography>
-								<Typography variant='h6'>{parseDateToString(startdate)}</Typography>
-							</Paper>
-							<Paper className={classes.paperField}>
-								<Typography>To:</Typography>
-								<Typography variant='h6'>{parseDateToString(enddate)}</Typography>
-							</Paper>
-						</div>
-						<hr/>
-						<Typography variant='subtitle2'>
-							Address
-						</Typography>
-						<Paper className={classes.paperField}>
-							<Typography>City:</Typography>
-							<Typography variant='h6'>{address.zipCode} {address.city}</Typography>
-						</Paper>
-						<Paper className={classes.paperField}>
-							<Typography>Country:</Typography>
-							<Typography variant='h6'>{address.country}</Typography>
-						</Paper>
-						<hr/>
-						<NavLink exact={true} to={routes.LOCATIONS_EDIT(tripId, locationId)}>
-							<Button
-								color='primary'
-								variant='contained'
-								fullWidth={true}
-							>
-								Edit Location
-							</Button>
-						</NavLink>
-					</div>
-				</div>
+				<LocationMetadata
+					title={title}
+					classes={classes}
+					description={description}
+					timestamp={startdate}
+					timestamp1={enddate}
+					address={address}
+					tripId={tripId}
+					locationId={locationId}
+				/>
 
 				<div className={classes.activitiesContainer}>
 					<Typography

@@ -11,7 +11,6 @@ import {
 	WithStyles,
 	withStyles,
 } from '@material-ui/core';
-import {Edit} from '@material-ui/icons';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded, populate} from 'react-redux-firebase';
@@ -19,10 +18,8 @@ import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import FollowActionButton from '../components/FollowActionButton';
 import * as routes from '../constants/routes';
-import {Trip} from '../types/trip';
 import {User} from '../types/user';
 import {spinnerWhileLoading} from '../utils/firebaseUtils';
-
 
 const styles = (theme: Theme) => createStyles({
 	root: {
@@ -37,53 +34,40 @@ const styles = (theme: Theme) => createStyles({
 	editIcon: {
 		marginRight: theme.spacing.unit,
 	},
-	followBtn: {
-		marginLeft: theme.spacing.unit * 2,
+	icon: {
+		margin: theme.spacing.unit * 2,
 	},
 });
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	firestore: any;
-	trip: Trip,
-	auth: any,
+	user: User;
+	users: User[],
 	authUser: User,
+	auth: any,
 }
 
-class MembersPage extends React.Component<Props> {
-
-	handleEditMembers = () => {
-		const {history, match} = this.props;
-
-		history.push(routes.TRIPS_EDIT(match.params[routes.URL_PARAM_TRIP]));
-	};
-
+class UsersFollowedPage extends React.Component<Props> {
 	render() {
-		const {classes, trip, authUser} = this.props;
-		console.log(trip);
+		const {user, classes, users, authUser} = this.props;
 
 		return (
 			<div className={classes.root}>
-				<div className={classes.editBtnContainer}>
-					<Button
-						variant={'outlined'}
-						onClick={this.handleEditMembers}
-					>
-						<Edit className={classes.editIcon}/>
-						Edit Members
-					</Button>
-				</div>
 
 				<Typography
 					variant='h4'
 					gutterBottom={true}
 				>
-					Members
+					{!isLoaded(user)
+						? 'Loading User' :
+						<span>{user.username} follows: </span>
+					}
 				</Typography>
 
-				{!(isLoaded(trip) && isLoaded(authUser))
-					? 'Loading members...'
-					: isEmpty(trip) || !trip.membersObj
-						? 'No members added.' :
+				{!(isLoaded(user) && isLoaded(authUser) && isLoaded(users))
+					? 'Loading followed user...'
+					: isEmpty(user) || !user.following || user.following.length === 0
+						? 'No other users.' :
 						<Table>
 							<TableHead>
 								<TableRow>
@@ -93,27 +77,25 @@ class MembersPage extends React.Component<Props> {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{Object.keys(trip.membersObj).map((memberIndex) => {
+								{user.following.map((userId: string) => {
 									// @ts-ignore
-									const {id, username, firstName, lastName} = trip.membersObj[memberIndex] || {
-										id: '',
+									const {username, firstName, lastName} = users[userId] || {
 										username: 'Loading...',
 										firstName: '',
 										lastName: '',
 									};
+									// @ts-ignore
 									return (
-										<TableRow key={`memberTableRow-${memberIndex}`}>
+										<TableRow key={userId}>
+
 											<TableCell component='th' scope='row'>
-												<NavLink exact={true} to={routes.USER_VIEW(id)}>
+												<NavLink exact={true} to={routes.USER_VIEW(userId)}>
 													{username}
 												</NavLink>
-												<span hidden={!authUser || id === this.props.auth.uid}>
-													{
-														// @ts-ignore
-														<FollowActionButton userId={id}/>
-													}
-												</span>
-
+												{
+													// @ts-ignore
+													<FollowActionButton userId={userId}/>
+												}
 											</TableCell>
 
 											<TableCell>
@@ -128,37 +110,49 @@ class MembersPage extends React.Component<Props> {
 							</TableBody>
 						</Table>
 				}
+
+				<NavLink exact={true} to={routes.USER_VIEW(this.props.match.params[routes.URL_PARAM_USER])}>
+					<Button
+						color='primary'
+						variant='contained'
+						fullWidth={true}
+					>
+						Return to Account
+					</Button>
+				</NavLink>
+
 			</div>
 		);
 	}
 }
 
-const populates = [{child: 'members', root: 'users', keyProp: 'id', childAlias: 'membersObj'}];
+const populates = [{child: 'following', root: 'users', keyProp: 'id', childAlias: 'followingObj'}];
 
 export default compose(
 	withRouter,
 	connect(({firebase: {auth}}: any) => ({auth})),
 	spinnerWhileLoading(['auth']),
 	firestoreConnect((props: Props) => {
-		const tripId = props.match.params[routes.URL_PARAM_TRIP];
+		const userId = props.match.params[routes.URL_PARAM_USER];
 		return [{
-			collection: 'TRIPS',
-			doc: tripId,
+			collection: 'users',
+			doc: userId,
 			populates,
 		}, {
 			collection: 'users',
-			doc: props.auth.uid,
+			doc: props.auth.uid
 		}];
 	}),
 	connect(
 		({firebase, firestore}: any, props: Props) => {
-			const tripId = props.match.params[routes.URL_PARAM_TRIP];
+			const userId = props.match.params[routes.URL_PARAM_USER];
 			return {
-				trip: populate(firestore, `TRIPS/${tripId}`, populates),
+				user: populate(firestore, `users/${userId}`, populates),
+				users: firestore.data.users,
 				authUser: firestore.data.users
 					&& firestore.data.users[firebase.auth.uid],
 			};
 		},
 	),
 	withStyles(styles),
-)(MembersPage);
+)(UsersFollowedPage);
