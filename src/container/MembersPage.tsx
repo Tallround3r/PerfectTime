@@ -59,7 +59,6 @@ class MembersPage extends React.Component<Props> {
 
 	render() {
 		const {classes, trip, authUser} = this.props;
-		console.log(trip);
 
 		return (
 			<div className={classes.root}>
