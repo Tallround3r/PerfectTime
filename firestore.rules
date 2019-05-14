@@ -7,7 +7,7 @@ service cloud.firestore {
     }
 
     function isOwnerOrMember(tripId) {
-      return request.auth.uid != null && (request.auth.uid == getTrip().owner || request.auth.uid in getTrip(tripId).members);
+      return request.auth.uid != null && (request.auth.uid == getTrip(tripId).owner || request.auth.uid in getTrip(tripId).members);
     }
 
     match /TRIPS/{tripId}/{document=**} {
