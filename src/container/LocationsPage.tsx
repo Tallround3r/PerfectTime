@@ -95,6 +95,7 @@ class LocationsPage extends React.Component<Props, State> {
 								const enddate = parseDateIfValid(locations[key].enddate);
 								return (
 									<LocationPanel
+										key={key}
 										id={key}
 										classes={classes}
 										expanded={expanded}
