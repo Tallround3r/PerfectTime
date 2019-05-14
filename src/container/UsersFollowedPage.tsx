@@ -11,12 +11,12 @@ import {
 	WithStyles,
 	withStyles,
 } from '@material-ui/core';
-import {PersonAdd, PersonOutline} from '@material-ui/icons';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded, populate} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
+import FollowActionButton from '../components/FollowActionButton';
 import * as routes from '../constants/routes';
 import {User} from '../types/user';
 import {spinnerWhileLoading} from '../utils/firebaseUtils';
@@ -43,52 +43,11 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	firestore: any;
 	user: User;
 	users: User[],
- authUser: User,
+	authUser: User,
 	auth: any,
 }
 
 class UsersFollowedPage extends React.Component<Props> {
-
-	handleFollowUser = (userToFollow: any) => () => {
-		const {auth, authUser} = this.props;
-		const {firestore} = this.props;
-
-		if (!authUser.following) {
-            authUser.following = []; }
-
-		const firestoreRef = {
-			collection: 'users',
-			doc: auth.uid,
-		};
-
-		const following = [...authUser.following];
-		following.push(userToFollow);
-		const userUpdated = {
-			...authUser,
-			following,
-		};
-
-		firestore.set(firestoreRef, userUpdated);
-	};
-	handleUnfollowUser = (userToUnfollow: any) => () => {
-		const {auth, authUser} = this.props;
-		const {firestore} = this.props;
-
-		const firestoreRef = {
-			collection: 'users',
-			doc: auth.uid,
-		};
-
-		const following = [...authUser.following];
-		following.splice(following.indexOf(userToUnfollow), 1);
-		const userUpdated = {
-			...authUser,
-			following,
-		};
-
-		firestore.set(firestoreRef, userUpdated);
-	};
-
 	render() {
 		const {user, classes, users, authUser} = this.props;
 
@@ -99,7 +58,10 @@ class UsersFollowedPage extends React.Component<Props> {
 					variant='h4'
 					gutterBottom={true}
 				>
-					{user.username} follows:
+					{!isLoaded(user)
+						? 'Loading User' :
+						<span>{user.username} follows: </span>
+					}
 				</Typography>
 
 				{!(isLoaded(user) && isLoaded(authUser) && isLoaded(users))
@@ -115,41 +77,25 @@ class UsersFollowedPage extends React.Component<Props> {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{user.following.map((userId) => {
+								{user.following.map((userId: string) => {
 									// @ts-ignore
 									const {username, firstName, lastName} = users[userId] || {
 										username: 'Loading...',
 										firstName: '',
 										lastName: '',
 									};
+									// @ts-ignore
 									return (
 										<TableRow key={userId}>
 
 											<TableCell component='th' scope='row'>
-                                                <NavLink exact={true} to={routes.USER_VIEW(userId)}>
-												{username}
-                                                </NavLink>
-                                                <span hidden={!authUser || userId == this.props.auth.uid}>
-
-                                                    <span hidden={!!authUser.following && authUser.following.indexOf(userId) > -1}>
-                                                    <Button
-													onClick={this.handleFollowUser(userId)}
-													disabled={!authUser || userId == this.props.auth.uid || (!!authUser.following && authUser.following.indexOf(userId) > -1)}
-
-												    >
-													    <PersonAdd className={classes.icon}/>
-												    </Button>
-                                                    </span>
-                                                    <span hidden={!!authUser.following && !(authUser.following.indexOf(userId) > -1)}>
-												<Button
-													onClick={this.handleUnfollowUser(userId)}
-													disabled={!authUser || userId == this.props.auth.uid || (!!authUser.following && !(authUser.following.indexOf(userId) > -1))}
-
-												>
-													<PersonOutline className={classes.icon}/>
-												</Button>
-                                                    </span>
-                                                </span>
+												<NavLink exact={true} to={routes.USER_VIEW(userId)}>
+													{username}
+												</NavLink>
+												{
+													// @ts-ignore
+													<FollowActionButton userId={userId}/>
+												}
 											</TableCell>
 
 											<TableCell>
@@ -165,7 +111,7 @@ class UsersFollowedPage extends React.Component<Props> {
 						</Table>
 				}
 
-				<NavLink exact={true} to={routes.USER_VIEW(this.props.match.params[routes.URL_PARAM_USER])} >
+				<NavLink exact={true} to={routes.USER_VIEW(this.props.match.params[routes.URL_PARAM_USER])}>
 					<Button
 						color='primary'
 						variant='contained'
@@ -179,21 +125,22 @@ class UsersFollowedPage extends React.Component<Props> {
 		);
 	}
 }
+
 const populates = [{child: 'following', root: 'users', keyProp: 'id', childAlias: 'followingObj'}];
 
 export default compose(
 	withRouter,
-    connect(({firebase: {auth}}: any) => ({auth})),
-    spinnerWhileLoading(['auth']),
+	connect(({firebase: {auth}}: any) => ({auth})),
+	spinnerWhileLoading(['auth']),
 	firestoreConnect((props: Props) => {
 		const userId = props.match.params[routes.URL_PARAM_USER];
 		return [{
 			collection: 'users',
 			doc: userId,
-   populates,
+			populates,
 		}, {
 			collection: 'users',
-   doc: props.auth.uid
+			doc: props.auth.uid
 		}];
 	}),
 	connect(
@@ -202,8 +149,8 @@ export default compose(
 			return {
 				user: populate(firestore, `users/${userId}`, populates),
 				users: firestore.data.users,
-    authUser: firestore.data.users
-                    && firestore.data.users[firebase.auth.uid],
+				authUser: firestore.data.users
+					&& firestore.data.users[firebase.auth.uid],
 			};
 		},
 	),

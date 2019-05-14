@@ -1,7 +1,6 @@
 import {
 	Button,
 	createStyles,
-	IconButton,
 	Table,
 	TableBody,
 	TableCell,
@@ -12,12 +11,13 @@ import {
 	WithStyles,
 	withStyles,
 } from '@material-ui/core';
-import {Edit, PersonAdd, PersonOutline} from '@material-ui/icons';
+import {Edit} from '@material-ui/icons';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded, populate} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
+import FollowActionButton from '../components/FollowActionButton';
 import * as routes from '../constants/routes';
 import {Trip} from '../types/trip';
 import {User} from '../types/user';
@@ -57,49 +57,6 @@ class MembersPage extends React.Component<Props> {
 		history.push(routes.TRIPS_EDIT(match.params[routes.URL_PARAM_TRIP]));
 	};
 
-	handleFollowUser = (userToFollow: any) => () => {
-		const {auth} = this.props;
-		const {authUser} = this.props;
-		const {firestore} = this.props;
-
-		if (!authUser.following) {
-			authUser.following = [];
-		}
-
-		const firestoreRef = {
-			collection: 'users',
-			doc: auth.uid,
-		};
-
-		const following = [...authUser.following];
-		following.push(userToFollow);
-		const userUpdated = {
-			...authUser,
-			following,
-		};
-
-		firestore.set(firestoreRef, userUpdated);
-	};
-
-	handleUnfollowUser = (userToUnfollow: any) => () => {
-		const {auth, authUser} = this.props;
-		const {firestore} = this.props;
-
-		const firestoreRef = {
-			collection: 'users',
-			doc: auth.uid,
-		};
-
-		const following = [...authUser.following];
-		following.splice(following.indexOf(userToUnfollow), 1);
-		const userUpdated = {
-			...authUser,
-			following,
-		};
-
-		firestore.set(firestoreRef, userUpdated);
-	};
-
 	render() {
 		const {classes, trip, authUser} = this.props;
 		console.log(trip);
@@ -123,7 +80,7 @@ class MembersPage extends React.Component<Props> {
 					Members
 				</Typography>
 
-				{!(isLoaded(trip))
+				{!(isLoaded(trip) && isLoaded(authUser))
 					? 'Loading members...'
 					: isEmpty(trip) || !trip.membersObj
 						? 'No members added.' :
@@ -151,32 +108,10 @@ class MembersPage extends React.Component<Props> {
 													{username}
 												</NavLink>
 												<span hidden={!authUser || id === this.props.auth.uid}>
-													<span
-														hidden={!!authUser && !!authUser.following
-														&& authUser.following.indexOf(id) > -1}
-													>
-														<IconButton
-															aria-label='Follow'
-															onClick={this.handleFollowUser(id)}
-															disabled={!authUser || id === this.props.auth.uid
-															|| (!!authUser.following && authUser.following.indexOf(id) > -1)}
-														>
-														<PersonAdd fontSize={'small'}/>
-														</IconButton>
-													</span>
-													<span
-														hidden={!!authUser.following && !(authUser.following.indexOf(id) > -1)}
-													>
-												<IconButton
-													aria-label='Stop Follow'
-													onClick={this.handleUnfollowUser(id)}
-													disabled={!authUser || id === this.props.auth.uid
-													|| (!!authUser.following && !(authUser.following.indexOf(id) > -1))}
-
-												>
-													<PersonOutline fontSize={'small'}/>
-												</IconButton>
-													</span>
+													{
+														// @ts-ignore
+														<FollowActionButton userId={id}/>
+													}
 												</span>
 
 											</TableCell>
