@@ -1,13 +1,7 @@
 import {createStyles, Theme, WithStyles, withStyles} from '@material-ui/core';
-import Avatar from '@material-ui/core/Avatar';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
-import ArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
@@ -15,9 +9,8 @@ import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
-import ActivitiesSlider from '../components/ActivitiesSlider';
+import LocationPanel from '../components/LocationPanel';
 import * as routes from '../constants/routes';
-import PictureStar from '../images/star.jpg';
 import {Location} from '../types/location';
 import {Trip} from '../types/trip';
 import {parseDateIfValid} from '../utils/parser';
@@ -101,54 +94,17 @@ class LocationsPage extends React.Component<Props, State> {
 								const startdate = parseDateIfValid(locations[key].startdate);
 								const enddate = parseDateIfValid(locations[key].enddate);
 								return (
-									<div key={key}>
-										<ExpansionPanel
-											className={classes.locationPanel}
-											expanded={expanded === key}
-											onChange={this.handleExpansionPanelChange(key)}
-										>
-											<ExpansionPanelSummary>
-												<div className={classes.smallColumn}>
-													<Avatar src={PictureStar}/>
-												</div>
-												<div className={classes.bigColumn}>
-													<Typography>{location.title}</Typography>
-												</div>
-												<div className={classes.bigColumn}>
-													<Typography>
-														Start Date:
-														{!!startdate && ` ${startdate.getDate()}.${startdate.getMonth()}.${startdate.getFullYear()}`}
-													</Typography>
-													<Typography>
-														End Date:
-														{!!enddate && ` ${enddate.getDate()}.${enddate.getMonth()}.${enddate.getFullYear()}`}
-													</Typography>
-												</div>
-												<div className={classes.bigColumn}>
-													<Typography>{locations[key].description}</Typography>
-												</div>
-												<div className={classes.smallColumn}>
-													<NavLink exact={true} to={routes.LOCATIONS_VIEW(tripId, key)}>
-														<Avatar>
-															<ArrowRightIcon/>
-														</Avatar>
-													</NavLink>
-												</div>
-											</ExpansionPanelSummary>
-
-											<ExpansionPanelDetails>
-												<div style={{width: '100%'}}>
-													{
-														// @ts-ignore
-														<ActivitiesSlider
-															tripId={tripId}
-															locationId={key}
-														/>
-													}
-												</div>
-											</ExpansionPanelDetails>
-										</ExpansionPanel>
-									</div>
+									<LocationPanel
+										key={key}
+										id={key}
+										classes={classes}
+										expanded={expanded}
+										onChange={this.handleExpansionPanelChange(key)}
+										location={location}
+										startdate={startdate}
+										enddate={enddate}
+										tripId={tripId}
+									/>
 								);
 							})}
 				</div>
