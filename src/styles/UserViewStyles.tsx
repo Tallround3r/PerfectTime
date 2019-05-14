@@ -1,4 +1,4 @@
-import {Theme, createStyles} from '@material-ui/core/styles';
+import {createStyles, Theme} from '@material-ui/core/styles';
 
 const styles = (theme: Theme) => createStyles({
 	userViewPage: {
@@ -37,6 +37,9 @@ const styles = (theme: Theme) => createStyles({
 	},
 	imageIcon: {
 		fontSize: '10em',
+	},
+	icon: {
+		margin: theme.spacing.unit * 2,
 	},
 	activitiesContainer: {
 		marginTop: theme.spacing.unit * 6,

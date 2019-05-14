@@ -1,7 +1,4 @@
-import {Button, createStyles, Paper, TextField, Theme, Typography, WithStyles, withStyles} from '@material-ui/core';
-import {AddPhotoAlternateOutlined} from '@material-ui/icons';
-import classNames from 'classnames';
-import DatePicker from 'material-ui-pickers/DatePicker';
+import {Button, createStyles, Theme, Typography, WithStyles, withStyles} from '@material-ui/core';
 import React, {ChangeEvent, FormEvent, MouseEvent} from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect} from 'react-redux-firebase';
@@ -9,49 +6,14 @@ import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import {isEqual, omit} from 'underscore';
 import ActivitiesSlider from '../components/ActivitiesSlider';
+import LocationMetadataInput from '../components/LocationMetadataInput';
 import * as routes from '../constants/routes';
 import {Location} from '../types/location';
-import {datePickerMask} from '../utils/datePickerUtils';
-import {parseDateIfValid} from '../utils/parser';
 
 
 const styles = (theme: Theme) => createStyles({
 	locationEditPage: {
 		paddingTop: theme.spacing.unit * 3,
-	},
-	inputContainer: {
-		display: 'flex',
-		flexDirection: 'column',
-		margin: theme.spacing.unit,
-		padding: theme.spacing.unit,
-		paddingRight: theme.spacing.unit * 10,
-		minWidth: '25em',
-	},
-	inputField: {
-		marginTop: theme.spacing.unit,
-	},
-	inputHorizontalContainer: {
-		display: 'flex',
-		justifyContent: 'space-between',
-		flexWrap: 'nowrap',
-	},
-	inputHorizontalSpacing: {
-		marginRight: theme.spacing.unit * 2,
-	},
-	addressLabel: {
-		marginTop: theme.spacing.unit * 2,
-	},
-	imagePaper: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		margin: theme.spacing.unit,
-		float: 'right',
-		width: '18em',
-		height: '18em',
-	},
-	imageIcon: {
-		fontSize: '10em',
 	},
 	actionButtonsContainer: {
 		display: 'flex',
@@ -193,120 +155,20 @@ class LocationEditPage extends React.Component<Props, State> {
 					Edit Location
 				</Typography>
 
-				<div>
-					<Paper
-						className={classes.imagePaper}
-					>
-						<AddPhotoAlternateOutlined
-							className={classes.imageIcon}
-						/>
-					</Paper>
-
-					<form className={classes.inputContainer} onSubmit={this.handleSubmit}>
-						<TextField
-							className={classes.inputField}
-							label='Title'
-							name='title'
-							value={title}
-							onChange={this.handleChangeInput}
-							required={true}
-						/>
-						<TextField
-							className={classes.inputField}
-							label='Description'
-							name='description'
-							value={description}
-							onChange={this.handleChangeInput}
-							multiline={true}
-							required={true}
-						/>
-						<div className={classes.inputHorizontalContainer}>
-							<DatePicker
-								className={classNames(classes.inputField, classes.inputHorizontalSpacing)}
-								keyboard={true}
-								required={true}
-								value={parseDateIfValid(startdate)}
-								onChange={this.handleChangeDate('startdate')}
-								label='Start Date'
-								format='MM/dd/yyyy'
-								placeholder='MM/DD/YYYY'
-								mask={datePickerMask}
-								disableOpenOnEnter={true}
-								animateYearScrolling={false}
-								fullWidth={true}
-							/>
-							<DatePicker
-								className={classes.inputField}
-								keyboard={true}
-								required={true}
-								value={parseDateIfValid(enddate)}
-								onChange={this.handleChangeDate('enddate')}
-								label='End Date'
-								format='MM/dd/yyyy'
-								placeholder='MM/DD/YYYY'
-								mask={datePickerMask}
-								disableOpenOnEnter={true}
-								animateYearScrolling={false}
-								fullWidth={true}
-							/>
-						</div>
-
-						<Typography
-							className={classes.addressLabel}
-							variant='subtitle2'
-						>
-							Address
-						</Typography>
-						<div className={classes.inputHorizontalContainer}>
-							<TextField
-								className={classNames(classes.inputField, classes.inputHorizontalSpacing)}
-								label='City'
-								name='city'
-								value={address.city || ''}
-								onChange={this.handleChangeAddress}
-								required={true}
-								fullWidth={true}
-							/>
-							<TextField
-								className={classes.inputField}
-								label='ZIP-Code'
-								name='zipCode'
-								value={address.zipCode || ''}
-								onChange={this.handleChangeAddress}
-								fullWidth={true}
-							/>
-						</div>
-						<TextField
-							className={classes.inputField}
-							label='Country'
-							name='country'
-							value={address.country || ''}
-							onChange={this.handleChangeAddress}
-							required={true}
-						/>
-
-						<div className={classes.actionButtonsContainer}>
-							<Button
-								className={classes.actionButton}
-								type='submit'
-								variant='contained'
-								color='primary'
-								fullWidth={true}
-							>
-								Save Location
-							</Button>
-							<Button
-								className={classes.actionButton}
-								variant='contained'
-								color='secondary'
-								fullWidth={true}
-								onClick={this.handleCancel}
-							>
-								Cancel
-							</Button>
-						</div>
-					</form>
-				</div>
+				<LocationMetadataInput
+					classes={classes}
+					onSubmit={this.handleSubmit}
+					value={title}
+					onChange={this.handleChangeInput}
+					value1={description}
+					obj={startdate}
+					onChange1={this.handleChangeDate('startdate')}
+					obj1={enddate}
+					onChange2={this.handleChangeDate('enddate')}
+					address={address}
+					onChange3={this.handleChangeAddress}
+					onClick={this.handleCancel}
+				/>
 
 				<div className={classes.activitiesContainer}>
 					<Typography

@@ -27,7 +27,7 @@
 </g>
 <g id="clust5" class="cluster"><title>cluster_4</title>
 <polygon fill="lightgray" stroke="lightgrey" points="8,-167.8 8,-665.4 1159,-665.4 1159,-167.8 8,-167.8"/>
-<text text-anchor="middle" x="583.702" y="-634.4" font-family="Times,serif" font-size="30.00">C:/Users/Service/Desktop/PerfectTimeWorkspace/PerfectTime/src/components/withDrawer.tsx</text>
+<text text-anchor="middle" x="583.702" y="-634.4" font-family="Times,serif" font-size="30.00">C:/Users/Service/Desktop/PerfectTimeWorkspace/PerfectTime/src/components/AppWrapper.tsx</text>
 </g>
 <g id="clust6" class="cluster"><title>cluster_5</title>
 <polygon fill="lightgray" stroke="lightgrey" points="4693,-8 4693,-470.8 5921,-470.8 5921,-8 4693,-8"/>
@@ -127,7 +127,7 @@
 <polygon fill="lightyellow" stroke="black" points="927.142,-538.1 927.142,-587.7 1150.86,-587.7 1150.86,-538.1 927.142,-538.1"/>
 <text text-anchor="middle" x="1039" y="-571.1" font-family="Times,serif" font-size="14.00">«GLOBAL»</text>
 <polyline fill="none" stroke="black" points="927.142,-562.9 1150.86,-562.9 "/>
-<text text-anchor="start" x="935.142" y="-546.3" font-family="Times,serif" font-size="14.00">&#45;withDrawer : variable = Component</text>
+<text text-anchor="start" x="935.142" y="-546.3" font-family="Times,serif" font-size="14.00">&#45;withAppWrapper : variable = Component</text>
 </g>
 <!-- 4&#45;&gt;0 -->
 <g id="edge10" class="edge"><title>4&#45;&gt;0</title>

@@ -121,7 +121,7 @@ class UserUpdatePasswordPage extends React.Component<UserUpdatePasswordPageProps
 					firebase.auth().currentUser.updatePassword(this.state.passwordNew)
 						.then(() => {
 							alert(`Password changed.`);
-							history.push(routes.USER_VIEW(userId));
+							history.push(routes.USER(userId));
 						})
 						.catch((error: any) => {
 							console.log(error);
@@ -227,7 +227,7 @@ class UserUpdatePasswordPage extends React.Component<UserUpdatePasswordPageProps
 							</Button>
 							<br/>
 							<br/>
-							<NavLink exact={true} to={routes.USER_VIEW(this.props.auth.uid)}>
+							<NavLink exact={true} to={routes.USER(this.props.auth.uid)}>
 								<Button
 									color='primary'
 									variant='contained'

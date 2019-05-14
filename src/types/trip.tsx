@@ -8,6 +8,9 @@ export interface Trip {
 	description: string,
 	startdate: Date | Timestamp | null,
 	enddate: Date | Timestamp | null,
+	public?: boolean,
 	owner?: string | User,
-	members?: Array<string>,
+	ownerObj?: User,
+	members?: string[],
+	membersObj?: { [key: number]: User },
 }

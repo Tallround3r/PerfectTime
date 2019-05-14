@@ -28,7 +28,7 @@ import SignOutButton from './SignOutButton';
 import withAuthorization from './withAuthorization';
 
 
-const withDrawer = (Component: React.ComponentType<any>): any => {
+const withAppWrapper = (Component: React.ComponentType<any>): any => {
 
 	const drawerWidth = 240;
 	const swipeDrawerWidth = 200;
@@ -106,18 +106,21 @@ const withDrawer = (Component: React.ComponentType<any>): any => {
 		logo: {
 			display: 'block',
 			width: '50%',
+			margin: 'auto',
 			marginBottom: '20px',
+
 		},
 		menuLogo: {
-			display: 'block',
-			width: '7%',
 			margin: 'auto',
-			marginLeft: theme.spacing.unit * 3,
-			marginRight: theme.spacing.unit,
+			width: '100%',
 		},
 		menuLogoLink: {
-			width: 'auto',
-		}
+			display: 'flex',
+			margin: theme.spacing.unit,
+			marginLeft: theme.spacing.unit * 3,
+			marginRight: theme.spacing.unit * 4,
+			width: '3%',
+		},
 	});
 
 	interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
@@ -197,6 +200,7 @@ const withDrawer = (Component: React.ComponentType<any>): any => {
 									>
 										<MenuIcon/>
 									</IconButton> :
+
 									<NavLink exact={true} to={routes.TRIPS()} className={classes.menuLogoLink}>
 										<img src={logo} className={classes.menuLogo} alt='Logo'/>
 									</NavLink>
@@ -233,6 +237,9 @@ const withDrawer = (Component: React.ComponentType<any>): any => {
 						{tripId &&
 						<Hidden mdUp={true}>
 							<SwipeableDrawer
+								classes={{
+									paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
+								}}
 								onClose={this.handleDrawerClose}
 								onOpen={this.handleDrawerOpen}
 								open={this.state.open}
@@ -267,4 +274,4 @@ const withDrawer = (Component: React.ComponentType<any>): any => {
 	)(AppWrapper);
 };
 
-export default withDrawer;
+export default withAppWrapper;
