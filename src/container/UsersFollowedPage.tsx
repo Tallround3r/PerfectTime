@@ -16,10 +16,10 @@ import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded, populate} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
+import FollowActionButton from '../components/FollowActionButton';
 import * as routes from '../constants/routes';
 import {User} from '../types/user';
 import {spinnerWhileLoading} from '../utils/firebaseUtils';
-import FollowActionButton from "../components/FollowActionButton";
 
 const styles = (theme: Theme) => createStyles({
 	root: {
@@ -43,7 +43,7 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	firestore: any;
 	user: User;
 	users: User[],
- authUser: User,
+	authUser: User,
 	auth: any,
 }
 
@@ -89,11 +89,11 @@ class UsersFollowedPage extends React.Component<Props> {
 										<TableRow key={userId}>
 
 											<TableCell component='th' scope='row'>
-                                                <NavLink exact={true} to={routes.USER_VIEW(userId)}>
-												{username}
-                                                </NavLink>
+												<NavLink exact={true} to={routes.USER_VIEW(userId)}>
+													{username}
+												</NavLink>
 												{
-													//@ts-ignore
+													// @ts-ignore
 													<FollowActionButton userId={userId}/>
 												}
 											</TableCell>
@@ -111,7 +111,7 @@ class UsersFollowedPage extends React.Component<Props> {
 						</Table>
 				}
 
-				<NavLink exact={true} to={routes.USER_VIEW(this.props.match.params[routes.URL_PARAM_USER])} >
+				<NavLink exact={true} to={routes.USER_VIEW(this.props.match.params[routes.URL_PARAM_USER])}>
 					<Button
 						color='primary'
 						variant='contained'
@@ -125,21 +125,22 @@ class UsersFollowedPage extends React.Component<Props> {
 		);
 	}
 }
+
 const populates = [{child: 'following', root: 'users', keyProp: 'id', childAlias: 'followingObj'}];
 
 export default compose(
 	withRouter,
-    connect(({firebase: {auth}}: any) => ({auth})),
-    spinnerWhileLoading(['auth']),
+	connect(({firebase: {auth}}: any) => ({auth})),
+	spinnerWhileLoading(['auth']),
 	firestoreConnect((props: Props) => {
 		const userId = props.match.params[routes.URL_PARAM_USER];
 		return [{
 			collection: 'users',
 			doc: userId,
-   populates,
+			populates,
 		}, {
 			collection: 'users',
-   doc: props.auth.uid
+			doc: props.auth.uid
 		}];
 	}),
 	connect(
@@ -148,8 +149,8 @@ export default compose(
 			return {
 				user: populate(firestore, `users/${userId}`, populates),
 				users: firestore.data.users,
-    authUser: firestore.data.users
-                    && firestore.data.users[firebase.auth.uid],
+				authUser: firestore.data.users
+					&& firestore.data.users[firebase.auth.uid],
 			};
 		},
 	),
