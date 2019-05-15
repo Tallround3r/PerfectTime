@@ -11,7 +11,8 @@ const emailRegister = Selector('#email');
 const passwordRegister = Selector('#password');
 const passwordConfirmRegister = Selector('#passwordConfirm');
 const signUp = Selector('#signUpButton');
-const signIn = Selector('#signInButton');
+const signIn = Selector('#signIn');
+const logout = Selector('#logOutButton');
 const addActivityButton = Selector('#addActivityButton');
 const editActivityButton = Selector('#editActivityButton');
 const saveActivityButton = Selector('#saveActivityButton');
@@ -53,6 +54,8 @@ exports.select = (selection) => {
             return signUp;
         case 'Login Button':
             return signIn;
+        case 'Logout Button':
+            return logout;
         case 'add activity button':
             return addActivityButton;
         case 'edit activity button':
