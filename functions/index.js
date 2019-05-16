@@ -26,12 +26,10 @@ let onUserDelete = (snap, context) => {
 				if(index >= 0) {
 					members.splice(index, 1);
 					tripObj.members = members;
-					firestore.set(tripDoc.reference, tripObj); //TODO: Does reference work?
+					firestore.set(tripDoc.ref, tripObj); //TODO: Does reference work?
 				}
-
 			}
-
-		})
+		});
 	});
 
 	// deleted all references on deleted user in followedUser
@@ -43,7 +41,7 @@ let onUserDelete = (snap, context) => {
 			if(index >= 0)
 			{
 				userObj.splice(index, 1);
-				firestore.set(userDoc.reference, userObj); // TODO: Does reference work?
+				firestore.set(userDoc.ref, userObj); // TODO: Does reference work?
 			}
 		});
 	});
