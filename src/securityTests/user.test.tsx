@@ -12,8 +12,8 @@ beforeEach(async () => {
 	})
 });
 
-describe('view TRIPS', () => {
-	it('is possible to view a TRIP if user is a member', async () => {
+describe('view USERS', () => {
+	it('is possible to view the own USER', async () => {
 		auth.onAuthStateChanged((user) => {
 			if (user) {
 				console.log(user.uid);
@@ -29,16 +29,25 @@ describe('view TRIPS', () => {
 			console.log('Error getting document', err);
 		});
 	});
+
+	it('is possible to view other USER', async () => {
+		let userRef = await db.collection('users').doc('QmhifrccFNN7joolFDNYuXeseg42');
+		let getUser = await userRef.get().then((snapshot) => {
+			console.log(snapshot.data());
+		}).catch((err) => {
+			console.log('Error getting document', err);
+		});
+	});
 });
 
-// afterEach(() => {
-// 	auth.signOut().then(() => {
-// 		console.log('Sign-out successful.');
-// 	}).catch((error) => {
-// 		console.log(error.message);
-// 	});
-//
-// });
+afterEach(() => {
+	auth.signOut().then(() => {
+		console.log('Sign-out successful.');
+	}).catch((error) => {
+		console.log(error.message);
+	});
+
+});
 //
 // describe('password check', () => {
 // });
