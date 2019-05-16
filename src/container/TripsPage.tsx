@@ -1,4 +1,4 @@
-import {createStyles, Theme, WithStyles, withStyles} from '@material-ui/core';
+import {createStyles, Dialog, Theme, WithStyles, withStyles} from '@material-ui/core';
 import Fab from '@material-ui/core/Fab/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from '@material-ui/icons/Add';
@@ -10,6 +10,7 @@ import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
+import ConfirmDialog from '../components/ConfirmDialog';
 import TripPanel from '../components/TripPanel';
 import {FB_FUNC_DELETE_TRIP} from '../constants/firebase-constants';
 import * as routes from '../constants/routes';
@@ -46,17 +47,54 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 
 interface State {
 	expanded: any;
+	openDeleteDialog: boolean;
+	tripToDelete: string | null;
 }
 
 class TripsPage extends React.Component<Props, State> {
 
 	state = {
 		expanded: null,
+		openDeleteDialog: false,
+		tripToDelete: null,
+	};
+
+	handleConfirmDeleteTrip = (e: MouseEvent) => {
+		e.preventDefault();
+		const {tripToDelete} = this.state;
+
+		if (!tripToDelete) {
+			console.error('No trip ID defined while trying to delete trip', tripToDelete);
+			return;
+		}
+
+		const path = `TRIPS/${tripToDelete}`;
+		const deleteFn = firebase.functions().httpsCallable(FB_FUNC_DELETE_TRIP);
+
+		this.setState({
+			openDeleteDialog: false,
+			tripToDelete: null,
+		});
+		// TODO: set loading circle for download button
+
+		deleteFn({path})
+			.then((result) => {
+				console.log('Delete success: ' + JSON.stringify(result));
+			})
+			.catch((err) => {
+				console.warn(err);
+			});
+	};
+
+	handleCancelDeleteTrip = (e: MouseEvent) => {
+		this.setState({
+			openDeleteDialog: false,
+			tripToDelete: null,
+		});
 	};
 
 	handleEditBtnClicked = (tripId: string) => (e: MouseEvent) => {
 		e.preventDefault();
-
 		const {history} = this.props;
 
 		history.push(routes.TRIPS_EDIT(tripId));
@@ -65,26 +103,17 @@ class TripsPage extends React.Component<Props, State> {
 	handleDeleteBtnClicked = (tripId: string) => (e: MouseEvent) => {
 		e.preventDefault();
 
-		// TODO: open dialog for confirming trip deletion
-
-		const path = `TRIPS/${tripId}`;
-
-		const deleteFn = firebase.functions().httpsCallable(FB_FUNC_DELETE_TRIP);
-		deleteFn({path})
-			.then((result) => {
-				console.log('Delete success: ' + JSON.stringify(result));
-			})
-			.catch((err) => {
-				console.warn(err);
-			});
-
+		this.setState({
+			tripToDelete: tripId,
+			openDeleteDialog: true,
+		});
 	};
 
 	render() {
 		const {classes, trips, auth} = this.props;
 
 		return (
-			<div>
+			<React.Fragment>
 				<h1>Trips</h1>
 				{!isLoaded(trips)
 					? 'Loading Trips...'
@@ -121,7 +150,15 @@ class TripsPage extends React.Component<Props, State> {
 						</Fab>
 					</Tooltip>
 				</NavLink>
-			</div>
+
+				<ConfirmDialog
+					content={'Are you sure you want to delete this trip and all its locations and activities?\n' +
+					'This action can not be undone.'}
+					open={this.state.openDeleteDialog}
+					onConfirm={this.handleConfirmDeleteTrip}
+					onCancel={this.handleCancelDeleteTrip}
+				/>
+			</React.Fragment>
 		);
 	}
 }
