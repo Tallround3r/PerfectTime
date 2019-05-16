@@ -11,8 +11,7 @@ import {compose} from 'redux';
 import {isEqual, omit} from 'underscore';
 import MultiSelect, {OptionType} from '../components/MultiSelect';
 import * as routes from '../constants/routes';
-import {Trip} from '../types/trip';
-import {User} from '../types/user';
+import {Trip, User} from '../types';
 import {datePickerMask} from '../utils/datePickerUtils';
 import {parseDateIfValid} from '../utils/parser';
 
