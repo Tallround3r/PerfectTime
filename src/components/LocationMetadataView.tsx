@@ -55,6 +55,7 @@ interface LocationMetadataProps extends WithStyles<typeof styles> {
 	locationId: string
 }
 
+// tslint:disable-next-line:max-line-length
 function LocationMetadataView({title, classes, description, timestamp, timestamp1, address, tripId, locationId}: LocationMetadataProps) {
 	return (
 		<div className={classes.locationViewPage}>
