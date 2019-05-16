@@ -8,7 +8,6 @@ const futureDate = new Date('2034-06-29T00:44:02.130Z');
 
 describe('parseDate check', () => {
 	it('recognizes valid future date', () => {
-		console.log(randomValidPastDate);
 		expect(parseDateIfValid(randomValidFutureDate))
 			.toBe(randomValidFutureDate);
 	});
