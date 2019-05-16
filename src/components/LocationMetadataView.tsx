@@ -5,7 +5,7 @@ import firebase from 'firebase';
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import * as routes from '../constants/routes';
-import {Address} from '../types/address';
+import {Address} from '../types';
 import {parseDateToString} from '../utils/parser';
 
 type Timestamp = firebase.firestore.Timestamp;
@@ -56,7 +56,9 @@ interface LocationMetadataProps extends WithStyles<typeof styles> {
 }
 
 // tslint:disable-next-line:max-line-length
-function LocationMetadataView({title, classes, description, timestamp, timestamp1, address, tripId, locationId}: LocationMetadataProps) {
+function LocationMetadataView(props: LocationMetadataProps) {
+	const {title, classes, description, timestamp, timestamp1, address, tripId, locationId} = props;
+
 	return (
 		<div className={classes.locationViewPage}>
 			<Typography

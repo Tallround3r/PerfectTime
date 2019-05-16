@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import firebase from 'firebase';
 import DatePicker from 'material-ui-pickers/DatePicker/DatePickerModal';
 import React, {ChangeEvent, FormEvent} from 'react';
-import {Address} from '../types/address';
+import {Address} from '../types';
 import {datePickerMask} from '../utils/datePickerUtils';
 import {parseDateIfValid} from '../utils/parser';
 
@@ -71,7 +71,23 @@ interface LocationMetadataInputProps extends WithStyles<typeof styles> {
 	value1: string,
 }
 
-function LocationMetadataInput({classes, onSubmit, value, onChange, value1, obj, onChange1, obj1, onChange2, address, onChange3, onClick}: LocationMetadataInputProps) {
+// tslint:disable-next-line:max-line-length
+function LocationMetadataInput(props: LocationMetadataInputProps) {
+	const {
+		classes,
+		onSubmit,
+		value,
+		onChange,
+		value1,
+		obj,
+		address,
+		obj1,
+		onChange1,
+		onChange2,
+		onChange3,
+		onClick,
+	} = props;
+
 	return (
 		<div>
 			<Paper
