@@ -47,7 +47,6 @@ class LocationViewPage extends React.Component<Props> {
 			<div className={classes.locationViewPage}>
 				<LocationMetadata
 					title={title}
-					classes={classes}
 					description={description}
 					timestamp={startdate}
 					timestamp1={enddate}

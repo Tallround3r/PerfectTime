@@ -8,7 +8,7 @@ import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {ActionMeta, ValueType} from 'react-select/lib/types';
 import {compose} from 'redux';
-import {isEqual} from 'underscore';
+import {isEqual, omit} from 'underscore';
 import MultiSelect, {OptionType} from '../components/MultiSelect';
 import * as routes from '../constants/routes';
 import {Trip} from '../types/trip';
@@ -132,9 +132,10 @@ class TripEditPage extends React.Component<Props, State> {
 			: [];
 
 		const tripN = {
-			...trip,
+			...omit(trip, 'locations'),
 			members,
 		};
+
 		firestore.set(firestoreRef, tripN);
 
 		history.push(routes.TRIPS());
