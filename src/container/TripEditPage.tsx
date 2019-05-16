@@ -75,6 +75,7 @@ const styles = (theme: Theme) => createStyles({
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	firestore: any;
+	auth: any;
 	trip: Trip;
 	users: User[];
 }
@@ -152,6 +153,10 @@ class TripEditPage extends React.Component<Props, State> {
 		e.preventDefault();
 	};
 
+	handleDeleteTrip = (e: MouseEvent) => {
+		alert('unimplemented');
+	}
+
 	handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
 		const {name, value} = e.target;
 
@@ -194,7 +199,7 @@ class TripEditPage extends React.Component<Props, State> {
 	};
 
 	render() {
-		const {classes, users} = this.props;
+		const {auth, classes, users} = this.props;
 		const {trip, selectedMembers} = this.state;
 		const {title, description, startdate, enddate} = trip || INITIAL_TRIP;
 
@@ -306,6 +311,19 @@ class TripEditPage extends React.Component<Props, State> {
 							>
 								Cancel
 							</Button>
+							{ (!(isLoaded(auth) && isLoaded(auth.uid) && isLoaded(trip) && isLoaded(users) && isLoaded(trip.owner))) ? '' :
+								<span hidden={!(trip.owner === auth.uid || trip.owner === users[auth.uid])} >
+								<Button
+									className={classes.actionButton}
+									variant='contained'
+									color='secondary'
+									fullWidth={true}
+									onClick={this.handleDeleteTrip}
+								>
+									Delete Trip
+								</Button>
+								</span>
+							}
 						</div>
 					</form>
 				</div>
