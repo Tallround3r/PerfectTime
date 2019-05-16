@@ -1,19 +1,52 @@
-import * as functions from "firebase";
-
+const firebase_tools = require('firebase-tools');
 const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+
+admin.initializeApp();
+
+const firestore = admin.firestore();
 
 let onUserDelete = (snap, context) => {
 	const user = snap.data();
 	const id = user.id;
-	const users = functions.firestore.
 
-	//delete all trips owned by deleted user
 
+	// delete all trips owned by deleted user
+	// delete all references on deleted user in tripMembers
+	firestore.collection("TRIPS").get().then(snap => {
+		snap.forEach(tripDoc => {
+			const tripObj = tripDoc.data();
+			if(tripObj.owner === id)
+			{
+				// TODO: call delete Trip
+			}
+			else {
+				const members = tripObj.members;
+				const index = members.indexOf(id);
+				if(index >= 0) {
+					members.splice(index, 1);
+					tripObj.members = members;
+					firestore.set(tripDoc.reference, tripObj); //TODO: Does reference work?
+				}
+
+			}
+
+		})
+	});
 
 	// deleted all references on deleted user in followedUser
+	firestore.collection("users").get().then( snap => {
 
-
-	// delete all references on deleted user in tripMembers
+		snap.forEach(userDoc => {
+			const userObj = userDoc.data();
+			let index = userObj.following.indexOf(user.uid);
+			if(index >= 0)
+			{
+				userObj.splice(index, 1);
+				firestore.set(userDoc.reference, userObj); // TODO: Does reference work?
+			}
+		});
+	});
 
 
 
