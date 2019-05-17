@@ -54,17 +54,17 @@ describe('view USERS', () => {
 		expect(userTwoData.username).toBe('testuser1');
 	});
 
-	it('is not possible to view USER data as not logged in', async () => {
-		await auth.signOut();
-
-		let userIsAbleToView = true;
-		await userTimTester.get().then(() => {
-			userIsAbleToView = true;
-		}).catch(() => {
-			userIsAbleToView = false
-		});
-		expect(userIsAbleToView).toBe(false);
-	});
+	// it('is not possible to view USER data as not logged in', async () => {
+	// 	await auth.signOut();
+	//
+	// 	let userIsAbleToView = true;
+	// 	await userTimTester.get().then(() => {
+	// 		userIsAbleToView = true;
+	// 	}).catch(() => {
+	// 		userIsAbleToView = false
+	// 	});
+	// 	expect(userIsAbleToView).toBe(false);
+	// });
 });
 
 describe('edit USERS', () => {
