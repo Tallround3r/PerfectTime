@@ -1,19 +1,18 @@
 import {auth, db} from '../firebase/firebase';
 
-let faker = require('faker');
+// let faker = require('faker');
 
 let userBruceLee: any;
 let userTimTester: any;
 let dbRef: any;
 
-const randomUserID = faker.random.uuid();
-const randomUsername = faker.internet.userName();
+// const randomUserID = faker.random.uuid();
+// const randomUsername = faker.internet.userName();
 
 beforeEach(async () => {
 	// @ts-ignore
-	await auth.signInWithEmailAndPassword(process.env.MAIL_BRUCE_LEE, process.env.PASS_BRUCE_LEE).catch((error: any) => {
-		console.log(error.message);
-	});
+	await auth.signInWithEmailAndPassword(process.env.MAIL_BRUCE_LEE, process.env.PASS_BRUCE_LEE);
+
 	dbRef = await db.collection('users');
 	userTimTester = await db.collection('users').doc(process.env.ID_TIM_TESTER);
 	userBruceLee = await db.collection('users').doc(process.env.ID_BRUCE_LEE);
@@ -36,7 +35,7 @@ beforeEach(async () => {
 
 describe('view USERS', () => {
 	it('is possible to view the own USER data', async () => {
-		let userOneData: any;
+		let userOneData = {username: ''};
 		await userBruceLee.get().then((snapshot: any) => {
 			userOneData = snapshot.data();
 		}).catch((err: string) => {
@@ -46,13 +45,25 @@ describe('view USERS', () => {
 	});
 
 	it('is possible to view other USERs data', async () => {
-		let userTwoData: any;
+		let userTwoData = {username: ''};
 		await userTimTester.get().then((snapshot: any) => {
 			userTwoData = snapshot.data();
 		}).catch((err: string) => {
 			console.log('Error getting document', err);
 		});
 		expect(userTwoData.username).toBe('testuser1');
+	});
+
+	it('is not possible to view USER data as not logged in', async () => {
+		await auth.signOut();
+
+		let userIsAbleToView = true;
+		await userTimTester.get().then(() => {
+			userIsAbleToView = true;
+		}).catch(() => {
+			userIsAbleToView = false
+		});
+		expect(userIsAbleToView).toBe(false);
 	});
 });
 
@@ -79,8 +90,8 @@ describe('edit USERS', () => {
 });
 
 describe('delete USERS', () => {
-	// let userDeleted = false;
 	// it('is possible to delete own USER', async () => {
+	// let userDeleted = false;
 	// 	await userBruceLee.delete().then(() => {
 	// 		userDeleted = true;
 	// 	}).catch(() => {
@@ -101,11 +112,10 @@ describe('delete USERS', () => {
 });
 
 afterEach(async () => {
-	await userBruceLee.update({username: 'testuser2'})
+	await userBruceLee.update({username: 'testuser2'});
 	auth.signOut().then(() => {
 		console.log('Sign-out successful.');
 	}).catch((error) => {
 		console.log(error.message);
 	});
-
 });

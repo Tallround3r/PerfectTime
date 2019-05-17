@@ -14,10 +14,8 @@ let dbTripRef: any;
 
 beforeEach(async () => {
 	// @ts-ignore
-	await auth.signInWithEmailAndPassword(process.env.MAIL_BRUCE_LEE, process.env.PASS_BRUCE_LEE)
-		.catch((error: any) => {
-			console.log(error.message);
-		});
+	await auth.signInWithEmailAndPassword(process.env.MAIL_BRUCE_LEE, process.env.PASS_BRUCE_LEE);
+
 	dbTripRef = await db.collection('TRIPS');
 	userTimTester = await db.collection('users').doc(process.env.ID_TIM_TESTER);
 	userBruceLee = await db.collection('users').doc(process.env.ID_BRUCE_LEE);
@@ -25,7 +23,7 @@ beforeEach(async () => {
 
 describe('create TRIPS', () => {
 
-	let trip = {
+	const trip = {
 		title: fakeTitle,
 		description: fakeDescription,
 		startdate: fakeStartDate,
@@ -78,16 +76,7 @@ describe('view TRIPS', () => {
 	it('is possible to view a private TRIP if user is a member', async () => {
 		await auth.signOut();
 		// @ts-ignore
-		await auth.signInWithEmailAndPassword(process.env.MAIL_TIM_TESTER, process.env.PASS_TIM_TESTER)
-			.catch((error: any) => {
-				console.log(error.message);
-			});
-
-		await auth.onAuthStateChanged((user) => {
-			if (user) {
-				console.log(user.uid);
-			}
-		});
+		await auth.signInWithEmailAndPassword(process.env.MAIL_TIM_TESTER, process.env.PASS_TIM_TESTER);
 
 		let tripData = {title: ''};
 
@@ -101,7 +90,6 @@ describe('view TRIPS', () => {
 	});
 
 	it('is not possible to view a private TRIP as not logged in', async () => {
-
 		await auth.signOut();
 
 		let gotTrip = true;
@@ -130,10 +118,7 @@ describe('edit TRIPS', () => {
 	it('is possible to edit a TRIP if user is a member', async () => {
 		await auth.signOut();
 		// @ts-ignore
-		await auth.signInWithEmailAndPassword(process.env.MAIL_TIM_TESTER, process.env.PASS_TIM_TESTER)
-			.catch((error: any) => {
-				console.log(error.message);
-			});
+		await auth.signInWithEmailAndPassword(process.env.MAIL_TIM_TESTER, process.env.PASS_TIM_TESTER);
 
 		let dataHasChanged = false;
 		await dbTripRef.doc(randomTripID).update({title: 'imChangedAgain'}).then(() => {
@@ -161,10 +146,7 @@ describe('delete TRIPS', () => {
 	it('is not possible to delete a TRIP as member', async () => {
 		await auth.signOut();
 		// @ts-ignore
-		await auth.signInWithEmailAndPassword(process.env.MAIL_TIM_TESTER, process.env.PASS_TIM_TESTER)
-			.catch((error: any) => {
-				console.log(error.message);
-			});
+		await auth.signInWithEmailAndPassword(process.env.MAIL_TIM_TESTER, process.env.PASS_TIM_TESTER);
 
 		let tripDeleted = true;
 
