@@ -172,8 +172,12 @@ class SignUp extends React.Component<Props, State> {
 
 						<form className={classes.form} onSubmit={this.handleSubmit}>
 							<div className={classes.realNameForms}>
-								<FormControl className={classes.firstNameForm} margin='normal' required={true}
-											 fullWidth={true}>
+								<FormControl
+									className={classes.firstNameForm}
+									margin='normal'
+									required={true}
+									fullWidth={true}
+								>
 									<InputLabel htmlFor='firstName'>First Name</InputLabel>
 									<Input
 										id='firstName'
