@@ -30,7 +30,7 @@ describe('create TRIPS', () => {
 		enddate: fakeEndDate,
 		public: false,
 		owner: process.env.ID_BRUCE_LEE,
-		member: [process.env.ID_TIM_TESTER],
+		members: [process.env.ID_TIM_TESTER],
 	};
 
 	it('is possible to create a TRIP for logged in user', async () => {
@@ -186,9 +186,6 @@ describe('delete TRIPS', () => {
 
 afterEach(() => {
 	auth.signOut().then(() => {
-		console.log('Sign-out successful.');
-	}).catch((error) => {
-		console.log(error.message);
+		return;
 	});
-
 });

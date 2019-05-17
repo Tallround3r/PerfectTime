@@ -114,8 +114,6 @@ describe('delete USERS', () => {
 afterEach(async () => {
 	await userBruceLee.update({username: 'testuser2'});
 	auth.signOut().then(() => {
-		console.log('Sign-out successful.');
-	}).catch((error) => {
-		console.log(error.message);
+		return;
 	});
 });
