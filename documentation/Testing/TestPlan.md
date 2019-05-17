@@ -242,10 +242,10 @@ n/a
 
 || |
 |---|---|
-|Technique Objective  	| These tests ensure two major needs: <br/> - That only users who have permisson to acess different pages (like edit pages of trips) have access to these pages <br/> - And that unauthorized access to the backend and database systems is prevented. (-> Done by Google Firebase)|
-|Technique 		|  To prevent the first objective to happen we ensure that code is proven by several members of the Team when checking it into master. Also some of the function tests are covering this objective. <br/> The second Objective is handeled by Goolge Firebase.|
+|Technique Objective  	| These tests ensure two major needs: <br/> - That only users who have permisson to acess different function (like edit pages of trips) have access to these functions <br/> - And that unauthorized access to the backend and database systems is prevented. (-> Done by Google Firebase)|
+|Technique 		|  To prevent the first objective to happen we ensure that code is proven by several members of the Team when checking it into master. Also some of the function tests are covering some functions. The real implementation of these tests wil take place in Jest by testing the API. <br/> The second Objective is handeled by Goolge Firebase.|
 |Oracles 		|  Manually found issues are Reported directly, automatically checked tests will fail if functionality not working.   |
-|Required Tools 	| TestCafe + Cucumber (+ TravisCI), git	 |
+|Required Tools 	| Jest (+ TravisCI), git	 |
 |Success Criteria	|     	The Success Criteria is, that all Tests complete successfully. This means that there are no security reasons. Also criteria is that no issues are found during code check.        |
 |Special Considerations	|     n/a         |
 
