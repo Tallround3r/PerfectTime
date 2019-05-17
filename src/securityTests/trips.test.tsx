@@ -2,54 +2,211 @@ import {auth, db} from '../firebase/firebase';
 
 let faker = require('faker');
 
-const randomValidEmail = faker.internet.email();
-const randomValidPassword = faker.internet.password();
-const randomValidNewPassword = faker.internet.password();
+const fakeTitle = faker.address.country();
+const randomTripID = faker.random.uuid();
+const fakeDescription = faker.lorem.text();
+const fakeStartDate = faker.date.recent();
+const fakeEndDate = faker.date.future(1);
+
+let userBruceLee: any;
+let userTimTester: any;
+let dbTripRef: any;
 
 beforeEach(async () => {
-	await auth.signInWithEmailAndPassword('Tim.Kertzscher@web.de', '!29041998*Ka1').catch((error) => {
-		console.log(error.message);
-	})
+	// @ts-ignore
+	await auth.signInWithEmailAndPassword(process.env.MAIL_BRUCE_LEE, process.env.PASS_BRUCE_LEE)
+		.catch((error: any) => {
+			console.log(error.message);
+		});
+	dbTripRef = await db.collection('TRIPS');
+	userTimTester = await db.collection('users').doc(process.env.ID_TIM_TESTER);
+	userBruceLee = await db.collection('users').doc(process.env.ID_BRUCE_LEE);
+});
+
+describe('create TRIPS', () => {
+
+	let trip = {
+		title: fakeTitle,
+		description: fakeDescription,
+		startdate: fakeStartDate,
+		enddate: fakeEndDate,
+		public: false,
+		owner: process.env.ID_BRUCE_LEE,
+		member: [process.env.ID_TIM_TESTER],
+	};
+
+	it('is possible to create a TRIP for logged in user', async () => {
+		let tripCreated = false;
+
+		await dbTripRef.doc(randomTripID).set(trip).then(() => {
+			tripCreated = true;
+		}).catch(() => {
+			tripCreated = false;
+		});
+
+		expect(tripCreated).toBe(true);
+	});
+
+	it('is not possible to create a TRIP as not logged in', async () => {
+		await auth.signOut();
+
+		let tripCreated = true;
+
+		await dbTripRef.doc(randomTripID).set(trip).then(() => {
+			tripCreated = true;
+		}).catch(() => {
+			tripCreated = false;
+		});
+
+		expect(tripCreated).toBe(false);
+	});
 });
 
 describe('view TRIPS', () => {
-	it('is possible to view a TRIP if user is a member', async () => {
-		auth.onAuthStateChanged((user) => {
+	it('is possible to view a private TRIP if user is owner', async () => {
+		let tripData = {title: ''};
+
+		await dbTripRef.doc(randomTripID).get().then((snapshot: any) => {
+			tripData = snapshot.data();
+		}).catch((err: string) => {
+			throw new Error(err);
+		});
+
+		expect(tripData.title).toEqual(fakeTitle);
+	});
+
+	it('is possible to view a private TRIP if user is a member', async () => {
+		await auth.signOut();
+		// @ts-ignore
+		await auth.signInWithEmailAndPassword(process.env.MAIL_TIM_TESTER, process.env.PASS_TIM_TESTER)
+			.catch((error: any) => {
+				console.log(error.message);
+			});
+
+		await auth.onAuthStateChanged((user) => {
 			if (user) {
 				console.log(user.uid);
 			}
 		});
-		let userRef = await db.collection('users').doc('HL4KQekOTjOu4EZCkqgKY3DAUiD3');
-		let getUser = await userRef.get().then((snapshot) => {
-			console.log(snapshot.data());
-			// snapshot.forEach((doc) => {
-			// 	console.log(doc.data());
-			// });
-		}).catch((err) => {
-			console.log('Error getting document', err);
+
+		let tripData = {title: ''};
+
+		await dbTripRef.doc(randomTripID).get().then((snapshot: any) => {
+			tripData = snapshot.data();
+		}).catch((err: string) => {
+			throw new Error(err);
 		});
+
+		expect(tripData.title).toEqual(fakeTitle);
+	});
+
+	it('is not possible to view a private TRIP as not logged in', async () => {
+
+		await auth.signOut();
+
+		let gotTrip = true;
+
+		await dbTripRef.doc(randomTripID).get().then((snapshot: any) => {
+			gotTrip = true;
+		}).catch(() => {
+			gotTrip = false;
+		});
+
+		expect(gotTrip).toBe(false);
+	});
+});
+//
+describe('edit TRIPS', () => {
+	it('is possible to edit a TRIP if user is owner', async () => {
+		let dataHasChanged = false;
+		await dbTripRef.doc(randomTripID).update({title: 'imChanged'}).then(() => {
+			dataHasChanged = true;
+		}).catch((error: string) => {
+			throw new Error(error)
+		});
+		expect(dataHasChanged).toBe(true)
+	});
+
+	it('is possible to edit a TRIP if user is a member', async () => {
+		await auth.signOut();
+		// @ts-ignore
+		await auth.signInWithEmailAndPassword(process.env.MAIL_TIM_TESTER, process.env.PASS_TIM_TESTER)
+			.catch((error: any) => {
+				console.log(error.message);
+			});
+
+		let dataHasChanged = false;
+		await dbTripRef.doc(randomTripID).update({title: 'imChangedAgain'}).then(() => {
+			dataHasChanged = true;
+		}).catch((error: string) => {
+			throw new Error(error)
+		});
+		expect(dataHasChanged).toBe(true)
+	});
+
+	it('is not possible to edit a TRIP as not logged in', async () => {
+		await auth.signOut();
+
+		let dataHasChanged = true;
+		await dbTripRef.doc(randomTripID).update({title: 'imChangedAThirdTime'}).then(() => {
+			dataHasChanged = true;
+		}).catch(() => {
+			dataHasChanged = false;
+		});
+		expect(dataHasChanged).toBe(false)
 	});
 });
 
-// afterEach(() => {
-// 	auth.signOut().then(() => {
-// 		console.log('Sign-out successful.');
-// 	}).catch((error) => {
-// 		console.log(error.message);
-// 	});
-//
-// });
-//
-// describe('password check', () => {
-// });
-//
-// describe('new password check', () => {
-// });
+describe('delete TRIPS', () => {
+	it('is not possible to delete a TRIP as member', async () => {
+		await auth.signOut();
+		// @ts-ignore
+		await auth.signInWithEmailAndPassword(process.env.MAIL_TIM_TESTER, process.env.PASS_TIM_TESTER)
+			.catch((error: any) => {
+				console.log(error.message);
+			});
 
+		let tripDeleted = true;
 
-// Scenario: The user should not be able to see restricted area edit trip
-//
-// Scenario: The user should not be able to see restricted area add trip
-//
-// Scenario: The user should not be able to see restricted delete edit trip
-//
+		await dbTripRef.doc(randomTripID).delete().then(() => {
+			tripDeleted = true;
+		}).catch(() => {
+			tripDeleted = false;
+		});
+		expect(tripDeleted).toBe(false)
+	});
+
+	it('is not possible to delete a TRIP as not logged in', async () => {
+		await auth.signOut();
+
+		let tripDeleted = true;
+
+		await dbTripRef.doc(randomTripID).delete().then(() => {
+			tripDeleted = true;
+		}).catch(() => {
+			tripDeleted = false;
+		});
+		expect(tripDeleted).toBe(false)
+	});
+
+	it('is possible to delete a TRIP as owner', async () => {
+		let tripDeleted = false;
+
+		await dbTripRef.doc(randomTripID).delete().then(() => {
+			tripDeleted = true;
+		}).catch(() => {
+			tripDeleted = false;
+		});
+		expect(tripDeleted).toBe(true)
+	});
+
+});
+
+afterEach(() => {
+	auth.signOut().then(() => {
+		console.log('Sign-out successful.');
+	}).catch((error) => {
+		console.log(error.message);
+	});
+
+});
