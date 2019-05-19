@@ -45,9 +45,6 @@ let onUserDelete = (snap, context) => {
 			}
 		});
 	});
-
-
-
 }
 
 //
