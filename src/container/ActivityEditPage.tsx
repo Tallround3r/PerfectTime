@@ -36,7 +36,6 @@ const INITIAL_ACTIVITY: Activity = {
 };
 
 class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
-
 	state = {
 		activity: this.props.activity || INITIAL_ACTIVITY,
 	};
