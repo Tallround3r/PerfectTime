@@ -75,6 +75,7 @@ AfterAll(function () {
 	}
 
 	function checkLastResponse() {
+		// @ts-ignore
 		if (testController.testRun.lastDriverStatusResponse === 'test-done-confirmation') {
 			cafeRunner.close();
 			process.exit();

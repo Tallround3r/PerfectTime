@@ -1,5 +1,5 @@
 const perfectTimelocal = 'http://localhost:3000/';
-const perfectTime = 'https://perfecttime-planyourtrip.firebaseapp.com/';
+// const perfectTime = 'https://perfecttime-planyourtrip.firebaseapp.com/';
 const perfectTimeLogin = 'http://localhost:3000/login';
 const perfectTimeLocations = 'http://localhost:3000/locations';
 const perfectTimeTestLocation = 'http://localhost:3000/location/id=XXX';
@@ -23,5 +23,7 @@ exports.url = (url) => {
 			return perfectTimeTestActivity;
 		case 'edit activity view':
 			return perfectTimeTestActivityEdit;
+		default:
+			return 'somethingWentWrong';
 	}
 };

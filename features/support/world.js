@@ -20,6 +20,7 @@ function CustomWorld({attach, parameters}) {
 	};
 
 	this.addScreenshotToReport = function () {
+		// @ts-ignore
 		if (process.argv.includes('--format') || process.argv.includes('-f') || process.argv.includes('--format-options')) {
 			testController.takeScreenshot()
 				.then(function (screenshotPath) {

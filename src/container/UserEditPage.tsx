@@ -48,7 +48,7 @@ class UserEditPage extends React.Component<UserEditPageProps, State> {
 
 	componentDidMount(): void {
 		const {match} = this.props;
-		if (match.params[routes.URL_PARAM_USER] != this.props.auth.uid) {
+		if (match.params[routes.URL_PARAM_USER] !== this.props.auth.uid) {
 			this.navigateBack();
 		}
 	}
