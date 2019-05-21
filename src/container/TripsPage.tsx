@@ -39,15 +39,16 @@ const styles = (theme: Theme) => createStyles({
 });
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
-	trips: { [id: string]: Trip };
 	auth: any;
 	firestore: any;
+	trips: { [id: string]: Trip };
 }
 
 interface State {
 	expanded: any;
 	openDeleteDialog: boolean;
 	tripToDelete: string | null;
+	trips?: { [id: string]: Trip };
 }
 
 class TripsPage extends React.Component<Props, State> {
@@ -57,6 +58,19 @@ class TripsPage extends React.Component<Props, State> {
 		openDeleteDialog: false,
 		tripToDelete: null,
 	};
+
+	componentDidMount(): void {
+		const {firestore} = this.props;
+
+		firestore.get({
+			collection: 'TRIPS',
+		}).then((doc: any) => {
+			console.log(doc);
+			this.setState({
+				trips: doc.data(),
+			})
+		});
+	}
 
 	handleConfirmDeleteTrip = (e: MouseEvent) => {
 		e.preventDefault();
