@@ -17,6 +17,7 @@ import {compose} from 'redux';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import ActivitiesSlider from '../components/ActivitiesSlider';
+import {TRIPS} from '../constants/routes';
 import * as routes from '../constants/routes';
 import PictureStar from '../images/star.jpg';
 import {Location} from '../types/location';
@@ -68,6 +69,7 @@ const styles = (theme: Theme) => createStyles({
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	trip: Trip;
 	locations: { [id: string]: Location },
+	firestore: any;
 }
 
 interface State {
@@ -86,10 +88,17 @@ class LocationsPage extends React.Component<Props, State> {
 		});
 	};
 
-	exportTrip = () => {
-		const {trip} = this.props;
+	exportTrip = async () => {
+		const {firestore, match, trip} = this.props;
+		const tripId = match.params[routes.URL_PARAM_TRIP];
+		const collectionRef = firestore.collection(`TRIPS`).doc(tripId).collection('locations');
+		let locations = await collectionRef.get();
+		await locations.forEach(async (doc: any) => {
+			firestore.get(`TRIPS/${tripId}/locations/${doc.id}/activities`);
+		});
 		const tripJSON = JSON.stringify(trip);
 		console.log(tripJSON);
+
 	};
 
 	render() {
@@ -180,9 +189,9 @@ class LocationsPage extends React.Component<Props, State> {
 						</Fab>
 					</Tooltip>
 				</NavLink>
-                {
-                    (isLoaded())
-                }
+				{
+					(isLoaded())
+				}
 				<Button variant='contained' className={classes.export} onClick={this.exportTrip}>
 					Export Trip
 				</Button>
