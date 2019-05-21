@@ -54,6 +54,7 @@ const styles = (theme: Theme) => createStyles({
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	trip: Trip;
 	locations: { [id: string]: Location },
+	firestore: any;
 }
 
 interface State {
@@ -65,6 +66,13 @@ class LocationsPage extends React.Component<Props, State> {
 	state = {
 		expanded: null,
 	};
+
+	componentDidMount(): void {
+		const {firestore, match} = this.props;
+		const tripId = match.params[routes.URL_PARAM_TRIP];
+		firestore.get(`TRIPS/${tripId}`);
+		firestore.get(`TRIPS/${tripId}/locations`);
+	}
 
 	handleExpansionPanelChange = (panel: any) => (event: any, expanded: any) => {
 		this.setState({
@@ -78,7 +86,7 @@ class LocationsPage extends React.Component<Props, State> {
 		const tripId = match.params[routes.URL_PARAM_TRIP];
 
 		return (
-			<div>
+			<React.Fragment>
 				<h1>
 					Locations {isLoaded(trip) && !isEmpty(trip) && ` of Trip "${trip.title}"`}
 				</h1>
@@ -122,23 +130,14 @@ class LocationsPage extends React.Component<Props, State> {
 						</Fab>
 					</Tooltip>
 				</NavLink>
-			</div>
+			</React.Fragment>
 		);
 	}
 }
 
 export default compose(
 	withRouter,
-	firestoreConnect((props: Props) => [{
-		collection: 'TRIPS',
-		doc: props.match.params[routes.URL_PARAM_TRIP],
-	}, {
-		collection: 'TRIPS',
-		doc: props.match.params[routes.URL_PARAM_TRIP],
-		subcollections: [{
-			collection: 'locations',
-		}],
-	}]),
+	firestoreConnect(),
 	connect(
 		({firestore: {data}}: any, props: Props) => {
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];

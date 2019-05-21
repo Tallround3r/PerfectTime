@@ -39,9 +39,9 @@ const styles = (theme: Theme) => createStyles({
 });
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
-	trips: { [id: string]: Trip };
 	auth: any;
 	firestore: any;
+	trips: { [id: string]: Trip };
 }
 
 interface State {
@@ -57,6 +57,10 @@ class TripsPage extends React.Component<Props, State> {
 		openDeleteDialog: false,
 		tripToDelete: null,
 	};
+
+	componentDidMount(): void {
+		this.props.firestore.get('TRIPS');
+	}
 
 	handleConfirmDeleteTrip = (e: MouseEvent) => {
 		e.preventDefault();
@@ -160,9 +164,7 @@ class TripsPage extends React.Component<Props, State> {
 
 export default compose(
 	withRouter,
-	firestoreConnect((props: Props) => [{
-		collection: 'TRIPS',
-	}]),
+	firestoreConnect(),
 	connect(
 		({firebase: {auth}, firestore: {data}}: any, props: Props) => {
 			return {
