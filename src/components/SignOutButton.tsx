@@ -15,6 +15,7 @@ const SignOutButton = (props: Props) => {
 		onClick={firebase.logout}
 		color='secondary'
 		variant='outlined'
+		id='logOutButton'
 	>
 		Logout
 	</Button>;
