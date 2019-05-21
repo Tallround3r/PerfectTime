@@ -11,7 +11,6 @@ import Typography from '@material-ui/core/Typography';
 import React, {ChangeEvent, FormEvent} from 'react';
 import {withFirebase} from 'react-redux-firebase';
 import {Link, RouteComponentProps, withRouter} from 'react-router-dom';
-import {maskArray} from 'react-text-mask';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
@@ -157,7 +156,6 @@ class SignUp extends React.Component<Props, State> {
 			password,
 			passwordConfirm,
 			error,
-			following,
 			submitted,
 		} = this.state;
 
@@ -174,69 +172,83 @@ class SignUp extends React.Component<Props, State> {
 
 						<form className={classes.form} onSubmit={this.handleSubmit}>
 							<div className={classes.realNameForms}>
-								<FormControl className={classes.firstNameForm} margin='normal' required={true} fullWidth={true}>
+								<FormControl
+									className={classes.firstNameForm}
+									margin='normal'
+									required={true}
+									fullWidth={true}
+								>
 									<InputLabel htmlFor='firstName'>First Name</InputLabel>
-									<Input id='firstName' autoFocus={true}
-										   name='firstName'
-										   value={firstName}
-										   onChange={this.handleChangeInput}
+									<Input
+										id='firstName'
+										autoFocus={true}
+										name='firstName'
+										value={firstName}
+										onChange={this.handleChangeInput}
 									/>
 								</FormControl>
 								<FormControl margin='normal' required={true} fullWidth={true}>
 									<InputLabel htmlFor='lastName'>Last Name</InputLabel>
-									<Input id='lastName'
-										   name='lastName'
-										   value={lastName}
-										   onChange={this.handleChangeInput}
+									<Input
+										id='lastName'
+										name='lastName'
+										value={lastName}
+										onChange={this.handleChangeInput}
 									/>
 								</FormControl>
 							</div>
 							<FormControl margin='normal' required={true} fullWidth={true}>
 								<InputLabel htmlFor='username'>Username</InputLabel>
-								<Input id='username'
-									   name='username'
-									   autoComplete='username'
-									   value={username}
-									   onChange={this.handleChangeInput}
+								<Input
+									id='username'
+									name='username'
+									autoComplete='username'
+									value={username}
+									onChange={this.handleChangeInput}
 								/>
 							</FormControl>
 							<FormControl margin='normal' required={true} fullWidth={true}>
 								<InputLabel htmlFor='email'>Email</InputLabel>
-								<Input id='email'
-									   name='email'
-									   autoComplete='email'
-									   value={email}
-									   onChange={this.handleChangeInput}
+								<Input
+									id='email'
+									name='email'
+									autoComplete='email'
+									value={email}
+									onChange={this.handleChangeInput}
 								/>
 							</FormControl>
 							<FormControl margin='normal' required={true} fullWidth={true}>
 								<InputLabel htmlFor='password'>Password</InputLabel>
-								<Input id='password'
-									   name='password'
-									   type='password'
-									   autoComplete='current-password'
-									   value={password}
-									   onChange={this.handleChangeInput}
+								<Input
+									id='password'
+									name='password'
+									type='password'
+									autoComplete='current-password'
+									value={password}
+									onChange={this.handleChangeInput}
 								/>
 							</FormControl>
 							<FormControl margin='normal' required={true} fullWidth={true}>
 								<InputLabel htmlFor='passwordConfirm'>Repeat Password</InputLabel>
-								<Input id='passwordConfirm'
-									   name='passwordConfirm'
-									   type='password'
-									   value={passwordConfirm}
-									   onChange={this.handleChangeInput}
+								<Input
+									id='passwordConfirm'
+									name='passwordConfirm'
+									type='password'
+									value={passwordConfirm}
+									onChange={this.handleChangeInput}
 								/>
 							</FormControl>
 
 							{error && <p className={classes.errorMessage}>{error.message}</p>}
 
-							<Button type='submit' fullWidth={true}
-									variant='contained'
-									id='signUpButton'
-									color='primary'
-									className={classes.submit}
-									disabled={submitted || !isValid(username, email, password, passwordConfirm, firstName, lastName)}
+							<Button
+								type='submit'
+								fullWidth={true}
+								variant='contained'
+								id='signUpButton'
+								color='primary'
+								className={classes.submit}
+								disabled={submitted || !isValid(username, email, password, passwordConfirm, firstName, lastName)}
 							>
 								Sign Up
 							</Button>

@@ -9,6 +9,7 @@ import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
+import ConfirmDialog from '../components/ConfirmDialog';
 import TripPanel from '../components/TripPanel';
 import * as routes from '../constants/routes';
 import {Trip} from '../types';
@@ -40,21 +41,55 @@ const styles = (theme: Theme) => createStyles({
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	trips: { [id: string]: Trip };
 	auth: any;
+	firestore: any;
 }
 
 interface State {
 	expanded: any;
+	openDeleteDialog: boolean;
+	tripToDelete: string | null;
 }
 
 class TripsPage extends React.Component<Props, State> {
 
 	state = {
 		expanded: null,
+		openDeleteDialog: false,
+		tripToDelete: null,
+	};
+
+	handleConfirmDeleteTrip = (e: MouseEvent) => {
+		e.preventDefault();
+		const {firestore} = this.props;
+		const {tripToDelete} = this.state;
+
+		if (!tripToDelete) {
+			console.error('No trip ID defined while trying to delete trip', tripToDelete);
+			return;
+		}
+
+		const firestoreRef = {
+			collection: 'TRIPS',
+			doc: tripToDelete,
+		};
+		firestore.delete(firestoreRef)
+			.then(() => {
+				this.setState({
+					openDeleteDialog: false,
+					tripToDelete: null,
+				});
+			});
+	};
+
+	handleCancelDeleteTrip = (e: MouseEvent) => {
+		this.setState({
+			openDeleteDialog: false,
+			tripToDelete: null,
+		});
 	};
 
 	handleEditBtnClicked = (tripId: string) => (e: MouseEvent) => {
 		e.preventDefault();
-
 		const {history} = this.props;
 
 		history.push(routes.TRIPS_EDIT(tripId));
@@ -63,14 +98,17 @@ class TripsPage extends React.Component<Props, State> {
 	handleDeleteBtnClicked = (tripId: string) => (e: MouseEvent) => {
 		e.preventDefault();
 
-		// TODO: open dialog for confirming trip deletion
+		this.setState({
+			tripToDelete: tripId,
+			openDeleteDialog: true,
+		});
 	};
 
 	render() {
 		const {classes, trips, auth} = this.props;
 
 		return (
-			<div>
+			<React.Fragment>
 				<h1>Trips</h1>
 				{!isLoaded(trips)
 					? 'Loading Trips...'
@@ -107,7 +145,15 @@ class TripsPage extends React.Component<Props, State> {
 						</Fab>
 					</Tooltip>
 				</NavLink>
-			</div>
+
+				<ConfirmDialog
+					content={'Are you sure you want to delete this trip and all its locations and activities?\n' +
+					'This action can not be undone.'}
+					open={this.state.openDeleteDialog}
+					onConfirm={this.handleConfirmDeleteTrip}
+					onCancel={this.handleCancelDeleteTrip}
+				/>
+			</React.Fragment>
 		);
 	}
 }

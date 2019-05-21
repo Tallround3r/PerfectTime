@@ -11,10 +11,11 @@ service cloud.firestore {
     }
 
     match /TRIPS/{tripId}/{document=**} {
+      allow list: if true;
+      allow read: if isOwnerOrMember(tripId) || (request.auth.uid != null && getTrip(tripId).public == true);
       allow create: if request.auth.uid != null;
       allow update: if isOwnerOrMember(tripId);
       allow delete: if request.auth.uid != null && getTrip(tripId).owner == request.auth.uid;
-      allow read: if isOwnerOrMember(tripId) || (request.auth.uid != null && getTrip(tripId).public == true);
     }
 
     match /users/{userId} {

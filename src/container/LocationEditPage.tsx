@@ -156,7 +156,6 @@ class LocationEditPage extends React.Component<Props, State> {
 				</Typography>
 
 				<LocationMetadataInput
-					classes={classes}
 					onSubmit={this.handleSubmit}
 					value={title}
 					onChange={this.handleChangeInput}
