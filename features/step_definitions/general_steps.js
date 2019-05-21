@@ -23,8 +23,8 @@ When('I click on the {string}', async function (element) {
 });
 
 Then('I cant click on {string}', async function (element) {
-	const button = select(element).with({boundTestRun: testController});
 	/* eslint-disable */
+	const button = select(element).with({boundTestRun: testController});
 	await testController.expect(button.hasAttribute('disabled')).ok();
 	/* eslint-enable */
 });
