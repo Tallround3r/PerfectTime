@@ -48,7 +48,6 @@ interface State {
 	expanded: any;
 	openDeleteDialog: boolean;
 	tripToDelete: string | null;
-	trips?: { [id: string]: Trip };
 }
 
 class TripsPage extends React.Component<Props, State> {
@@ -60,16 +59,7 @@ class TripsPage extends React.Component<Props, State> {
 	};
 
 	componentDidMount(): void {
-		const {firestore} = this.props;
-
-		firestore.get({
-			collection: 'TRIPS',
-		}).then((doc: any) => {
-			console.log(doc);
-			this.setState({
-				trips: doc.data(),
-			})
-		});
+		this.props.firestore.get('TRIPS');
 	}
 
 	handleConfirmDeleteTrip = (e: MouseEvent) => {
@@ -174,9 +164,7 @@ class TripsPage extends React.Component<Props, State> {
 
 export default compose(
 	withRouter,
-	firestoreConnect((props: Props) => [{
-		collection: 'TRIPS',
-	}]),
+	firestoreConnect(),
 	connect(
 		({firebase: {auth}, firestore: {data}}: any, props: Props) => {
 			return {

@@ -3,13 +3,13 @@ import Avatar from '@material-ui/core/Avatar';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ArrowRightIcon from '@material-ui/core/SvgIcon/SvgIcon';
 import Typography from '@material-ui/core/Typography';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import * as routes from '../constants/routes';
 import PictureStar from '../images/star.jpg';
-import {Location} from '../types/location';
+import {Location} from '../types';
 import ActivitiesSlider from './ActivitiesSlider';
 
 
