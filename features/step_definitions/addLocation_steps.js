@@ -20,8 +20,8 @@ When('I insert invalid data for the locationT', async function () {
 });
 
 Then('The locations view is shown with the inserted data', async function () {
-	locationTitle = select('...').with({boundTestRun: testController});
 	/* eslint-disable */
+	locationTitle = select('...').with({boundTestRun: testController});
 	await testController.expect(locationTitle === 'Leipzig');
 	/* eslint-enable */
 });

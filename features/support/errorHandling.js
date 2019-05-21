@@ -2,18 +2,16 @@ const testcafe = require('testcafe');
 // const hooks = require('../support/hooks');
 
 exports.addErrorToController = function () {
-	// @ts-ignore
+	/* eslint-disable */
 	testController.executionChain
 		.catch(function (result) {
 			const errAdapter = new testcafe.embeddingUtils.TestRunErrorFormattableAdapter(result, {
-				// @ts-ignore
 				testRunPhase: testController.testRun.phase,
-				// @ts-ignore
 				userAgent: testController.testRun.browserConnection.browserInfo.userAgent,
 			});
-			// @ts-ignore
 			return testController.testRun.errs.push(errAdapter);
 		});
+	/* eslint-enable */
 };
 //
 // exports.ifErrorTakeScreenshot = function(resolvedTestController) {

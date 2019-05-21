@@ -21,8 +21,8 @@ When('I insert invalid locationT data', async function () {
 });
 
 Then('The locationT view is shown with the updated data', async function () {
-	locationTitle = select('').with({boundTestRun: testController});
 	/* eslint-disable */
+	locationTitle = select('').with({boundTestRun: testController});
 	await testController.expect(locationTitle === 'Karlsruhe');
 	/* eslint-enable */
 });

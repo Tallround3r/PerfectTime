@@ -75,12 +75,13 @@ AfterAll(function () {
 	}
 
 	function checkLastResponse() {
-		// @ts-ignore
+		/* eslint-disable */
 		if (testController.testRun.lastDriverStatusResponse === 'test-done-confirmation') {
 			cafeRunner.close();
 			process.exit();
 			clearInterval(intervalId);
 		}
+		/* eslint-enable */
 	}
 
 	waitForTestCafe();

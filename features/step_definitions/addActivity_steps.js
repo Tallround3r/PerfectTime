@@ -20,8 +20,8 @@ When('I insert invalid data for the activity', async function () {
 });
 
 Then('The activity view is shown with the inserted data', async function () {
-	activityTitle = select('').with({boundTestRun: testController});
 	/* eslint-disable */
+	activityTitle = select('').with({boundTestRun: testController});
 	await testController.expect(activityTitle === 'Visit Karlsruhe Castle');
 	/* eslint-enable */
 });
