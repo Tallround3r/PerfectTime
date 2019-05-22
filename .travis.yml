@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "11"
+#  - "11"
   - "8"
 cache: yarn
 # safelist
@@ -13,7 +13,9 @@ install:
   - npm install codecov -g
   - yarn
   - cd functions
+  - dir
   - yarn
+  - cd ..
 jobs:
   include:
     - stage: Unit / Security tests
