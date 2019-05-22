@@ -46,6 +46,7 @@ jobs:
     - stage: build
       script:
         - npm run build
+        - firebase functions:delete loadTrip --region us-central1
       deploy:
 #        if: branch = master
         provider: firebase
