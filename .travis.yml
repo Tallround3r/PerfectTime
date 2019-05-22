@@ -10,6 +10,7 @@ branches:
 warnings_are_errors: false
 install:
 #  - npm install cucumber -g
+  - npm install firebase-tools -g
   - npm install codecov -g
   - yarn
   - cd functions
