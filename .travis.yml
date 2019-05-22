@@ -8,12 +8,14 @@ branches:
     - master
 warnings_are_errors: false
 install:
-  - npm install cucumber -g
+#  - npm install cucumber -g
   - npm install codecov -g
+  - yarn
+  - cd functions
   - yarn
 jobs:
   include:
-    - stage: Unit tests
+    - stage: Unit / Security tests
       dist: trusty
       script:
         - npm run test
