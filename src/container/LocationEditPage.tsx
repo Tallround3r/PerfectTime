@@ -85,6 +85,7 @@ class LocationEditPage extends React.Component<Props, State> {
 	}
 
 	handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
 		const {firestore, match, history} = this.props;
 		const {location, file} = this.state;
 		const tripId = match.params[routes.URL_PARAM_TRIP];
@@ -107,8 +108,6 @@ class LocationEditPage extends React.Component<Props, State> {
 		}
 
 		history.push(routes.LOCATIONS_VIEW(tripId, locationId));
-
-		e.preventDefault();
 	};
 
 	handleCancel = (e: MouseEvent) => {

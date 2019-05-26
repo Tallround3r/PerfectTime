@@ -12,3 +12,8 @@ export function uploadFile(file: File, path: string): UploadTask {
 
 	return imageRef.put(file);
 }
+
+export function getStorageURL(path: string): Promise<any> {
+	const storageRef = storage.ref();
+	return storageRef.child(path).getDownloadURL();
+}
