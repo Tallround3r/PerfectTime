@@ -8,6 +8,7 @@ import {isEqual, omit} from 'underscore';
 import ActivitiesSlider from '../components/ActivitiesSlider';
 import LocationMetadataInput from '../components/LocationMetadataInput';
 import * as routes from '../constants/routes';
+import {uploadFile} from '../firebase/storage';
 import {Location} from '../types';
 
 
@@ -36,7 +37,7 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 
 interface State {
 	location: Location;
-	file?: File;
+	file: File | null;
 }
 
 const INITIAL_LOCATION: Location = {
@@ -55,6 +56,7 @@ class LocationEditPage extends React.Component<Props, State> {
 
 	state = {
 		location: this.props.locationT || INITIAL_LOCATION,
+		file: null,
 	};
 
 	constructor(props: Props) {
@@ -67,12 +69,11 @@ class LocationEditPage extends React.Component<Props, State> {
 		this.fileInput.current.click();
 	};
 
-	handleChangeFileInput(e: ChangeEvent<HTMLInputElement>) {
+	handleChangeFileInput = (e: ChangeEvent<HTMLInputElement>) => {
 		// @ts-ignore
 		const file = e.target.files[0];
-		console.log(file);
 		this.setState({file});
-	}
+	};
 
 	componentDidUpdate(prevProps: Props, prevState: State, snapshot: any) {
 		const {locationT} = this.props;
@@ -85,22 +86,26 @@ class LocationEditPage extends React.Component<Props, State> {
 
 	handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		const {firestore, match, history} = this.props;
-		const {location} = this.state;
+		const {location, file} = this.state;
+		const tripId = match.params[routes.URL_PARAM_TRIP];
+		const locationId = match.params[routes.URL_PARAM_LOCATION];
 
 		const firestoreRef = {
 			collection: 'TRIPS',
-			doc: match.params[routes.URL_PARAM_TRIP],
+			doc: tripId,
 			subcollections: [{
 				collection: 'locations',
-				doc: match.params[routes.URL_PARAM_LOCATION],
+				doc: locationId,
 			}],
 		};
 
 		const locationWithoutActivities = omit(location, 'activities');
 		firestore.set(firestoreRef, locationWithoutActivities);
 
-		const tripId = match.params[routes.URL_PARAM_TRIP];
-		const locationId = match.params[routes.URL_PARAM_LOCATION];
+		if (!!file) {
+			uploadFile(file, `images/location/${locationId}`);
+		}
+
 		history.push(routes.LOCATIONS_VIEW(tripId, locationId));
 
 		e.preventDefault();
@@ -221,7 +226,6 @@ class LocationEditPage extends React.Component<Props, State> {
 			</div>
 		);
 	}
-
 }
 
 export default compose(

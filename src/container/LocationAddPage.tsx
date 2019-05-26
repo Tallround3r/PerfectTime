@@ -74,15 +74,36 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 
 interface State {
 	location: Location;
+	file?: File;
 }
 
 class LocationAddPage extends React.Component<Props, State> {
+	fileInput: React.RefObject<any>;
 
 	state = {
 		location: INITIAL_LOCATION,
 	};
 
+	constructor(props: Props) {
+		super(props);
+
+		this.fileInput = React.createRef();
+	}
+
+	openFileDialog = () => {
+		this.fileInput.current.click();
+	};
+
+	handleChangeFileInput = (e: ChangeEvent<HTMLInputElement>) => {
+		// @ts-ignore
+		const file = e.target.files[0];
+		console.log(file);
+		this.setState({file});
+	};
+
 	handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
 		const {firestore, match, history} = this.props;
 		const {location} = this.state;
 
@@ -99,9 +120,6 @@ class LocationAddPage extends React.Component<Props, State> {
 				const tripId = match.params[routes.URL_PARAM_TRIP];
 				history.push(routes.LOCATIONS_VIEW(tripId, docRef.id));
 			});
-
-
-		e.preventDefault();
 	};
 
 	handleCancel = (e: MouseEvent) => {
@@ -181,6 +199,9 @@ class LocationAddPage extends React.Component<Props, State> {
 					address={address}
 					onChange3={this.handleChangeAddress}
 					onClick={this.handleCancel}
+					openFileDialog={this.openFileDialog}
+					onChangeFileInput={this.handleChangeFileInput}
+					inputRef={this.fileInput}
 				/>
 			</div>
 		);
