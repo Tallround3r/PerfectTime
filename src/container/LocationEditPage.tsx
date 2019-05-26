@@ -8,7 +8,7 @@ import {isEqual, omit} from 'underscore';
 import ActivitiesSlider from '../components/ActivitiesSlider';
 import LocationMetadataInput from '../components/LocationMetadataInput';
 import * as routes from '../constants/routes';
-import {Location} from '../types/location';
+import {Location} from '../types';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -36,6 +36,7 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 
 interface State {
 	location: Location;
+	file?: File;
 }
 
 const INITIAL_LOCATION: Location = {
@@ -50,10 +51,28 @@ const INITIAL_LOCATION: Location = {
 };
 
 class LocationEditPage extends React.Component<Props, State> {
+	fileInput: React.RefObject<any>;
 
 	state = {
 		location: this.props.locationT || INITIAL_LOCATION,
 	};
+
+	constructor(props: Props) {
+		super(props);
+
+		this.fileInput = React.createRef();
+	}
+
+	openFileDialog = () => {
+		this.fileInput.current.click();
+	};
+
+	handleChangeFileInput(e: ChangeEvent<HTMLInputElement>) {
+		// @ts-ignore
+		const file = e.target.files[0];
+		console.log(file);
+		this.setState({file});
+	}
 
 	componentDidUpdate(prevProps: Props, prevState: State, snapshot: any) {
 		const {locationT} = this.props;
@@ -167,6 +186,9 @@ class LocationEditPage extends React.Component<Props, State> {
 					address={address}
 					onChange3={this.handleChangeAddress}
 					onClick={this.handleCancel}
+					inputRef={this.fileInput}
+					openFileDialog={this.openFileDialog}
+					onChangeFileInput={this.handleChangeFileInput}
 				/>
 
 				<div className={classes.activitiesContainer}>

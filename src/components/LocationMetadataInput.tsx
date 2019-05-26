@@ -34,12 +34,14 @@ const styles = (theme: Theme) => createStyles({
 	addressLabel: {
 		marginTop: theme.spacing.unit * 2,
 	},
+	imageButton: {
+		float: 'right',
+	},
 	imagePaper: {
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
 		margin: theme.spacing.unit,
-		float: 'right',
 		width: '18em',
 		height: '18em',
 	},
@@ -69,9 +71,11 @@ interface LocationMetadataInputProps extends WithStyles<typeof styles> {
 	onClick: (e: React.MouseEvent<HTMLInputElement>) => void,
 	value: string,
 	value1: string,
+	openFileDialog: () => void;
+	onChangeFileInput: (e: ChangeEvent<HTMLInputElement>) => void;
+	inputRef: React.RefObject<any>;
 }
 
-// tslint:disable-next-line:max-line-length
 function LocationMetadataInput(props: LocationMetadataInputProps) {
 	const {
 		classes,
@@ -86,17 +90,25 @@ function LocationMetadataInput(props: LocationMetadataInputProps) {
 		onChange2,
 		onChange3,
 		onClick,
+		openFileDialog,
+		onChangeFileInput,
+		inputRef,
 	} = props;
 
 	return (
 		<div>
-			<Paper
-				className={classes.imagePaper}
+			<Button
+				onClick={openFileDialog}
+				className={classes.imageButton}
 			>
-				<AddPhotoAlternateOutlined
-					className={classes.imageIcon}
-				/>
-			</Paper>
+				<Paper
+					className={classes.imagePaper}
+				>
+					<AddPhotoAlternateOutlined
+						className={classes.imageIcon}
+					/>
+				</Paper>
+			</Button>
 
 			<form className={classes.inputContainer} onSubmit={onSubmit}>
 				<TextField
@@ -202,6 +214,15 @@ function LocationMetadataInput(props: LocationMetadataInputProps) {
 					</Button>
 				</div>
 			</form>
+
+			<input
+				id='file-input'
+				type='file'
+				alt='Upload Image'
+				style={{display: 'none'}}
+				ref={inputRef}
+				onChange={onChangeFileInput}
+			/>
 		</div>
 	);
 }
