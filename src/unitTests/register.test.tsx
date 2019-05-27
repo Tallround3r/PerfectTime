@@ -1,4 +1,4 @@
-let faker = require('faker');
+const faker = require('faker');
 import validateSignUp from '../utils/validation/validateSignUp';
 
 const randomValidUsername = faker.internet.userName();

@@ -1,4 +1,4 @@
-let faker = require('faker');
+const faker = require('faker');
 import validateUpdatePW from '../utils/validation/validateUpdatePW';
 
 const randomValidEmail = faker.internet.email();

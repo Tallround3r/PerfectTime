@@ -11,7 +11,7 @@ service cloud.firestore {
     }
 
     match /TRIPS/{tripId}/{document=**} {
-      allow list: if true;
+      allow list: if request.auth.uid != null;
       allow read: if isOwnerOrMember(tripId) || (request.auth.uid != null && getTrip(tripId).public == true);
       allow create: if request.auth.uid != null;
       allow update: if isOwnerOrMember(tripId);

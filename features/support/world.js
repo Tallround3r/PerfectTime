@@ -6,7 +6,9 @@ function CustomWorld({attach, parameters}) {
 
 	this.waitForTestController = testControllerHolder.get()
 		.then(function (tc) {
+			/* eslint-disable */
 			return testController = tc;
+			/* eslint-enable */
 		});
 
 	this.attach = attach;
@@ -20,6 +22,7 @@ function CustomWorld({attach, parameters}) {
 	};
 
 	this.addScreenshotToReport = function () {
+		/* eslint-disable */
 		if (process.argv.includes('--format') || process.argv.includes('-f') || process.argv.includes('--format-options')) {
 			testController.takeScreenshot()
 				.then(function (screenshotPath) {
@@ -35,6 +38,7 @@ function CustomWorld({attach, parameters}) {
 				resolve(null);
 			});
 		}
+		/* eslint-enable */
 	};
 
 	this.attachScreenshotToReport = function (pathToScreenshot) {
