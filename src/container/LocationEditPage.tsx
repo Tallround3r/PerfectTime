@@ -193,6 +193,7 @@ class LocationEditPage extends React.Component<Props, State> {
 					inputRef={this.fileInput}
 					openFileDialog={this.openFileDialog}
 					onChangeFileInput={this.handleChangeFileInput}
+					locationId={locationId}
 				/>
 
 				<div className={classes.activitiesContainer}>

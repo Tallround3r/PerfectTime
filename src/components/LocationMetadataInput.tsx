@@ -8,6 +8,7 @@ import React, {ChangeEvent, FormEvent} from 'react';
 import {Address} from '../types';
 import {datePickerMask} from '../utils/datePickerUtils';
 import {parseDateIfValid} from '../utils/parser';
+import ImageComponent from './ImageComponent';
 
 type Timestamp = firebase.firestore.Timestamp;
 
@@ -74,6 +75,7 @@ interface LocationMetadataInputProps extends WithStyles<typeof styles> {
 	openFileDialog: () => void;
 	onChangeFileInput: (e: ChangeEvent<HTMLInputElement>) => void;
 	inputRef: React.RefObject<any>;
+	locationId?: string;
 }
 
 function LocationMetadataInput(props: LocationMetadataInputProps) {
@@ -93,22 +95,27 @@ function LocationMetadataInput(props: LocationMetadataInputProps) {
 		openFileDialog,
 		onChangeFileInput,
 		inputRef,
+		locationId,
 	} = props;
 
 	return (
 		<div>
-			<Button
-				onClick={openFileDialog}
-				className={classes.imageButton}
-			>
-				<Paper
-					className={classes.imagePaper}
-				>
-					<AddPhotoAlternateOutlined
-						className={classes.imageIcon}
-					/>
-				</Paper>
-			</Button>
+			<ImageComponent
+				locationId={locationId}
+				openFileDialog={openFileDialog}
+			/>
+			{/*<Button*/}
+			{/*	onClick={openFileDialog}*/}
+			{/*	className={classes.imageButton}*/}
+			{/*>*/}
+			{/*	<Paper*/}
+			{/*		className={classes.imagePaper}*/}
+			{/*	>*/}
+			{/*		<AddPhotoAlternateOutlined*/}
+			{/*			className={classes.imageIcon}*/}
+			{/*		/>*/}
+			{/*	</Paper>*/}
+			{/*</Button>*/}
 
 			<form className={classes.inputContainer} onSubmit={onSubmit}>
 				<TextField
