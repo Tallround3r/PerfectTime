@@ -1,6 +1,7 @@
 language: node_js
 node_js:
-  - "11"
+#  - "11"
+  - "8"
 cache: yarn
 # safelist
 branches:
@@ -8,12 +9,17 @@ branches:
     - master
 warnings_are_errors: false
 install:
-  - npm install cucumber -g
+#  - npm install cucumber -g
+  - npm install firebase-tools -g
   - npm install codecov -g
   - yarn
+  - cd functions
+  - dir
+  - yarn
+  - cd ..
 jobs:
   include:
-    - stage: Unit tests
+    - stage: Unit / Security tests
       dist: trusty
       script:
         - npm run test
@@ -41,6 +47,8 @@ jobs:
     - stage: build
       script:
         - npm run build
+#        - firebase login
+#        - firebase functions:delete loadTrip --region us-central1
       deploy:
 #        if: branch = master
         provider: firebase

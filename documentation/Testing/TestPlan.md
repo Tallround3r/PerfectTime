@@ -64,14 +64,8 @@
 &emsp; [10.1 People and Roles](#101-people-and-roles)<br/>
 &emsp; [10.2 Staffing and Training Needs](#102-staffing-and-training-needs)<br/>
 [11. Iteration Milestones](#11-iteration-milestones)<br/>
-[12. Risks, Dependencies, Assumptions, and Constraints](#12-risks--dependencies--assumptions--and-constraints)<br/>
-[13. Management Process and Procedures](#13-management-process-and-procedures)<br/>
-&emsp; [13.1 Measuring and Assessing the Extent of Testing](#131-measuring-and-assessing-the-extent-of-testing)<br/>
-&emsp; [13.2 Assessing the Deliverables of this Test Plan](#132-assessing-the-deliverables-of-this-test-plan)<br/>
-&emsp; [13.3 Problem Reporting, Escalation, and Issue Resolution](#133-problem-reporting--escalation--and-issue-resolution)<br/>
-&emsp; [13.4 Managing Test Cycles](#134-managing-test-cycles)<br/>
-&emsp; [13.5 Traceability Strategies](#135-traceability-strategies)<br/>
-&emsp; [13.6 Approval and Signoff](#136-approval-and-signoff)<br/>
+[12. Risks, Dependencies, Assumptions, and Constraints](#12-risks-dependencies-assumptions-and-constraints)<br/>
+[13. Metrics](#13-metrics)<br/>
 [](#-)<br/>
 [](#-)<br/>
 
@@ -481,3 +475,21 @@ The whole Team is part of every step in development, testing and deployment. The
 | React and Unit testing is pretty difficult due to missing "logic" | Maybe only a few functions can be tested which results in low coverage |  |
 |  |  |  |
 |  |  |	 |
+
+## 13. Metrics
+
+Metrics are used to analyze our project, measure the complexity and to give us more insghts into our code. We use Codacy as a general tool to get metrict about code smells and code complexity. Google Lighthouse gives us metrics about the performance of our application.
+Codacy: https://app.codacy.com/project/Tallround3r/PerfectTime/dashboard
+Lighthouse: https://developers.google.com/web/tools/lighthouse/
+
+Before any Pull request Codacy runs and checks the Project:
+![Codacy Checks](../Metrics/automatedCodacyCheck.PNG)
+
+Codacy has a dashboard which gives a clear overview of the found issues and a history graph. Issues like code smells, error prones, security risk, unused or duplicated code are shown:
+![Codacy Issues](../Metrics/issuesCodacyCheck.PNG)
+
+For our metrics we only use the error prone issues.
+
+Also Lighthouse gives us a good overview. This makes it possible for us to see where the application has lack of performance in detail.
+![Lighthouse Checks](../Metrics/issuesLighthouseCheck.PNG)
+

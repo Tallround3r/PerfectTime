@@ -4,7 +4,7 @@ import {auth, db} from '../firebase/firebase';
 
 let userBruceLee: any;
 let userTimTester: any;
-// let dbRef: any;
+let dbRef: any;
 
 // const randomUserID = faker.random.uuid();
 // const randomUsername = faker.internet.userName();
@@ -13,7 +13,7 @@ beforeEach(async () => {
 	// @ts-ignore
 	await auth.signInWithEmailAndPassword(process.env.MAIL_BRUCE_LEE, process.env.PASS_BRUCE_LEE);
 
-	// dbRef = await db.collection('users');
+	dbRef = await db.collection('users');
 	userTimTester = await db.collection('users').doc(process.env.ID_TIM_TESTER);
 	userBruceLee = await db.collection('users').doc(process.env.ID_BRUCE_LEE);
 });

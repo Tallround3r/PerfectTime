@@ -1,6 +1,6 @@
 import {auth, db} from '../firebase/firebase';
 
-const faker = require('faker');
+let faker = require('faker');
 
 const fakeTitle = faker.address.country();
 const randomTripID = faker.random.uuid();
@@ -8,6 +8,8 @@ const fakeDescription = faker.lorem.text();
 const fakeStartDate = faker.date.recent();
 const fakeEndDate = faker.date.future(1);
 
+let userBruceLee: any;
+let userTimTester: any;
 let dbTripRef: any;
 
 beforeEach(async () => {
@@ -15,6 +17,8 @@ beforeEach(async () => {
 	await auth.signInWithEmailAndPassword(process.env.MAIL_BRUCE_LEE, process.env.PASS_BRUCE_LEE);
 
 	dbTripRef = await db.collection('TRIPS');
+	userTimTester = await db.collection('users').doc(process.env.ID_TIM_TESTER);
+	userBruceLee = await db.collection('users').doc(process.env.ID_BRUCE_LEE);
 });
 
 describe('create TRIPS', () => {

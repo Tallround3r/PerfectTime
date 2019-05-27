@@ -39,6 +39,30 @@ Given('I am logged in', async function () {
 
 Given('I am not logged in', async function () {
 	/* eslint-disable */
+	await testController.navigateTo(url(string));
+});
+
+Then('I am navigated to {string}', async function (expected) {
+	const getLocation = ClientFunction(() => document.location.href).with({boundTestRun: testController});
+	await testController.expect(getLocation()).contains(expected);
+});
+
+When('I click on the {string}', async function (element) {
+	await testController.click(select(element).with({boundTestRun: testController}));
+});
+
+Then('I cant click on {string}', async function (element) {
+	const button = select(element).with({boundTestRun: testController});
+	await testController.expect(button.hasAttribute('disabled')).ok();
+});
+
+Given('I am logged in', async function () {
+	await testController.navigateTo(url('PerfectTimeLogin'));
+	await testController.typeText(select('email').with({boundTestRun: testController}), 'test@user.de');
+	await testController.typeText(select('password').with({boundTestRun: testController}), 'netTest');
+});
+
+Given('I am not logged in', async function () {
 	const logoutButton = select('logout').with({boundTestRun: testController});
 	if (await logoutButton.exists) {
 		await testController.click(logoutButton).with({boundTestRun: testController});
