@@ -110,19 +110,6 @@ function LocationMetadataInput(props: LocationMetadataInputProps) {
 				/>
 			</Button>
 
-			{/*<Button*/}
-			{/*	onClick={openFileDialog}*/}
-			{/*	className={classes.imageButton}*/}
-			{/*>*/}
-			{/*	<Paper*/}
-			{/*		className={classes.imagePaper}*/}
-			{/*	>*/}
-			{/*		<AddPhotoAlternateOutlined*/}
-			{/*			className={classes.imageIcon}*/}
-			{/*		/>*/}
-			{/*	</Paper>*/}
-			{/*</Button>*/}
-
 			<form className={classes.inputContainer} onSubmit={onSubmit}>
 				<TextField
 					className={classes.inputField}
