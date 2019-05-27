@@ -100,10 +100,16 @@ function LocationMetadataInput(props: LocationMetadataInputProps) {
 
 	return (
 		<div>
-			<ImageComponent
-				locationId={locationId}
-				openFileDialog={openFileDialog}
-			/>
+			<Button
+				onClick={openFileDialog}
+				className={classes.imageButton}
+			>
+				<ImageComponent
+					locationId={locationId}
+					openFileDialog={openFileDialog}
+				/>
+			</Button>
+
 			{/*<Button*/}
 			{/*	onClick={openFileDialog}*/}
 			{/*	className={classes.imageButton}*/}
@@ -229,6 +235,7 @@ function LocationMetadataInput(props: LocationMetadataInputProps) {
 				style={{display: 'none'}}
 				ref={inputRef}
 				onChange={onChangeFileInput}
+				accept='image/*'
 			/>
 		</div>
 	);

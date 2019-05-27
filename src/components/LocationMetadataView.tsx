@@ -2,11 +2,12 @@ import {Button, createStyles, Paper, Theme, WithStyles, withStyles} from '@mater
 import Typography from '@material-ui/core/Typography';
 import {AddPhotoAlternateOutlined} from '@material-ui/icons';
 import firebase from 'firebase';
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import {NavLink} from 'react-router-dom';
 import * as routes from '../constants/routes';
 import {Address} from '../types';
 import {parseDateToString} from '../utils/parser';
+import ImageComponent from './ImageComponent';
 
 type Timestamp = firebase.firestore.Timestamp;
 
@@ -39,6 +40,9 @@ const styles = (theme: Theme) => createStyles({
 	imageIcon: {
 		fontSize: '10em',
 	},
+	imageContainer: {
+		float: 'right',
+	},
 	paperField: {
 		width: '100%',
 		height: 'auto',
@@ -48,16 +52,24 @@ const styles = (theme: Theme) => createStyles({
 interface LocationMetadataProps extends WithStyles<typeof styles> {
 	title: string;
 	description: string;
-	timestamp: Date | Timestamp | null,
-	timestamp1: Date | Timestamp | null,
-	address: Address,
-	tripId: string,
-	locationId: string
+	timestamp: Date | Timestamp | null;
+	timestamp1: Date | Timestamp | null;
+	address: Address;
+	tripId: string;
+	locationId: string;
+	onChangeFileInput: (e: ChangeEvent<HTMLInputElement>) => void;
+	openFileDialog: () => void;
+	inputRef: React.RefObject<any>;
 }
 
 // tslint:disable-next-line:max-line-length
 function LocationMetadataView(props: LocationMetadataProps) {
-	const {title, classes, description, timestamp, timestamp1, address, tripId, locationId} = props;
+	const {
+		title, classes, description, timestamp, timestamp1, address, tripId, locationId,
+		onChangeFileInput,
+		openFileDialog,
+		inputRef,
+	} = props;
 
 	return (
 		<div className={classes.locationViewPage}>
@@ -69,13 +81,12 @@ function LocationMetadataView(props: LocationMetadataProps) {
 			</Typography>
 
 			<div>
-				<Paper
-					className={classes.imagePaper}
-				>
-					<AddPhotoAlternateOutlined
-						className={classes.imageIcon}
+				<div className={classes.imageContainer}>
+					<ImageComponent
+						locationId={locationId}
+						openFileDialog={openFileDialog}
 					/>
-				</Paper>
+				</div>
 
 				<div className={classes.inputContainer}>
 					<Paper className={classes.paperField}>
@@ -116,6 +127,16 @@ function LocationMetadataView(props: LocationMetadataProps) {
 					</NavLink>
 				</div>
 			</div>
+
+			<input
+				id='file-input'
+				type='file'
+				alt='Upload Image'
+				style={{display: 'none'}}
+				ref={inputRef}
+				onChange={onChangeFileInput}
+				accept='image/*'
+			/>
 		</div>
 	);
 }

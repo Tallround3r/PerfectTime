@@ -15,6 +15,10 @@ const styles = (theme: Theme) => createStyles({
 		width: '18em',
 		height: '18em',
 	},
+	image: {
+		width: '18em',
+		height: '18em',
+	},
 	imageIcon: {
 		fontSize: '10em',
 	},
@@ -25,31 +29,48 @@ interface ImageComponentProps extends WithStyles<typeof styles> {
 	openFileDialog: () => void;
 }
 
-function ImageComponent(props: ImageComponentProps) {
-	const {locationId, openFileDialog, classes} = props;
+interface ImageComponentState {
+	imageSrc: string | null;
+	isLoading: boolean;
+}
 
-	let imageSrc;
+class ImageComponent extends React.Component<ImageComponentProps, ImageComponentState> {
+	state = {
+		imageSrc: null,
+		isLoading: false,
+	};
 
-	getStorageURL(`images/location/${locationId}`)
-		.then((url) => {
-			imageSrc = url;
-			console.log(url);
-		});
+	componentWillMount(): void {
+		const {locationId} = this.props;
+		if (locationId) {
+			this.setState({isLoading: true});
+			getStorageURL(`images/location/${locationId}`)
+				.then((url) => {
+					this.setState({imageSrc: url});
+				})
+				.finally(() => {
+					this.setState({isLoading: false});
+				});
+		}
+	}
 
-	return !!imageSrc ?
-		<img src={imageSrc} alt={'Location Picture'}/> :
-		<Button
-			onClick={openFileDialog}
-			className={classes.imageButton}
-		>
+	render() {
+		const {classes} = this.props;
+		const {imageSrc, isLoading} = this.state;
+
+		return !!imageSrc ?
+			<img src={imageSrc} alt={''} className={classes.image}/> :
 			<Paper
 				className={classes.imagePaper}
 			>
-				<AddPhotoAlternateOutlined
-					className={classes.imageIcon}
-				/>
-			</Paper>
-		</Button>;
+				{isLoading ?
+					<CircularProgress/> :
+					<AddPhotoAlternateOutlined
+						className={classes.imageIcon}
+					/>
+				}
+			</Paper>;
+	}
 }
 
 export default withStyles(styles)(ImageComponent);
