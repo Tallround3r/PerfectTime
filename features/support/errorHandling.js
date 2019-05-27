@@ -1,7 +1,8 @@
 const testcafe = require('testcafe');
-const hooks = require('../support/hooks');
+// const hooks = require('../support/hooks');
 
 exports.addErrorToController = function () {
+	/* eslint-disable */
 	testController.executionChain
 		.catch(function (result) {
 			const errAdapter = new testcafe.embeddingUtils.TestRunErrorFormattableAdapter(result, {
@@ -10,6 +11,7 @@ exports.addErrorToController = function () {
 			});
 			return testController.testRun.errs.push(errAdapter);
 		});
+	/* eslint-enable */
 };
 //
 // exports.ifErrorTakeScreenshot = function(resolvedTestController) {
@@ -17,7 +19,6 @@ exports.addErrorToController = function () {
 //     if (hooks.getIsTestCafeError() === true && testController.testRun.opts.takeScreenshotsOnFails === true) {
 //         if (process.argv.includes('--format') || process.argv.includes('-f') || process.argv.includes('--format-options')) {
 //             return resolvedTestController.takeScreenshot().then(function(path) {
-//                 // TODO: This is still not attaching the screenshot to the report
 //
 //                 return hooks.getAttachScreenshotToReport();
 //             });

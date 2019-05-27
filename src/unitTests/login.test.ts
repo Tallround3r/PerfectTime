@@ -1,4 +1,4 @@
-let faker = require('faker');
+const faker = require('faker');
 import validateSignIn from '../utils/validation/validateSignIn';
 
 const randomValidPassword = faker.internet.password();

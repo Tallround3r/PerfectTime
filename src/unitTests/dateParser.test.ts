@@ -1,4 +1,4 @@
-let faker = require('faker');
+const faker = require('faker');
 import {parseDateIfValid, parseDateToString} from '../utils/parser'
 
 const randomValidFutureDate = faker.date.future();

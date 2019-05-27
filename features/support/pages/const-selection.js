@@ -84,5 +84,7 @@ exports.select = (selection) => {
 			return activityDate;
 		case 'activityAddress':
 			return activityAddress;
+		default:
+			return 'somethingWentWrong';
 	}
 };

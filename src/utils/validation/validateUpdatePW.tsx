@@ -4,5 +4,5 @@ export default function isValid(email: string, password: string, passwordNew: st
 		&& email.includes('.')
 		&& passwordNew !== ''
 		&& passwordNewConfirm !== ''
-		&& passwordNew == passwordNewConfirm;
+		&& passwordNew === passwordNewConfirm;
 }
