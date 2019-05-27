@@ -19,7 +19,7 @@ import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import {Activity} from '../types';
 import {parseDateToString} from '../utils/parser';
-import {getRandomImage} from '../utils/RessourceUtils';
+// import {getRandomImage} from '../utils/RessourceUtils';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -44,13 +44,13 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 interface State {
-	cardImage: string,
+	// cardImage: string,
 }
 
 class ActivityCard extends React.Component<Props, State> {
 
 	state = {
-		cardImage: getRandomImage(),
+		// cardImage: getRandomImage(),
 	};
 
 	handleDelete = () => {
@@ -70,7 +70,7 @@ class ActivityCard extends React.Component<Props, State> {
 
 				<CardMedia
 					className={classes.media}
-					image={this.state.cardImage}
+					// image={this.state.cardImage}
 					title={title}
 				/>
 
