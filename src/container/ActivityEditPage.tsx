@@ -10,18 +10,18 @@ import {compose} from 'redux';
 import {isEqual} from 'underscore';
 import * as routes from '../constants/routes';
 import styles from '../styles/ActivityEditStyles';
-import {Activity} from '../types/activity';
+import {Activity} from '../types';
 import {datePickerMask} from '../utils/datePickerUtils';
 import {parseDateIfValid} from '../utils/parser';
 
 
 interface ActivityEditPageProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
-	activity: Activity,
-	firestore: any
+	activity: Activity;
+	firestore: any;
 }
 
 interface State {
-	activity: Activity
+	activity: Activity;
 }
 
 const INITIAL_ACTIVITY: Activity = {
