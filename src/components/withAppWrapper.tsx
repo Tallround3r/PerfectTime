@@ -115,7 +115,6 @@ const withAppWrapper = (Component: React.ComponentType<any>): any => {
 			width: '100%',
 		},
 		menuLogoLink: {
-			display: 'flex',
 			margin: theme.spacing.unit,
 			marginLeft: theme.spacing.unit * 3,
 			marginRight: theme.spacing.unit * 4,
