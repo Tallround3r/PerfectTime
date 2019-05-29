@@ -1,6 +1,5 @@
 import {Button, createStyles, Paper, Theme, WithStyles, withStyles} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import {AddPhotoAlternateOutlined} from '@material-ui/icons';
 import firebase from 'firebase';
 import React, {ChangeEvent} from 'react';
 import {NavLink} from 'react-router-dom';
@@ -67,7 +66,6 @@ function LocationMetadataView(props: LocationMetadataProps) {
 	const {
 		title, classes, description, timestamp, timestamp1, address, tripId, locationId,
 		onChangeFileInput,
-		openFileDialog,
 		inputRef,
 	} = props;
 
@@ -83,8 +81,7 @@ function LocationMetadataView(props: LocationMetadataProps) {
 			<div>
 				<div className={classes.imageContainer}>
 					<ImageComponent
-						locationId={locationId}
-						openFileDialog={openFileDialog}
+						path={`images/locations/${locationId}`}
 					/>
 				</div>
 

@@ -1,6 +1,5 @@
-import {Button, createStyles, Paper, TextField, Theme, WithStyles, withStyles} from '@material-ui/core';
+import {Button, createStyles, TextField, Theme, WithStyles, withStyles} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import {AddPhotoAlternateOutlined} from '@material-ui/icons';
 import classNames from 'classnames';
 import firebase from 'firebase';
 import DatePicker from 'material-ui-pickers/DatePicker/DatePickerModal';
@@ -105,8 +104,7 @@ function LocationMetadataInput(props: LocationMetadataInputProps) {
 				className={classes.imageButton}
 			>
 				<ImageComponent
-					locationId={locationId}
-					openFileDialog={openFileDialog}
+					path={`images/locations/${locationId}`}
 				/>
 			</Button>
 

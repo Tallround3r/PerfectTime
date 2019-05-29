@@ -1,5 +1,4 @@
-import {Button, Paper, TextField, Typography, WithStyles, withStyles} from '@material-ui/core';
-import {AddPhotoAlternateOutlined} from '@material-ui/icons';
+import {Button, TextField, Typography, WithStyles, withStyles} from '@material-ui/core';
 import classNames from 'classnames';
 import DatePicker from 'material-ui-pickers/DatePicker/DatePickerModal';
 import React, {ChangeEvent, FormEvent, MouseEvent} from 'react';
@@ -8,9 +7,10 @@ import {firestoreConnect} from 'react-redux-firebase';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import {isEqual} from 'underscore';
+import ImageComponent from '../components/ImageComponent';
 import * as routes from '../constants/routes';
 import styles from '../styles/ActivityEditStyles';
-import {Activity} from '../types/activity';
+import {Activity} from '../types';
 import {datePickerMask} from '../utils/datePickerUtils';
 import {parseDateIfValid} from '../utils/parser';
 
@@ -21,7 +21,8 @@ interface ActivityEditPageProps extends WithStyles<typeof styles>, RouteComponen
 }
 
 interface State {
-	activity: Activity
+	activity: Activity;
+	file: File | null;
 }
 
 const INITIAL_ACTIVITY: Activity = {
@@ -36,8 +37,26 @@ const INITIAL_ACTIVITY: Activity = {
 };
 
 class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
+	inputRef: React.RefObject<any>;
+
 	state = {
 		activity: this.props.activity || INITIAL_ACTIVITY,
+		file: null,
+	};
+
+	constructor(props: ActivityEditPageProps) {
+		super(props);
+		this.inputRef = React.createRef();
+	}
+
+	openFileDialog = () => {
+		this.inputRef.current.click();
+	};
+
+	handleChangeFileInput = (e: ChangeEvent<HTMLInputElement>) => {
+		// @ts-ignore
+		const file = e.target.files[0];
+		this.setState({file});
 	};
 
 	navigateBack = () => {
@@ -132,9 +151,10 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 	};
 
 	render() {
-		const {classes} = this.props;
+		const {classes, match} = this.props;
 		const {activity} = this.state;
 		const {title, description, startdate, enddate, address} = activity;
+		const activityId = match.params[routes.URL_PARAM_ACTIVITY];
 
 		return (
 			<div className={classes.activityEditPage}>
@@ -145,13 +165,14 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 					Edit Activity
 				</Typography>
 				<div>
-					<Paper
-						className={classes.imagePaper}
+					<Button
+						onClick={this.openFileDialog}
+						className={classes.imageButton}
 					>
-						<AddPhotoAlternateOutlined
-							className={classes.imageIcon}
+						<ImageComponent
+							path={`images/activities/${activityId}`}
 						/>
-					</Paper>
+					</Button>
 
 					<form className={classes.inputContainer} onSubmit={this.handleSubmit}>
 						<TextField

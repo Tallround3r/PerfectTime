@@ -1,4 +1,4 @@
-import {Button, CircularProgress, createStyles, Paper, Theme, withStyles, WithStyles} from '@material-ui/core';
+import {CircularProgress, createStyles, Paper, Theme, withStyles, WithStyles} from '@material-ui/core';
 import {AddPhotoAlternateOutlined} from '@material-ui/icons';
 import React from 'react';
 import {getStorageURL} from '../firebase/storage';
@@ -25,8 +25,7 @@ const styles = (theme: Theme) => createStyles({
 });
 
 interface ImageComponentProps extends WithStyles<typeof styles> {
-	locationId?: string;
-	openFileDialog: () => void;
+	path?: string;
 }
 
 interface ImageComponentState {
@@ -41,10 +40,10 @@ class ImageComponent extends React.Component<ImageComponentProps, ImageComponent
 	};
 
 	componentWillMount(): void {
-		const {locationId} = this.props;
-		if (locationId) {
+		const {path} = this.props;
+		if (path) {
 			this.setState({isLoading: true});
-			getStorageURL(`images/location/${locationId}`)
+			getStorageURL(path)
 				.then((url) => {
 					this.setState({imageSrc: url});
 				})

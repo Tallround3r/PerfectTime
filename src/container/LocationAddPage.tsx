@@ -5,6 +5,7 @@ import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import LocationMetadataInput from '../components/LocationMetadataInput';
 import * as routes from '../constants/routes';
+import {uploadFile} from '../firebase/storage';
 import {Location} from '../types';
 
 
@@ -74,7 +75,7 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 
 interface State {
 	location: Location;
-	file?: File;
+	file: File | null;
 }
 
 class LocationAddPage extends React.Component<Props, State> {
@@ -82,6 +83,7 @@ class LocationAddPage extends React.Component<Props, State> {
 
 	state = {
 		location: INITIAL_LOCATION,
+		file: null,
 	};
 
 	constructor(props: Props) {
@@ -97,7 +99,6 @@ class LocationAddPage extends React.Component<Props, State> {
 	handleChangeFileInput = (e: ChangeEvent<HTMLInputElement>) => {
 		// @ts-ignore
 		const file = e.target.files[0];
-		console.log(file);
 		this.setState({file});
 	};
 
@@ -105,7 +106,7 @@ class LocationAddPage extends React.Component<Props, State> {
 		e.preventDefault();
 
 		const {firestore, match, history} = this.props;
-		const {location} = this.state;
+		const {location, file} = this.state;
 
 		const firestoreRef = {
 			collection: 'TRIPS',
@@ -118,7 +119,13 @@ class LocationAddPage extends React.Component<Props, State> {
 		firestore.add(firestoreRef, location)
 			.then((docRef: any) => {
 				const tripId = match.params[routes.URL_PARAM_TRIP];
-				history.push(routes.LOCATIONS_VIEW(tripId, docRef.id));
+				if (!!file) {
+					// @ts-ignore
+					uploadFile(file, `images/locations/${docRef.id}`)
+						.then(() => history.push(routes.LOCATIONS_VIEW(tripId, docRef.id)));
+				} else {
+					history.push(routes.LOCATIONS_VIEW(tripId, docRef.id));
+				}
 			});
 	};
 
