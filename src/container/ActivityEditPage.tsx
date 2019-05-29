@@ -16,8 +16,8 @@ import {parseDateIfValid} from '../utils/parser';
 
 
 interface ActivityEditPageProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
-	activity: Activity,
-	firestore: any
+	activity: Activity;
+	firestore: any;
 }
 
 interface State {

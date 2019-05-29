@@ -48,11 +48,11 @@ class ActivitiesSlider extends React.Component<Props> {
 
 	render() {
 		const {classes, activities} = this.props;
-
+		console.log(activities);
 		const sliderSettings = {
 			className: classes.slider,
 			dots: true,
-			infinite: true,
+			infinite: false,
 			speed: 500,
 			slidesToShow: 3,
 			slidesToScroll: 3,
