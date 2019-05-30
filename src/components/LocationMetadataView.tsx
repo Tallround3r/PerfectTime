@@ -56,17 +56,12 @@ interface LocationMetadataProps extends WithStyles<typeof styles> {
 	address: Address;
 	tripId: string;
 	locationId: string;
-	onChangeFileInput: (e: ChangeEvent<HTMLInputElement>) => void;
-	openFileDialog: () => void;
-	inputRef: React.RefObject<any>;
 }
 
 // tslint:disable-next-line:max-line-length
 function LocationMetadataView(props: LocationMetadataProps) {
 	const {
 		title, classes, description, timestamp, timestamp1, address, tripId, locationId,
-		onChangeFileInput,
-		inputRef,
 	} = props;
 
 	return (
@@ -124,16 +119,6 @@ function LocationMetadataView(props: LocationMetadataProps) {
 					</NavLink>
 				</div>
 			</div>
-
-			<input
-				id='file-input'
-				type='file'
-				alt='Upload Image'
-				style={{display: 'none'}}
-				ref={inputRef}
-				onChange={onChangeFileInput}
-				accept='image/*'
-			/>
 		</div>
 	);
 }

@@ -9,6 +9,7 @@ import {compose} from 'redux';
 import {isEqual} from 'underscore';
 import ImageComponent from '../components/ImageComponent';
 import * as routes from '../constants/routes';
+import {uploadFile} from '../firebase/storage';
 import styles from '../styles/ActivityEditStyles';
 import {Activity} from '../types';
 import {datePickerMask} from '../utils/datePickerUtils';
@@ -78,8 +79,9 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 	}
 
 	handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
 		const {firestore, match} = this.props;
-		const {activity} = this.state;
+		const {activity, file} = this.state;
 
 		const firestoreRef = {
 			collection: 'TRIPS',
@@ -93,11 +95,19 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 				}],
 			}],
 		};
-		firestore.set(firestoreRef, activity);
 
-		this.navigateBack();
-
-		e.preventDefault();
+		firestore.set(firestoreRef, activity)
+			.then((docRef: any) => {
+				if (!!file) {
+					// @ts-ignore
+					uploadFile(file, `images/activities/${docRef.id}`)
+						.then(() => {
+							this.navigateBack();
+						});
+				} else {
+					this.navigateBack();
+				}
+			});
 	};
 
 	handleCancel = (e: MouseEvent) => {
@@ -279,6 +289,16 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 						</div>
 					</form>
 				</div>
+
+				<input
+					id='file-input'
+					type='file'
+					alt='Upload Image'
+					style={{display: 'none'}}
+					ref={this.inputRef}
+					onChange={this.handleChangeFileInput}
+					accept='image/*'
+				/>
 			</div>
 		);
 	}

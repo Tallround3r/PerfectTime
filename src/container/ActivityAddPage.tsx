@@ -88,7 +88,7 @@ class ActivityAddPage extends React.Component<ActivityAddPageProps, State> {
 			.then((docRef: any) => {
 				if (!!file) {
 					// @ts-ignore
-					uploadFile(file, `images/location/${docRef.id}`)
+					uploadFile(file, `images/activities/${docRef.id}`)
 						.then(() => {
 							this.navigateBack();
 						});

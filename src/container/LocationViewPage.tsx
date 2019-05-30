@@ -36,24 +36,6 @@ const INITIAL_LOCATION: Location = {
 
 
 class LocationViewPage extends React.Component<Props> {
-	fileInput: React.RefObject<any>;
-
-	constructor(props: Props) {
-		super(props);
-
-		this.fileInput = React.createRef();
-	}
-
-	openFileDialog = () => {
-		this.fileInput.current.click();
-	};
-
-	handleChangeFileInput = (e: ChangeEvent<HTMLInputElement>) => {
-		// @ts-ignore
-		const file = e.target.files[0];
-		console.log(file);
-		this.setState({file});
-	};
 
 	render() {
 		const {classes, match, tripLocation} = this.props;
@@ -71,9 +53,6 @@ class LocationViewPage extends React.Component<Props> {
 					address={address}
 					tripId={tripId}
 					locationId={locationId}
-					openFileDialog={this.openFileDialog}
-					onChangeFileInput={this.handleChangeFileInput}
-					inputRef={this.fileInput}
 				/>
 
 				<div className={classes.activitiesContainer}>
