@@ -14,6 +14,7 @@ import TripPanel from '../components/TripPanel';
 import * as routes from '../constants/routes';
 import {Trip} from '../types';
 import {isUserOfTrip} from '../utils/authUtils';
+import {setSearchText} from '../store/actions/searchAction';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -42,6 +43,7 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	auth: any;
 	firestore: any;
 	trips: { [id: string]: Trip };
+	searchText: string;
 }
 
 interface State {
@@ -108,8 +110,14 @@ class TripsPage extends React.Component<Props, State> {
 		});
 	};
 
+	tripNameIncludesSearchString = (tripId: string) => {
+		return this.props.trips[tripId].title.toLowerCase().includes(this.props.searchText.toLowerCase());
+		// return true;
+	};
+
 	render() {
 		const {classes, trips, auth} = this.props;
+		console.log(trips);
 
 		return (
 			<React.Fragment>
@@ -119,7 +127,7 @@ class TripsPage extends React.Component<Props, State> {
 					: isEmpty(trips)
 						? 'No Trips created yet.'
 						: Object.keys(trips)
-							.filter((key) => (!!trips[key] && trips[key].public) || isUserOfTrip(trips[key], auth))
+							.filter((key) => (!!trips[key] && trips[key].public) || isUserOfTrip(trips[key], auth) && this.tripNameIncludesSearchString(key))
 							.map((key) => {
 								return (
 									<TripPanel
@@ -166,10 +174,11 @@ export default compose(
 	withRouter,
 	firestoreConnect(),
 	connect(
-		({firebase: {auth}, firestore: {data}}: any, props: Props) => {
+		({firebase: {auth}, firestore: {data}, searchString}: any, props: Props) => {
 			return {
 				auth,
 				trips: data.TRIPS,
+				searchText: searchString,
 			};
 		},
 	),

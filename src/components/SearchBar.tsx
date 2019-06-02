@@ -59,11 +59,7 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	setSearchText: any;
 }
 
-interface State {
-	searchTerm: string;
-}
-
-class SearchBar extends React.Component<Props, State> {
+class SearchBar extends React.Component<Props> {
 
 	onButtonClick = () => {
 		// TODO anstatt dessen lieber ein Drop Down menü, nach was gefiltert werden soll und die Rücksetzung des
