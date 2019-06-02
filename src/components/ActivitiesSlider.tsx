@@ -8,7 +8,6 @@ import {Activity} from '../types';
 import ActivityCard from './ActivityCard';
 import {SliderNextArrow, SliderPrevArrow} from './SliderArrows';
 
-
 const styles = (theme: Theme) => createStyles({
 	slider: {
 		marginLeft: theme.spacing.unit * 4,
@@ -48,7 +47,7 @@ class ActivitiesSlider extends React.Component<Props> {
 
 	render() {
 		const {classes, activities} = this.props;
-		console.log(activities);
+
 		const sliderSettings = {
 			className: classes.slider,
 			dots: true,

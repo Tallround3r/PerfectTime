@@ -82,25 +82,28 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 		e.preventDefault();
 		const {firestore, match} = this.props;
 		const {activity, file} = this.state;
+		const tripId = match.params[routes.URL_PARAM_TRIP];
+		const locationId = match.params[routes.URL_PARAM_LOCATION];
+		const activityId = match.params[routes.URL_PARAM_ACTIVITY];
 
 		const firestoreRef = {
 			collection: 'TRIPS',
-			doc: match.params[routes.URL_PARAM_TRIP],
+			doc: tripId,
 			subcollections: [{
 				collection: 'locations',
-				doc: match.params[routes.URL_PARAM_LOCATION],
+				doc: locationId,
 				subcollections: [{
 					collection: 'activities',
-					doc: match.params[routes.URL_PARAM_ACTIVITY],
+					doc: activityId,
 				}],
 			}],
 		};
 
 		firestore.set(firestoreRef, activity)
-			.then((docRef: any) => {
+			.then(() => {
 				if (!!file) {
 					// @ts-ignore
-					uploadFile(file, `images/activities/${docRef.id}`)
+					uploadFile(file, `images/activities/${activityId}`)
 						.then(() => {
 							this.navigateBack();
 						});

@@ -18,9 +18,10 @@ import {NavLink} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import {getStorageURL} from '../firebase/storage';
+import defaultImage from '../images/default-activity.jpg';
+import loadingImage from '../images/loading.gif';
 import {Activity} from '../types';
 import {parseDateToString} from '../utils/parser';
-// import {getRandomImage} from '../utils/RessourceUtils';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -46,14 +47,14 @@ interface Props extends WithStyles<typeof styles> {
 
 interface State {
 	isLoading: boolean;
-	imageSrc: string;
+	imageSrc: any;
 }
 
 class ActivityCard extends React.Component<Props, State> {
 
 	state = {
 		isLoading: false,
-		imageSrc: '',
+		imageSrc: loadingImage,
 	};
 
 	componentWillMount(): void {
@@ -65,6 +66,9 @@ class ActivityCard extends React.Component<Props, State> {
 		getStorageURL(path)
 			.then((url) => {
 				this.setState({imageSrc: url});
+			})
+			.catch(() => {
+				this.setState({imageSrc: defaultImage});
 			})
 			.finally(() => {
 				this.setState({isLoading: false});
@@ -80,6 +84,8 @@ class ActivityCard extends React.Component<Props, State> {
 		const {imageSrc} = this.state;
 		const {title, description, startdate, enddate} = activity;
 
+		console.log(imageSrc);
+
 		return (
 			<Card className={classes.card}>
 				<CardHeader
@@ -89,7 +95,7 @@ class ActivityCard extends React.Component<Props, State> {
 
 				<CardMedia
 					className={classes.media}
-					src={imageSrc}
+					image={imageSrc}
 					title={title}
 				/>
 
