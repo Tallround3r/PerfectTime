@@ -1,4 +1,4 @@
-import {SEARCH_TEXT} from '../constants/action-types';
+import {SEARCH_TEXT} from '../../constants/action-types';
 
 export function searchText(text: string) {
 	return {

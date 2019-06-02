@@ -6,7 +6,7 @@ import SearchIcon from '@material-ui/core/SvgIcon/SvgIcon';
 import React, {ChangeEvent} from 'react';
 import {connect} from 'react-redux';
 import {RouteComponentProps} from 'react-router';
-import {setSearchText} from '../actions/searchAction';
+import {setSearchText} from '../store/actions/searchAction';
 
 const styles = (theme: Theme) => createStyles({
 	root: {
@@ -64,14 +64,6 @@ interface State {
 }
 
 class SearchBar extends React.Component<Props, State> {
-
-
-	constructor(props: any) {
-		super(props);
-		this.state = {
-			searchTerm: '',
-		};
-	}
 
 	onButtonClick = () => {
 		// TODO anstatt dessen lieber ein Drop Down menü, nach was gefiltert werden soll und die Rücksetzung des
