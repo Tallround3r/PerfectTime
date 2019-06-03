@@ -112,12 +112,10 @@ class TripsPage extends React.Component<Props, State> {
 
 	tripNameIncludesSearchString = (tripId: string) => {
 		return this.props.trips[tripId].title.toLowerCase().includes(this.props.searchText.toLowerCase());
-		// return true;
 	};
 
 	render() {
 		const {classes, trips, auth} = this.props;
-		console.log(trips);
 
 		return (
 			<React.Fragment>
@@ -127,7 +125,8 @@ class TripsPage extends React.Component<Props, State> {
 					: isEmpty(trips)
 						? 'No Trips created yet.'
 						: Object.keys(trips)
-							.filter((key) => (!!trips[key] && trips[key].public) || isUserOfTrip(trips[key], auth) && this.tripNameIncludesSearchString(key))
+							.filter((key) => ((!!trips[key] && trips[key].public) || isUserOfTrip(trips[key], auth))
+								&& this.tripNameIncludesSearchString(key))
 							.map((key) => {
 								return (
 									<TripPanel
