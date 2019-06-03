@@ -1,8 +1,8 @@
-import {createStyles, Theme, WithStyles, withStyles} from '@material-ui/core';
+import {createStyles, InputBase, Theme, WithStyles, withStyles} from '@material-ui/core';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from '@material-ui/icons/Add';
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
@@ -13,6 +13,10 @@ import LocationPanel from '../components/LocationPanel';
 import * as routes from '../constants/routes';
 import {Location, Trip} from '../types';
 import {parseDateIfValid} from '../utils/parser';
+import {isUserOfTrip} from '../utils/authUtils';
+import {fade} from '@material-ui/core/styles/colorManipulator';
+import SearchIcon from '@material-ui/core/SvgIcon/SvgIcon';
+import {setSearchText} from '../store/actions/searchAction';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -49,12 +53,55 @@ const styles = (theme: Theme) => createStyles({
 		bottom: theme.spacing.unit * 5,
 		right: theme.spacing.unit * 5,
 	},
+
+	search: {
+		'position': 'relative',
+		'borderRadius': theme.shape.borderRadius,
+		'backgroundColor': fade(theme.palette.common.white, 0.15),
+		'&:hover': {
+			backgroundColor: fade(theme.palette.common.white, 0.25),
+		},
+		'marginRight': theme.spacing.unit * 2,
+		'marginLeft': 0,
+		'width': '100%',
+		[theme.breakpoints.up('sm')]: {
+			marginLeft: theme.spacing.unit * 3,
+			width: 'auto',
+		},
+	},
+	searchIcon: {
+		width: theme.spacing.unit * 9,
+		height: '100%',
+		position: 'absolute',
+		pointerEvents: 'none',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	inputRoot: {
+		color: 'inherit',
+		width: '100%',
+	},
+	inputInput: {
+		paddingTop: theme.spacing.unit,
+		paddingRight: theme.spacing.unit,
+		paddingBottom: theme.spacing.unit,
+		paddingLeft: theme.spacing.unit * 10,
+		transition: theme.transitions.create('width'),
+		width: '100%',
+		[theme.breakpoints.up('md')]: {
+			width: 200,
+		},
+	},
+
 });
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	trip: Trip;
 	locations: { [id: string]: Location },
 	firestore: any;
+	searchText: string;
+	setSearchText: any;
 }
 
 interface State {
@@ -72,12 +119,21 @@ class LocationsPage extends React.Component<Props, State> {
 		const tripId = match.params[routes.URL_PARAM_TRIP];
 		firestore.get(`TRIPS/${tripId}`);
 		firestore.get(`TRIPS/${tripId}/locations`);
+		this.props.setSearchText('');
 	}
 
 	handleExpansionPanelChange = (panel: any) => (event: any, expanded: any) => {
 		this.setState({
 			expanded: expanded ? panel : null,
 		});
+	};
+
+	locationNameIncludesSearchString = (locationId: string) => {
+		return this.props.locations[locationId].title.toLowerCase().includes(this.props.searchText.toLowerCase());
+	};
+
+	setSearchString = (e: ChangeEvent<HTMLInputElement>) => {
+		this.props.setSearchText(e.target.value);
 	};
 
 	render() {
@@ -87,32 +143,49 @@ class LocationsPage extends React.Component<Props, State> {
 
 		return (
 			<React.Fragment>
-				<h1>
-					Locations {isLoaded(trip) && !isEmpty(trip) && ` of Trip "${trip.title}"`}
-				</h1>
+				<div>
+					<h1>
+						Locations {isLoaded(trip) && !isEmpty(trip) && ` of Trip "${trip.title}"`}
+					</h1>
+					<div className={classes.search}>
+						<div className={classes.searchIcon}>
+							<SearchIcon/>
+						</div>
+						<InputBase
+							onChange={this.setSearchString}
+							placeholder='Search…'
+							classes={{
+								root: classes.inputRoot,
+								input: classes.inputInput,
+							}}
+							value={this.props.searchText}
+						/>
+					</div>
+				</div>
 				<div>
 					{!isLoaded(locations)
 						? 'Loading...'
 						: isEmpty(locations)
 							? 'No Locations created yet.'
-							: Object.keys(locations).map((key) => {
-								const location = locations[key];
-								const startdate = parseDateIfValid(locations[key].startdate);
-								const enddate = parseDateIfValid(locations[key].enddate);
-								return (
-									<LocationPanel
-										key={key}
-										id={key}
-										classes={classes}
-										expanded={expanded}
-										onChange={this.handleExpansionPanelChange(key)}
-										location={location}
-										startdate={startdate}
-										enddate={enddate}
-										tripId={tripId}
-									/>
-								);
-							})}
+							: Object.keys(locations).filter((key) => (this.locationNameIncludesSearchString(key)))
+								.map((key) => {
+									const location = locations[key];
+									const startdate = parseDateIfValid(locations[key].startdate);
+									const enddate = parseDateIfValid(locations[key].enddate);
+									return (
+										<LocationPanel
+											key={key}
+											id={key}
+											classes={classes}
+											expanded={expanded}
+											onChange={this.handleExpansionPanelChange(key)}
+											location={location}
+											startdate={startdate}
+											enddate={enddate}
+											tripId={tripId}
+										/>
+									);
+								})}
 				</div>
 
 				<NavLink exact={true} to={routes.LOCATIONS_ADD(tripId)}>
@@ -135,11 +208,17 @@ class LocationsPage extends React.Component<Props, State> {
 	}
 }
 
+const mapDispatchToProps = (dispatch: any) => {
+	return {
+		setSearchText: (text: string) => dispatch(setSearchText(text)),
+	};
+};
+
 export default compose(
 	withRouter,
 	firestoreConnect(),
 	connect(
-		({firestore: {data}}: any, props: Props) => {
+		({firestore: {data}, searchString}: any, props: Props) => {
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];
 			return {
 				trip: data.TRIPS
@@ -147,8 +226,9 @@ export default compose(
 				locations: data.TRIPS
 					&& data.TRIPS[tripId]
 					&& data.TRIPS[tripId].locations,
+				searchText: searchString,
 			};
-		},
+		}, mapDispatchToProps,
 	),
 	withStyles(styles),
 )(LocationsPage);

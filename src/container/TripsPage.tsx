@@ -2,7 +2,7 @@ import {createStyles, Theme, WithStyles, withStyles} from '@material-ui/core';
 import Fab from '@material-ui/core/Fab/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from '@material-ui/icons/Add';
-import React, {MouseEvent} from 'react';
+import React, {ChangeEvent, MouseEvent} from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
@@ -44,6 +44,7 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	firestore: any;
 	trips: { [id: string]: Trip };
 	searchText: string;
+	setSearchText: any;
 }
 
 interface State {
@@ -62,6 +63,7 @@ class TripsPage extends React.Component<Props, State> {
 
 	componentDidMount(): void {
 		this.props.firestore.get('TRIPS');
+		this.props.setSearchText('');
 	}
 
 	handleConfirmDeleteTrip = (e: MouseEvent) => {
@@ -169,6 +171,12 @@ class TripsPage extends React.Component<Props, State> {
 	}
 }
 
+const mapDispatchToProps = (dispatch: any) => {
+	return {
+		setSearchText: (text: string) => dispatch(setSearchText(text)),
+	};
+};
+
 export default compose(
 	withRouter,
 	firestoreConnect(),
@@ -179,7 +187,7 @@ export default compose(
 				trips: data.TRIPS,
 				searchText: searchString,
 			};
-		},
+		}, mapDispatchToProps,
 	),
 	withStyles(styles),
 )(TripsPage);

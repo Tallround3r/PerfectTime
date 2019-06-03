@@ -76,13 +76,13 @@ class SearchBar extends React.Component<Props> {
 
 		return (
 			<div>
-				<Button
-					type='button'
-					color='secondary'
-					onClick={this.onButtonClick}
-				>
-					Search
-				</Button>
+				{/*<Button*/}
+					{/*type='button'*/}
+					{/*color='secondary'*/}
+					{/*onClick={this.onButtonClick}*/}
+				{/*>*/}
+					{/*Search*/}
+				{/*</Button>*/}
 
 				<div className={classes.search}>
 					<div className={classes.searchIcon}>
@@ -95,6 +95,7 @@ class SearchBar extends React.Component<Props> {
 							root: classes.inputRoot,
 							input: classes.inputInput,
 						}}
+						value={this.props.searchText}
 					/>
 				</div>
 			</div>
