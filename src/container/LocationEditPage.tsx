@@ -165,7 +165,7 @@ class LocationEditPage extends React.Component<Props, State> {
 
 	render() {
 		const {classes, match} = this.props;
-		const {location} = this.state;
+		const {location, file} = this.state;
 		const {title, description, startdate, enddate, address} = location;
 		const tripId = match.params[routes.URL_PARAM_TRIP];
 		const locationId = match.params[routes.URL_PARAM_LOCATION];
@@ -195,6 +195,7 @@ class LocationEditPage extends React.Component<Props, State> {
 					openFileDialog={this.openFileDialog}
 					onChangeFileInput={this.handleChangeFileInput}
 					locationId={locationId}
+					pickedFile={file}
 				/>
 
 				<div className={classes.activitiesContainer}>

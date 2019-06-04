@@ -26,6 +26,7 @@ const styles = (theme: Theme) => createStyles({
 
 interface ImageComponentProps extends WithStyles<typeof styles> {
 	path?: string;
+	pickedFile?: File | null;
 }
 
 interface ImageComponentState {
@@ -54,11 +55,16 @@ class ImageComponent extends React.Component<ImageComponentProps, ImageComponent
 	}
 
 	render() {
-		const {classes} = this.props;
+		const {classes, pickedFile} = this.props;
 		const {imageSrc, isLoading} = this.state;
 
-		return !!imageSrc ?
-			<img src={imageSrc} alt={''} className={classes.image}/> :
+		let src: null | string = imageSrc;
+		if (!!pickedFile) {
+			src = URL.createObjectURL(pickedFile);
+		}
+
+		return !!src ?
+			<img src={src} alt={''} className={classes.image}/> :
 			<Paper
 				className={classes.imagePaper}
 			>

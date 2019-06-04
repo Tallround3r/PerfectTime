@@ -182,7 +182,7 @@ class LocationAddPage extends React.Component<Props, State> {
 
 	render() {
 		const {classes} = this.props;
-		const {location} = this.state;
+		const {location, file} = this.state;
 		const {title, description, startdate, enddate, address} = location;
 
 		return (
@@ -209,6 +209,7 @@ class LocationAddPage extends React.Component<Props, State> {
 					openFileDialog={this.openFileDialog}
 					onChangeFileInput={this.handleChangeFileInput}
 					inputRef={this.fileInput}
+					pickedFile={file}
 				/>
 			</div>
 		);

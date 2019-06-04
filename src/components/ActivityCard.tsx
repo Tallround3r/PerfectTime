@@ -84,8 +84,6 @@ class ActivityCard extends React.Component<Props, State> {
 		const {imageSrc} = this.state;
 		const {title, description, startdate, enddate} = activity;
 
-		console.log(imageSrc);
-
 		return (
 			<Card className={classes.card}>
 				<CardHeader

@@ -165,7 +165,7 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 
 	render() {
 		const {classes, match} = this.props;
-		const {activity} = this.state;
+		const {activity, file} = this.state;
 		const {title, description, startdate, enddate, address} = activity;
 		const activityId = match.params[routes.URL_PARAM_ACTIVITY];
 
@@ -184,6 +184,7 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 					>
 						<ImageComponent
 							path={`images/activities/${activityId}`}
+							pickedFile={file}
 						/>
 					</Button>
 

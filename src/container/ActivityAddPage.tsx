@@ -99,6 +99,7 @@ class ActivityAddPage extends React.Component<ActivityAddPageProps, State> {
 	};
 
 	handleCancel = (e: MouseEvent) => {
+		e.preventDefault();
 		const {activity} = this.props;
 
 		this.setState({
@@ -106,8 +107,6 @@ class ActivityAddPage extends React.Component<ActivityAddPageProps, State> {
 		});
 
 		this.navigateBack();
-
-		e.preventDefault();
 	};
 
 	handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -150,7 +149,7 @@ class ActivityAddPage extends React.Component<ActivityAddPageProps, State> {
 
 	render() {
 		const {classes} = this.props;
-		const {activity} = this.state;
+		const {activity, file} = this.state;
 		const {title, description, startdate, enddate, address} = activity;
 
 		return (
@@ -166,7 +165,9 @@ class ActivityAddPage extends React.Component<ActivityAddPageProps, State> {
 						onClick={this.openFileDialog}
 						className={classes.imageButton}
 					>
-						<ImageComponent/>
+						<ImageComponent
+							pickedFile={file}
+						/>
 					</Button>
 
 					<form className={classes.inputContainer} onSubmit={this.handleSubmit}>

@@ -75,6 +75,7 @@ interface LocationMetadataInputProps extends WithStyles<typeof styles> {
 	onChangeFileInput: (e: ChangeEvent<HTMLInputElement>) => void;
 	inputRef: React.RefObject<any>;
 	locationId?: string;
+	pickedFile?: File | null;
 }
 
 function LocationMetadataInput(props: LocationMetadataInputProps) {
@@ -95,6 +96,7 @@ function LocationMetadataInput(props: LocationMetadataInputProps) {
 		onChangeFileInput,
 		inputRef,
 		locationId,
+		pickedFile,
 	} = props;
 
 	return (
@@ -105,6 +107,7 @@ function LocationMetadataInput(props: LocationMetadataInputProps) {
 			>
 				<ImageComponent
 					path={`images/locations/${locationId}`}
+					pickedFile={pickedFile}
 				/>
 			</Button>
 
