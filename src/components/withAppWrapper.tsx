@@ -149,6 +149,7 @@ const withAppWrapper = (Component: React.ComponentType<any>): any => {
 			// @ts-ignore
 			const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 			const tripId = match.params[routes.URL_PARAM_TRIP];
+			const showSearch = window.location.href.includes('trips') || window.location.href.includes('follows');
 
 			const drawerContent = <div>
 				<div className={classes.toolbarIcon}>
@@ -215,9 +216,13 @@ const withAppWrapper = (Component: React.ComponentType<any>): any => {
 									Perfect Time — Plan Your Trip
 								</Typography>
 
-								{
-									// @ts-ignore
-									<SearchBar/>
+								{!!showSearch &&
+								<Hidden smDown={true}>
+									{
+										// @ts-ignore
+										<SearchBar/>
+									}
+								</Hidden>
 								}
 
 
