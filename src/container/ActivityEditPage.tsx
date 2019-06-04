@@ -113,7 +113,7 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 			});
 	};
 
-	handleCancel = (e: MouseEvent) => {
+	handleCancel = (e: MouseEvent<HTMLButtonElement>) => {
 		const {activity} = this.props;
 
 		this.setState({

@@ -1,6 +1,6 @@
 import {CircularProgress, createStyles, Paper, Theme, withStyles, WithStyles} from '@material-ui/core';
 import {AddPhotoAlternateOutlined} from '@material-ui/icons';
-import React from 'react';
+import React, {MouseEvent} from 'react';
 import {getStorageURL} from '../firebase/storage';
 
 const styles = (theme: Theme) => createStyles({
@@ -22,11 +22,17 @@ const styles = (theme: Theme) => createStyles({
 	imageIcon: {
 		fontSize: '10em',
 	},
+	removeBtn: {
+		position: 'absolute',
+		top: theme.spacing.unit,
+		right: theme.spacing.unit,
+	},
 });
 
 interface ImageComponentProps extends WithStyles<typeof styles> {
 	path?: string;
 	pickedFile?: File | null;
+	onRemoveImage?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
 interface ImageComponentState {
@@ -64,7 +70,15 @@ class ImageComponent extends React.Component<ImageComponentProps, ImageComponent
 		}
 
 		return !!src ?
-			<img src={src} alt={''} className={classes.image}/> :
+			<div>
+				<img src={src} alt={''} className={classes.image}/>
+				{/*<IconButton*/}
+				{/*	className={classes.removeBtn}*/}
+				{/*	onClick={onRemoveImage}*/}
+				{/*>*/}
+				{/*	<Clear/>*/}
+				{/*</IconButton>*/}
+			</div> :
 			<Paper
 				className={classes.imagePaper}
 			>
