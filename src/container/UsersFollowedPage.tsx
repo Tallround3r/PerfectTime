@@ -56,8 +56,12 @@ class UsersFollowedPage extends React.Component<Props> {
 		this.props.setSearchText('');
 	}
 
-	userNameIncludesSearchString = (userName: string) => {
-		return userName.toLowerCase().includes(this.props.searchText.toLowerCase());
+	userNameIncludesSearchString = async (userId: any) => {
+		console.log(userId);
+		console.log(this.props.users);
+		console.log(await this.props.users[userId].username.toLowerCase().includes(this.props.searchText.toLowerCase()));
+		const containsSearch = await this.props.users[userId].username.toLowerCase().includes(this.props.searchText.toLowerCase());
+		return containsSearch;
 	};
 
 	render() {
@@ -89,7 +93,7 @@ class UsersFollowedPage extends React.Component<Props> {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{user.following.map((userId: string) => {
+								{user.following.filter((userId) => this.userNameIncludesSearchString(userId)).map((userId: string) => {
 									// @ts-ignore
 									const {username, firstName, lastName} = users[userId] || {
 										username: 'Loading...',

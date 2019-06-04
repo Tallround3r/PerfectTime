@@ -61,12 +61,6 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 
 class SearchBar extends React.Component<Props> {
 
-	onButtonClick = () => {
-		// TODO anstatt dessen lieber ein Drop Down menü, nach was gefiltert werden soll und die Rücksetzung des
-		// TODO Terms bei jedem neuen Seitenaufruf. Somit benötigt man den Button nicht
-		console.log(this.props.searchText);
-	};
-
 	setSearchString = (e: ChangeEvent<HTMLInputElement>) => {
 		this.props.setSearchText(e.target.value);
 	};

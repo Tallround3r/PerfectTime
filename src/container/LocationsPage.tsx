@@ -92,10 +92,6 @@ class LocationsPage extends React.Component<Props, State> {
 		return this.props.locations[locationId].title.toLowerCase().includes(this.props.searchText.toLowerCase());
 	};
 
-	setSearchString = (e: ChangeEvent<HTMLInputElement>) => {
-		this.props.setSearchText(e.target.value);
-	};
-
 	render() {
 		const {classes, trip, locations, match} = this.props;
 		const {expanded} = this.state;
