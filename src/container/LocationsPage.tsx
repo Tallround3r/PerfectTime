@@ -1,8 +1,8 @@
-import {createStyles, InputBase, Theme, WithStyles, withStyles} from '@material-ui/core';
+import {createStyles, Theme, WithStyles, withStyles} from '@material-ui/core';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from '@material-ui/icons/Add';
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
@@ -11,12 +11,9 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import LocationPanel from '../components/LocationPanel';
 import * as routes from '../constants/routes';
+import {setSearchText} from '../store/actions/searchAction';
 import {Location, Trip} from '../types';
 import {parseDateIfValid} from '../utils/parser';
-import {isUserOfTrip} from '../utils/authUtils';
-import {fade} from '@material-ui/core/styles/colorManipulator';
-import SearchIcon from '@material-ui/core/SvgIcon/SvgIcon';
-import {setSearchText} from '../store/actions/searchAction';
 
 
 const styles = (theme: Theme) => createStyles({

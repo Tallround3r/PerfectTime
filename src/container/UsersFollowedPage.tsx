@@ -52,17 +52,18 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 
 
 class UsersFollowedPage extends React.Component<Props> {
-	componentDidMount(): void {
-		this.props.setSearchText('');
-	}
+	// componentDidMount(): void {
+	// 	this.props.setSearchText('');
+	// }
 
-	userNameIncludesSearchString = async (userId: any) => {
-		console.log(userId);
-		console.log(this.props.users);
-		console.log(await this.props.users[userId].username.toLowerCase().includes(this.props.searchText.toLowerCase()));
-		const containsSearch = await this.props.users[userId].username.toLowerCase().includes(this.props.searchText.toLowerCase());
-		return containsSearch;
-	};
+	// userNameIncludesSearchString = async (userId: any) => {
+	// 	console.log(userId);
+	// 	console.log(this.props.users);
+	// 	console.log(await this.props.users[userId].username.toLowerCase().includes(this.props.searchText.toLowerCase()));
+	// 	const containsSearch = await this.props.users[userId].username.toLowerCase()
+	// 	.includes(this.props.searchText.toLowerCase());
+	// 	return containsSearch;
+	// };
 
 	render() {
 		const {user, classes, users, authUser} = this.props;
@@ -93,7 +94,7 @@ class UsersFollowedPage extends React.Component<Props> {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{user.following.filter((userId) => this.userNameIncludesSearchString(userId)).map((userId: string) => {
+								{user.following.map((userId: string) => {
 									// @ts-ignore
 									const {username, firstName, lastName} = users[userId] || {
 										username: 'Loading...',

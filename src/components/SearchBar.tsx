@@ -1,5 +1,4 @@
 import {InputBase, withStyles} from '@material-ui/core';
-import Button from '@material-ui/core/Button';
 import {createStyles, Theme, WithStyles} from '@material-ui/core/es';
 import {fade} from '@material-ui/core/styles/colorManipulator';
 import SearchIcon from '@material-ui/core/SvgIcon/SvgIcon';
@@ -70,14 +69,6 @@ class SearchBar extends React.Component<Props> {
 
 		return (
 			<div>
-				{/*<Button*/}
-					{/*type='button'*/}
-					{/*color='secondary'*/}
-					{/*onClick={this.onButtonClick}*/}
-				{/*>*/}
-					{/*Search*/}
-				{/*</Button>*/}
-
 				<div className={classes.search}>
 					<div className={classes.searchIcon}>
 						<SearchIcon/>
