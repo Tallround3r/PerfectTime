@@ -86,7 +86,7 @@ class ActivitiesSlider extends React.Component<Props> {
 		const {classes, activities, tripId, locationId} = this.props;
 		return (
 			<div key={`slider-child-${key}`} className={classes.slideItem}>
-				<ActivityCard activity={activities[key]} activityId={key} tripId={tripId} locationId={locationId}/>
+				<ActivityCard firestore={this.props.firestore} activity={activities[key]} activityId={key} tripId={tripId} locationId={locationId}/>
 			</div>
 		);
 	});
