@@ -81,7 +81,6 @@ class ActivityCard extends React.Component<Props, State> {
 
 	handleDeleteBtnClicked = () => (e: MouseEvent) => {
 		e.preventDefault();
-		console.log('delete clicked');
 		this.setState({
 			openDeleteDialog: true,
 		});
@@ -108,9 +107,11 @@ class ActivityCard extends React.Component<Props, State> {
 				openDeleteDialog: false,
 			});
 		}).catch(() => {
-			alert('Missing permission to delete this Activity! \n Maybe you are not a member or owner of the Trip.');
+			this.setState({
+				openDeleteDialog: false,
+			});
+			alert('ERROR\nMissing permission to delete this Activity!\nMaybe you are not a member or owner of the Trip.');
 		});
-		// TODO: implement delete Activity
 	};
 
 	handleCancelDeleteActivity = () => (e: MouseEvent) => {
