@@ -1,7 +1,7 @@
 import {Button, createStyles, Paper, Theme, WithStyles, withStyles} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import firebase from 'firebase';
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import {NavLink} from 'react-router-dom';
 import * as routes from '../constants/routes';
 import {Address} from '../types';
