@@ -59,7 +59,7 @@ exports.onDeleteTrip = functions
 
 const onDeleteUser = (snap, context) => {
 	const user = snap.data();
-	const id = user.id;
+	const id = snap.id;
 
 	// delete all trips owned by deleted user
 	// delete all references on deleted user in tripMembers
