@@ -1,5 +1,6 @@
 import {FirebaseOptions} from '@firebase/app-types';
-import firebase from 'firebase';
+import * as firebase from 'firebase';
+import 'firebase/storage';
 
 const firebaseConfig: FirebaseOptions = {
 	apiKey: process.env.REACT_APP_API_KEY,
