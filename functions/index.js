@@ -23,13 +23,12 @@ let onUserDelete = (snap, context) => {
 					if (tripObj.members && tripObj.members[0] !== id) {
 						tripObj.owner = tripObj.members[0];
 						firestore.set(tripDoc.ref, tripObj); //TODO: does ref work?
-					} else if (tripObj.members && tripObj.members[1] !== id) { // in case the (deleted) owner has been registered as the first member
+					} else if (tripObj.members && tripObj.members[1] !== id) {
+						// in case the (deleted) owner has been registered as the first member
 						tripObj.owner = tripObj.members[1];
 						firestore.set(tripDoc.ref, tripObj); //TODO: does ref work?
-					} else if (tripObj.public) { // a public trip without owner or members stays public
-						tripObj.owner = 'public';
-						firestore.set(tripDoc.ref, tripObj); //TODO: does ref work?
-					} else { // delete trip
+					} else {
+						// delete trip
 						firestore.delete(tripDoc.ref, {
 							project: process.env.GCLOUD_PROJECT,
 							recursive: true,
@@ -41,8 +40,10 @@ let onUserDelete = (snap, context) => {
 
 					// TODO: check if it worked
 				}
-				if (!tripDeleted) { // unnecessary if trip has been deleted
-					// delete membership of deleted user from all trips
+
+				// unnecessary if trip has been deleted
+				// delete membership of deleted user from all trips
+				if (!tripDeleted) {
 					const members = tripObj.members;
 					const index = members ? members.indexOf(id) : -1;
 					if (index >= 0) {
@@ -57,7 +58,7 @@ let onUserDelete = (snap, context) => {
 		})
 		.catch(() => console.log('Error while fetching TRIPS from firestore'));
 
-	// deleted all references on deleted user in followedUser
+	// delete all references on deleted user in followedUser
 	firestore.collection('users').get()
 		.then((snap) => {
 			snap.forEach(userDoc => {
