@@ -1,6 +1,5 @@
-import {Button, createStyles, Paper, TextField, Theme, WithStyles, withStyles} from '@material-ui/core';
+import {Button, createStyles, TextField, Theme, WithStyles, withStyles} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import {AddPhotoAlternateOutlined} from '@material-ui/icons';
 import classNames from 'classnames';
 import firebase from 'firebase';
 import DatePicker from 'material-ui-pickers/DatePicker/DatePickerModal';
@@ -8,6 +7,7 @@ import React, {ChangeEvent, FormEvent} from 'react';
 import {Address} from '../types';
 import {datePickerMask} from '../utils/datePickerUtils';
 import {parseDateIfValid} from '../utils/parser';
+import ImageComponent from './ImageComponent';
 
 type Timestamp = firebase.firestore.Timestamp;
 
@@ -34,12 +34,14 @@ const styles = (theme: Theme) => createStyles({
 	addressLabel: {
 		marginTop: theme.spacing.unit * 2,
 	},
+	imageButton: {
+		float: 'right',
+	},
 	imagePaper: {
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
 		margin: theme.spacing.unit,
-		float: 'right',
 		width: '18em',
 		height: '18em',
 	},
@@ -69,9 +71,13 @@ interface LocationMetadataInputProps extends WithStyles<typeof styles> {
 	onClick: (e: React.MouseEvent<HTMLInputElement>) => void,
 	value: string,
 	value1: string,
+	openFileDialog: () => void;
+	onChangeFileInput: (e: ChangeEvent<HTMLInputElement>) => void;
+	inputRef: React.RefObject<any>;
+	locationId?: string;
+	pickedFile?: File | null;
 }
 
-// tslint:disable-next-line:max-line-length
 function LocationMetadataInput(props: LocationMetadataInputProps) {
 	const {
 		classes,
@@ -86,17 +92,24 @@ function LocationMetadataInput(props: LocationMetadataInputProps) {
 		onChange2,
 		onChange3,
 		onClick,
+		openFileDialog,
+		onChangeFileInput,
+		inputRef,
+		locationId,
+		pickedFile,
 	} = props;
 
 	return (
 		<div>
-			<Paper
-				className={classes.imagePaper}
+			<Button
+				onClick={openFileDialog}
+				className={classes.imageButton}
 			>
-				<AddPhotoAlternateOutlined
-					className={classes.imageIcon}
+				<ImageComponent
+					path={`images/locations/${locationId}`}
+					pickedFile={pickedFile}
 				/>
-			</Paper>
+			</Button>
 
 			<form className={classes.inputContainer} onSubmit={onSubmit}>
 				<TextField
@@ -202,6 +215,16 @@ function LocationMetadataInput(props: LocationMetadataInputProps) {
 					</Button>
 				</div>
 			</form>
+
+			<input
+				id='file-input'
+				type='file'
+				alt='Upload Image'
+				style={{display: 'none'}}
+				ref={inputRef}
+				onChange={onChangeFileInput}
+				accept='image/*'
+			/>
 		</div>
 	);
 }

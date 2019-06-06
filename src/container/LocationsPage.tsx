@@ -7,8 +7,6 @@ import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
-import 'slick-carousel/slick/slick-theme.css';
-import 'slick-carousel/slick/slick.css';
 import LocationPanel from '../components/LocationPanel';
 import * as routes from '../constants/routes';
 import {Location, Trip} from '../types';

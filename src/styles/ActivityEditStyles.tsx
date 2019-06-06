@@ -47,6 +47,9 @@ const styles = (theme: Theme) => createStyles({
 		marginLeft: theme.spacing.unit,
 		marginRight: theme.spacing.unit,
 	},
+	imageButton: {
+		float: 'right',
+	},
 });
 
 export default styles;

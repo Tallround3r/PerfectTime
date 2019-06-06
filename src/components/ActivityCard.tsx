@@ -17,9 +17,11 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
+import {getStorageURL} from '../firebase/storage';
+import defaultImage from '../images/default-activity.jpg';
+import loadingImage from '../images/loading.gif';
 import {Activity} from '../types';
 import {parseDateToString} from '../utils/parser';
-import {getRandomImage} from '../utils/RessourceUtils';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -44,14 +46,34 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 interface State {
-	cardImage: string,
+	isLoading: boolean;
+	imageSrc: any;
 }
 
 class ActivityCard extends React.Component<Props, State> {
 
 	state = {
-		cardImage: getRandomImage(),
+		isLoading: false,
+		imageSrc: loadingImage,
 	};
+
+	componentWillMount(): void {
+		const {activityId} = this.props;
+		const path = `images/activities/${activityId}`;
+
+		this.setState({isLoading: true});
+
+		getStorageURL(path)
+			.then((url) => {
+				this.setState({imageSrc: url});
+			})
+			.catch(() => {
+				this.setState({imageSrc: defaultImage});
+			})
+			.finally(() => {
+				this.setState({isLoading: false});
+			});
+	}
 
 	handleDelete = () => {
 		// TODO: implement delete Activity
@@ -59,6 +81,7 @@ class ActivityCard extends React.Component<Props, State> {
 
 	render() {
 		const {classes, activity, tripId, locationId} = this.props;
+		const {imageSrc} = this.state;
 		const {title, description, startdate, enddate} = activity;
 
 		return (
@@ -70,7 +93,7 @@ class ActivityCard extends React.Component<Props, State> {
 
 				<CardMedia
 					className={classes.media}
-					image={this.state.cardImage}
+					image={imageSrc}
 					title={title}
 				/>
 

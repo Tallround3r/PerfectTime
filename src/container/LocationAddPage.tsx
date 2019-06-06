@@ -5,6 +5,7 @@ import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import LocationMetadataInput from '../components/LocationMetadataInput';
 import * as routes from '../constants/routes';
+import {uploadFile} from '../firebase/storage';
 import {Location} from '../types';
 
 
@@ -74,17 +75,38 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 
 interface State {
 	location: Location;
+	file: File | null;
 }
 
 class LocationAddPage extends React.Component<Props, State> {
+	fileInput: React.RefObject<any>;
 
 	state = {
 		location: INITIAL_LOCATION,
+		file: null,
+	};
+
+	constructor(props: Props) {
+		super(props);
+
+		this.fileInput = React.createRef();
+	}
+
+	openFileDialog = () => {
+		this.fileInput.current.click();
+	};
+
+	handleChangeFileInput = (e: ChangeEvent<HTMLInputElement>) => {
+		// @ts-ignore
+		const file = e.target.files[0];
+		this.setState({file});
 	};
 
 	handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
 		const {firestore, match, history} = this.props;
-		const {location} = this.state;
+		const {location, file} = this.state;
 
 		const firestoreRef = {
 			collection: 'TRIPS',
@@ -97,11 +119,14 @@ class LocationAddPage extends React.Component<Props, State> {
 		firestore.add(firestoreRef, location)
 			.then((docRef: any) => {
 				const tripId = match.params[routes.URL_PARAM_TRIP];
-				history.push(routes.LOCATIONS_VIEW(tripId, docRef.id));
+				if (!!file) {
+					// @ts-ignore
+					uploadFile(file, `images/locations/${docRef.id}`)
+						.then(() => history.push(routes.LOCATIONS_VIEW(tripId, docRef.id)));
+				} else {
+					history.push(routes.LOCATIONS_VIEW(tripId, docRef.id));
+				}
 			});
-
-
-		e.preventDefault();
 	};
 
 	handleCancel = (e: MouseEvent) => {
@@ -157,7 +182,7 @@ class LocationAddPage extends React.Component<Props, State> {
 
 	render() {
 		const {classes} = this.props;
-		const {location} = this.state;
+		const {location, file} = this.state;
 		const {title, description, startdate, enddate, address} = location;
 
 		return (
@@ -181,6 +206,10 @@ class LocationAddPage extends React.Component<Props, State> {
 					address={address}
 					onChange3={this.handleChangeAddress}
 					onClick={this.handleCancel}
+					openFileDialog={this.openFileDialog}
+					onChangeFileInput={this.handleChangeFileInput}
+					inputRef={this.fileInput}
+					pickedFile={file}
 				/>
 			</div>
 		);

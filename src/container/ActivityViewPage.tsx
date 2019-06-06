@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {firestoreConnect} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
+import ImageComponent from '../components/ImageComponent';
 import * as routes from '../constants/routes';
 import styles from '../styles/ActivityViewStyles';
 import {Activity} from '../types/activity';
@@ -61,13 +62,9 @@ class ActivityViewPage extends React.Component<ActivityViewPageProps, State> {
 					{title}
 				</Typography>
 				<div>
-					<Paper
-						className={classes.imagePaper}
-					>
-						<PhotoOutlined
-							className={classes.imageIcon}
-						/>
-					</Paper>
+					<ImageComponent
+						path={`images/activities/${activityId}`}
+					/>
 					<div className={classes.inputContainer}>
 						<Paper className={classes.paperField}>
 							<Typography>Description:</Typography>
