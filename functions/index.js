@@ -57,7 +57,7 @@ exports.onDeleteTrip = functions
 			});
 	});
 
-const onDeleteUser = (snap, context) => {
+const onDeleteUsers = (snap, context) => {
 	const user = snap.data();
 	const id = snap.id;
 
@@ -120,4 +120,4 @@ const onDeleteUser = (snap, context) => {
 		.catch(() => console.error('Error while fetching users from firestore'));
 };
 
-exports.onDeleteUser = functions.firestore.document(`users/{userId}`).onDelete(onDeleteUser);
+exports.onDeleteUser = functions.firestore.document(`users/{userId}`).onDelete(onDeleteUsers);
