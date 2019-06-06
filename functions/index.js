@@ -70,6 +70,7 @@ const onDeleteUsers = (snap, context) => {
 				let tripDeleted = false;
 				// Search all trips owned by deleted user
 				if (tripObj.owner === id) {
+					console.log(`Trip ${tripDoc.id} identified`);
 					// trip has other members -> next member becomes the owner
 					if (tripObj.members && tripObj.members[0] !== id) {
 						tripObj.owner = tripObj.members[0];
@@ -93,6 +94,7 @@ const onDeleteUsers = (snap, context) => {
 					const members = tripObj.members;
 					const index = members ? members.indexOf(id) : -1;
 					if (index >= 0) {
+						console.log(`trip ${tripDoc.id} had user as member`);
 						members.splice(index, 1);
 						tripObj.members = members;
 						firestore.set(tripDoc.ref, tripObj); //TODO: Does reference work?
@@ -111,6 +113,7 @@ const onDeleteUsers = (snap, context) => {
 				const userObj = userDoc.data();
 				let index = userObj.following ? userObj.following.indexOf(user.uid) : -1;
 				if (index >= 0) {
+					console.log(`User ${userDoc.id} followed deleted user`);
 					userObj.splice(index, 1);
 					firestore.set(userDoc.ref, userObj); // TODO: Does reference work?
 				}
