@@ -3,6 +3,8 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
 admin.initializeApp();
+const firestore = admin.firestore();
+
 
 exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
 	const email = user.email;
@@ -54,3 +56,68 @@ exports.onDeleteTrip = functions
 				return promise;
 			});
 	});
+
+const onDeleteUser = (snap, context) => {
+	const user = snap.data();
+	const id = user.id;
+
+	// delete all trips owned by deleted user
+	// delete all references on deleted user in tripMembers
+	firestore.collection('TRIPS').get()
+		.then((snap) => {
+			snap.forEach(tripDoc => {
+				const tripObj = tripDoc.data();
+				let tripDeleted = false;
+				// Search all trips owned by deleted user
+				if (tripObj.owner === id) {
+					// trip has other members -> next member becomes the owner
+					if (tripObj.members && tripObj.members[0] !== id) {
+						tripObj.owner = tripObj.members[0];
+						firestore.set(tripDoc.ref, tripObj); //TODO: does ref work?
+					} else if (tripObj.members && tripObj.members[1] !== id) {
+						// in case the (deleted) owner has been registered as the first member
+						tripObj.owner = tripObj.members[1];
+						firestore.set(tripDoc.ref, tripObj); //TODO: does ref work?
+					} else {
+						// delete trip
+						firestore.delete(tripDoc.ref);
+						tripDeleted = true;
+					}
+
+					// TODO: check if it worked
+				}
+
+				// unnecessary if trip has been deleted
+				// delete membership of deleted user from all trips
+				if (!tripDeleted) {
+					const members = tripObj.members;
+					const index = members ? members.indexOf(id) : -1;
+					if (index >= 0) {
+						members.splice(index, 1);
+						tripObj.members = members;
+						firestore.set(tripDoc.ref, tripObj); //TODO: Does reference work?
+					}
+				}
+			});
+
+			return Promise.resolve();
+		})
+		.catch(() => console.log('Error while fetching TRIPS from firestore'));
+
+	// delete all references on deleted user in followedUser
+	firestore.collection('users').get()
+		.then((snap) => {
+			snap.forEach(userDoc => {
+				const userObj = userDoc.data();
+				let index = userObj.following ? userObj.following.indexOf(user.uid) : -1;
+				if (index >= 0) {
+					userObj.splice(index, 1);
+					firestore.set(userDoc.ref, userObj); // TODO: Does reference work?
+				}
+			});
+			return Promise.resolve();
+		})
+		.catch(() => console.error('Error while fetching users from firestore'));
+};
+
+exports.onDeleteUser = functions.firestore.document(`users/{userId}`).onDelete(onDeleteUser);
