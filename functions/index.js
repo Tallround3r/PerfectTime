@@ -65,6 +65,7 @@ const onDeleteUsers = (snap, context) => {
 	// delete all references on deleted user in tripMembers
 	firestore.collection('TRIPS').get()
 		.then((snap) => {
+			console.log(`fetched ${snap.left} trips`);
 			snap.forEach(tripDoc => {
 				const tripObj = tripDoc.data();
 				let tripDeleted = false;
@@ -74,15 +75,23 @@ const onDeleteUsers = (snap, context) => {
 					// trip has other members -> next member becomes the owner
 					if (tripObj.members && tripObj.members[0] !== id) {
 						tripObj.owner = tripObj.members[0];
-						firestore.set(tripDoc.ref, tripObj); //TODO: does ref work?
+						firestore.set(tripDoc.ref, tripObj).then((promise) => {
+							console.log(`Trip  on path ${tripDoc.path} successfully updated.`);
+							return promise;
+						}).catch(()=>{`an error occurred while editing trip ${tripDoc.path} (1)`}); //TODO: does ref work?
 					} else if (tripObj.members && tripObj.members[1] !== id) {
 						// in case the (deleted) owner has been registered as the first member
 						tripObj.owner = tripObj.members[1];
-						firestore.set(tripDoc.ref, tripObj); //TODO: does ref work?
+						firestore.set(tripDoc.ref, tripObj).then((promise) => {
+							console.log(`Trip  on path ${tripDoc.path} successfully updated.`);
+							return promise;
+						}).catch(()=>{`an error occurred while editing trip ${tripDoc.path} (2)`}); //TODO: does ref work?
 					} else {
 						// delete trip
-						firestore.delete(tripDoc.ref);
+						console.log(`deleting trip ${tripDoc.path}`);
+						firestore.delete(tripDoc.ref); // triggers delete trip
 						tripDeleted = true;
+						console.log(`trip ${tripDoc.path} deleted`);
 					}
 
 					// TODO: check if it worked
@@ -97,12 +106,15 @@ const onDeleteUsers = (snap, context) => {
 						console.log(`trip ${tripDoc.id} had user as member`);
 						members.splice(index, 1);
 						tripObj.members = members;
-						firestore.set(tripDoc.ref, tripObj); //TODO: Does reference work?
+						firestore.set(tripDoc.ref, tripObj).then((promise) => {
+							console.log(`Trip  on path ${tripDoc.path} successfully updated.`);
+							return promise;
+						}).catch(()=>{`an error occurred while editing trip ${tripDoc.path} (3)`}); //TODO: Does reference work?
 					}
 				}
 			});
 
-			return Promise.resolve();
+			//return Promise.resolve();
 		})
 		.catch(() => console.log('Error while fetching TRIPS from firestore'));
 
@@ -115,12 +127,16 @@ const onDeleteUsers = (snap, context) => {
 				if (index >= 0) {
 					console.log(`User ${userDoc.id} followed deleted user`);
 					userObj.splice(index, 1);
-					firestore.set(userDoc.ref, userObj); // TODO: Does reference work?
+					firestore.set(userDoc.ref, userObj).then((promise) => {
+						console.log(`user  on path ${userDoc.path} successfully updated.`);
+						return promise;
+					}).catch(()=>{`an error occurred while editing user ${userDoc.path}`}); // TODO: Does reference work?
 				}
 			});
-			return Promise.resolve();
+			//return Promise.resolve();
 		})
 		.catch(() => console.error('Error while fetching users from firestore'));
+	return Promise.resolve();
 };
 
 exports.onDeleteUser = functions.firestore.document(`users/{userId}`).onDelete(onDeleteUsers);
