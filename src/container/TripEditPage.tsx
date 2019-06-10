@@ -184,7 +184,7 @@ class TripEditPage extends React.Component<Props, State> {
 			doc: match.params[routes.URL_PARAM_TRIP],
 		};
 
-		let tripN = trip;
+		const tripN = trip;
 		tripN.public = true;
 
 		firestore.set(firestoreRef, tripN).then(() => {
@@ -351,7 +351,19 @@ class TripEditPage extends React.Component<Props, State> {
 							>
 								Save Trip
 							</Button>
-							<span hidden={trip.public || trip.owner != this.props.auth.uid}>
+
+							<Button
+								className={classes.actionButton}
+								variant='contained'
+								color='secondary'
+								fullWidth={true}
+								onClick={this.handleCancel}
+							>
+								Cancel
+							</Button>
+						</div>
+						<br/>
+						<span hidden={trip.public || trip.owner !== this.props.auth.uid}>
 							<Button
 								className={classes.actionButton}
 								variant='contained'
@@ -369,16 +381,6 @@ class TripEditPage extends React.Component<Props, State> {
 									onCancel={this.handleCancelPublishTrip()}
 								/>
 							</span>
-							<Button
-								className={classes.actionButton}
-								variant='contained'
-								color='secondary'
-								fullWidth={true}
-								onClick={this.handleCancel}
-							>
-								Cancel
-							</Button>
-						</div>
 					</form>
 				</div>
 			</div>
