@@ -85,7 +85,7 @@ class ActivitiesSlider extends React.Component<Props> {
 	renderActivityCards = () => Object.keys(this.props.activities).map((key) => {
 		const {classes, activities, tripId, locationId} = this.props;
 		if (activities[key] === null) {
-			return;
+			return <br/>;
 		}
 		return (
 			<div key={`slider-child-${key}`} className={classes.slideItem}>

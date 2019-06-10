@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import {Delete, Edit, OpenInNew} from '@material-ui/icons';
 import React, {MouseEvent} from 'react';
-import {NavLink, RouteComponentProps} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
 import {getStorageURL} from '../firebase/storage';
