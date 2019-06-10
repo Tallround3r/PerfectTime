@@ -9,6 +9,7 @@ import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import LocationPanel from '../components/LocationPanel';
 import * as routes from '../constants/routes';
+import {setSearchText} from '../store/actions/searchAction';
 import {Location, Trip} from '../types';
 import {parseDateIfValid} from '../utils/parser';
 
@@ -47,12 +48,15 @@ const styles = (theme: Theme) => createStyles({
 		bottom: theme.spacing.unit * 5,
 		right: theme.spacing.unit * 5,
 	},
+
 });
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	trip: Trip;
 	locations: { [id: string]: Location },
 	firestore: any;
+	searchText: string;
+	setSearchText: any;
 }
 
 interface State {
@@ -70,12 +74,17 @@ class LocationsPage extends React.Component<Props, State> {
 		const tripId = match.params[routes.URL_PARAM_TRIP];
 		firestore.get(`TRIPS/${tripId}`);
 		firestore.get(`TRIPS/${tripId}/locations`);
+		this.props.setSearchText('');
 	}
 
 	handleExpansionPanelChange = (panel: any) => (event: any, expanded: any) => {
 		this.setState({
 			expanded: expanded ? panel : null,
 		});
+	};
+
+	locationNameIncludesSearchString = (locationId: string) => {
+		return this.props.locations[locationId].title.toLowerCase().includes(this.props.searchText.toLowerCase());
 	};
 
 	render() {
@@ -85,32 +94,35 @@ class LocationsPage extends React.Component<Props, State> {
 
 		return (
 			<React.Fragment>
-				<h1>
-					Locations {isLoaded(trip) && !isEmpty(trip) && ` of Trip "${trip.title}"`}
-				</h1>
+				<div>
+					<h1>
+						Locations {isLoaded(trip) && !isEmpty(trip) && ` of Trip "${trip.title}"`}
+					</h1>
+				</div>
 				<div>
 					{!isLoaded(locations)
 						? 'Loading...'
 						: isEmpty(locations)
 							? 'No Locations created yet.'
-							: Object.keys(locations).map((key) => {
-								const location = locations[key];
-								const startdate = parseDateIfValid(locations[key].startdate);
-								const enddate = parseDateIfValid(locations[key].enddate);
-								return (
-									<LocationPanel
-										key={key}
-										id={key}
-										classes={classes}
-										expanded={expanded}
-										onChange={this.handleExpansionPanelChange(key)}
-										location={location}
-										startdate={startdate}
-										enddate={enddate}
-										tripId={tripId}
-									/>
-								);
-							})}
+							: Object.keys(locations).filter((key) => (this.locationNameIncludesSearchString(key)))
+								.map((key) => {
+									const location = locations[key];
+									const startdate = parseDateIfValid(locations[key].startdate);
+									const enddate = parseDateIfValid(locations[key].enddate);
+									return (
+										<LocationPanel
+											key={key}
+											id={key}
+											classes={classes}
+											expanded={expanded}
+											onChange={this.handleExpansionPanelChange(key)}
+											location={location}
+											startdate={startdate}
+											enddate={enddate}
+											tripId={tripId}
+										/>
+									);
+								})}
 				</div>
 
 				<NavLink exact={true} to={routes.LOCATIONS_ADD(tripId)}>
@@ -133,11 +145,17 @@ class LocationsPage extends React.Component<Props, State> {
 	}
 }
 
+const mapDispatchToProps = (dispatch: any) => {
+	return {
+		setSearchText: (text: string) => dispatch(setSearchText(text)),
+	};
+};
+
 export default compose(
 	withRouter,
 	firestoreConnect(),
 	connect(
-		({firestore: {data}}: any, props: Props) => {
+		({firestore: {data}, searchString}: any, props: Props) => {
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];
 			return {
 				trip: data.TRIPS
@@ -145,8 +163,9 @@ export default compose(
 				locations: data.TRIPS
 					&& data.TRIPS[tripId]
 					&& data.TRIPS[tripId].locations,
+				searchText: searchString,
 			};
-		},
+		}, mapDispatchToProps,
 	),
 	withStyles(styles),
 )(LocationsPage);
