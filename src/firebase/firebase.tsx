@@ -1,3 +1,4 @@
+// tslint:disable-next-line:no-implicit-dependencies
 import {FirebaseOptions} from '@firebase/app-types';
 import * as firebase from 'firebase';
 import 'firebase/storage';

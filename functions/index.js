@@ -106,15 +106,15 @@ const onDeleteUsers = (snap, context) => {
 						console.log(`trip ${tripDoc.id} had user as member`);
 						members.splice(index, 1);
 						tripObj.members = members;
-						firestore.set(tripDoc.ref, tripObj).then((promise) => {
+						firestore.set(tripDoc.ref, tripObj).then(() => {
 							console.log(`Trip  on path ${tripDoc.path} successfully updated.`);
-							return promise;
+							return Promise.resolve();
 						}).catch(()=>{`an error occurred while editing trip ${tripDoc.path} (3)`}); //TODO: Does reference work?
 					}
 				}
 			});
 
-			//return Promise.resolve();
+			return Promise.resolve();
 		})
 		.catch(() => console.log('Error while fetching TRIPS from firestore'));
 
@@ -127,13 +127,13 @@ const onDeleteUsers = (snap, context) => {
 				if (index >= 0) {
 					console.log(`User ${userDoc.id} followed deleted user`);
 					userObj.splice(index, 1);
-					firestore.set(userDoc.ref, userObj).then((promise) => {
+					firestore.set(userDoc.ref, userObj).then(() => {
 						console.log(`user  on path ${userDoc.path} successfully updated.`);
-						return promise;
+						return Promise.resolve();
 					}).catch(()=>{`an error occurred while editing user ${userDoc.path}`}); // TODO: Does reference work?
 				}
 			});
-			//return Promise.resolve();
+			return Promise.resolve();
 		})
 		.catch(() => console.error('Error while fetching users from firestore'));
 	return Promise.resolve();
