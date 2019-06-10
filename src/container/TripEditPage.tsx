@@ -1,4 +1,14 @@
-import {Button, createStyles, Paper, TextField, Theme, Typography, WithStyles, withStyles} from '@material-ui/core';
+import {
+	Button,
+	Card,
+	createStyles,
+	Paper,
+	TextField,
+	Theme,
+	Typography,
+	WithStyles,
+	withStyles
+} from '@material-ui/core';
 import {AddPhotoAlternateOutlined} from '@material-ui/icons';
 import classNames from 'classnames';
 import DatePicker from 'material-ui-pickers/DatePicker';
@@ -9,6 +19,7 @@ import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {ActionMeta, ValueType} from 'react-select/lib/types';
 import {compose} from 'redux';
 import {isEqual, omit} from 'underscore';
+import ConfirmDialog from '../components/ConfirmDialog';
 import MultiSelect, {OptionType} from '../components/MultiSelect';
 import * as routes from '../constants/routes';
 import {Trip, User} from '../types';
@@ -74,6 +85,7 @@ const styles = (theme: Theme) => createStyles({
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	firestore: any;
+	auth: any;
 	trip: Trip;
 	users: User[];
 }
@@ -81,6 +93,7 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 interface State {
 	trip: Trip;
 	selectedMembers: ValueType<OptionType> // Array<{ label: string; value: string }>
+	openPublishDialog: boolean,
 }
 
 const INITIAL_TRIP: Trip = {
@@ -96,6 +109,7 @@ class TripEditPage extends React.Component<Props, State> {
 	state = {
 		trip: this.props.trip || INITIAL_TRIP,
 		selectedMembers: [],
+		openPublishDialog: false,
 	};
 
 	componentDidMount(): void {
@@ -151,6 +165,46 @@ class TripEditPage extends React.Component<Props, State> {
 
 		e.preventDefault();
 	};
+
+	handlePublishBtnClicked = () => (e: MouseEvent) => {
+		e.preventDefault();
+		this.setState({
+			openPublishDialog: true,
+		});
+	};
+
+	// set trip public, cannot be undone, allows any user to view a trip
+	handlePublishTrip = () => (e: MouseEvent) => {
+		e.preventDefault();
+		const {firestore, match, history} = this.props;
+		const {trip} = this.state;
+
+		const firestoreRef = {
+			collection: 'TRIPS',
+			doc: match.params[routes.URL_PARAM_TRIP],
+		};
+
+		const tripN = trip;
+		tripN.public = true;
+
+		firestore.set(firestoreRef, tripN).then(() => {
+			this.setState({
+				openPublishDialog: false,
+			});
+		}).catch(() => {
+			this.setState({
+				openPublishDialog: false,
+			});
+			alert('ERROR\nMissing permission to publish this Trip!\nMaybe you are not owner of the Trip.');
+		});
+
+		history.push(routes.TRIPS());
+	}
+	handleCancelPublishTrip = () => (e: MouseEvent) => {
+		this.setState({
+			openPublishDialog: false,
+		});
+	}
 
 	handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
 		const {name, value} = e.target;
@@ -297,6 +351,7 @@ class TripEditPage extends React.Component<Props, State> {
 							>
 								Save Trip
 							</Button>
+
 							<Button
 								className={classes.actionButton}
 								variant='contained'
@@ -307,6 +362,25 @@ class TripEditPage extends React.Component<Props, State> {
 								Cancel
 							</Button>
 						</div>
+						<br/>
+						<span hidden={trip.public || trip.owner !== this.props.auth.uid}>
+							<Button
+								className={classes.actionButton}
+								variant='contained'
+								color='secondary'
+								fullWidth={true}
+								onClick={this.handlePublishBtnClicked()}
+							>
+								Publish Trip
+							</Button>
+								<ConfirmDialog
+									content={'Are you sure you want to publish this trip ?\n' +
+									'This action can not be undone.'}
+									open={this.state.openPublishDialog}
+									onConfirm={this.handlePublishTrip()}
+									onCancel={this.handleCancelPublishTrip()}
+								/>
+							</span>
 					</form>
 				</div>
 			</div>
