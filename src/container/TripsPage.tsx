@@ -2,7 +2,7 @@ import {createStyles, Theme, WithStyles, withStyles} from '@material-ui/core';
 import Fab from '@material-ui/core/Fab/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from '@material-ui/icons/Add';
-import React, {ChangeEvent, MouseEvent} from 'react';
+import React, {MouseEvent} from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
@@ -12,9 +12,9 @@ import 'slick-carousel/slick/slick.css';
 import ConfirmDialog from '../components/ConfirmDialog';
 import TripPanel from '../components/TripPanel';
 import * as routes from '../constants/routes';
+import {setSearchText} from '../store/actions/searchAction';
 import {Trip} from '../types';
 import {isUserOfTrip} from '../utils/authUtils';
-import {setSearchText} from '../store/actions/searchAction';
 
 
 const styles = (theme: Theme) => createStyles({
