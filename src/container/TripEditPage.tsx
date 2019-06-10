@@ -173,6 +173,7 @@ class TripEditPage extends React.Component<Props, State> {
 		});
 	};
 
+	// set trip public, cannot be undone, allows any user to view a trip
 	handlePublishTrip = () => (e: MouseEvent) => {
 		e.preventDefault();
 		const {firestore, match, history} = this.props;
@@ -360,13 +361,13 @@ class TripEditPage extends React.Component<Props, State> {
 							>
 								Publish Trip
 							</Button>
-												<ConfirmDialog
-													content={'Are you sure you want to publish this trip ?\n' +
-													'This action can not be undone.'}
-													open={this.state.openPublishDialog}
-													onConfirm={this.handlePublishTrip()}
-													onCancel={this.handleCancelPublishTrip()}
-												/>
+								<ConfirmDialog
+									content={'Are you sure you want to publish this trip ?\n' +
+									'This action can not be undone.'}
+									open={this.state.openPublishDialog}
+									onConfirm={this.handlePublishTrip()}
+									onCancel={this.handleCancelPublishTrip()}
+								/>
 							</span>
 							<Button
 								className={classes.actionButton}
