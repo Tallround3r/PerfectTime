@@ -1,5 +1,8 @@
+// tslint:disable-next-line:no-implicit-dependencies
 import {FirebaseOptions} from '@firebase/app-types';
-import firebase from 'firebase';
+import * as firebase from 'firebase';
+// tslint:disable-next-line:no-import-side-effect
+import 'firebase/storage';
 
 const firebaseConfig: FirebaseOptions = {
 	apiKey: process.env.REACT_APP_API_KEY,
@@ -16,8 +19,10 @@ if (!firebase.apps.length) {
 
 const auth = firebase.auth();
 const db = firebase.firestore();
+const storage = firebase.storage();
 
 export {
 	auth,
 	db,
+	storage,
 };

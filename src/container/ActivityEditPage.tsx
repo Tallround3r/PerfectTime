@@ -1,5 +1,4 @@
-import {Button, Paper, TextField, Typography, WithStyles, withStyles} from '@material-ui/core';
-import {AddPhotoAlternateOutlined} from '@material-ui/icons';
+import {Button, TextField, Typography, WithStyles, withStyles} from '@material-ui/core';
 import classNames from 'classnames';
 import DatePicker from 'material-ui-pickers/DatePicker/DatePickerModal';
 import React, {ChangeEvent, FormEvent, MouseEvent} from 'react';
@@ -8,20 +7,23 @@ import {firestoreConnect} from 'react-redux-firebase';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import {isEqual} from 'underscore';
+import ImageComponent from '../components/ImageComponent';
 import * as routes from '../constants/routes';
+import {uploadFile} from '../firebase/storage';
 import styles from '../styles/ActivityEditStyles';
-import {Activity} from '../types/activity';
+import {Activity} from '../types';
 import {datePickerMask} from '../utils/datePickerUtils';
 import {parseDateIfValid} from '../utils/parser';
 
 
 interface ActivityEditPageProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
-	activity: Activity,
-	firestore: any
+	activity: Activity;
+	firestore: any;
 }
 
 interface State {
-	activity: Activity
+	activity: Activity;
+	file: File | null;
 }
 
 const INITIAL_ACTIVITY: Activity = {
@@ -36,8 +38,26 @@ const INITIAL_ACTIVITY: Activity = {
 };
 
 class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
+	inputRef: React.RefObject<any>;
+
 	state = {
 		activity: this.props.activity || INITIAL_ACTIVITY,
+		file: null,
+	};
+
+	constructor(props: ActivityEditPageProps) {
+		super(props);
+		this.inputRef = React.createRef();
+	}
+
+	openFileDialog = () => {
+		this.inputRef.current.click();
+	};
+
+	handleChangeFileInput = (e: ChangeEvent<HTMLInputElement>) => {
+		// @ts-ignore
+		const file = e.target.files[0];
+		this.setState({file});
 	};
 
 	navigateBack = () => {
@@ -59,29 +79,41 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 	}
 
 	handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
 		const {firestore, match} = this.props;
-		const {activity} = this.state;
+		const {activity, file} = this.state;
+		const tripId = match.params[routes.URL_PARAM_TRIP];
+		const locationId = match.params[routes.URL_PARAM_LOCATION];
+		const activityId = match.params[routes.URL_PARAM_ACTIVITY];
 
 		const firestoreRef = {
 			collection: 'TRIPS',
-			doc: match.params[routes.URL_PARAM_TRIP],
+			doc: tripId,
 			subcollections: [{
 				collection: 'locations',
-				doc: match.params[routes.URL_PARAM_LOCATION],
+				doc: locationId,
 				subcollections: [{
 					collection: 'activities',
-					doc: match.params[routes.URL_PARAM_ACTIVITY],
+					doc: activityId,
 				}],
 			}],
 		};
-		firestore.set(firestoreRef, activity);
 
-		this.navigateBack();
-
-		e.preventDefault();
+		firestore.set(firestoreRef, activity)
+			.then(() => {
+				if (!!file) {
+					// @ts-ignore
+					uploadFile(file, `images/activities/${activityId}`)
+						.then(() => {
+							this.navigateBack();
+						});
+				} else {
+					this.navigateBack();
+				}
+			});
 	};
 
-	handleCancel = (e: MouseEvent) => {
+	handleCancel = (e: MouseEvent<HTMLButtonElement>) => {
 		const {activity} = this.props;
 
 		this.setState({
@@ -132,9 +164,10 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 	};
 
 	render() {
-		const {classes} = this.props;
-		const {activity} = this.state;
+		const {classes, match} = this.props;
+		const {activity, file} = this.state;
 		const {title, description, startdate, enddate, address} = activity;
+		const activityId = match.params[routes.URL_PARAM_ACTIVITY];
 
 		return (
 			<div className={classes.activityEditPage}>
@@ -145,13 +178,15 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 					Edit Activity
 				</Typography>
 				<div>
-					<Paper
-						className={classes.imagePaper}
+					<Button
+						onClick={this.openFileDialog}
+						className={classes.imageButton}
 					>
-						<AddPhotoAlternateOutlined
-							className={classes.imageIcon}
+						<ImageComponent
+							path={`images/activities/${activityId}`}
+							pickedFile={file}
 						/>
-					</Paper>
+					</Button>
 
 					<form className={classes.inputContainer} onSubmit={this.handleSubmit}>
 						<TextField
@@ -258,6 +293,16 @@ class ActivityEditPage extends React.Component<ActivityEditPageProps, State> {
 						</div>
 					</form>
 				</div>
+
+				<input
+					id='file-input'
+					type='file'
+					alt='Upload Image'
+					style={{display: 'none'}}
+					ref={this.inputRef}
+					onChange={this.handleChangeFileInput}
+					accept='image/*'
+				/>
 			</div>
 		);
 	}

@@ -13,13 +13,16 @@ import {
 	withStyles,
 } from '@material-ui/core';
 import {Delete, Edit, OpenInNew} from '@material-ui/icons';
-import React from 'react';
+import React, {MouseEvent} from 'react';
 import {NavLink} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
+import {getStorageURL} from '../firebase/storage';
+import defaultImage from '../images/default-activity.jpg';
+import loadingImage from '../images/loading.gif';
 import {Activity} from '../types';
 import {parseDateToString} from '../utils/parser';
-import {getRandomImage} from '../utils/RessourceUtils';
+import ConfirmDialog from './ConfirmDialog';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -41,24 +44,85 @@ interface Props extends WithStyles<typeof styles> {
 	locationId: string;
 	activityId: string;
 	activity: Activity;
+	firestore: any;
 }
 
 interface State {
-	cardImage: string,
+	isLoading: boolean;
+	imageSrc: any;
+	openDeleteDialog: boolean,
 }
 
 class ActivityCard extends React.Component<Props, State> {
 
 	state = {
-		cardImage: getRandomImage(),
+		isLoading: false,
+		imageSrc: loadingImage,
+		openDeleteDialog: false,
 	};
 
-	handleDelete = () => {
-		// TODO: implement delete Activity
+	componentWillMount(): void {
+		const {activityId} = this.props;
+		const path = `images/activities/${activityId}`;
+
+		this.setState({isLoading: true});
+
+		getStorageURL(path)
+			.then((url) => {
+				this.setState({imageSrc: url});
+			})
+			.catch(() => {
+				this.setState({imageSrc: defaultImage});
+			})
+			.finally(() => {
+				this.setState({isLoading: false});
+			});
+	}
+
+	handleDeleteBtnClicked = () => (e: MouseEvent) => {
+		e.preventDefault();
+		this.setState({
+			openDeleteDialog: true,
+		});
+	};
+
+	handleDeleteActivity = () => (e: MouseEvent) => {
+		e.preventDefault();
+		const {firestore, tripId, locationId, activityId} = this.props;
+
+		const firestoreRef = {
+			collection: 'TRIPS',
+			doc: tripId,
+			subcollections: [{
+				collection: 'locations',
+				doc: locationId,
+				subcollections: [{
+					collection: 'activities',
+					doc: activityId,
+				}],
+			}],
+		};
+		firestore.delete(firestoreRef).then(() => {
+			this.setState({
+				openDeleteDialog: false,
+			});
+		}).catch(() => {
+			this.setState({
+				openDeleteDialog: false,
+			});
+			alert('ERROR\nMissing permission to delete this Activity!\nMaybe you are not a member or owner of the Trip.');
+		});
+	};
+
+	handleCancelDeleteActivity = () => (e: MouseEvent) => {
+		this.setState({
+			openDeleteDialog: false,
+		});
 	};
 
 	render() {
 		const {classes, activity, tripId, locationId} = this.props;
+		const {imageSrc} = this.state;
 		const {title, description, startdate, enddate} = activity;
 
 		return (
@@ -70,7 +134,7 @@ class ActivityCard extends React.Component<Props, State> {
 
 				<CardMedia
 					className={classes.media}
-					image={this.state.cardImage}
+					image={imageSrc}
 					title={title}
 				/>
 
@@ -82,7 +146,7 @@ class ActivityCard extends React.Component<Props, State> {
 				<CardActions className={classes.actions}>
 					<Tooltip title='Delete' aria-label='Delete'>
 						<IconButton
-							onClick={this.handleDelete}
+							onClick={this.handleDeleteBtnClicked()}
 						>
 							<Delete/>
 						</IconButton>
@@ -102,6 +166,15 @@ class ActivityCard extends React.Component<Props, State> {
 						</NavLink>
 					</Tooltip>
 				</CardActions>
+
+				<ConfirmDialog
+					content={'Are you sure you want to delete this activity ?\n' +
+					'This action can not be undone.'}
+					open={this.state.openDeleteDialog}
+					onConfirm={this.handleDeleteActivity()}
+					onCancel={this.handleCancelDeleteActivity()}
+				/>
+
 			</Card>
 		);
 	}

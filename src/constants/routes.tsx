@@ -37,6 +37,6 @@ export const USER_DELETE_ACCOUNT = (userId = `:${URL_PARAM_USER}`) => `/user/${u
 
 /* URL parameter */
 export const URL_PARAM_TRIP = 'tripId';
-export const URL_PARAM_LOCATION = 'locationId';
+export const URL_PARAM_LOCATION = 'path';
 export const URL_PARAM_ACTIVITY = 'activityId';
 export const URL_PARAM_USER = 'userId';

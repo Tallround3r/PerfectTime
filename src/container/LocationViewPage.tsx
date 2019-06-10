@@ -1,5 +1,5 @@
 import {createStyles, Theme, Typography, WithStyles, withStyles} from '@material-ui/core';
-import * as React from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect} from 'react-redux-firebase';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
@@ -7,7 +7,7 @@ import {compose} from 'redux';
 import ActivitiesSlider from '../components/ActivitiesSlider';
 import LocationMetadata from '../components/LocationMetadataView';
 import * as routes from '../constants/routes';
-import {Location} from '../types/location';
+import {Location} from '../types';
 
 
 const styles = (theme: Theme) => createStyles({

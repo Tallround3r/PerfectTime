@@ -8,7 +8,8 @@ import {isEqual, omit} from 'underscore';
 import ActivitiesSlider from '../components/ActivitiesSlider';
 import LocationMetadataInput from '../components/LocationMetadataInput';
 import * as routes from '../constants/routes';
-import {Location} from '../types/location';
+import {uploadFile} from '../firebase/storage';
+import {Location} from '../types';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -36,6 +37,7 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 
 interface State {
 	location: Location;
+	file: File | null;
 }
 
 const INITIAL_LOCATION: Location = {
@@ -50,9 +52,27 @@ const INITIAL_LOCATION: Location = {
 };
 
 class LocationEditPage extends React.Component<Props, State> {
+	fileInput: React.RefObject<any>;
 
 	state = {
 		location: this.props.locationT || INITIAL_LOCATION,
+		file: null,
+	};
+
+	constructor(props: Props) {
+		super(props);
+
+		this.fileInput = React.createRef();
+	}
+
+	openFileDialog = () => {
+		this.fileInput.current.click();
+	};
+
+	handleChangeFileInput = (e: ChangeEvent<HTMLInputElement>) => {
+		// @ts-ignore
+		const file = e.target.files[0];
+		this.setState({file});
 	};
 
 	componentDidUpdate(prevProps: Props, prevState: State, snapshot: any) {
@@ -65,26 +85,31 @@ class LocationEditPage extends React.Component<Props, State> {
 	}
 
 	handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
 		const {firestore, match, history} = this.props;
-		const {location} = this.state;
+		const {location, file} = this.state;
+		const tripId = match.params[routes.URL_PARAM_TRIP];
+		const locationId = match.params[routes.URL_PARAM_LOCATION];
 
 		const firestoreRef = {
 			collection: 'TRIPS',
-			doc: match.params[routes.URL_PARAM_TRIP],
+			doc: tripId,
 			subcollections: [{
 				collection: 'locations',
-				doc: match.params[routes.URL_PARAM_LOCATION],
+				doc: locationId,
 			}],
 		};
 
 		const locationWithoutActivities = omit(location, 'activities');
 		firestore.set(firestoreRef, locationWithoutActivities);
 
-		const tripId = match.params[routes.URL_PARAM_TRIP];
-		const locationId = match.params[routes.URL_PARAM_LOCATION];
-		history.push(routes.LOCATIONS_VIEW(tripId, locationId));
-
-		e.preventDefault();
+		if (!!file) {
+			// @ts-ignore: fire cannot be null (see above)
+			uploadFile(file, `images/locations/${locationId}`).then(
+				() => history.push(routes.LOCATIONS_VIEW(tripId, locationId)));
+		} else {
+			history.push(routes.LOCATIONS_VIEW(tripId, locationId));
+		}
 	};
 
 	handleCancel = (e: MouseEvent) => {
@@ -141,7 +166,7 @@ class LocationEditPage extends React.Component<Props, State> {
 
 	render() {
 		const {classes, match} = this.props;
-		const {location} = this.state;
+		const {location, file} = this.state;
 		const {title, description, startdate, enddate, address} = location;
 		const tripId = match.params[routes.URL_PARAM_TRIP];
 		const locationId = match.params[routes.URL_PARAM_LOCATION];
@@ -167,6 +192,11 @@ class LocationEditPage extends React.Component<Props, State> {
 					address={address}
 					onChange3={this.handleChangeAddress}
 					onClick={this.handleCancel}
+					inputRef={this.fileInput}
+					openFileDialog={this.openFileDialog}
+					onChangeFileInput={this.handleChangeFileInput}
+					locationId={locationId}
+					pickedFile={file}
 				/>
 
 				<div className={classes.activitiesContainer}>
@@ -199,7 +229,6 @@ class LocationEditPage extends React.Component<Props, State> {
 			</div>
 		);
 	}
-
 }
 
 export default compose(

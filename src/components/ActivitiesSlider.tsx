@@ -4,12 +4,9 @@ import {connect} from 'react-redux';
 import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase';
 import Slider from 'react-slick';
 import {compose} from 'redux';
-import 'slick-carousel/slick/slick-theme.css';
-import 'slick-carousel/slick/slick.css';
-import {Activity} from '../types/activity';
+import {Activity} from '../types';
 import ActivityCard from './ActivityCard';
 import {SliderNextArrow, SliderPrevArrow} from './SliderArrows';
-
 
 const styles = (theme: Theme) => createStyles({
 	slider: {
@@ -87,9 +84,18 @@ class ActivitiesSlider extends React.Component<Props> {
 
 	renderActivityCards = () => Object.keys(this.props.activities).map((key) => {
 		const {classes, activities, tripId, locationId} = this.props;
+		if (activities[key] === null) {
+			return <br/>;
+		}
 		return (
-			<div key={key} className={classes.slideItem}>
-				<ActivityCard activity={activities[key]} activityId={key} tripId={tripId} locationId={locationId}/>
+			<div key={`slider-child-${key}`} className={classes.slideItem}>
+				<ActivityCard
+					firestore={this.props.firestore}
+					activity={activities[key]}
+					activityId={key}
+					tripId={tripId}
+					locationId={locationId}
+				/>
 			</div>
 		);
 	});

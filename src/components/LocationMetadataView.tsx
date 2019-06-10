@@ -1,12 +1,12 @@
 import {Button, createStyles, Paper, Theme, WithStyles, withStyles} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import {AddPhotoAlternateOutlined} from '@material-ui/icons';
 import firebase from 'firebase';
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import * as routes from '../constants/routes';
 import {Address} from '../types';
 import {parseDateToString} from '../utils/parser';
+import ImageComponent from './ImageComponent';
 
 type Timestamp = firebase.firestore.Timestamp;
 
@@ -39,6 +39,9 @@ const styles = (theme: Theme) => createStyles({
 	imageIcon: {
 		fontSize: '10em',
 	},
+	imageContainer: {
+		float: 'right',
+	},
 	paperField: {
 		width: '100%',
 		height: 'auto',
@@ -48,16 +51,18 @@ const styles = (theme: Theme) => createStyles({
 interface LocationMetadataProps extends WithStyles<typeof styles> {
 	title: string;
 	description: string;
-	timestamp: Date | Timestamp | null,
-	timestamp1: Date | Timestamp | null,
-	address: Address,
-	tripId: string,
-	locationId: string
+	timestamp: Date | Timestamp | null;
+	timestamp1: Date | Timestamp | null;
+	address: Address;
+	tripId: string;
+	locationId: string;
 }
 
 // tslint:disable-next-line:max-line-length
 function LocationMetadataView(props: LocationMetadataProps) {
-	const {title, classes, description, timestamp, timestamp1, address, tripId, locationId} = props;
+	const {
+		title, classes, description, timestamp, timestamp1, address, tripId, locationId,
+	} = props;
 
 	return (
 		<div className={classes.locationViewPage}>
@@ -69,13 +74,11 @@ function LocationMetadataView(props: LocationMetadataProps) {
 			</Typography>
 
 			<div>
-				<Paper
-					className={classes.imagePaper}
-				>
-					<AddPhotoAlternateOutlined
-						className={classes.imageIcon}
+				<div className={classes.imageContainer}>
+					<ImageComponent
+						path={`images/locations/${locationId}`}
 					/>
-				</Paper>
+				</div>
 
 				<div className={classes.inputContainer}>
 					<Paper className={classes.paperField}>
