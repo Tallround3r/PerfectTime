@@ -104,7 +104,7 @@ class LocationEditPage extends React.Component<Props, State> {
 		firestore.set(firestoreRef, locationWithoutActivities);
 
 		if (!!file) {
-			// @ts-ignore: fire cannot be null (see above)
+			// @ts-ignore: file cannot be null (see above)
 			uploadFile(file, `images/locations/${locationId}`).then(
 				() => history.push(routes.LOCATIONS_VIEW(tripId, locationId)));
 		} else {
