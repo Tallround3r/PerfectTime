@@ -1,6 +1,7 @@
 // tslint:disable-next-line:no-implicit-dependencies
 import {FirebaseOptions} from '@firebase/app-types';
 import * as firebase from 'firebase';
+// tslint:disable-next-line:no-import-side-effect
 import 'firebase/storage';
 
 const firebaseConfig: FirebaseOptions = {
