@@ -13,7 +13,7 @@ import {
 	withStyles,
 } from '@material-ui/core';
 import {Delete, Edit, OpenInNew} from '@material-ui/icons';
-import React from 'react';
+import React, {MouseEvent} from 'react';
 import {NavLink} from 'react-router-dom';
 import {compose} from 'redux';
 import * as routes from '../constants/routes';
@@ -22,6 +22,7 @@ import defaultImage from '../images/default-activity.jpg';
 import loadingImage from '../images/loading.gif';
 import {Activity} from '../types';
 import {parseDateToString} from '../utils/parser';
+import ConfirmDialog from './ConfirmDialog';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -43,11 +44,13 @@ interface Props extends WithStyles<typeof styles> {
 	locationId: string;
 	activityId: string;
 	activity: Activity;
+	firestore: any;
 }
 
 interface State {
 	isLoading: boolean;
 	imageSrc: any;
+	openDeleteDialog: boolean,
 }
 
 class ActivityCard extends React.Component<Props, State> {
@@ -55,6 +58,7 @@ class ActivityCard extends React.Component<Props, State> {
 	state = {
 		isLoading: false,
 		imageSrc: loadingImage,
+		openDeleteDialog: false,
 	};
 
 	componentWillMount(): void {
@@ -75,8 +79,45 @@ class ActivityCard extends React.Component<Props, State> {
 			});
 	}
 
-	handleDelete = () => {
-		// TODO: implement delete Activity
+	handleDeleteBtnClicked = () => (e: MouseEvent) => {
+		e.preventDefault();
+		this.setState({
+			openDeleteDialog: true,
+		});
+	};
+
+	handleDeleteActivity = () => (e: MouseEvent) => {
+		e.preventDefault();
+		const {firestore, tripId, locationId, activityId} = this.props;
+
+		const firestoreRef = {
+			collection: 'TRIPS',
+			doc: tripId,
+			subcollections: [{
+				collection: 'locations',
+				doc: locationId,
+				subcollections: [{
+					collection: 'activities',
+					doc: activityId,
+				}],
+			}],
+		};
+		firestore.delete(firestoreRef).then(() => {
+			this.setState({
+				openDeleteDialog: false,
+			});
+		}).catch(() => {
+			this.setState({
+				openDeleteDialog: false,
+			});
+			alert('ERROR\nMissing permission to delete this Activity!\nMaybe you are not a member or owner of the Trip.');
+		});
+	};
+
+	handleCancelDeleteActivity = () => (e: MouseEvent) => {
+		this.setState({
+			openDeleteDialog: false,
+		});
 	};
 
 	render() {
@@ -105,7 +146,7 @@ class ActivityCard extends React.Component<Props, State> {
 				<CardActions className={classes.actions}>
 					<Tooltip title='Delete' aria-label='Delete'>
 						<IconButton
-							onClick={this.handleDelete}
+							onClick={this.handleDeleteBtnClicked()}
 						>
 							<Delete/>
 						</IconButton>
@@ -125,6 +166,15 @@ class ActivityCard extends React.Component<Props, State> {
 						</NavLink>
 					</Tooltip>
 				</CardActions>
+
+				<ConfirmDialog
+					content={'Are you sure you want to delete this activity ?\n' +
+					'This action can not be undone.'}
+					open={this.state.openDeleteDialog}
+					onConfirm={this.handleDeleteActivity()}
+					onCancel={this.handleCancelDeleteActivity()}
+				/>
+
 			</Card>
 		);
 	}
