@@ -3,6 +3,7 @@ import {firebaseReducer, reactReduxFirebase} from 'react-redux-firebase';
 import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import {firestoreReducer, reduxFirestore} from 'redux-firestore';
 import thunk from 'redux-thunk';
+import {searchString} from './reducers/searchReducer';
 
 
 export default function configureStore() {
@@ -32,6 +33,7 @@ export default function configureStore() {
 	const rootReducer = combineReducers({
 		firebase: firebaseReducer,
 		firestore: firestoreReducer,
+		searchString,
 	});
 
 	const composeEnhancer = process.env.NODE_ENV === 'development'

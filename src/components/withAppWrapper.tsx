@@ -23,6 +23,7 @@ import * as routes from '../constants/routes';
 import logo from '../images/logo_perfecttime.svg';
 import AccountButton from './AccountButton';
 import {menuItems} from './MenuItems';
+import SearchBar from './SearchBar'
 import SignInButton from './SignInButton';
 import SignOutButton from './SignOutButton';
 import withAuthorization from './withAuthorization';
@@ -148,6 +149,8 @@ const withAppWrapper = (Component: React.ComponentType<any>): any => {
 			// @ts-ignore
 			const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 			const tripId = match.params[routes.URL_PARAM_TRIP];
+			//  || window.location.href.endsWith('follows')
+			const showSearch = window.location.href.endsWith('trips') || window.location.href.endsWith('locations');
 
 			const drawerContent = <div>
 				<div className={classes.toolbarIcon}>
@@ -214,6 +217,16 @@ const withAppWrapper = (Component: React.ComponentType<any>): any => {
 									Perfect Time — Plan Your Trip
 								</Typography>
 
+								{!!showSearch &&
+								<Hidden smDown={true}>
+									{
+										// @ts-ignore
+										<SearchBar/>
+									}
+								</Hidden>
+								}
+
+
 								<AccountButton/>
 
 								{isEmpty(auth) ? <SignInButton/> : <SignOutButton/>}
@@ -259,6 +272,7 @@ const withAppWrapper = (Component: React.ComponentType<any>): any => {
 			);
 		}
 	}
+
 
 	return compose(
 		withAuthorization(AUTH_CONDITION_WITH_DRAWER),
