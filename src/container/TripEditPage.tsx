@@ -14,6 +14,7 @@ import * as routes from '../constants/routes';
 import {Trip, User} from '../types';
 import {datePickerMask} from '../utils/datePickerUtils';
 import {parseDateIfValid} from '../utils/parser';
+import {db} from '../firebase/firebase';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -193,10 +194,34 @@ class TripEditPage extends React.Component<Props, State> {
 		}
 	};
 
+	getTest = async () => {
+		console.log('test');
+		let testTrip: any;
+		await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP]).get().then(async (trip: any) => {
+			testTrip = await trip.data();
+			await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP]).collection('locations').get().then((locations: any) => {
+				locations.forEach(async (location: any) => {
+					testTrip.locations.push(await location.data());
+					Object.keys(locations).forEach(async (key) => {
+						await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP]).collection('locations').doc(key).get().then((activities: any) => {
+							activities.forEach(async (activity: any) => {
+								testTrip.location[key].activities.push(await activity.data());
+							});
+						});
+					});
+				});
+			});
+		});
+		console.log(testTrip);
+	};
+
 	render() {
 		const {classes, users} = this.props;
 		const {trip, selectedMembers} = this.state;
 		const {title, description, startdate, enddate} = trip || INITIAL_TRIP;
+		// console.log(this.getTest);
+		this.getTest();
+		// console.log(this.props.trip);
 
 		const selectableUsers = isLoaded(users) && !isEmpty(users) && !!trip
 			? Object.keys(users)
@@ -325,8 +350,9 @@ export default compose(
 			doc: tripId,
 		}, {
 			collection: 'users',
-		}];
+		},];
 	}),
+
 	connect(
 		({firebase, firestore: {data}}: any, props: Props) => {
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];
@@ -339,4 +365,5 @@ export default compose(
 		},
 	),
 	withStyles(styles),
-)(TripEditPage);
+)
+(TripEditPage);
