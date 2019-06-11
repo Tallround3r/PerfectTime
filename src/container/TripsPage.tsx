@@ -12,6 +12,7 @@ import 'slick-carousel/slick/slick.css';
 import ConfirmDialog from '../components/ConfirmDialog';
 import TripPanel from '../components/TripPanel';
 import * as routes from '../constants/routes';
+import {setSearchText} from '../store/actions/searchAction';
 import {Trip} from '../types';
 import {isUserOfTrip} from '../utils/authUtils';
 
@@ -42,6 +43,8 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	auth: any;
 	firestore: any;
 	trips: { [id: string]: Trip };
+	searchText: string;
+	setSearchText: any;
 }
 
 interface State {
@@ -60,6 +63,7 @@ class TripsPage extends React.Component<Props, State> {
 
 	componentDidMount(): void {
 		this.props.firestore.get('TRIPS');
+		this.props.setSearchText('');
 	}
 
 	handleConfirmDeleteTrip = (e: MouseEvent) => {
@@ -108,6 +112,10 @@ class TripsPage extends React.Component<Props, State> {
 		});
 	};
 
+	tripNameIncludesSearchString = (tripId: string) => {
+		return this.props.trips[tripId].title.toLowerCase().includes(this.props.searchText.toLowerCase());
+	};
+
 	render() {
 		const {classes, trips, auth} = this.props;
 
@@ -119,7 +127,8 @@ class TripsPage extends React.Component<Props, State> {
 					: isEmpty(trips)
 						? 'No Trips created yet.'
 						: Object.keys(trips)
-							.filter((key) => (!!trips[key] && trips[key].public) || isUserOfTrip(trips[key], auth))
+							.filter((key) => ((!!trips[key] && trips[key].public) || isUserOfTrip(trips[key], auth))
+								&& this.tripNameIncludesSearchString(key))
 							.map((key) => {
 								return (
 									<TripPanel
@@ -162,16 +171,23 @@ class TripsPage extends React.Component<Props, State> {
 	}
 }
 
+const mapDispatchToProps = (dispatch: any) => {
+	return {
+		setSearchText: (text: string) => dispatch(setSearchText(text)),
+	};
+};
+
 export default compose(
 	withRouter,
 	firestoreConnect(),
 	connect(
-		({firebase: {auth}, firestore: {data}}: any, props: Props) => {
+		({firebase: {auth}, firestore: {data}, searchString}: any, props: Props) => {
 			return {
 				auth,
 				trips: data.TRIPS,
+				searchText: searchString,
 			};
-		},
+		}, mapDispatchToProps,
 	),
 	withStyles(styles),
 )(TripsPage);

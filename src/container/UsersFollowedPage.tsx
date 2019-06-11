@@ -18,6 +18,7 @@ import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import FollowActionButton from '../components/FollowActionButton';
 import * as routes from '../constants/routes';
+import {setSearchText} from '../store/actions/searchAction';
 import {User} from '../types';
 import {spinnerWhileLoading} from '../utils/firebaseUtils';
 
@@ -45,9 +46,25 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	users: User[],
 	authUser: User,
 	auth: any,
+	searchText: string;
+	setSearchText: any;
 }
 
+
 class UsersFollowedPage extends React.Component<Props> {
+	// componentDidMount(): void {
+	// 	this.props.setSearchText('');
+	// }
+
+	// userNameIncludesSearchString = async (userId: any) => {
+	// 	console.log(userId);
+	// 	console.log(this.props.users);
+	// 	console.log(await this.props.users[userId].username.toLowerCase().includes(this.props.searchText.toLowerCase()));
+	// 	const containsSearch = await this.props.users[userId].username.toLowerCase()
+	// 	.includes(this.props.searchText.toLowerCase());
+	// 	return containsSearch;
+	// };
+
 	render() {
 		const {user, classes, users, authUser} = this.props;
 
@@ -128,6 +145,12 @@ class UsersFollowedPage extends React.Component<Props> {
 
 const populates = [{child: 'following', root: 'users', keyProp: 'id', childAlias: 'followingObj'}];
 
+const mapDispatchToProps = (dispatch: any) => {
+	return {
+		setSearchText: (text: string) => dispatch(setSearchText(text)),
+	};
+};
+
 export default compose(
 	withRouter,
 	connect(({firebase: {auth}}: any) => ({auth})),
@@ -144,15 +167,16 @@ export default compose(
 		}];
 	}),
 	connect(
-		({firebase, firestore}: any, props: Props) => {
+		({firebase, firestore, searchString}: any, props: Props) => {
 			const userId = props.match.params[routes.URL_PARAM_USER];
 			return {
 				user: populate(firestore, `users/${userId}`, populates),
 				users: firestore.data.users,
 				authUser: firestore.data.users
 					&& firestore.data.users[firebase.auth.uid],
+				searchText: searchString,
 			};
-		},
+		}, mapDispatchToProps,
 	),
 	withStyles(styles),
 )(UsersFollowedPage);
