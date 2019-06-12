@@ -4,9 +4,9 @@ node_js:
   - "8"
 cache: yarn
 # safelist
-branches:
-  only:
-    - master
+#branches:
+#  only:
+#    - master
 warnings_are_errors: false
 install:
 #  - npm install cucumber -g
@@ -50,7 +50,7 @@ jobs:
 #        - firebase login
 #        - firebase functions:delete loadTrip --region us-central1
       deploy:
-#        if: branch = master
+        if: branch = master
         provider: firebase
         skip_cleanup: true
         token:
