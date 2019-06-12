@@ -11,10 +11,10 @@ import {compose} from 'redux';
 import {isEqual, omit} from 'underscore';
 import MultiSelect, {OptionType} from '../components/MultiSelect';
 import * as routes from '../constants/routes';
-import {Trip, User} from '../types';
+import {db} from '../firebase/firebase';
+import {Location, Trip, User} from '../types';
 import {datePickerMask} from '../utils/datePickerUtils';
 import {parseDateIfValid} from '../utils/parser';
-import {db} from '../firebase/firebase';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -195,24 +195,41 @@ class TripEditPage extends React.Component<Props, State> {
 	};
 
 	getTest = async () => {
-		console.log('test');
-		let testTrip: any;
-		await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP]).get().then(async (trip: any) => {
-			testTrip = await trip.data();
-			await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP]).collection('locations').get().then((locations: any) => {
-				locations.forEach(async (location: any) => {
-					testTrip.locations.push(await location.data());
-					Object.keys(locations).forEach(async (key) => {
-						await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP]).collection('locations').doc(key).get().then((activities: any) => {
-							activities.forEach(async (activity: any) => {
-								testTrip.location[key].activities.push(await activity.data());
-							});
-						});
+		let testTrip = {
+			...this.state.trip,
+			locations: {},
+		};
+		await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP]).collection('locations').get().then((locations: any) => {
+			locations.forEach(async (location: any) => {
+				// @ts-ignore
+				testTrip.locations[location.id] = await location.data();
+				// @ts-ignore
+				testTrip.locations[location.id].activities = {};
+				// console.log(location.id);
+				await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP]).collection('locations').doc(location.id).collection('activities').get().then((activities: any) => {
+					activities.forEach(async (activity: any) => {
+						// @ts-ignore
+						testTrip.locations[location.id].activities[activity.id] = await activity.data();
 					});
 				});
 			});
 		});
 		console.log(testTrip);
+		// this.setState({tripToExport: testTrip});
+		const filename = 'export.json';
+		const contentType = 'application/json;charset=utf-8;';
+		if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+			const blob = new Blob([decodeURIComponent(encodeURI(JSON.stringify(testTrip)))], {type: contentType});
+			navigator.msSaveOrOpenBlob(blob, filename);
+		} else {
+			const a = document.createElement('a');
+			a.download = filename;
+			a.href = 'data:' + contentType + ',' + encodeURIComponent(JSON.stringify(testTrip));
+			a.target = '_blank';
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+		}
 	};
 
 	render() {
