@@ -12,7 +12,7 @@ import {isEqual, omit} from 'underscore';
 import MultiSelect, {OptionType} from '../components/MultiSelect';
 import * as routes from '../constants/routes';
 import {db} from '../firebase/firebase';
-import {Location, Trip, User} from '../types';
+import {Trip, User} from '../types';
 import {datePickerMask} from '../utils/datePickerUtils';
 import {parseDateIfValid} from '../utils/parser';
 
@@ -194,51 +194,54 @@ class TripEditPage extends React.Component<Props, State> {
 		}
 	};
 
-	getTest = async () => {
-		let testTrip = {
+	getTripAndExport = async (e: MouseEvent) => {
+		const tripToExport = {
 			...this.state.trip,
 			locations: {},
 		};
-		await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP]).collection('locations').get().then((locations: any) => {
+
+		await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP])
+			.collection('locations').get().then((locations: any) => {
 			locations.forEach(async (location: any) => {
 				// @ts-ignore
-				testTrip.locations[location.id] = await location.data();
+				tripToExport.locations[location.id] = await location.data();
 				// @ts-ignore
-				testTrip.locations[location.id].activities = {};
-				// console.log(location.id);
-				await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP]).collection('locations').doc(location.id).collection('activities').get().then((activities: any) => {
-					activities.forEach(async (activity: any) => {
-						// @ts-ignore
-						testTrip.locations[location.id].activities[activity.id] = await activity.data();
+				tripToExport.locations[location.id].activities = {};
+				await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP])
+					.collection('locations').doc(location.id)
+					.collection('activities').get().then((activities: any) => {
+						activities.forEach(async (activity: any) => {
+							// @ts-ignore
+							tripToExport.locations[location.id].activities[activity.id] = await activity.data();
+						});
 					});
-				});
 			});
 		});
-		console.log(testTrip);
-		// this.setState({tripToExport: testTrip});
-		const filename = 'export.json';
-		const contentType = 'application/json;charset=utf-8;';
-		if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-			const blob = new Blob([decodeURIComponent(encodeURI(JSON.stringify(testTrip)))], {type: contentType});
-			navigator.msSaveOrOpenBlob(blob, filename);
-		} else {
-			const a = document.createElement('a');
-			a.download = filename;
-			a.href = 'data:' + contentType + ',' + encodeURIComponent(JSON.stringify(testTrip));
-			a.target = '_blank';
-			document.body.appendChild(a);
-			a.click();
-			document.body.removeChild(a);
-		}
+		this.exportToJson(tripToExport, tripToExport.title);
+		e.preventDefault();
+	};
+
+	exportToJson = (object: any, fileName: string) => {
+				const filename = `${fileName}.json`;
+				const contentType = 'application/json;charset=utf-8;';
+				if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+					const blob = new Blob([decodeURIComponent(encodeURI(JSON.stringify(object)))], {type: contentType});
+					navigator.msSaveOrOpenBlob(blob, filename);
+				} else {
+					const a = document.createElement('a');
+					a.download = filename;
+					a.href = 'data:' + contentType + ',' + encodeURIComponent(JSON.stringify(object));
+					a.target = '_blank';
+					document.body.appendChild(a);
+					a.click();
+					document.body.removeChild(a);
+				}
 	};
 
 	render() {
 		const {classes, users} = this.props;
 		const {trip, selectedMembers} = this.state;
 		const {title, description, startdate, enddate} = trip || INITIAL_TRIP;
-		// console.log(this.getTest);
-		this.getTest();
-		// console.log(this.props.trip);
 
 		const selectableUsers = isLoaded(users) && !isEmpty(users) && !!trip
 			? Object.keys(users)
@@ -330,6 +333,15 @@ class TripEditPage extends React.Component<Props, State> {
 						/>
 
 						<div className={classes.actionButtonsContainer}>
+							<Button
+								className={classes.actionButton}
+								// onClick={this.exportToJson(this.getTripForExport(), 'trip')}
+								onClick={this.getTripAndExport}
+								variant='contained'
+								color='primary'
+								fullWidth={true}
+							>Export to JSON
+							</Button>
 							<Button
 								className={classes.actionButton}
 								type='submit'
