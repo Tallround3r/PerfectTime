@@ -202,40 +202,40 @@ class TripEditPage extends React.Component<Props, State> {
 
 		await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP])
 			.collection('locations').get().then((locations: any) => {
-			locations.forEach(async (location: any) => {
-				// @ts-ignore
-				tripToExport.locations[location.id] = await location.data();
-				// @ts-ignore
-				tripToExport.locations[location.id].activities = {};
-				await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP])
-					.collection('locations').doc(location.id)
-					.collection('activities').get().then((activities: any) => {
-						activities.forEach(async (activity: any) => {
-							// @ts-ignore
-							tripToExport.locations[location.id].activities[activity.id] = await activity.data();
+				locations.forEach(async (location: any) => {
+					// @ts-ignore
+					tripToExport.locations[location.id] = await location.data();
+					// @ts-ignore
+					tripToExport.locations[location.id].activities = {};
+					await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP])
+						.collection('locations').doc(location.id)
+						.collection('activities').get().then((activities: any) => {
+							activities.forEach(async (activity: any) => {
+								// @ts-ignore
+								tripToExport.locations[location.id].activities[activity.id] = await activity.data();
+							});
 						});
-					});
+				});
 			});
-		});
 		this.exportToJson(tripToExport, tripToExport.title);
 		e.preventDefault();
 	};
 
 	exportToJson = (object: any, fileName: string) => {
-				const filename = `${fileName}.json`;
-				const contentType = 'application/json;charset=utf-8;';
-				if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-					const blob = new Blob([decodeURIComponent(encodeURI(JSON.stringify(object)))], {type: contentType});
-					navigator.msSaveOrOpenBlob(blob, filename);
-				} else {
-					const a = document.createElement('a');
-					a.download = filename;
-					a.href = 'data:' + contentType + ',' + encodeURIComponent(JSON.stringify(object));
-					a.target = '_blank';
-					document.body.appendChild(a);
-					a.click();
-					document.body.removeChild(a);
-				}
+		const filename = `${fileName}.json`;
+		const contentType = 'application/json;charset=utf-8;';
+		if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+			const blob = new Blob([decodeURIComponent(encodeURI(JSON.stringify(object)))], {type: contentType});
+			navigator.msSaveOrOpenBlob(blob, filename);
+		} else {
+			const a = document.createElement('a');
+			a.download = filename;
+			a.href = 'data:' + contentType + ',' + encodeURIComponent(JSON.stringify(object));
+			a.target = '_blank';
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+		}
 	};
 
 	render() {
@@ -379,7 +379,7 @@ export default compose(
 			doc: tripId,
 		}, {
 			collection: 'users',
-		},];
+		}, ];
 	}),
 
 	connect(
@@ -394,5 +394,4 @@ export default compose(
 		},
 	),
 	withStyles(styles),
-)
-(TripEditPage);
+)(TripEditPage);
