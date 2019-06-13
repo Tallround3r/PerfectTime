@@ -92,7 +92,7 @@ const onDeleteUsers = (snap, context) => {
 					} else {
 						// delete trip;
 						console.log(`deleting trip ${tripDoc.ref.path}`);
-						firestore.delete(tripDoc.ref.path); // triggers delete trip
+						firestore.delete(tripDoc.ref); // triggers delete trip
 						tripDeleted = true;
 						console.log(`trip ${tripDoc.ref.path} deleted`);
 					}
@@ -120,7 +120,7 @@ const onDeleteUsers = (snap, context) => {
 
 			return Promise.resolve();
 		})
-		.catch(() => console.log('Error while fetching TRIPS from firestore'));
+		.catch((error) => console.log(`Error while fetching TRIPS from firestore Error: ${error}`));
 
 	// delete all references on deleted user in followedUser
 	firestore.collection('users').get()
