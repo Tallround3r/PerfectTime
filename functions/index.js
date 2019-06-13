@@ -65,14 +65,14 @@ const onDeleteUsers = (snap, context) => {
 	// delete all references on deleted user in tripMembers
 	firestore.collection('TRIPS').get()
 		.then((snap) => {
-			console.log(`fetched ${snap.left} trips`);
+			console.log(`fetched ${snap.data().length} trips`);
 			snap.forEach(tripDoc => {
 				const tripObj = tripDoc.data();
 				console.log(`looking at ${tripObj.title} ID: ${tripDoc.id} data: ${tripObj}`);
 				let tripDeleted = false;
 				// Search all trips owned by deleted user
 				if (tripObj.owner === id) {
-					console.log(`Trip Owner ${tripDoc.owner} identified`);
+					console.log(`Trip Owner ${tripObj.owner} identified`);
 					// trip has other members -> next member becomes the owner
 					if (tripObj.members && tripObj.members[0] !== id) {
 						console.log(`Set new Owner to ${tripObj.members[0]} trips`);
@@ -91,10 +91,10 @@ const onDeleteUsers = (snap, context) => {
 						}).catch((error)=>{`an error occurred while editing trip ${tripDoc.path} (2) Error: ${error}`}); //TODO: does ref work?
 					} else {
 						// delete trip;
-						console.log(`deleting trip ${tripDoc.path}`);
-						firestore.delete(tripDoc.ref); // triggers delete trip
+						console.log(`deleting trip ${tripDoc.ref.path}`);
+						firestore.delete(tripDoc.ref.path); // triggers delete trip
 						tripDeleted = true;
-						console.log(`trip ${tripDoc.path} deleted`);
+						console.log(`trip ${tripDoc.ref.path} deleted`);
 					}
 
 					// TODO: check if it worked
@@ -134,7 +134,7 @@ const onDeleteUsers = (snap, context) => {
 					console.log(`User ${userDoc.id} followed deleted user (Index: ${index})`);
 					userObj.splice(index, 1);
 					firestore.set(userDoc.ref, userObj).then(() => {
-						console.log(`user  on path ${userDoc.path} successfully updated.`);
+						console.log(`user  on path ${userDoc.ref.path} successfully updated.`);
 						return Promise.resolve();
 					}).catch((error)=>{`an error occurred while editing user ${userDoc.path} Error: ${error}`}); // TODO: Does reference work?
 				}
