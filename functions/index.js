@@ -61,7 +61,7 @@ const onDeleteUsers = (snap, context) => {
 	const user = snap.data();
 	const id = snap.id;
 	console.log(`User deletion for ${id} triggered.`);
-	console.log(`Firestore Ref: ${firestore} ${firestore.delete()} ind: ${firebase_tools.firestore.delegate()}`);
+	// console.log(`Firestore Ref: ${firestore} ${firestore.delete()} ind: ${firebase_tools.firestore.delegate()}`);
 	// delete all trips owned by deleted user
 	// delete all references on deleted user in tripMembers
 	firestore.collection('TRIPS').get()
