@@ -68,26 +68,29 @@ const onDeleteUsers = (snap, context) => {
 			console.log(`fetched ${snap.left} trips`);
 			snap.forEach(tripDoc => {
 				const tripObj = tripDoc.data();
+				console.log(`looking at ${tripObj.title} ID: ${tripDoc.id} data: ${tripObj}`);
 				let tripDeleted = false;
 				// Search all trips owned by deleted user
 				if (tripObj.owner === id) {
-					console.log(`Trip ${tripDoc.id} identified`);
+					console.log(`Trip Owner ${tripDoc.owner} identified`);
 					// trip has other members -> next member becomes the owner
 					if (tripObj.members && tripObj.members[0] !== id) {
+						console.log(`Set new Owner to ${tripObj.members[0]} trips`);
 						tripObj.owner = tripObj.members[0];
 						firestore.set(tripDoc.ref, tripObj).then((promise) => {
 							console.log(`Trip  on path ${tripDoc.path} successfully updated.`);
 							return promise;
-						}).catch(()=>{`an error occurred while editing trip ${tripDoc.path} (1)`}); //TODO: does ref work?
+						}).catch((error)=>{`an error occurred while editing trip ${tripDoc.path} (1) Error: ${error}`}); //TODO: does ref work?
 					} else if (tripObj.members && tripObj.members[1] !== id) {
 						// in case the (deleted) owner has been registered as the first member
 						tripObj.owner = tripObj.members[1];
+						console.log(`Set new Owner to ${tripObj.members[0]} trips`);
 						firestore.set(tripDoc.ref, tripObj).then((promise) => {
 							console.log(`Trip  on path ${tripDoc.path} successfully updated.`);
 							return promise;
-						}).catch(()=>{`an error occurred while editing trip ${tripDoc.path} (2)`}); //TODO: does ref work?
+						}).catch((error)=>{`an error occurred while editing trip ${tripDoc.path} (2) Error: ${error}`}); //TODO: does ref work?
 					} else {
-						// delete trip
+						// delete trip;
 						console.log(`deleting trip ${tripDoc.path}`);
 						firestore.delete(tripDoc.ref); // triggers delete trip
 						tripDeleted = true;
@@ -102,6 +105,7 @@ const onDeleteUsers = (snap, context) => {
 				if (!tripDeleted) {
 					const members = tripObj.members;
 					const index = members ? members.indexOf(id) : -1;
+					console.log(`User identified as TripMember at Pos ${index} of Trip ${tripObj.title}`);
 					if (index >= 0) {
 						console.log(`trip ${tripDoc.id} had user as member`);
 						members.splice(index, 1);
@@ -109,7 +113,7 @@ const onDeleteUsers = (snap, context) => {
 						firestore.set(tripDoc.ref, tripObj).then(() => {
 							console.log(`Trip  on path ${tripDoc.path} successfully updated.`);
 							return Promise.resolve();
-						}).catch(()=>{`an error occurred while editing trip ${tripDoc.path} (3)`}); //TODO: Does reference work?
+						}).catch((error)=>{`an error occurred while editing trip ${tripDoc.path} (3) Error: ${error}`}); //TODO: Does reference work?
 					}
 				}
 			});
@@ -121,21 +125,23 @@ const onDeleteUsers = (snap, context) => {
 	// delete all references on deleted user in followedUser
 	firestore.collection('users').get()
 		.then((snap) => {
+			console.log(`loaded users`);
 			snap.forEach(userDoc => {
 				const userObj = userDoc.data();
+				console.log(`User loaded ${userObj.username} with ref ${userDoc.ref}`);
 				let index = userObj.following ? userObj.following.indexOf(user.uid) : -1;
 				if (index >= 0) {
-					console.log(`User ${userDoc.id} followed deleted user`);
+					console.log(`User ${userDoc.id} followed deleted user (Index: ${index})`);
 					userObj.splice(index, 1);
 					firestore.set(userDoc.ref, userObj).then(() => {
 						console.log(`user  on path ${userDoc.path} successfully updated.`);
 						return Promise.resolve();
-					}).catch(()=>{`an error occurred while editing user ${userDoc.path}`}); // TODO: Does reference work?
+					}).catch((error)=>{`an error occurred while editing user ${userDoc.path} Error: ${error}`}); // TODO: Does reference work?
 				}
 			});
 			return Promise.resolve();
 		})
-		.catch(() => console.error('Error while fetching users from firestore'));
+		.catch((error) => console.error(`Error while fetching users from firestore. Error: ${error}`));
 	return Promise.resolve();
 };
 
