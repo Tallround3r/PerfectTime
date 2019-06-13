@@ -65,7 +65,7 @@ const onDeleteUsers = (snap, context) => {
 	// delete all references on deleted user in tripMembers
 	firestore.collection('TRIPS').get()
 		.then((snap) => {
-			console.log(`fetched ${snap.data().length} trips`);
+			console.log(`fetched ${snap} trips`);
 			snap.forEach(tripDoc => {
 				const tripObj = tripDoc.data();
 				console.log(`looking at ${tripObj.title} ID: ${tripDoc.id} data: ${tripObj}`);
