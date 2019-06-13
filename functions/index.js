@@ -77,7 +77,7 @@ const onDeleteUsers = (snap, context) => {
 					if (tripObj.members && tripObj.members[0] !== id) {
 						console.log(`Set new Owner to ${tripObj.members[0]} trips`);
 						tripObj.owner = tripObj.members[0];
-						firestore.set(tripDoc.ref, tripObj).then((promise) => {
+						firebase_tools.firestore.set(tripDoc.ref, tripObj).then((promise) => {
 							console.log(`Trip  on path ${tripDoc.path} successfully updated.`);
 							return promise;
 						}).catch((error)=>{
@@ -86,7 +86,7 @@ const onDeleteUsers = (snap, context) => {
 						// in case the (deleted) owner has been registered as the first member
 						tripObj.owner = tripObj.members[1];
 						console.log(`Set new Owner to ${tripObj.members[0]} trips`);
-						firestore.set(tripDoc.ref, tripObj).then((promise) => {
+						firebase_tools.firestore.set(tripDoc.ref, tripObj).then((promise) => {
 							console.log(`Trip  on path ${tripDoc.path} successfully updated.`);
 							return promise;
 						}).catch((error)=>{
@@ -94,7 +94,7 @@ const onDeleteUsers = (snap, context) => {
 					} else {
 						// delete trip;
 						console.log(`deleting trip ${tripDoc.ref.path}`);
-						firestore.delete(tripDoc.ref).then(() => {
+						firebase_tools.firestore.delete(tripDoc.ref).then(() => {
 								tripDeleted = true;}).catch( (error) => {
 								console.log(`Error during deletion ${error}`);}); // triggers delete trip
 
@@ -114,7 +114,7 @@ const onDeleteUsers = (snap, context) => {
 						console.log(`trip ${tripDoc.id} had user as member`);
 						members.splice(index, 1);
 						tripObj.members = members;
-						firestore.set(tripDoc.ref, tripObj).then(() => {
+						firebase_tools.firestore.set(tripDoc.ref, tripObj).then(() => {
 							console.log(`Trip  on path ${tripDoc.path} successfully updated.`);
 							return Promise.resolve();
 						}).catch((error)=>{
@@ -138,7 +138,7 @@ const onDeleteUsers = (snap, context) => {
 				if (index >= 0) {
 					console.log(`User ${userDoc.id} followed deleted user (Index: ${index})`);
 					userObj.splice(index, 1);
-					firestore.set(userDoc.ref, userObj).then(() => {
+					firebase_tools.firestore.set(userDoc.ref, userObj).then(() => {
 						console.log(`user  on path ${userDoc.ref.path} successfully updated.`);
 						return Promise.resolve();
 					}).catch((error)=>{
