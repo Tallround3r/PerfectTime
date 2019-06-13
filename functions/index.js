@@ -60,7 +60,7 @@ exports.onDeleteTrip = functions
 const onDeleteUsers = (snap, context) => {
 	const user = snap.data();
 	const id = snap.id;
-
+	console.log(`User deletion for ${id} triggered.`);
 	// delete all trips owned by deleted user
 	// delete all references on deleted user in tripMembers
 	firestore.collection('TRIPS').get()
