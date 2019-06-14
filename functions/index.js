@@ -137,8 +137,8 @@ const onDeleteUsers = (snap, context) => {
 			console.log(`loaded users`);
 			snap.forEach(userDoc => {
 				const userObj = userDoc.data();
-				let index = userObj.following ? userObj.following.indexOf(user.uid) : -1;
-				console.log(`Deleted user found at Pos ${index} in User ${userObj.username}`);
+				const index = userObj.following ? userObj.following.indexOf(user.uid) : -1;
+				console.log(`Deleted user found at Pos ${index} in User ${userObj.username} array ${userObj.following}`);
 				if (index >= 0) {
 					console.log(`User ${userDoc.id} followed deleted user (Index: ${index})`);
 					userObj.splice(index, 1);
