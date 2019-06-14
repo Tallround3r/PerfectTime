@@ -66,20 +66,20 @@ const onDeleteUsers = (snap, context) => {
 	// delete all references on deleted user in tripMembers
 	firestore.collection('TRIPS').get()
 		.then((snap) => {
-			console.log(`fetched ${snap} trips`);
+			//console.log(`fetched ${snap} trips`);
 			snap.forEach(tripDoc => {
 				const tripObj = tripDoc.data();
-				console.log(`looking at ${tripObj.title} ID: ${tripDoc.id} data: ${tripObj}`);
+				//console.log(`looking at ${tripObj.title} ID: ${tripDoc.id} data: ${tripObj}`);
 				let tripDeleted = false;
 				// Search all trips owned by deleted user
 				if (tripObj.owner === id) {
-					console.log(`Trip Owner ${tripObj.owner} identified`);
+					console.log(`Trip ${tripObj.title} Owner ${tripObj.owner} identified`);
 					// trip has other members -> next member becomes the owner
 					if (tripObj.members && tripObj.members[0] !== id) {
 						console.log(`Set new Owner to ${tripObj.members[0]} trips`);
 						tripObj.owner = tripObj.members[0];
 						firestore.collection('TRIPS').doc(tripDoc.id).set(tripObj).then((promise) => {
-							console.log(`Trip  on path ${tripDoc.ref.path} successfully updated.`);
+							//console.log(`Trip  on path ${tripDoc.ref.path} successfully updated.`);
 							return promise;
 						}).catch((error) => {
 							console.error(`an error occurred while editing trip ${tripDoc.ref.path} (1) Error: ${error}`);
@@ -89,13 +89,13 @@ const onDeleteUsers = (snap, context) => {
 						tripObj.owner = tripObj.members[1];
 						console.log(`Set new Owner to ${tripObj.members[0]} trips`);
 						firestore.collection('TRIPS').doc(tripDoc.id).set(tripObj).then((promise) => {
-							console.log(`Trip  on path ${tripDoc.ref.path} successfully updated.`);
+							//console.log(`Trip  on path ${tripDoc.ref.path} successfully updated.`);
 							return promise;
 						}).catch((error) => {
 							console.error(`an error occurred while editing trip ${tripDoc.path} (2) Error: ${error}`);
 						});
 					} else {
-						// delete trip; // fully recursive
+						// delete trip;
 						console.log(`deleting trip ${tripDoc.ref.path}`);
 						firestore.collection('TRIPS').doc(tripDoc.id).delete().then(() => {
 							tripDeleted = true;
@@ -112,13 +112,13 @@ const onDeleteUsers = (snap, context) => {
 				if (!tripDeleted) {
 					const members = tripObj.members;
 					const index = members ? members.indexOf(id) : -1;
-					console.log(`User identified as TripMember at Pos ${index} of Trip ${tripObj.title}`);
+					//console.log(`User identified as TripMember at Pos ${index} of Trip ${tripObj.title}`);
 					if (index >= 0) {
 						console.log(`trip ${tripDoc.id} had user as member`);
 						members.splice(index, 1);
 						tripObj.members = members;
 						firestore.collection('TRIPS').doc(tripDoc.id).set(tripObj).then(() => {
-							console.log(`Trip  on path ${tripDoc.ref.path} successfully updated.`);
+							//console.log(`Trip  on path ${tripDoc.ref.path} successfully updated.`);
 							return Promise.resolve();
 						}).catch((error) => {
 							console.error(`an error occurred while editing trip ${tripDoc.ref.path} (3) Error: ${error}`);
@@ -134,16 +134,16 @@ const onDeleteUsers = (snap, context) => {
 	// delete all references on deleted user in followedUser
 	firestore.collection('users').get()
 		.then((snap) => {
-			console.log(`loaded users`);
+			//console.log(`loaded users`);
 			snap.forEach(userDoc => {
 				const userObj = userDoc.data();
 				const index = userObj.following ? userObj.following.indexOf(id) : -1;
-				console.log(`Deleted user found at Pos ${index} in User ${userObj.username} array ${userObj.following}`);
+				//console.log(`Deleted user found at Pos ${index} in User ${userObj.username} array ${userObj.following}`);
 				if (index >= 0) {
 					console.log(`User ${userDoc.id} followed deleted user (Index: ${index})`);
 					userObj.following.splice(index, 1);
 					firestore.collection('users').doc(userDoc.id).set(userObj).then(() => {
-						console.log(`user  on path ${userDoc.ref.path} successfully updated.`);
+						//console.log(`user  on path ${userDoc.ref.path} successfully updated.`);
 						return Promise.resolve();
 					}).catch((error) => {
 						console.error(`an error occurred while editing user ${userDoc.ref.path} Error: ${error}`);
