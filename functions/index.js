@@ -79,17 +79,17 @@ const onDeleteUsers = (snap, context) => {
 						console.log(`Set new Owner to ${tripObj.members[0]} trips`);
 						tripObj.owner = tripObj.members[0];
 						firestore.collection('TRIPS').doc(tripDoc.id).set(tripObj).then((promise) => {
-							console.log(`Trip  on path ${tripDoc.path} successfully updated.`);
+							console.log(`Trip  on path ${tripDoc.ref.path} successfully updated.`);
 							return promise;
 						}).catch((error) => {
-							console.error(`an error occurred while editing trip ${tripDoc.path} (1) Error: ${error}`);
+							console.error(`an error occurred while editing trip ${tripDoc.ref.path} (1) Error: ${error}`);
 						});
 					} else if (tripObj.members && tripObj.members[1] !== id) {
 						// in case the (deleted) owner has been registered as the first member
 						tripObj.owner = tripObj.members[1];
 						console.log(`Set new Owner to ${tripObj.members[0]} trips`);
 						firestore.collection('TRIPS').doc(tripDoc.id).set(tripObj).then((promise) => {
-							console.log(`Trip  on path ${tripDoc.path} successfully updated.`);
+							console.log(`Trip  on path ${tripDoc.ref.path} successfully updated.`);
 							return promise;
 						}).catch((error) => {
 							console.error(`an error occurred while editing trip ${tripDoc.path} (2) Error: ${error}`);
@@ -118,10 +118,10 @@ const onDeleteUsers = (snap, context) => {
 						members.splice(index, 1);
 						tripObj.members = members;
 						firestore.collection('TRIPS').doc(tripDoc.id).set(tripObj).then(() => {
-							console.log(`Trip  on path ${tripDoc.path} successfully updated.`);
+							console.log(`Trip  on path ${tripDoc.ref.path} successfully updated.`);
 							return Promise.resolve();
 						}).catch((error) => {
-							console.error(`an error occurred while editing trip ${tripDoc.path} (3) Error: ${error}`);
+							console.error(`an error occurred while editing trip ${tripDoc.ref.path} (3) Error: ${error}`);
 						});
 					}
 				}
@@ -141,12 +141,12 @@ const onDeleteUsers = (snap, context) => {
 				console.log(`Deleted user found at Pos ${index} in User ${userObj.username} array ${userObj.following}`);
 				if (index >= 0) {
 					console.log(`User ${userDoc.id} followed deleted user (Index: ${index})`);
-					userObj.splice(index, 1);
+					userObj.following.splice(index, 1);
 					firestore.collection('users').doc(userDoc.id).set(userObj).then(() => {
 						console.log(`user  on path ${userDoc.ref.path} successfully updated.`);
 						return Promise.resolve();
 					}).catch((error) => {
-						console.error(`an error occurred while editing user ${userDoc.path} Error: ${error}`);
+						console.error(`an error occurred while editing user ${userDoc.ref.path} Error: ${error}`);
 					});
 				}
 			});
