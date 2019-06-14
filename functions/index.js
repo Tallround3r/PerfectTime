@@ -3,7 +3,6 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
 admin.initializeApp();
-const firestore = admin.firestore();
 
 
 exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
@@ -58,6 +57,7 @@ exports.onDeleteTrip = functions
 	});
 
 const onDeleteUsers = (snap, context) => {
+	const firestore = admin.firestore();
 	const user = snap.data();
 	const id = snap.id;
 	console.log(`User deletion for ${id} triggered.`);
@@ -78,26 +78,30 @@ const onDeleteUsers = (snap, context) => {
 					if (tripObj.members && tripObj.members[0] !== id) {
 						console.log(`Set new Owner to ${tripObj.members[0]} trips`);
 						tripObj.owner = tripObj.members[0];
-						firestore.collection('TRIPS').document(tripDoc.id).set(tripObj).then((promise) => {
+						firestore.collection('TRIPS').doc(tripDoc.id).set(tripObj).then((promise) => {
 							console.log(`Trip  on path ${tripDoc.path} successfully updated.`);
 							return promise;
-						}).catch((error)=>{
-							console.error(`an error occurred while editing trip ${tripDoc.path} (1) Error: ${error}`);}); //TODO: does ref work?
+						}).catch((error) => {
+							console.error(`an error occurred while editing trip ${tripDoc.path} (1) Error: ${error}`);
+						}); //TODO: does ref work?
 					} else if (tripObj.members && tripObj.members[1] !== id) {
 						// in case the (deleted) owner has been registered as the first member
 						tripObj.owner = tripObj.members[1];
 						console.log(`Set new Owner to ${tripObj.members[0]} trips`);
-						firestore.collection('TRIPS').document(tripDoc.id).set(tripObj).then((promise) => {
+						firestore.collection('TRIPS').doc(tripDoc.id).set(tripObj).then((promise) => {
 							console.log(`Trip  on path ${tripDoc.path} successfully updated.`);
 							return promise;
-						}).catch((error)=>{
-							console.error(`an error occurred while editing trip ${tripDoc.path} (2) Error: ${error}`);}); //TODO: does ref work?
+						}).catch((error) => {
+							console.error(`an error occurred while editing trip ${tripDoc.path} (2) Error: ${error}`);
+						}); //TODO: does ref work?
 					} else {
 						// delete trip; // fully recursive
 						console.log(`deleting trip ${tripDoc.ref.path}`);
-						firestore.collection('TRIPS').document(tripDoc.id).delete().then(() => {
-								tripDeleted = true;}).catch( (error) => {
-								console.error(`Error during deletion ${error}`);}); // triggers delete trip
+						firestore.collection('TRIPS').doc(tripDoc.id).delete().then(() => {
+							tripDeleted = true;
+						}).catch((error) => {
+							console.error(`Error during deletion ${error}`);
+						}); // triggers delete trip
 
 						console.log(`trip ${tripDoc.ref.path} deleted`);
 					}
@@ -115,11 +119,12 @@ const onDeleteUsers = (snap, context) => {
 						console.log(`trip ${tripDoc.id} had user as member`);
 						members.splice(index, 1);
 						tripObj.members = members;
-						firestore.collection('TRIPS').document(tripDoc.id).set(tripObj).then(() => {
+						firestore.collection('TRIPS').doc(tripDoc.id).set(tripObj).then(() => {
 							console.log(`Trip  on path ${tripDoc.path} successfully updated.`);
 							return Promise.resolve();
-						}).catch((error)=>{
-							console.error(`an error occurred while editing trip ${tripDoc.path} (3) Error: ${error}`);}); //TODO: Does reference work?
+						}).catch((error) => {
+							console.error(`an error occurred while editing trip ${tripDoc.path} (3) Error: ${error}`);
+						}); //TODO: Does reference work?
 					}
 				}
 			});
@@ -139,11 +144,12 @@ const onDeleteUsers = (snap, context) => {
 				if (index >= 0) {
 					console.log(`User ${userDoc.id} followed deleted user (Index: ${index})`);
 					userObj.splice(index, 1);
-					firestore.collection('users').document(userDoc.id).set(userObj).then(() => {
+					firestore.collection('users').doc(userDoc.id).set(userObj).then(() => {
 						console.log(`user  on path ${userDoc.ref.path} successfully updated.`);
 						return Promise.resolve();
-					}).catch((error)=>{
-						console.error(`an error occurred while editing user ${userDoc.path} Error: ${error}`);}); // TODO: Does reference work?
+					}).catch((error) => {
+						console.error(`an error occurred while editing user ${userDoc.path} Error: ${error}`);
+					}); // TODO: Does reference work?
 				}
 			});
 			return Promise.resolve();
