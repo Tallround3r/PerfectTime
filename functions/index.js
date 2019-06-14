@@ -83,7 +83,7 @@ const onDeleteUsers = (snap, context) => {
 							return promise;
 						}).catch((error) => {
 							console.error(`an error occurred while editing trip ${tripDoc.path} (1) Error: ${error}`);
-						}); //TODO: does ref work?
+						});
 					} else if (tripObj.members && tripObj.members[1] !== id) {
 						// in case the (deleted) owner has been registered as the first member
 						tripObj.owner = tripObj.members[1];
@@ -93,7 +93,7 @@ const onDeleteUsers = (snap, context) => {
 							return promise;
 						}).catch((error) => {
 							console.error(`an error occurred while editing trip ${tripDoc.path} (2) Error: ${error}`);
-						}); //TODO: does ref work?
+						});
 					} else {
 						// delete trip; // fully recursive
 						console.log(`deleting trip ${tripDoc.ref.path}`);
@@ -105,8 +105,6 @@ const onDeleteUsers = (snap, context) => {
 
 						console.log(`trip ${tripDoc.ref.path} deleted`);
 					}
-
-					// TODO: check if it worked
 				}
 
 				// unnecessary if trip has been deleted
@@ -124,7 +122,7 @@ const onDeleteUsers = (snap, context) => {
 							return Promise.resolve();
 						}).catch((error) => {
 							console.error(`an error occurred while editing trip ${tripDoc.path} (3) Error: ${error}`);
-						}); //TODO: Does reference work?
+						});
 					}
 				}
 			});
@@ -139,8 +137,8 @@ const onDeleteUsers = (snap, context) => {
 			console.log(`loaded users`);
 			snap.forEach(userDoc => {
 				const userObj = userDoc.data();
-				console.log(`User loaded ${userObj.username} with ref ${userDoc.ref}`);
 				let index = userObj.following ? userObj.following.indexOf(user.uid) : -1;
+				console.log(`Deleted user found at Pos ${index} in User ${userObj.username}`);
 				if (index >= 0) {
 					console.log(`User ${userDoc.id} followed deleted user (Index: ${index})`);
 					userObj.splice(index, 1);
@@ -149,7 +147,7 @@ const onDeleteUsers = (snap, context) => {
 						return Promise.resolve();
 					}).catch((error) => {
 						console.error(`an error occurred while editing user ${userDoc.path} Error: ${error}`);
-					}); // TODO: Does reference work?
+					});
 				}
 			});
 			return Promise.resolve();
