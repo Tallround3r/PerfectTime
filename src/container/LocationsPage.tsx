@@ -96,46 +96,43 @@ class LocationsPage extends React.Component<Props, State> {
 	};
 
 	getTripAndCopy = async () => {
-		const {auth, trip} = this.props;
+		const {auth, trip, history} = this.props;
 
 		const tripToCopy = {
 			...trip,
+			title: trip.title + ' - COPY',
 			owner: auth.uid,
 			members: []
 		};
 		delete tripToCopy.locations;
 
-		let copyTripId = await db.collection('TRIPS').doc();
-		console.log(copyTripId.id + '------------');
-		await db.collection('TRIPS').doc(copyTripId.id + '').set(tripToCopy).then(async () => {
-			await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP]).collection('locations').get().then((locations: any) => {
-				locations.forEach(async (location: any) => {
-					let locationId = await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP]).collection('locations').doc();
-					console.log(locationId.id + 'xxxx');
-					await db.collection('TRIPS').doc(copyTripId.id + '').collection('locations').doc(locationId.id + '').set(await location.data());
+		const newTripId = await db.collection('TRIPS').doc();
+		await db.collection('TRIPS').doc(newTripId.id + '').set(tripToCopy).then(async () => {
+			await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP]).collection('locations').get()
+				.then((locations: any) => {
+					locations.forEach(async (location: any) => {
+						const newLocationId = await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP])
+							.collection('locations').doc();
+						await db.collection('TRIPS').doc(newTripId.id + '')
+							.collection('locations').doc(newLocationId.id + '').set(await location.data())
+							// if picture ref matters use location.id instead of newLocationId.id
+							.then(async () => {
+								await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP])
+									.collection('locations').doc(location.id).collection('activities').get()
+									.then(async (activities: any) => {
+										activities.forEach(async (activity: any) => {
+											const newActivityId = await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP])
+												.collection('locations').doc(location.id).collection('activities').doc();
+											await db.collection('TRIPS').doc(newTripId.id + '')
+												.collection('locations').doc(newLocationId.id + '')
+												.collection('activities').doc(newActivityId.id + '').set(await activity.data())
+											// if picture ref matters use activity.id instead of newActivityId.id
+										})
+									})
+							});
+					})
 				})
-			})
-		})
-
-
-		// await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP])
-		// 	.collection('locations').get().then((locations: any) => {
-		// 		locations.forEach(async (location: any) => {
-		// 			// @ts-ignore
-		// 			tripToExport.locations[location.id] = await location.data();
-		// 			// @ts-ignore
-		// 			tripToExport.locations[location.id].activities = {};
-		// 			await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP])
-		// 				.collection('locations').doc(location.id)
-		// 				.collection('activities').get().then((activities: any) => {
-		// 					activities.forEach(async (activity: any) => {
-		// 						// @ts-ignore
-		// 						tripToExport.locations[location.id].activities[activity.id] = await activity.data();
-		// 					});
-		// 				});
-		// 		});
-		// 	});
-		// e.preventDefault();
+		});
 	};
 
 	render() {
