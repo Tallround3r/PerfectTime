@@ -2,8 +2,6 @@ import {Button, createStyles, Paper, Theme, WithStyles, withStyles} from '@mater
 import Typography from '@material-ui/core/Typography';
 import firebase from 'firebase';
 import React, {MouseEvent} from 'react';
-import {NavLink} from 'react-router-dom';
-import * as routes from '../constants/routes';
 import {Address} from '../types';
 import {parseDateToString} from '../utils/parser';
 import ImageComponent from './ImageComponent';
