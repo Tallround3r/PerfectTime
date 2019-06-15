@@ -133,6 +133,7 @@ class LocationsPage extends React.Component<Props, State> {
 					})
 				})
 		});
+		history.push(routes.TRIPS());
 	};
 
 	render() {

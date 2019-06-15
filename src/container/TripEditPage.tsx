@@ -378,7 +378,7 @@ export default compose(
 			doc: tripId,
 		}, {
 			collection: 'users',
-		},];
+		}, ];
 	}),
 
 	connect(
