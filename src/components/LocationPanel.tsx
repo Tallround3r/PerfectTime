@@ -47,6 +47,12 @@ const styles = (theme: Theme) => createStyles({
 		bottom: theme.spacing.unit * 5,
 		right: theme.spacing.unit * 5,
 	},
+	actionButton: {
+		marginLeft: theme.spacing.unit,
+		marginRight: theme.spacing.unit,
+		width: '200px',
+		align: 'right',
+	},
 });
 
 interface LocationPanelProps extends WithStyles<typeof styles> {

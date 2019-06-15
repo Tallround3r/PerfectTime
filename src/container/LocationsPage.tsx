@@ -1,4 +1,4 @@
-import {createStyles, Theme, WithStyles, withStyles} from '@material-ui/core';
+import {Button, createStyles, Theme, WithStyles, withStyles} from '@material-ui/core';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from '@material-ui/icons/Add';
@@ -9,6 +9,7 @@ import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import LocationPanel from '../components/LocationPanel';
 import * as routes from '../constants/routes';
+import {db} from '../firebase/firebase';
 import {setSearchText} from '../store/actions/searchAction';
 import {Location, Trip} from '../types';
 import {parseDateIfValid} from '../utils/parser';
@@ -48,6 +49,12 @@ const styles = (theme: Theme) => createStyles({
 		bottom: theme.spacing.unit * 5,
 		right: theme.spacing.unit * 5,
 	},
+	actionButton: {
+		marginLeft: theme.spacing.unit,
+		marginRight: theme.spacing.unit,
+		width: '200px',
+		float: 'right',
+	},
 
 });
 
@@ -57,6 +64,7 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	firestore: any;
 	searchText: string;
 	setSearchText: any;
+	auth: any;
 }
 
 interface State {
@@ -87,6 +95,49 @@ class LocationsPage extends React.Component<Props, State> {
 		return this.props.locations[locationId].title.toLowerCase().includes(this.props.searchText.toLowerCase());
 	};
 
+	getTripAndCopy = async () => {
+		const {auth, trip} = this.props;
+
+		const tripToCopy = {
+			...trip,
+			owner: auth.uid,
+			members: []
+		};
+		delete tripToCopy.locations;
+
+		let copyTripId = await db.collection('TRIPS').doc();
+		console.log(copyTripId.id + '------------');
+		await db.collection('TRIPS').doc(copyTripId.id + '').set(tripToCopy).then(async () => {
+			await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP]).collection('locations').get().then((locations: any) => {
+				locations.forEach(async (location: any) => {
+					let locationId = await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP]).collection('locations').doc();
+					console.log(locationId.id + 'xxxx');
+					await db.collection('TRIPS').doc(copyTripId.id + '').collection('locations').doc(locationId.id + '').set(await location.data());
+				})
+			})
+		})
+
+
+		// await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP])
+		// 	.collection('locations').get().then((locations: any) => {
+		// 		locations.forEach(async (location: any) => {
+		// 			// @ts-ignore
+		// 			tripToExport.locations[location.id] = await location.data();
+		// 			// @ts-ignore
+		// 			tripToExport.locations[location.id].activities = {};
+		// 			await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP])
+		// 				.collection('locations').doc(location.id)
+		// 				.collection('activities').get().then((activities: any) => {
+		// 					activities.forEach(async (activity: any) => {
+		// 						// @ts-ignore
+		// 						tripToExport.locations[location.id].activities[activity.id] = await activity.data();
+		// 					});
+		// 				});
+		// 		});
+		// 	});
+		// e.preventDefault();
+	};
+
 	render() {
 		const {classes, trip, locations, match} = this.props;
 		const {expanded} = this.state;
@@ -97,6 +148,14 @@ class LocationsPage extends React.Component<Props, State> {
 				<div>
 					<h1>
 						Locations {isLoaded(trip) && !isEmpty(trip) && ` of Trip "${trip.title}"`}
+						<Button
+							className={classes.actionButton}
+							onClick={this.getTripAndCopy}
+							variant='contained'
+							color='primary'
+							fullWidth={true}
+						>Copy Trip
+						</Button>
 					</h1>
 				</div>
 				<div>
@@ -155,9 +214,10 @@ export default compose(
 	withRouter,
 	firestoreConnect(),
 	connect(
-		({firestore: {data}, searchString}: any, props: Props) => {
+		({firebase, firestore: {data}, searchString}: any, props: Props) => {
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];
 			return {
+				auth: firebase.auth,
 				trip: data.TRIPS
 					&& data.TRIPS[tripId],
 				locations: data.TRIPS
