@@ -1,10 +1,11 @@
 import {createStyles, Theme, Typography, WithStyles, withStyles} from '@material-ui/core';
-import React from 'react';
+import React, {MouseEvent} from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect} from 'react-redux-firebase';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import ActivitiesSlider from '../components/ActivitiesSlider';
+import ConfirmDialog from '../components/ConfirmDialog';
 import LocationMetadata from '../components/LocationMetadataView';
 import * as routes from '../constants/routes';
 import {Location} from '../types';
@@ -21,6 +22,11 @@ const styles = (theme: Theme) => createStyles({
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	tripLocation: Location;
+	firestore: any;
+}
+
+interface State {
+	openDeleteDialog: boolean;
 }
 
 const INITIAL_LOCATION: Location = {
@@ -35,7 +41,55 @@ const INITIAL_LOCATION: Location = {
 };
 
 
-class LocationViewPage extends React.Component<Props> {
+class LocationViewPage extends React.Component<Props, State> {
+	state = {
+		openDeleteDialog: false,
+	};
+
+	handleConfirmDeleteLocation = (e: MouseEvent) => {
+		e.preventDefault();
+		const {firestore, match, history} = this.props;
+		const tripId = match.params[routes.URL_PARAM_TRIP];
+		const locationId = match.params[routes.URL_PARAM_LOCATION];
+
+		const firestoreRef = {
+			collection: 'TRIPS',
+			doc: tripId,
+			subcollections: [{
+				collection: 'locations',
+				doc: locationId,
+			}],
+		};
+		firestore.delete(firestoreRef)
+			.then(() => {
+				this.setState({
+					openDeleteDialog: false,
+				});
+				history.push(routes.LOCATIONS(tripId));
+			});
+	};
+
+	handleCancelDeleteLocation = (e: MouseEvent) => {
+		this.setState({
+			openDeleteDialog: false,
+		});
+	};
+
+	handleDeleteBtnClicked = (e: MouseEvent) => {
+		e.preventDefault();
+
+		this.setState({
+			openDeleteDialog: true,
+		});
+	};
+
+	gotoEditPage = (event: MouseEvent) => {
+		event.preventDefault();
+		const {history, match} = this.props;
+		const tripId = match.params[routes.URL_PARAM_TRIP];
+		const locationId = match.params[routes.URL_PARAM_LOCATION];
+		history.push(routes.LOCATIONS_EDIT(tripId, locationId));
+	};
 
 	render() {
 		const {classes, match, tripLocation} = this.props;
@@ -51,8 +105,9 @@ class LocationViewPage extends React.Component<Props> {
 					timestamp={startdate}
 					timestamp1={enddate}
 					address={address}
-					tripId={tripId}
 					locationId={locationId}
+					onDeleteLocation={this.handleDeleteBtnClicked}
+					routeEditPage={this.gotoEditPage}
 				/>
 
 				<div className={classes.activitiesContainer}>
@@ -70,6 +125,14 @@ class LocationViewPage extends React.Component<Props> {
 						/>
 					}
 				</div>
+
+				<ConfirmDialog
+					content={'Are you sure you want to delete this location and all its activities?\n' +
+					'This action can not be undone.'}
+					open={this.state.openDeleteDialog}
+					onConfirm={this.handleConfirmDeleteLocation}
+					onCancel={this.handleCancelDeleteLocation}
+				/>
 			</div>
 		);
 	}

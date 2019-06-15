@@ -84,7 +84,9 @@ class LocationsPage extends React.Component<Props, State> {
 	};
 
 	locationNameIncludesSearchString = (locationId: string) => {
-		return this.props.locations[locationId].title.toLowerCase().includes(this.props.searchText.toLowerCase());
+		return this.props.locations
+			&& this.props.locations[locationId]
+			&& this.props.locations[locationId].title.toLowerCase().includes(this.props.searchText.toLowerCase());
 	};
 
 	render() {
@@ -104,7 +106,8 @@ class LocationsPage extends React.Component<Props, State> {
 						? 'Loading...'
 						: isEmpty(locations)
 							? 'No Locations created yet.'
-							: Object.keys(locations).filter((key) => (this.locationNameIncludesSearchString(key)))
+							: Object.keys(locations)
+								.filter((key) => (this.locationNameIncludesSearchString(key)))
 								.map((key) => {
 									const location = locations[key];
 									const startdate = parseDateIfValid(locations[key].startdate);

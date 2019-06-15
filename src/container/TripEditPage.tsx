@@ -142,15 +142,13 @@ class TripEditPage extends React.Component<Props, State> {
 	};
 
 	handleCancel = (e: MouseEvent) => {
+		e.preventDefault();
 		const {trip, history} = this.props;
 
 		this.setState({
 			trip,
 		});
-
 		history.push(routes.TRIPS());
-
-		e.preventDefault();
 	};
 
 	handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -340,7 +338,8 @@ class TripEditPage extends React.Component<Props, State> {
 								variant='contained'
 								color='primary'
 								fullWidth={true}
-							>Export to JSON
+							>
+								Export to JSON
 							</Button>
 							<Button
 								className={classes.actionButton}
@@ -379,7 +378,7 @@ export default compose(
 			doc: tripId,
 		}, {
 			collection: 'users',
-		}, ];
+		}];
 	}),
 
 	connect(
