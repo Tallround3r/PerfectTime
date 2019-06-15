@@ -3,7 +3,6 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
 admin.initializeApp();
-const firestore = admin.firestore();
 
 
 exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
@@ -58,43 +57,54 @@ exports.onDeleteTrip = functions
 	});
 
 const onDeleteUsers = (snap, context) => {
+	const firestore = admin.firestore();
 	const user = snap.data();
 	const id = snap.id;
-
+	console.log(`User deletion for ${id} triggered.`);
+	// console.log(`Firestore Ref: ${firestore} ${firestore.delete()} ind: ${firebase_tools.firestore.delegate()}`);
 	// delete all trips owned by deleted user
 	// delete all references on deleted user in tripMembers
 	firestore.collection('TRIPS').get()
 		.then((snap) => {
-			console.log(`fetched ${snap.left} trips`);
+			//console.log(`fetched ${snap} trips`);
 			snap.forEach(tripDoc => {
 				const tripObj = tripDoc.data();
+				//console.log(`looking at ${tripObj.title} ID: ${tripDoc.id} data: ${tripObj}`);
 				let tripDeleted = false;
 				// Search all trips owned by deleted user
 				if (tripObj.owner === id) {
-					console.log(`Trip ${tripDoc.id} identified`);
+					console.log(`Trip ${tripObj.title} Owner ${tripObj.owner} identified`);
 					// trip has other members -> next member becomes the owner
 					if (tripObj.members && tripObj.members[0] !== id) {
+						console.log(`Set new Owner to ${tripObj.members[0]} trips`);
 						tripObj.owner = tripObj.members[0];
-						firestore.set(tripDoc.ref, tripObj).then((promise) => {
-							console.log(`Trip  on path ${tripDoc.path} successfully updated.`);
+						firestore.collection('TRIPS').doc(tripDoc.id).set(tripObj).then((promise) => {
+							//console.log(`Trip  on path ${tripDoc.ref.path} successfully updated.`);
 							return promise;
-						}).catch(()=>{`an error occurred while editing trip ${tripDoc.path} (1)`}); //TODO: does ref work?
+						}).catch((error) => {
+							console.error(`an error occurred while editing trip ${tripDoc.ref.path} (1) Error: ${error}`);
+						});
 					} else if (tripObj.members && tripObj.members[1] !== id) {
 						// in case the (deleted) owner has been registered as the first member
 						tripObj.owner = tripObj.members[1];
-						firestore.set(tripDoc.ref, tripObj).then((promise) => {
-							console.log(`Trip  on path ${tripDoc.path} successfully updated.`);
+						console.log(`Set new Owner to ${tripObj.members[0]} trips`);
+						firestore.collection('TRIPS').doc(tripDoc.id).set(tripObj).then((promise) => {
+							//console.log(`Trip  on path ${tripDoc.ref.path} successfully updated.`);
 							return promise;
-						}).catch(()=>{`an error occurred while editing trip ${tripDoc.path} (2)`}); //TODO: does ref work?
+						}).catch((error) => {
+							console.error(`an error occurred while editing trip ${tripDoc.path} (2) Error: ${error}`);
+						});
 					} else {
-						// delete trip
-						console.log(`deleting trip ${tripDoc.path}`);
-						firestore.delete(tripDoc.ref); // triggers delete trip
-						tripDeleted = true;
-						console.log(`trip ${tripDoc.path} deleted`);
-					}
+						// delete trip;
+						console.log(`deleting trip ${tripDoc.ref.path}`);
+						firestore.collection('TRIPS').doc(tripDoc.id).delete().then(() => {
+							tripDeleted = true;
+						}).catch((error) => {
+							console.error(`Error during deletion ${error}`);
+						}); // triggers delete trip
 
-					// TODO: check if it worked
+						console.log(`trip ${tripDoc.ref.path} deleted`);
+					}
 				}
 
 				// unnecessary if trip has been deleted
@@ -102,40 +112,47 @@ const onDeleteUsers = (snap, context) => {
 				if (!tripDeleted) {
 					const members = tripObj.members;
 					const index = members ? members.indexOf(id) : -1;
+					//console.log(`User identified as TripMember at Pos ${index} of Trip ${tripObj.title}`);
 					if (index >= 0) {
 						console.log(`trip ${tripDoc.id} had user as member`);
 						members.splice(index, 1);
 						tripObj.members = members;
-						firestore.set(tripDoc.ref, tripObj).then(() => {
-							console.log(`Trip  on path ${tripDoc.path} successfully updated.`);
+						firestore.collection('TRIPS').doc(tripDoc.id).set(tripObj).then(() => {
+							//console.log(`Trip  on path ${tripDoc.ref.path} successfully updated.`);
 							return Promise.resolve();
-						}).catch(()=>{`an error occurred while editing trip ${tripDoc.path} (3)`}); //TODO: Does reference work?
+						}).catch((error) => {
+							console.error(`an error occurred while editing trip ${tripDoc.ref.path} (3) Error: ${error}`);
+						});
 					}
 				}
 			});
 
 			return Promise.resolve();
 		})
-		.catch(() => console.log('Error while fetching TRIPS from firestore'));
+		.catch((error) => console.error(`Error while fetching TRIPS from firestore Error: ${error}`));
 
 	// delete all references on deleted user in followedUser
 	firestore.collection('users').get()
 		.then((snap) => {
+			//console.log(`loaded users`);
 			snap.forEach(userDoc => {
 				const userObj = userDoc.data();
-				let index = userObj.following ? userObj.following.indexOf(user.uid) : -1;
+				const index = userObj.following ? userObj.following.indexOf(id) : -1;
+				//console.log(`Deleted user found at Pos ${index} in User ${userObj.username} array ${userObj.following}`);
 				if (index >= 0) {
-					console.log(`User ${userDoc.id} followed deleted user`);
-					userObj.splice(index, 1);
-					firestore.set(userDoc.ref, userObj).then(() => {
-						console.log(`user  on path ${userDoc.path} successfully updated.`);
+					console.log(`User ${userDoc.id} followed deleted user (Index: ${index})`);
+					userObj.following.splice(index, 1);
+					firestore.collection('users').doc(userDoc.id).set(userObj).then(() => {
+						//console.log(`user  on path ${userDoc.ref.path} successfully updated.`);
 						return Promise.resolve();
-					}).catch(()=>{`an error occurred while editing user ${userDoc.path}`}); // TODO: Does reference work?
+					}).catch((error) => {
+						console.error(`an error occurred while editing user ${userDoc.ref.path} Error: ${error}`);
+					});
 				}
 			});
 			return Promise.resolve();
 		})
-		.catch(() => console.error('Error while fetching users from firestore'));
+		.catch((error) => console.error(`Error while fetching users from firestore. Error: ${error}`));
 	return Promise.resolve();
 };
 
