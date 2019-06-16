@@ -56,6 +56,33 @@ exports.onDeleteTrip = functions
 			});
 	});
 
+exports.onDeleteLocation = functions
+	.runWith({
+		timeoutSeconds: 300,
+		memory: '1GB',
+	})
+	.firestore.document('TRIPS/{tripId}/locations/{locationsId}')
+	.onDelete((snap, context) => {
+		const path = snap.ref.path;
+
+		console.log(`Triggered recursive delete of Subcollections of Location '${snap.data().title}' with ID '${snap.id}'`);
+
+		// Run a recursive delete on the given document or collection path.
+		// The 'token' must be set in the functions config with 'firebase functions:config:set fb.token=""'
+		// and can be generated at the command line by running 'firebase login:ci'.
+		return firebase_tools.firestore
+			.delete(path, {
+				project: process.env.GCLOUD_PROJECT,
+				recursive: true,
+				yes: true,
+				token: functions.config().fb.token,
+			})
+			.then((promise) => {
+				console.log(`Subcollections on path ${path} successfully deleted.`);
+				return promise;
+			});
+	});
+
 const onDeleteUsers = (snap, context) => {
 	const firestore = admin.firestore();
 	const user = snap.data();
@@ -101,7 +128,7 @@ const onDeleteUsers = (snap, context) => {
 							tripDeleted = true;
 						}).catch((error) => {
 							console.error(`Error during deletion ${error}`);
-						}); // triggers delete trip
+						});
 
 						console.log(`trip ${tripDoc.ref.path} deleted`);
 					}

@@ -1,14 +1,4 @@
-import {
-	Button,
-	Card,
-	createStyles,
-	Paper,
-	TextField,
-	Theme,
-	Typography,
-	WithStyles,
-	withStyles
-} from '@material-ui/core';
+import {Button, createStyles, Paper, TextField, Theme, Typography, WithStyles, withStyles} from '@material-ui/core';
 import {AddPhotoAlternateOutlined} from '@material-ui/icons';
 import classNames from 'classnames';
 import DatePicker from 'material-ui-pickers/DatePicker';
@@ -22,10 +12,10 @@ import {isEqual, omit} from 'underscore';
 import ConfirmDialog from '../components/ConfirmDialog';
 import MultiSelect, {OptionType} from '../components/MultiSelect';
 import * as routes from '../constants/routes';
+import {db} from '../firebase/firebase';
 import {Trip, User} from '../types';
 import {datePickerMask} from '../utils/datePickerUtils';
 import {parseDateIfValid} from '../utils/parser';
-
 
 const styles = (theme: Theme) => createStyles({
 	locationEditPage: {
@@ -92,7 +82,7 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 
 interface State {
 	trip: Trip;
-	selectedMembers: ValueType<OptionType> // Array<{ label: string; value: string }>
+	selectedMembers: ValueType<OptionType>, // Array<{ label: string; value: string }>
 	openPublishDialog: boolean,
 }
 
@@ -155,15 +145,13 @@ class TripEditPage extends React.Component<Props, State> {
 	};
 
 	handleCancel = (e: MouseEvent) => {
+		e.preventDefault();
 		const {trip, history} = this.props;
 
 		this.setState({
 			trip,
 		});
-
 		history.push(routes.TRIPS());
-
-		e.preventDefault();
 	};
 
 	handlePublishBtnClicked = () => (e: MouseEvent) => {
@@ -244,6 +232,50 @@ class TripEditPage extends React.Component<Props, State> {
 				const username = users[memberId] ? users[memberId].username || '' : '';
 				return {label: username, value: memberId};
 			});
+		}
+	};
+
+	getTripAndExport = async (e: MouseEvent) => {
+		const tripToExport = {
+			...this.state.trip,
+			locations: {},
+		};
+
+		await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP])
+			.collection('locations').get().then((locations: any) => {
+				locations.forEach(async (location: any) => {
+					// @ts-ignore
+					tripToExport.locations[location.id] = await location.data();
+					// @ts-ignore
+					tripToExport.locations[location.id].activities = {};
+					await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP])
+						.collection('locations').doc(location.id)
+						.collection('activities').get().then((activities: any) => {
+							activities.forEach(async (activity: any) => {
+								// @ts-ignore
+								tripToExport.locations[location.id].activities[activity.id] = await activity.data();
+							});
+						});
+				});
+			});
+		this.exportToJson(tripToExport, tripToExport.title);
+		e.preventDefault();
+	};
+
+	exportToJson = (object: any, fileName: string) => {
+		const filename = `${fileName}.json`;
+		const contentType = 'application/json;charset=utf-8;';
+		if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+			const blob = new Blob([decodeURIComponent(encodeURI(JSON.stringify(object)))], {type: contentType});
+			navigator.msSaveOrOpenBlob(blob, filename);
+		} else {
+			const a = document.createElement('a');
+			a.download = filename;
+			a.href = 'data:' + contentType + ',' + encodeURIComponent(JSON.stringify(object));
+			a.target = '_blank';
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
 		}
 	};
 
@@ -344,6 +376,15 @@ class TripEditPage extends React.Component<Props, State> {
 						<div className={classes.actionButtonsContainer}>
 							<Button
 								className={classes.actionButton}
+								onClick={this.getTripAndExport}
+								variant='contained'
+								color='primary'
+								fullWidth={true}
+							>
+								Export to JSON
+							</Button>
+							<Button
+								className={classes.actionButton}
 								type='submit'
 								variant='contained'
 								color='primary'
@@ -401,6 +442,7 @@ export default compose(
 			collection: 'users',
 		}];
 	}),
+
 	connect(
 		({firebase, firestore: {data}}: any, props: Props) => {
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];

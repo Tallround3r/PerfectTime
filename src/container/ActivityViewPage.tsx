@@ -1,5 +1,4 @@
 import {Button, Paper, Typography, WithStyles, withStyles} from '@material-ui/core';
-import {PhotoOutlined} from '@material-ui/icons';
 import React from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect} from 'react-redux-firebase';
@@ -8,11 +7,14 @@ import {compose} from 'redux';
 import ImageComponent from '../components/ImageComponent';
 import * as routes from '../constants/routes';
 import styles from '../styles/ActivityViewStyles';
-import {Activity} from '../types/activity';
+import {Activity, Trip} from '../types';
+import {isUserOfTrip} from '../utils/authUtils';
 import {parseDateToString} from '../utils/parser';
 
 interface ActivityViewPageProps extends WithStyles<typeof styles>, RouteComponentProps<any> {
+	trip: Trip,
 	activity: Activity,
+	auth: any,
 }
 
 interface State {
@@ -46,7 +48,7 @@ class ActivityViewPage extends React.Component<ActivityViewPageProps, State> {
 	}
 
 	render() {
-		const {match, classes} = this.props;
+		const {match, classes, auth, trip} = this.props;
 		const {activity} = this.state;
 		const {title, description, address, startdate, enddate} = activity;
 		const tripId = match.params[routes.URL_PARAM_TRIP];
@@ -91,14 +93,18 @@ class ActivityViewPage extends React.Component<ActivityViewPageProps, State> {
 						</Typography>
 						<Paper className={classes.paperField}>
 							<Typography>City:</Typography>
-							<Typography variant='h6'>{address.zipCode} {address.city}</Typography>
+							<Typography variant='h6'>{address ? `${address.zipCode} ${address.city}` : ''}</Typography>
 						</Paper>
 						<Paper className={classes.paperField}>
 							<Typography>Country:</Typography>
-							<Typography variant='h6'>{address.country}</Typography>
+							<Typography variant='h6'>{address ? address.country : ''}</Typography>
 						</Paper>
 						<hr/>
-						<NavLink exact={true} to={routes.ACTIVITY_EDIT(tripId, locationId, activityId)}>
+						<NavLink
+							className={isUserOfTrip(trip, auth) ? '' : classes.hide}
+							exact={true}
+							to={routes.ACTIVITY_EDIT(tripId, locationId, activityId)}
+						>
 							<Button
 								color='primary'
 								variant='contained'
@@ -121,15 +127,19 @@ export default compose(withRouter,
 		const locationId = props.match.params[routes.URL_PARAM_LOCATION];
 		const activityId = props.match.params[routes.URL_PARAM_ACTIVITY];
 		return [
+			`TRIPS/${tripId}`,
 			`TRIPS/${tripId}/locations/${locationId}/activities/${activityId}`,
 		];
 	}),
 	connect(
-		({firestore: {data}}: any, props: ActivityViewPageProps) => {
+		({firebase: {auth}, firestore: {data}}: any, props: ActivityViewPageProps) => {
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];
 			const locationId = props.match.params[routes.URL_PARAM_LOCATION];
 			const activityId = props.match.params[routes.URL_PARAM_ACTIVITY];
 			return {
+				auth,
+				trip: data.TRIPS
+					&& data.TRIPS[tripId],
 				activity: data.TRIPS
 					&& data.TRIPS[tripId]
 					&& data.TRIPS[tripId].locations

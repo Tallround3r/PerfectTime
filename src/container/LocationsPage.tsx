@@ -1,4 +1,4 @@
-import {createStyles, Theme, WithStyles, withStyles} from '@material-ui/core';
+import {Button, createStyles, Theme, WithStyles, withStyles} from '@material-ui/core';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from '@material-ui/icons/Add';
@@ -9,8 +9,10 @@ import {NavLink, RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import LocationPanel from '../components/LocationPanel';
 import * as routes from '../constants/routes';
+import {db} from '../firebase/firebase';
 import {setSearchText} from '../store/actions/searchAction';
 import {Location, Trip} from '../types';
+import {isUserOfTrip} from '../utils/authUtils';
 import {parseDateIfValid} from '../utils/parser';
 
 
@@ -48,6 +50,12 @@ const styles = (theme: Theme) => createStyles({
 		bottom: theme.spacing.unit * 5,
 		right: theme.spacing.unit * 5,
 	},
+	actionButton: {
+		marginLeft: theme.spacing.unit,
+		marginRight: theme.spacing.unit,
+		width: '200px',
+		float: 'right',
+	},
 
 });
 
@@ -57,6 +65,7 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	firestore: any;
 	searchText: string;
 	setSearchText: any;
+	auth: any;
 }
 
 interface State {
@@ -84,11 +93,54 @@ class LocationsPage extends React.Component<Props, State> {
 	};
 
 	locationNameIncludesSearchString = (locationId: string) => {
-		return this.props.locations[locationId].title.toLowerCase().includes(this.props.searchText.toLowerCase());
+		return this.props.locations
+			&& this.props.locations[locationId]
+			&& this.props.locations[locationId].title.toLowerCase().includes(this.props.searchText.toLowerCase());
+	};
+
+	getTripAndCopy = async () => {
+		const {auth, trip, history} = this.props;
+
+		const tripToCopy = {
+			...trip,
+			title: trip.title + ' - COPY',
+			owner: auth.uid,
+			members: []
+		};
+		delete tripToCopy.locations;
+
+		const newTripId = await db.collection('TRIPS').doc();
+		await db.collection('TRIPS').doc(newTripId.id + '').set(tripToCopy).then(async () => {
+			await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP]).collection('locations').get()
+				.then((locations: any) => {
+					locations.forEach(async (location: any) => {
+						const newLocationId = await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP])
+							.collection('locations').doc();
+						await db.collection('TRIPS').doc(newTripId.id + '')
+							.collection('locations').doc(newLocationId.id + '').set(await location.data())
+							// if picture ref matters use location.id instead of newLocationId.id
+							.then(async () => {
+								await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP])
+									.collection('locations').doc(location.id).collection('activities').get()
+									.then(async (activities: any) => {
+										activities.forEach(async (activity: any) => {
+											const newActivityId = await db.collection('TRIPS').doc(this.props.match.params[routes.URL_PARAM_TRIP])
+												.collection('locations').doc(location.id).collection('activities').doc();
+											await db.collection('TRIPS').doc(newTripId.id + '')
+												.collection('locations').doc(newLocationId.id + '')
+												.collection('activities').doc(newActivityId.id + '').set(await activity.data())
+											// if picture ref matters use activity.id instead of newActivityId.id
+										})
+									})
+							});
+					})
+				})
+		});
+		history.push(routes.TRIPS());
 	};
 
 	render() {
-		const {classes, trip, locations, match} = this.props;
+		const {classes, trip, locations, match, auth} = this.props;
 		const {expanded} = this.state;
 		const tripId = match.params[routes.URL_PARAM_TRIP];
 
@@ -97,6 +149,14 @@ class LocationsPage extends React.Component<Props, State> {
 				<div>
 					<h1>
 						Locations {isLoaded(trip) && !isEmpty(trip) && ` of Trip "${trip.title}"`}
+						<Button
+							className={classes.actionButton}
+							onClick={this.getTripAndCopy}
+							variant='contained'
+							color='primary'
+							fullWidth={true}
+						>Copy Trip
+						</Button>
 					</h1>
 				</div>
 				<div>
@@ -104,7 +164,8 @@ class LocationsPage extends React.Component<Props, State> {
 						? 'Loading...'
 						: isEmpty(locations)
 							? 'No Locations created yet.'
-							: Object.keys(locations).filter((key) => (this.locationNameIncludesSearchString(key)))
+							: Object.keys(locations)
+								.filter((key) => (this.locationNameIncludesSearchString(key)))
 								.map((key) => {
 									const location = locations[key];
 									const startdate = parseDateIfValid(locations[key].startdate);
@@ -120,6 +181,7 @@ class LocationsPage extends React.Component<Props, State> {
 											startdate={startdate}
 											enddate={enddate}
 											tripId={tripId}
+											editEnabled={isUserOfTrip(trip, auth)}
 										/>
 									);
 								})}
@@ -155,9 +217,10 @@ export default compose(
 	withRouter,
 	firestoreConnect(),
 	connect(
-		({firestore: {data}, searchString}: any, props: Props) => {
+		({firebase, firestore: {data}, searchString}: any, props: Props) => {
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];
 			return {
+				auth: firebase.auth,
 				trip: data.TRIPS
 					&& data.TRIPS[tripId],
 				locations: data.TRIPS

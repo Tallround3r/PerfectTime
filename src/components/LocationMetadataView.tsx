@@ -1,9 +1,7 @@
 import {Button, createStyles, Paper, Theme, WithStyles, withStyles} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import firebase from 'firebase';
-import React from 'react';
-import {NavLink} from 'react-router-dom';
-import * as routes from '../constants/routes';
+import React, {MouseEvent} from 'react';
 import {Address} from '../types';
 import {parseDateToString} from '../utils/parser';
 import ImageComponent from './ImageComponent';
@@ -46,6 +44,18 @@ const styles = (theme: Theme) => createStyles({
 		width: '100%',
 		height: 'auto',
 	},
+	btnContainer: {
+		display: 'flex',
+		justifyContent: 'space-between',
+		marginTop: theme.spacing.unit * 4,
+	},
+	actionBtn: {
+		marginLeft: theme.spacing.unit,
+		marginRight: theme.spacing.unit,
+	},
+	hide: {
+		display: 'none',
+	},
 });
 
 interface LocationMetadataProps extends WithStyles<typeof styles> {
@@ -54,14 +64,27 @@ interface LocationMetadataProps extends WithStyles<typeof styles> {
 	timestamp: Date | Timestamp | null;
 	timestamp1: Date | Timestamp | null;
 	address: Address;
-	tripId: string;
 	locationId: string;
+	showEditBtn: boolean,
+	showDeleteBtn: boolean,
+	onDeleteLocation: (event: MouseEvent) => void;
+	routeEditPage: (event: MouseEvent) => void;
 }
 
 // tslint:disable-next-line:max-line-length
 function LocationMetadataView(props: LocationMetadataProps) {
 	const {
-		title, classes, description, timestamp, timestamp1, address, tripId, locationId,
+		title,
+		classes,
+		description,
+		timestamp,
+		timestamp1,
+		address,
+		locationId,
+		onDeleteLocation,
+		routeEditPage,
+		showEditBtn,
+		showDeleteBtn,
 	} = props;
 
 	return (
@@ -108,15 +131,26 @@ function LocationMetadataView(props: LocationMetadataProps) {
 						<Typography variant='h6'>{address.country}</Typography>
 					</Paper>
 					<hr/>
-					<NavLink exact={true} to={routes.LOCATIONS_EDIT(tripId, locationId)}>
+
+					<div className={showEditBtn ? classes.btnContainer : classes.hide}>
 						<Button
 							color='primary'
 							variant='contained'
 							fullWidth={true}
+							onClick={routeEditPage}
 						>
 							Edit Location
 						</Button>
-					</NavLink>
+						<Button
+							className={showDeleteBtn ? classes.actionBtn : classes.hide}
+							color='secondary'
+							variant='contained'
+							fullWidth={true}
+							onClick={onDeleteLocation}
+						>
+							Delete Location
+						</Button>
+					</div>
 				</div>
 			</div>
 		</div>

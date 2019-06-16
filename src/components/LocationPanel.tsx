@@ -47,6 +47,12 @@ const styles = (theme: Theme) => createStyles({
 		bottom: theme.spacing.unit * 5,
 		right: theme.spacing.unit * 5,
 	},
+	actionButton: {
+		marginLeft: theme.spacing.unit,
+		marginRight: theme.spacing.unit,
+		width: '200px',
+		align: 'right',
+	},
 });
 
 interface LocationPanelProps extends WithStyles<typeof styles> {
@@ -57,9 +63,11 @@ interface LocationPanelProps extends WithStyles<typeof styles> {
 	startdate: Date | null,
 	enddate: Date | null,
 	tripId: string,
+	editEnabled: boolean,
 }
 
-function LocationPanel({classes, expanded, id, onChange, location, startdate, enddate, tripId}: LocationPanelProps) {
+// tslint:disable-next-line:max-line-length
+function LocationPanel({classes, expanded, id, onChange, location, startdate, enddate, tripId, editEnabled}: LocationPanelProps) {
 	return (
 		<div>
 			<ExpansionPanel
@@ -103,6 +111,7 @@ function LocationPanel({classes, expanded, id, onChange, location, startdate, en
 							<ActivitiesSlider
 								tripId={tripId}
 								locationId={id}
+								editEnabled={editEnabled}
 							/>
 						}
 					</div>
