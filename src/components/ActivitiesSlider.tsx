@@ -24,6 +24,7 @@ interface Props extends WithStyles<typeof styles> {
 	tripId: string;
 	locationId: string;
 	activities: { [key: string]: Activity }
+	editEnabled: boolean;
 }
 
 class ActivitiesSlider extends React.Component<Props> {
@@ -95,6 +96,7 @@ class ActivitiesSlider extends React.Component<Props> {
 					activityId={key}
 					tripId={tripId}
 					locationId={locationId}
+					editEnabled={this.props.editEnabled}
 				/>
 			</div>
 		);

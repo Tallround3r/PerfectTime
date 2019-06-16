@@ -265,6 +265,7 @@ const withAppWrapper = (Component: React.ComponentType<any>): any => {
 						<div className={classes.content}>
 							<div className={classes.appBarSpacer}/>
 							<Component/>
+							<br/>
 						</div>
 
 					</div>

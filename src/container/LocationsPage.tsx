@@ -12,6 +12,7 @@ import * as routes from '../constants/routes';
 import {db} from '../firebase/firebase';
 import {setSearchText} from '../store/actions/searchAction';
 import {Location, Trip} from '../types';
+import {isUserOfTrip} from '../utils/authUtils';
 import {parseDateIfValid} from '../utils/parser';
 
 
@@ -92,7 +93,9 @@ class LocationsPage extends React.Component<Props, State> {
 	};
 
 	locationNameIncludesSearchString = (locationId: string) => {
-		return this.props.locations[locationId].title.toLowerCase().includes(this.props.searchText.toLowerCase());
+		return this.props.locations
+			&& this.props.locations[locationId]
+			&& this.props.locations[locationId].title.toLowerCase().includes(this.props.searchText.toLowerCase());
 	};
 
 	getTripAndCopy = async () => {
@@ -137,7 +140,7 @@ class LocationsPage extends React.Component<Props, State> {
 	};
 
 	render() {
-		const {classes, trip, locations, match} = this.props;
+		const {classes, trip, locations, match, auth} = this.props;
 		const {expanded} = this.state;
 		const tripId = match.params[routes.URL_PARAM_TRIP];
 
@@ -161,7 +164,8 @@ class LocationsPage extends React.Component<Props, State> {
 						? 'Loading...'
 						: isEmpty(locations)
 							? 'No Locations created yet.'
-							: Object.keys(locations).filter((key) => (this.locationNameIncludesSearchString(key)))
+							: Object.keys(locations)
+								.filter((key) => (this.locationNameIncludesSearchString(key)))
 								.map((key) => {
 									const location = locations[key];
 									const startdate = parseDateIfValid(locations[key].startdate);
@@ -177,6 +181,7 @@ class LocationsPage extends React.Component<Props, State> {
 											startdate={startdate}
 											enddate={enddate}
 											tripId={tripId}
+											editEnabled={isUserOfTrip(trip, auth)}
 										/>
 									);
 								})}

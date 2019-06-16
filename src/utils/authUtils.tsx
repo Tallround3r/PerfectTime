@@ -1,7 +1,7 @@
 import {Trip} from '../types';
 
 export function isUserOfTrip(trip: Trip, auth: any) {
-	if (!trip) {
+	if (!trip || !auth) {
 		return false;
 	}
 	if (trip.owner === auth.uid) {
