@@ -21,7 +21,6 @@ import {getStorageURL} from '../firebase/storage';
 import defaultImage from '../images/default-activity.jpg';
 import loadingImage from '../images/loading.gif';
 import {Activity} from '../types';
-import {isUserOfTrip} from '../utils/authUtils';
 import {parseDateToString} from '../utils/parser';
 import ConfirmDialog from './ConfirmDialog';
 
