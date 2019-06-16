@@ -79,10 +79,16 @@ The application provides the use cases shown in the following diagram.
 N/A
 
 ## 5.	Logical View
-This section describes the architecturally significant parts of the design model, such as its decomposition into subsystems and packages. First an overview over the classes is given. Then the elements of the Flux-architecture are shown on an example. Since the whole class diagram (which is a converted file diagram, because React is based on Java Script and does not use classes) is compromised of many files, which all include some state, dispatcher and view functions, it would create a mess, if a diagram with all Flux elements would be drawn. The simple example shows an understandable case, which can be transferred to all the other classes / files.
+This section describes the architecturally significant parts of the design model, such as its decomposition into subsystems and packages. First the implemented container pattern is explained. Based on that pattern an overview over the classes is given. Then the elements of the Flux-architecture are shown on an example. Since the whole class diagram (which is a converted file diagram, because React is based on Java Script and does not use classes) is compromised of many files, which all include some state, dispatcher and view functions, it would create a mess, if a diagram with all Flux elements would be drawn. The simple example shows an understandable case, which can be transferred to all the other classes / files.
 
-### 5.1	Overview
-The following diagrams show the defined containers and the components of the application and their methods. The components are used in different containers. Each container represents a page / single view a user can access. A container can include several components. A component is an element shown on a page (e.g. a list or a button).
+### 5.1 Container Pattern
+The Perfect Time application implements the <a href="https://medium.com/teamsubchannel/react-component-patterns-e7fb75be7bb0"> container pattern </a> in addition to the Flux architecture. The container pattern uses the separation of data fetching and rendering the view elements. 
+To say it with the words of Jason Bonta: *„A container does data fetching and then renders its corresponding sub-components. That’s it.“* 
+The container is the data logic layer and utilizes stateful APIs. The container calls its subcomponents in the render()-method. The subcomponents deal with the individual UI-elements. They utilize stateless APIs. Thereby the state is contained within the container and synchronization and similar concerns are no issue in our components. The container pattern allows reusing defined components in different containers.
+
+
+### 5.2	Overview
+The following diagrams show  a selection of the defined containers and the components of the application and their methods. The components are used in different containers. Each container represents a page / single view a user can access. A container can include several components. A component is an element shown on a page (e.g. a list or a button).
 
 Container:
 
@@ -96,7 +102,7 @@ Components:
 
 [mu5]: ./ClassDiagramms/componentsformvc.svg "Components"
 
-### 5.2	Architecturally Significant Design Packages
+### 5.3	Architecturally Significant Design Packages
 The following example illustrates how the Flux architecture of the React framework is designed in the Perfect Time application. It can be translated to any other component / container.
 
 ![mockup file missing][mu6]

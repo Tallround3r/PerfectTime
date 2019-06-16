@@ -124,12 +124,11 @@ const onDeleteUsers = (snap, context) => {
 					} else {
 						// delete trip;
 						console.log(`deleting trip ${tripDoc.ref.path}`);
-						firestore.collection('TRIPS').doc(tripDoc.id).delete().then((promise) => {
+						firestore.collection('TRIPS').doc(tripDoc.id).delete().then(() => {
 							tripDeleted = true;
-							return promise;
 						}).catch((error) => {
 							console.error(`Error during deletion ${error}`);
-						}); // triggers delete trip
+						});
 
 						console.log(`trip ${tripDoc.ref.path} deleted`);
 					}
