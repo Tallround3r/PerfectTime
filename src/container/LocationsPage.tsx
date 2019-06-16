@@ -11,8 +11,8 @@ import LocationPanel from '../components/LocationPanel';
 import * as routes from '../constants/routes';
 import {setSearchText} from '../store/actions/searchAction';
 import {Location, Trip} from '../types';
+import {isUserOfTrip} from '../utils/authUtils';
 import {parseDateIfValid} from '../utils/parser';
-import {isUserOfTrip} from "../utils/authUtils";
 
 
 const styles = (theme: Theme) => createStyles({
