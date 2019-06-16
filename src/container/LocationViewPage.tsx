@@ -8,7 +8,7 @@ import ActivitiesSlider from '../components/ActivitiesSlider';
 import ConfirmDialog from '../components/ConfirmDialog';
 import LocationMetadata from '../components/LocationMetadataView';
 import * as routes from '../constants/routes';
-import {Location} from '../types';
+import {Location, Trip} from '../types';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -21,8 +21,10 @@ const styles = (theme: Theme) => createStyles({
 });
 
 interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
+	trip: Trip,
 	tripLocation: Location;
 	firestore: any;
+	auth: any,
 }
 
 interface State {
@@ -92,7 +94,7 @@ class LocationViewPage extends React.Component<Props, State> {
 	};
 
 	render() {
-		const {classes, match, tripLocation} = this.props;
+		const {classes, match, tripLocation, trip, auth} = this.props;
 		const {title, description, startdate, enddate, address} = tripLocation || INITIAL_LOCATION;
 		const tripId = match.params[routes.URL_PARAM_TRIP];
 		const locationId = match.params[routes.URL_PARAM_LOCATION];
@@ -106,6 +108,7 @@ class LocationViewPage extends React.Component<Props, State> {
 					timestamp1={enddate}
 					address={address}
 					locationId={locationId}
+					showDeleteBtn={trip && auth && trip.owner === auth.uid}
 					onDeleteLocation={this.handleDeleteBtnClicked}
 					routeEditPage={this.gotoEditPage}
 				/>
@@ -145,14 +148,18 @@ export default compose(
 		const tripId = props.match.params[routes.URL_PARAM_TRIP];
 		const locationId = props.match.params[routes.URL_PARAM_LOCATION];
 		return [
+			`TRIPS/${tripId}`,
 			`TRIPS/${tripId}/locations/${locationId}`,
 		];
 	}),
 	connect(
-		({firestore: {data}}: any, props: Props) => {
+		({firebase: {auth}, firestore: {data}}: any, props: Props) => {
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];
 			const locationId = props.match.params[routes.URL_PARAM_LOCATION];
 			return {
+				auth,
+				trip: data.TRIPS
+					&& data.TRIPS[tripId],
 				tripLocation: data.TRIPS
 					&& data.TRIPS[tripId]
 					&& data.TRIPS[tripId].locations
