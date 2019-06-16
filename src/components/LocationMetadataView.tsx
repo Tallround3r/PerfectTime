@@ -1,6 +1,5 @@
 import {Button, createStyles, Paper, Theme, WithStyles, withStyles} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import classNames from 'classnames';
 import firebase from 'firebase';
 import React, {MouseEvent} from 'react';
 import {Address} from '../types';
@@ -54,7 +53,7 @@ const styles = (theme: Theme) => createStyles({
 		marginLeft: theme.spacing.unit,
 		marginRight: theme.spacing.unit,
 	},
-	displayNone: {
+	hide: {
 		display: 'none',
 	},
 });
@@ -66,6 +65,7 @@ interface LocationMetadataProps extends WithStyles<typeof styles> {
 	timestamp1: Date | Timestamp | null;
 	address: Address;
 	locationId: string;
+	showEditBtn: boolean,
 	showDeleteBtn: boolean,
 	onDeleteLocation: (event: MouseEvent) => void;
 	routeEditPage: (event: MouseEvent) => void;
@@ -83,6 +83,7 @@ function LocationMetadataView(props: LocationMetadataProps) {
 		locationId,
 		onDeleteLocation,
 		routeEditPage,
+		showEditBtn,
 		showDeleteBtn,
 	} = props;
 
@@ -131,7 +132,7 @@ function LocationMetadataView(props: LocationMetadataProps) {
 					</Paper>
 					<hr/>
 
-					<div className={classes.btnContainer}>
+					<div className={showEditBtn ? classes.btnContainer : classes.hide}>
 						<Button
 							color='primary'
 							variant='contained'
@@ -141,7 +142,7 @@ function LocationMetadataView(props: LocationMetadataProps) {
 							Edit Location
 						</Button>
 						<Button
-							className={showDeleteBtn ? classes.actionBtn : classes.displayNone}
+							className={showDeleteBtn ? classes.actionBtn : classes.hide}
 							color='secondary'
 							variant='contained'
 							fullWidth={true}

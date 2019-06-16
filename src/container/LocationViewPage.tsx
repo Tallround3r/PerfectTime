@@ -9,6 +9,7 @@ import ConfirmDialog from '../components/ConfirmDialog';
 import LocationMetadata from '../components/LocationMetadataView';
 import * as routes from '../constants/routes';
 import {Location, Trip} from '../types';
+import {isUserOfTrip} from '../utils/authUtils';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -108,6 +109,7 @@ class LocationViewPage extends React.Component<Props, State> {
 					timestamp1={enddate}
 					address={address}
 					locationId={locationId}
+					showEditBtn={isUserOfTrip(trip, auth)}
 					showDeleteBtn={trip && auth && trip.owner === auth.uid}
 					onDeleteLocation={this.handleDeleteBtnClicked}
 					routeEditPage={this.gotoEditPage}

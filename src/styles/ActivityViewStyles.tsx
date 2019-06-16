@@ -45,6 +45,9 @@ const styles = (theme: Theme) => createStyles({
 		width: '100%',
 		height: 'auto',
 	},
+	hide: {
+		display: 'none',
+	},
 });
 
 export default styles;
