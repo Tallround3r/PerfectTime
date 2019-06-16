@@ -88,12 +88,11 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	auth: any;
 	trip: Trip;
 	users: User[];
-	auth: any;
 }
 
 interface State {
 	trip: Trip;
-	selectedMembers: ValueType<OptionType> // Array<{ label: string; value: string }>
+	selectedMembers: ValueType<OptionType>, // Array<{ label: string; value: string }>
 	openPublishDialog: boolean,
 }
 
