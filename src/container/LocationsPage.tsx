@@ -217,10 +217,6 @@ export default compose(
 	withRouter,
 	firestoreConnect(),
 	connect(
-		({firebase: {auth}, firestore: {data}, searchString}: any, props: Props) => {
-			const tripId = props.match.params[routes.URL_PARAM_TRIP];
-			return {
-				auth,
 		({firebase, firestore: {data}, searchString}: any, props: Props) => {
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];
 			return {
