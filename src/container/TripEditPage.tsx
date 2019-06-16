@@ -16,7 +16,6 @@ import {Trip, User} from '../types';
 import {datePickerMask} from '../utils/datePickerUtils';
 import {parseDateIfValid} from '../utils/parser';
 
-
 const styles = (theme: Theme) => createStyles({
 	locationEditPage: {
 		paddingTop: theme.spacing.unit * 3,
@@ -77,6 +76,7 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	firestore: any;
 	trip: Trip;
 	users: User[];
+	auth: any;
 }
 
 interface State {
@@ -333,7 +333,6 @@ class TripEditPage extends React.Component<Props, State> {
 						<div className={classes.actionButtonsContainer}>
 							<Button
 								className={classes.actionButton}
-								// onClick={this.exportToJson(this.getTripForExport(), 'trip')}
 								onClick={this.getTripAndExport}
 								variant='contained'
 								color='primary'
