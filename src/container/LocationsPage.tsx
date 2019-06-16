@@ -12,6 +12,7 @@ import * as routes from '../constants/routes';
 import {setSearchText} from '../store/actions/searchAction';
 import {Location, Trip} from '../types';
 import {parseDateIfValid} from '../utils/parser';
+import {isUserOfTrip} from "../utils/authUtils";
 
 
 const styles = (theme: Theme) => createStyles({
@@ -57,6 +58,7 @@ interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 	firestore: any;
 	searchText: string;
 	setSearchText: any;
+	auth: any;
 }
 
 interface State {
@@ -90,7 +92,7 @@ class LocationsPage extends React.Component<Props, State> {
 	};
 
 	render() {
-		const {classes, trip, locations, match} = this.props;
+		const {classes, trip, locations, match, auth} = this.props;
 		const {expanded} = this.state;
 		const tripId = match.params[routes.URL_PARAM_TRIP];
 
@@ -123,6 +125,7 @@ class LocationsPage extends React.Component<Props, State> {
 											startdate={startdate}
 											enddate={enddate}
 											tripId={tripId}
+											editEnabled={isUserOfTrip(trip, auth)}
 										/>
 									);
 								})}
@@ -158,9 +161,10 @@ export default compose(
 	withRouter,
 	firestoreConnect(),
 	connect(
-		({firestore: {data}, searchString}: any, props: Props) => {
+		({firebase: {auth}, firestore: {data}, searchString}: any, props: Props) => {
 			const tripId = props.match.params[routes.URL_PARAM_TRIP];
 			return {
+				auth,
 				trip: data.TRIPS
 					&& data.TRIPS[tripId],
 				locations: data.TRIPS

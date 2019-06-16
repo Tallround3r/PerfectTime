@@ -45,6 +45,7 @@ interface Props extends WithStyles<typeof styles> {
 	activityId: string;
 	activity: Activity;
 	firestore: any;
+	editEnabled: boolean;
 }
 
 interface State {
@@ -121,7 +122,7 @@ class ActivityCard extends React.Component<Props, State> {
 	};
 
 	render() {
-		const {classes, activity, tripId, locationId} = this.props;
+		const {classes, activity, tripId, locationId, editEnabled} = this.props;
 		const {imageSrc} = this.state;
 		const {title, description, startdate, enddate} = activity;
 
@@ -144,13 +145,16 @@ class ActivityCard extends React.Component<Props, State> {
 					</Typography>
 				</CardContent>
 				<CardActions className={classes.actions}>
-					<Tooltip title='Delete' aria-label='Delete'>
+					<span hidden={!editEnabled}>
+					<Tooltip title='Delete' aria-label='Delete' >
 						<IconButton
 							onClick={this.handleDeleteBtnClicked()}
 						>
 							<Delete/>
 						</IconButton>
 					</Tooltip>
+					</span>
+					<span hidden={!editEnabled}>
 					<Tooltip title='Edit' aria-label='Edit'>
 						<NavLink exact={true} to={routes.ACTIVITY_EDIT(tripId, locationId, this.props.activityId)}>
 							<IconButton>
@@ -158,6 +162,7 @@ class ActivityCard extends React.Component<Props, State> {
 							</IconButton>
 						</NavLink>
 					</Tooltip>
+					</span>
 					<Tooltip title='Open' aria-label='Open'>
 						<NavLink exact={true} to={routes.ACTIVITY_VIEW(tripId, locationId, this.props.activityId)}>
 							<IconButton>

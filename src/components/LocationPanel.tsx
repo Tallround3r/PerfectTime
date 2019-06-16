@@ -57,9 +57,11 @@ interface LocationPanelProps extends WithStyles<typeof styles> {
 	startdate: Date | null,
 	enddate: Date | null,
 	tripId: string,
+	editEnabled: boolean,
 }
 
-function LocationPanel({classes, expanded, id, onChange, location, startdate, enddate, tripId}: LocationPanelProps) {
+// tslint:disable-next-line:max-line-length
+function LocationPanel({classes, expanded, id, onChange, location, startdate, enddate, tripId, editEnabled}: LocationPanelProps) {
 	return (
 		<div>
 			<ExpansionPanel
@@ -103,6 +105,7 @@ function LocationPanel({classes, expanded, id, onChange, location, startdate, en
 							<ActivitiesSlider
 								tripId={tripId}
 								locationId={id}
+								editEnabled={editEnabled}
 							/>
 						}
 					</div>

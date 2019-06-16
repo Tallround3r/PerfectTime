@@ -127,6 +127,7 @@ class LocationViewPage extends React.Component<Props, State> {
 						<ActivitiesSlider
 							tripId={tripId}
 							locationId={locationId}
+							editEnabled={isUserOfTrip(trip, auth)}
 						/>
 					}
 				</div>
