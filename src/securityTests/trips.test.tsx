@@ -1,6 +1,6 @@
 import {auth, db} from '../firebase/firebase';
 
-let faker = require('faker');
+const faker = require('faker');
 
 const fakeTitle = faker.address.country();
 const randomTripID = faker.random.uuid();

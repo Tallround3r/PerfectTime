@@ -1,14 +1,4 @@
-import {
-	Button,
-	Card,
-	createStyles,
-	Paper,
-	TextField,
-	Theme,
-	Typography,
-	WithStyles,
-	withStyles
-} from '@material-ui/core';
+import {Button, createStyles, Paper, TextField, Theme, Typography, WithStyles, withStyles} from '@material-ui/core';
 import {AddPhotoAlternateOutlined} from '@material-ui/icons';
 import classNames from 'classnames';
 import DatePicker from 'material-ui-pickers/DatePicker';
