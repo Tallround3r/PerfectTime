@@ -4,9 +4,9 @@ node_js:
   - "8"
 cache: yarn
 # safelist
-#branches:
-#  only:
-#    - master
+branches:
+  only:
+    - master
 warnings_are_errors: false
 install:
   #  - npm install cucumber -g
@@ -25,13 +25,32 @@ jobs:
         - npm run test
       after_success:
         - codecov
+    #    - stage: Function tests
+    #      dist: trusty
+    #      sudo: required
+    #      addons:
+    #        firefox: latest
+    #        apt:
+    #          sources:
+    #          - google-chrome
+    #          packages:
+    #          - google-chrome-stable fluxbox
+    #      before_script:
+    #        - npm start &
+    #        - "export DISPLAY=:99.0"
+    #        - "sh -e /etc/init.d/xvfb start"
+    #        - sleep 3
+    #        - fluxbox >/dev/null 2>&1 &
+    #      script:
+    #        - sleep 120
+    #        - npm run cucumbertravis
     - stage: build
       script:
         - npm run build
       #        - firebase login
       #        - firebase functions:delete loadTrip --region us-central1
       deploy:
-        if: branch = master
+        #        if: branch = master
         provider: firebase
         skip_cleanup: true
         token:
