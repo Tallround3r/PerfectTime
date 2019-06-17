@@ -9,6 +9,7 @@ cache: yarn
 #    - master
 warnings_are_errors: false
 install:
+  #  - npm install cucumber -g
   - npm install firebase-tools -g
   - npm install codecov -g
   - yarn
@@ -27,9 +28,11 @@ jobs:
     - stage: build
       script:
         - npm run build
-deploy:
-  #  if: branch = master
-  provider: firebase
-  skip_cleanup: true
-  token:
-    secure: "A9hiBCp4oo9TY338sgQfyI9oDeJRYuRxPbAHbto6hrXmHktAKYwID4GWOkcZTAWSxlMDLiD7mchpSsKoduN/Jud8RknyGyaoc2zBdEkRjxFBYBwKnBUSdCGjraZpWzyT/a8gs31Sg78YUaViRBgddsLoxV5GuJAm/T6V9OhVcHWORKgVxV/u0S+A5rj61tdjiy5rTsp8N2vhGsDj07NbYM6K0dTiPrU13WyVA1AW6XsbA3tiqLWUI/WW06f/BbrndUYuMZU8K5yQqRO+hMpVx6oMQCfd7e0sjX4XQpMcUuGc4PI8JW+ygMcnuvCFM3t3U5BfDizn0r/jithTICqqSyRaP+0mjBhNUnDAlJO920NUWHgXG1EWTA4EHfB5hVgL4TY+VGRMcmnlNXWfdWwL8sdWMFpM5A7CeXve0/vF7HBFGzmKGFsFohYAtYZ8kBeifbxsa85seL/5NCrSbIKI0cvZappusqrNMQEf4dFdECa4NYK9Z48d/0iV0xPiqa5pe405vpfPr1h+E5RC4Egl2mfURCMHNayTmaq7/FF3+Po0pfsaNvk56EynubLH+vR54t18X36Qie0r4usxIO8J8U/1778KFTR/pmjUcnah0oj9nsPImJKyTMhVePd8DFigsalkM+G5zJeiJ2vkWUktyBkZ108KZrNn79Kgeyz56vQ="
+      #        - firebase login
+      #        - firebase functions:delete loadTrip --region us-central1
+      deploy:
+        if: branch = master
+        provider: firebase
+        skip_cleanup: true
+        token:
+          secure: "A9hiBCp4oo9TY338sgQfyI9oDeJRYuRxPbAHbto6hrXmHktAKYwID4GWOkcZTAWSxlMDLiD7mchpSsKoduN/Jud8RknyGyaoc2zBdEkRjxFBYBwKnBUSdCGjraZpWzyT/a8gs31Sg78YUaViRBgddsLoxV5GuJAm/T6V9OhVcHWORKgVxV/u0S+A5rj61tdjiy5rTsp8N2vhGsDj07NbYM6K0dTiPrU13WyVA1AW6XsbA3tiqLWUI/WW06f/BbrndUYuMZU8K5yQqRO+hMpVx6oMQCfd7e0sjX4XQpMcUuGc4PI8JW+ygMcnuvCFM3t3U5BfDizn0r/jithTICqqSyRaP+0mjBhNUnDAlJO920NUWHgXG1EWTA4EHfB5hVgL4TY+VGRMcmnlNXWfdWwL8sdWMFpM5A7CeXve0/vF7HBFGzmKGFsFohYAtYZ8kBeifbxsa85seL/5NCrSbIKI0cvZappusqrNMQEf4dFdECa4NYK9Z48d/0iV0xPiqa5pe405vpfPr1h+E5RC4Egl2mfURCMHNayTmaq7/FF3+Po0pfsaNvk56EynubLH+vR54t18X36Qie0r4usxIO8J8U/1778KFTR/pmjUcnah0oj9nsPImJKyTMhVePd8DFigsalkM+G5zJeiJ2vkWUktyBkZ108KZrNn79Kgeyz56vQ="
